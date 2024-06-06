@@ -7,3 +7,5 @@ testing/
 testing*
 *.pyc
 MIRA_nextflow.sh
+nextflow*err
+nextflow*out
