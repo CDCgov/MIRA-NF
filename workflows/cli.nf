@@ -47,7 +47,7 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 // MODULE: Installed directly from nf-core/modules
 //
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
-include { nextflowsamplesheeti } from '../modules/local/nextflowsamplesheeti.nf'
+include { nextflowsamplesheeti } from "${launchDir}/modules/local/nextflowsamplesheeti.nf"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -65,6 +65,8 @@ workflow flu_i {
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
 
+    // Convert the samplesheet to a nextflow format
+    create_nextflow_samplesheet_i(samplesheet_ch, run_ID_ch, experiment_type_ch)
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
