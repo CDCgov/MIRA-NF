@@ -46,10 +46,8 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { FASTQC                      } from '../modules/nf-core/fastqc/main'
-include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
-
+include { nextflowsamplesheeti } from '../modules/local/nextflowsamplesheeti.nf'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -59,8 +57,13 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 // Info required for completion email and summary
 def multiqc_report = []
 
-workflow CLI {
-    ch_versions = Channel.empty()
+workflow flu_i {
+    //Initializing parameters
+    //input is the sample sheet
+    //outdir is the run direcotry
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
 
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
@@ -76,6 +79,19 @@ workflow CLI {
 //
 }
 
+workflow CLI {
+    if (params.e == 'Flu_Illumina') {
+        flu_i()
+} else if (params.e == 'Flu-ONT') {
+        flu_o()
+    } else if (params.e == 'SC2-Spike-Only-ONT') {
+        sc2_spike_o()
+    } else if (params.e == 'SC2-Whole-Genome-ONT') {
+        sc2_wg_o()
+    } else if (params.e == 'SC2-Whole-Genome-Illumina') {
+        sc2_wg_i()
+    }
+}
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     COMPLETION EMAIL AND SUMMARY
