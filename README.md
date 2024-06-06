@@ -54,6 +54,7 @@ nextflow run mira/cli \
    -profile <docker/singularity/.../institute> \
    --input samplesheet.csv \
    --outdir <OUTDIR>
+   --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 ```
 
 > [!WARNING]
