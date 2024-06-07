@@ -4,10 +4,12 @@
 //               https://nf-co.re/join
 // TODO nf-core: A subworkflow SHOULD import at least two modules
 
-include { FASTQC                      } from '../modules/nf-core/fastqc/main'
-include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
+include { FASTQC                      } from "${launchDir}/modules/nf-core/fastqc/main"
+include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custom/dumpsoftwareversions/main"
+include { MULTIQC                     } from "${launchDir}/modules/nf-core/multiqc/main"
 
-def multiqc_report = []
+// Info required for completion email and summary
+//def multiqc_report = []
 
 workflow READQC {
     take:
@@ -19,15 +21,13 @@ workflow READQC {
 
     // MODULE: Run FastQC
     //
-    FASTQC(
-        fastqc
-    )
+    FASTQC(fastqc_ch_3)
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
 
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
-
+    /*
     //
     // MODULE: MultiQC
     //
@@ -56,5 +56,6 @@ workflow READQC {
     path '*_data'              , emit: data
     path '*_plots'             , optional:true, emit: plots
     versions = ch_versions                     // channel: [ versions.yml ]
+    */
 }
 

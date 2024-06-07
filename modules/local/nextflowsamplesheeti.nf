@@ -7,7 +7,6 @@ process NEXTFLOWSAMPLESHEETI {
 
     input:
     path samplesheet
-    path run_ID
     val experiment_type
 
     output:
@@ -28,7 +27,7 @@ process NEXTFLOWSAMPLESHEETI {
     #Set up so that email sends whether workflow finishes or not
     cp ${launchDir}/assets/summary.xlsx ${launchDir}/summary.xlsx
     #Create nf samplesheet
-    python3 ${launchDir}/bin/create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${run_ID}" -e "${experiment_type}"
+    python3 ${launchDir}/bin/create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${params.outdir}" -e "${experiment_type}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -33,7 +33,8 @@ WorkflowCli.initialise(params, log)
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-//include { INPUT_CHECK } from '../subworkflows/local/input_check'
+include { INPUT_CHECK } from "${launchDir}/subworkflows/local/input_check"
+include { READQC } from "${launchDir}/subworkflows/local/readqc"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,26 +60,43 @@ workflow flu_i {
     //input is the sample sheet
     //outdir is the run direcotry
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
     // Convert the samplesheet to a nextflow format
-    NEXTFLOWSAMPLESHEETI(samplesheet_ch, run_dir_ch, experiment_type_ch)
+    NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
     ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
 
-    //setup fastq channel
-    fastqc_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
-        .splitCsv(header: true)
-    fastqc_ch_2 = fastqc_ch.map { item ->
-        [item.sample_ID]
-    }
-    fastqc_ch_3 = fastqc_ch_2.combine(run_dir_ch)
+    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+    //
+    INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions.first())
 
+    CUSTOM_DUMPSOFTWAREVERSIONS(
+        ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    )
+/*
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    //READQC(fastqc_ch_3)
-
+    READQC(INPUT_CHECK.out.reads)
+*/
 //
+}
+
+workflow flu_o {
+    println 'Flu ONT workflow under construction'
+}
+
+workflow sc2_spike_o {
+    println 'SARS-CoV-2 Spike ONT workflow under construction'
+}
+
+workflow sc2_wgs_o {
+    println 'SARS-CoV-2 WGS ONT workflow under construction'
+}
+
+workflow sc2_wgs_i {
+    println 'SARS-CoV-2 WGS Illumina workflow under construction'
 }
 
 workflow CLI {
