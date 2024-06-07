@@ -45,7 +45,7 @@ WorkflowCli.initialise(params, log)
 // MODULE: Installed directly from nf-core/modules
 //
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custom/dumpsoftwareversions/main"
-include { nextflowsamplesheeti        } from "${launchDir}/modules/local/nextflowsamplesheeti"
+include { NEXTFLOWSAMPLESHEETI        } from "${launchDir}/modules/local/nextflowsamplesheeti"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -53,28 +53,30 @@ include { nextflowsamplesheeti        } from "${launchDir}/modules/local/nextflo
 */
 
 // Info required for completion email and summary
-def multiqc_report = []
 
 workflow flu_i {
     //Initializing parameters
     //input is the sample sheet
     //outdir is the run direcotry
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    run_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
 
     // Convert the samplesheet to a nextflow format
-    nextflowsamplesheeti(samplesheet_ch, run_ID_ch, experiment_type_ch)
-    //
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
-    //INPUT_CHECK (
-        //file(params.input)
-    //)
-    //ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    // TODO: OPTIONAL, you can use nf-validation plugin to create an input channel from the samplesheet with Channel.fromSamplesheet("input")
-    // See the documentation https://nextflow-io.github.io/nf-validation/samplesheets/fromSamplesheet/
-    // ! There is currently no tooling to help you write a sample sheet schema
+    NEXTFLOWSAMPLESHEETI(samplesheet_ch, run_dir_ch, experiment_type_ch)
+    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
+
+    //setup fastq channel
+    fastqc_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+        .splitCsv(header: true)
+    fastqc_ch_2 = fastqc_ch.map { item ->
+        [item.sample_ID]
+    }
+    fastqc_ch_3 = fastqc_ch_2.combine(run_dir_ch)
+
+    // SUBWORKFLOW: Process reads through FastQC and MultiQC
+    //READQC(fastqc_ch_3)
 
 //
 }

@@ -7,10 +7,11 @@
 include { FASTQC                      } from '../modules/nf-core/fastqc/main'
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 
+def multiqc_report = []
+
 workflow READQC {
     take:
-    // TODO nf-core: edit input (take) channels
-    ch_bam // channel: [ val(meta), [ bam ] ]
+    fastqc_ch_3
 
     main:
 
@@ -19,7 +20,7 @@ workflow READQC {
     // MODULE: Run FastQC
     //
     FASTQC(
-        INPUT_CHECK.out.reads
+        fastqc
     )
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
 
@@ -51,11 +52,9 @@ workflow READQC {
     multiqc_report = MULTIQC.out.report.toList()
 
     emit:
-    // TODO nf-core: edit emitted channels
-    bam      = SAMTOOLS_SORT.out.bam           // channel: [ val(meta), [ bam ] ]
-    bai      = SAMTOOLS_INDEX.out.bai          // channel: [ val(meta), [ bai ] ]
-    csi      = SAMTOOLS_INDEX.out.csi          // channel: [ val(meta), [ csi ] ]
-
+    path '*multiqc_report.html', emit: report
+    path '*_data'              , emit: data
+    path '*_plots'             , optional:true, emit: plots
     versions = ch_versions                     // channel: [ versions.yml ]
 }
 

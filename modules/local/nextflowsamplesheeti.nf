@@ -1,4 +1,4 @@
-process nextflowsamplesheeti {
+process NEXTFLOWSAMPLESHEETI {
     tag 'Generating the samplesheet for nextflow'
     label 'process_single'
     container 'cdcgov/spyne:latest'
@@ -11,8 +11,8 @@ process nextflowsamplesheeti {
     val experiment_type
 
     output:
-    path 'nextflow_samplesheet.csv'
-    path 'versions.yml'           , emit: versions
+    path 'nextflow_samplesheet.csv', emit: nf_samplesheet
+    path 'versions.yml', emit: versions
 
     when:
     task.ext.when == null || task.ext.when
