@@ -30,10 +30,9 @@ process nextflowsamplesheeti {
     #Create nf samplesheet
     python3 ${launchDir}/bin/create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${run_ID}" -e "${experiment_type}"
 
-    ##Grabs version for version tracking
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        nextflowsamplesheeti: \$(python3 --version |& sed '1!d ;//')
+        nextflowsamplesheeti: \$(python3 --version |& sed '1!d ; s/python //')
     END_VERSIONS
     """
 
@@ -42,10 +41,10 @@ process nextflowsamplesheeti {
 
     """
     touch ${prefix}.bam
-    ##Grabs version for version tracking
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        nextflowsamplesheeti: \$(python3 --version |& sed '1!d ; //')
+        nextflowsamplesheeti: \$(python3 --version |& sed '1!d ; /python //')
     END_VERSIONS
     """
 }
