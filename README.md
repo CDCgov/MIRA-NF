@@ -26,28 +26,49 @@
 
 ## Usage
 
+:::note
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
-
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
+:::
 
 First, prepare a samplesheet with your input data that looks as follows:
 
 `samplesheet.csv`:
 
+Illumina data should be set up as follows:
+
 ```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+Sample ID,Sample Type,Unnamed: 2
+sample_1,Test, nan
+sample_2,Test,nan
+sample_3,Test,nan
+sample_4,Test,nan
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+Oxford Nanopore data should be set up as follows:
 
--->
+```csv
+Barcode #,Sample ID,Sample Type
+barcode27,s1,Test
+barcode37,s2,Test
+barcode41,s3,Test
+```
+
+Each row represents a sample.
+
+Second, move samplesheet into a run folder with fastq files:
+
+Illumina should be set up as follows:
+<RUN_PATH>/run/fastqs
+<RUN_PATH>/run/samplesheet.csv
+
+Oxford Nanopore should be set up as follows:
+$PWD/run/fastq_pass
+$PWD/run/samplesheet.csv
 
 Now, you can run the pipeline using:
 
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
+Now, you can run the pipeline using:
 
 ```bash
 nextflow run mira/cli \
