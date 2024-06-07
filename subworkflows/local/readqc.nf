@@ -1,19 +1,28 @@
-// TODO nf-core: If in doubt look at other nf-core/subworkflows to see how we are doing things! :)
-//               https://github.com/nf-core/modules/tree/master/subworkflows
-//               You can also ask for help via your pull request or on the #subworkflows channel on the nf-core Slack workspace:
-//               https://nf-co.re/join
-// TODO nf-core: A subworkflow SHOULD import at least two modules
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CONFIG FILES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 
+ch_multiqc_config          = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+ch_multiqc_custom_config   = params.multiqc_config ? Channel.fromPath(params.multiqc_config, checkIfExists: true) : Channel.empty()
+ch_multiqc_logo            = params.multiqc_logo   ? Channel.fromPath(params.multiqc_logo, checkIfExists: true) : Channel.empty()
+ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    IMPORT LOCAL MODULES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+include { paramsSummaryLog            } from 'plugin/nf-schema'
 include { FASTQC                      } from "${launchDir}/modules/nf-core/fastqc/main"
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custom/dumpsoftwareversions/main"
 include { MULTIQC                     } from "${launchDir}/modules/nf-core/multiqc/main"
 
-// Info required for completion email and summary
-//def multiqc_report = []
-
 workflow READQC {
     take:
-    fastqc_ch_3
+    reads
+    summary_params
 
     main:
 
@@ -21,13 +30,13 @@ workflow READQC {
 
     // MODULE: Run FastQC
     //
-    FASTQC(fastqc_ch_3)
+    FASTQC(reads)
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
 
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
-    /*
+
     //
     // MODULE: MultiQC
     //
@@ -52,10 +61,6 @@ workflow READQC {
     multiqc_report = MULTIQC.out.report.toList()
 
     emit:
-    path '*multiqc_report.html', emit: report
-    path '*_data'              , emit: data
-    path '*_plots'             , optional:true, emit: plots
+    multiqc_report
     versions = ch_versions                     // channel: [ versions.yml ]
-    */
 }
-
