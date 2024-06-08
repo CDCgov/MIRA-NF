@@ -69,14 +69,23 @@ workflow flu_i {
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads, summary_params)
-    ch_versions = ch_versions.mix(READQC.out.versions)
+    ch_versions_2 = ch_versions.mix(READQC.out.versions)
 
+    // Find chemistry
+    input_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+        .splitCsv(header: true)
+    new_ch = input_ch.map { item ->
+        [item.sample, item.fastq_1]
+    }
+    find_chemistry_ch = new_ch.combine(run_ID_ch)
+    //find_chemistry_i(find_chemistry_ch)
+
+/*
     CUSTOM_DUMPSOFTWAREVERSIONS(
-        ch_versions.collectFile(name: 'collated_versions.yml')
+        ch_versions_2.unique().collectFile(name: 'collated_versions.yml')
     )
 
-    //READQC.out.multiqc_report.view
-
+*/
 //
 }
 
