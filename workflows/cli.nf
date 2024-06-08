@@ -27,9 +27,10 @@ WorkflowCli.initialise(params, log)
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK } from "${launchDir}/subworkflows/local/input_check"
-include { READQC } from "${launchDir}/subworkflows/local/readqc"
-
+include { NEXTFLOWSAMPLESHEETI } from "${launchDir}/modules/local/nextflowsamplesheeti"
+include { INPUT_CHECK          } from "${launchDir}/subworkflows/local/input_check"
+include { READQC               } from "${launchDir}/subworkflows/local/readqc"
+include { FINDCHEMISTRYI       } from "${launchDir}/modules/local/findchemistryi"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -40,7 +41,6 @@ include { READQC } from "${launchDir}/subworkflows/local/readqc"
 // MODULE: Installed directly from nf-core/modules
 //
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custom/dumpsoftwareversions/main"
-include { NEXTFLOWSAMPLESHEETI        } from "${launchDir}/modules/local/nextflowsamplesheeti"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -69,7 +69,7 @@ workflow flu_i {
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads, summary_params)
-    ch_versions_2 = ch_versions.mix(READQC.out.versions)
+    ch_versions = ch_versions.mix(READQC.out.versions)
 
     // Find chemistry
     input_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
@@ -78,8 +78,8 @@ workflow flu_i {
         [item.sample, item.fastq_1]
     }
     find_chemistry_ch = new_ch.combine(run_ID_ch)
-    //find_chemistry_i(find_chemistry_ch)
-
+    FINDCHEMISTRYI(find_chemistry_ch)
+    ch_versions = ch_versions.mix(FINDCHEMISTRYI.out.versions)
 /*
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions_2.unique().collectFile(name: 'collated_versions.yml')
