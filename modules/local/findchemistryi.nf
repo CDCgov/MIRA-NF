@@ -7,7 +7,7 @@ process FINDCHEMISTRYI {
     tuple val(sample), path(fastq), path(runid)
 
     output:
-    path "${sample}_chemistry.csv"
+    path "${sample}_chemistry.csv", emit: sample_chem_csv
     path 'versions.yml'           , emit: versions
 
     when:

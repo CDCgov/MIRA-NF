@@ -1,36 +1,35 @@
-// TODO nf-core: If in doubt look at other nf-core/subworkflows to see how we are doing things! :)
-//               https://github.com/nf-core/modules/tree/master/subworkflows
-//               You can also ask for help via your pull request or on the #subworkflows channel on the nf-core Slack workspace:
-//               https://nf-co.re/join
-// TODO nf-core: A subworkflow SHOULD import at least two modules
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    IMPORT LOCAL MODULES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 
-include { SAMTOOLS_SORT      } from '../../../modules/nf-core/samtools/sort/main'
-include { SAMTOOLS_INDEX     } from '../../../modules/nf-core/samtools/index/main'
+include { FINDCHEMISTRYI       } from "${launchDir}/modules/local/findchemistryi"
 
 workflow PREPILLUMINAREADS {
-
     take:
-    // TODO nf-core: edit input (take) channels
-    ch_bam // channel: [ val(meta), [ bam ] ]
+    nf_samplesheet // channel: file path to the nextflowsamplesheet.csv
 
     main:
-
+    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     ch_versions = Channel.empty()
 
-    // TODO nf-core: substitute modules here for the modules of your subworkflow
+    // Find chemistry
+    input_ch = nf_samplesheet
+        .splitCsv(header: true)
+    new_ch = input_ch.map { item ->
+        [item.sample, item.fastq_1]
+    }
+    find_chemistry_ch = new_ch.combine(run_ID_ch)
+    FINDCHEMISTRYI(find_chemistry_ch)
+    ch_versions = ch_versions.mix(FINDCHEMISTRYI.out.versions)
 
-    SAMTOOLS_SORT ( ch_bam )
-    ch_versions = ch_versions.mix(SAMTOOLS_SORT.out.versions.first())
-
-    SAMTOOLS_INDEX ( SAMTOOLS_SORT.out.bam )
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
+    // Create the irma chemistry channel
+    irma_chemistry_ch = FINDCHEMISTRYI.out.sample_chem_csv
+        //.splitCsv(header: true)
 
     emit:
-    // TODO nf-core: edit emitted channels
-    bam      = SAMTOOLS_SORT.out.bam           // channel: [ val(meta), [ bam ] ]
-    bai      = SAMTOOLS_INDEX.out.bai          // channel: [ val(meta), [ bai ] ]
-    csi      = SAMTOOLS_INDEX.out.csi          // channel: [ val(meta), [ csi ] ]
-
-    versions = ch_versions                     // channel: [ versions.yml ]
+    irma_chemistry_ch                 // channel: path to csv
+    versions = ch_versions            // channel: [ versions.yml ]
 }
 

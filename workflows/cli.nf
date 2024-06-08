@@ -30,7 +30,7 @@ WorkflowCli.initialise(params, log)
 include { NEXTFLOWSAMPLESHEETI } from "${launchDir}/modules/local/nextflowsamplesheeti"
 include { INPUT_CHECK          } from "${launchDir}/subworkflows/local/input_check"
 include { READQC               } from "${launchDir}/subworkflows/local/readqc"
-include { FINDCHEMISTRYI       } from "${launchDir}/modules/local/findchemistryi"
+include { PREPILLUMINAREADS    } from "${launchDir}/subworkflows/local/prepilluminareads"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -71,15 +71,9 @@ workflow flu_i {
     READQC(INPUT_CHECK.out.reads, summary_params)
     ch_versions = ch_versions.mix(READQC.out.versions)
 
-    // Find chemistry
-    input_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
-        .splitCsv(header: true)
-    new_ch = input_ch.map { item ->
-        [item.sample, item.fastq_1]
-    }
-    find_chemistry_ch = new_ch.combine(run_ID_ch)
-    FINDCHEMISTRYI(find_chemistry_ch)
-    ch_versions = ch_versions.mix(FINDCHEMISTRYI.out.versions)
+    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+
 /*
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions_2.unique().collectFile(name: 'collated_versions.yml')
