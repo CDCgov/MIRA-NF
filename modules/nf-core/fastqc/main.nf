@@ -7,7 +7,8 @@ process FASTQC {
         'https://depot.galaxyproject.org/singularity/fastqc:0.12.1--hdfd78af_0' :
         'biocontainers/fastqc:0.12.1--hdfd78af_0' }"
 
-    publishDir "${params.outdir}/readqc_output", mode: 'copy'
+    publishDir "${params.outdir}/fastqc", pattern: '*.html', mode: 'copy'
+    publishDir "${params.outdir}/fastqc", pattern: '*.zip', mode: 'copy'
 
     input:
     tuple val(meta), path(reads)

@@ -3,7 +3,7 @@ process NEXTFLOWSAMPLESHEETI {
     label 'process_single'
     container 'cdcgov/spyne:latest'
 
-    publishDir "${params.outdir}", mode: 'copy'
+    publishDir "${params.outdir}", pattern: '*.csv', mode: 'copy'
 
     input:
     path samplesheet

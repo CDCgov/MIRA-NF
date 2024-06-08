@@ -65,14 +65,17 @@ workflow flu_i {
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
     INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions.first())
-
-    CUSTOM_DUMPSOFTWAREVERSIONS(
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
-    )
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads, summary_params)
+    ch_versions = ch_versions.mix(READQC.out.versions)
+
+    CUSTOM_DUMPSOFTWAREVERSIONS(
+        ch_versions.collectFile(name: 'collated_versions.yml')
+    )
+
+    //READQC.out.multiqc_report.view
 
 //
 }
