@@ -31,6 +31,7 @@ include { NEXTFLOWSAMPLESHEETI } from "${launchDir}/modules/local/nextflowsample
 include { INPUT_CHECK          } from "${launchDir}/subworkflows/local/input_check"
 include { READQC               } from "${launchDir}/subworkflows/local/readqc"
 include { PREPILLUMINAREADS    } from "${launchDir}/subworkflows/local/prepilluminareads"
+include { IRMA                 } from "${launchDir}/modules/local/irma"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -74,15 +75,9 @@ workflow flu_i {
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
 
-    //// Run irma
-    new_ch4 = PREPILLUMINAREADS.out.fastqs_ch.map { item ->
-                [sample_ID: item[0], subsampled_R1: item[1], subsampled_R2: item[2]]
-    }
-    irma_ch = new_ch4.combine(PREPILLUMINAREADS.out.irma_chemistry_ch.map)
-                .filter { it[0].sample_ID == it[1].sample_ID }
-                .map { [it[0].sample_ID, it[0].subsampled_R1, it[0].subsampled_R2, it[1].irma_custom_0, it[1].irma_custom_1] }
-    irma_f_i(irma_ch)
-
+    //Run IRMA
+    IRMA(PREPILLUMINAREADS.out.irma_ch)
+/*
     // Irma checkpoint
     check_irma_ch = irma_f_i.out.map { item ->
         def sample = item[0]
@@ -92,7 +87,6 @@ workflow flu_i {
     }
     check_irma(check_irma_ch)
 
-/*
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions_2.unique().collectFile(name: 'collated_versions.yml')
     )
