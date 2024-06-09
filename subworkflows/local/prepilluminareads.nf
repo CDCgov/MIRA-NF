@@ -46,5 +46,6 @@ workflow PREPILLUMINAREADS {
 
     emit:
     fastqs_ch                 // channel: path to prepared fastq files
+    irma_chemistry_ch         // channel: path to sample chemistry csvs
     versions = ch_versions    // channel: [ versions.yml ]
 }
