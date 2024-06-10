@@ -67,7 +67,7 @@ workflow flu_i {
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
     INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
-    /ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads, summary_params)
@@ -87,8 +87,6 @@ workflow flu_i {
         return tuple(sample, directory)
     }
     CHECKIRMA(check_irma_ch)
-
-    // Run dais_ribosome
 
 /*
     CUSTOM_DUMPSOFTWAREVERSIONS(
