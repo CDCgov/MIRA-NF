@@ -78,15 +78,6 @@ workflow flu_i {
     // Run IRMA
     IRMA(PREPILLUMINAREADS.out.irma_ch)
 
-    // Irma checkpoint
-    check_irma_ch = IRMA.out.map { item ->
-        def sample = item[0]
-        def paths = item[1]
-        def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
-        return tuple(sample, directory)
-    }
-    check_irma(check_irma_ch)
-
 /*
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions_2.unique().collectFile(name: 'collated_versions.yml')
