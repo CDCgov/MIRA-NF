@@ -34,6 +34,7 @@ include { PREPILLUMINAREADS    } from "${launchDir}/subworkflows/local/prepillum
 include { IRMA                 } from "${launchDir}/modules/local/irma"
 include { CHECKIRMA            } from "${launchDir}/subworkflows/local/checkirma"
 include { DAISRIBOSOME         } from "${launchDir}/modules/local/daisribosome"
+include { PREPAREREPORTS       } from "${launchDir}/subworkflows/local/preparereports"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
