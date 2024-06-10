@@ -9,4 +9,4 @@ testing*
 MIRA_nextflow.sh
 nextflow*err
 nextflow*out
-summary.xlsx
+*summary.xlsx*
