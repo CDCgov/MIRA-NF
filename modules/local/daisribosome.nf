@@ -10,6 +10,7 @@ process DAISRIBOSOME {
 
     input:
     path input_fasta
+    val dais_module
 
     output:
     path('*') , emit: dais_outputs
@@ -22,7 +23,7 @@ process DAISRIBOSOME {
     '''
     base_name=$(basename !{input_fasta})
     dais_out="${base_name%_input*}"
-    ribosome --module INFLUENZA !{input_fasta} ${dais_out}.seq ${dais_out}.ins ${dais_out}.del
+    ribosome --module !{dais_module} !{input_fasta} ${dais_out}.seq ${dais_out}.ins ${dais_out}.del
 
     echo "DAIS RIBOSOME: cdcgov/dais-ribosome:v1.3.2" > versions.yml
     '''

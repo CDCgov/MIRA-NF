@@ -67,12 +67,12 @@ workflow flu_i {
 
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    //INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+    //ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads, summary_params)
-    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    //READQC(INPUT_CHECK.out.reads, summary_params)
+    //ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
@@ -92,7 +92,7 @@ workflow flu_i {
     CHECKIRMA(check_irma_ch)
 
     //Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out)
+    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
 /*

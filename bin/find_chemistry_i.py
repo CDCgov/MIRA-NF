@@ -36,15 +36,10 @@ if exp_type == "Flu_Illumina":
 elif exp_type == "SC2-Whole-Genome-Illumina":
     IRMA_module = "CoV"
 
-if exp_type == "Flu_Illumina":
-    dais_module = "INFLUENZA"
-elif exp_type == "SC2-Whole-Genome-Illumina":
-    dais_module = "BETACORONAVIRUS"
-
 filename = f"{sample}_chemistry.csv"
-headers = "sample_ID,irma_custom_0,irma_custom_1,subsample,irma_module,dais_module\n"
+headers = "sample_ID,irma_custom_0,irma_custom_1,subsample,irma_module\n"
 with open(filename, "w") as file:
     file.write(
         headers
-        + f"{sample},{irma_custom[0]},{irma_custom[1]},{subsample},{IRMA_module},{dais_module}\n"
+        + f"{sample},{irma_custom[0]},{irma_custom[1]},{subsample},{IRMA_module}\n"
     )

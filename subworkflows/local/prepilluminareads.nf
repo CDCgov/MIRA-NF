@@ -13,6 +13,7 @@ workflow PREPILLUMINAREADS {
 
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    dais_module = Channel.empty()
     ch_versions = Channel.empty()
 
     // Find chemistry
@@ -64,8 +65,15 @@ workflow PREPILLUMINAREADS {
         .filter { it[0].sample_ID == it[1].sample_ID }
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
 
+    //creating dais module input
+    if (params.e == 'Flu_Illumina') {
+        dais_module = 'INFLUENZA'
+    } elif(params.e == 'SC2-Whole-Genome-Illumina') {
+        dais_module = 'BETACORONAVIRUS'
+    }
+
     emit:
-    irma_chemistry_ch         // channel: sample chemistry csv for later
+    dais_module         // channel: sample chemistry csv for later
     irma_ch                   // channel: variables need to run IRMA
     versions = ch_versions    // channel: [ versions.yml ]
 }
