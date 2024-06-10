@@ -10,6 +10,8 @@ process CONCATFASTQS {
     path('*')
 
     script:
+    def args = task.ext.args ?: ''
+
     """
     #Removing if previous made
     if [ -e ${launchDir}/summary.xlsx ]; then
@@ -17,12 +19,10 @@ process CONCATFASTQS {
     fi
     #Set up so that email sends whether workflow finishes or not
     cp ${launchDir}/assets/summary.xlsx ${launchDir}/summary.xlsx
-
     ## Remove folder from any previous runs
     if [ -d ${params.outdir}/fastq_pass/cat_fastqs ]; then
     rm -r ${params.outdir}/fastq_pass/cat_fastqs
     fi
-
     #concat fastq files within barcode folders
     cat ${params.outdir}/fastq_pass/${barcode}/*fastq* > ${sample}.fastq.gz
     """

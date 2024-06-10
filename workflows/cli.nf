@@ -29,6 +29,7 @@ WorkflowCli.initialise(params, log)
 //
 include { CONCATFASTQS         } from "${launchDir}/modules/local/concatfastqs"
 include { NEXTFLOWSAMPLESHEETI } from "${launchDir}/modules/local/nextflowsamplesheeti"
+include { NEXTFLOWSAMPLESHEETO } from "${launchDir}/modules/local/nextflowsamplesheeto"
 include { INPUT_CHECK          } from "${launchDir}/subworkflows/local/input_check"
 include { READQC               } from "${launchDir}/subworkflows/local/readqc"
 include { PREPILLUMINAREADS    } from "${launchDir}/subworkflows/local/prepilluminareads"
@@ -116,12 +117,13 @@ workflow flu_o {
     //Concat all fastq files by barcode
     set_up_ch = samplesheet_ch
         .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
-    new_ch = set_up_ch { item ->
+    new_ch = set_up_ch.map { item ->
         [item.barcode, item.sample_id] }
-    concatFastqs(new_ch)
+    CONCATFASTQS(new_ch)
 
     // Convert the samplesheet to a nextflow format
-    create_nextflow_samplesheet_o(samplesheet_ch, run_ID_ch, experiment_type_ch, concatFastqs.out)
+    NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
 
     println 'Flu ONT workflow under construction'
 }
