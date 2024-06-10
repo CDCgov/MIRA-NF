@@ -96,6 +96,9 @@ workflow flu_i {
     DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //Create reports
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
+
 /*
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions_2.unique().collectFile(name: 'collated_versions.yml')

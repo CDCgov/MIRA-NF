@@ -68,7 +68,7 @@ workflow PREPILLUMINAREADS {
     //creating dais module input
     if (params.e == 'Flu_Illumina') {
         dais_module = 'INFLUENZA'
-    } elif(params.e == 'SC2-Whole-Genome-Illumina') {
+    } else if (params.e == 'SC2-Whole-Genome-Illumina') {
         dais_module = 'BETACORONAVIRUS'
     }
 

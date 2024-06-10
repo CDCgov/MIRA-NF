@@ -8,27 +8,31 @@ include { PREPAREIRMAJSON       } from "${launchDir}/modules/local/prepareirmajs
 
 workflow PREPAREREPORTS {
     take:
-    // TODO nf-core: edit input (take) channels
-    ch_bam // channel: [ val(meta), [ bam ] ]
+    dais_outputs_ch
 
     main:
-
+    platform = Channel.empty()
+    virus = Channel.empty()
     ch_versions = Channel.empty()
 
-    // TODO nf-core: substitute modules here for the modules of your subworkflow
+    //creating platform value
+    if (params.e == 'Flu_Illumina' || 'SC2-Whole-Genome-Illumina') {
+        platform = 'illumina'
+    } else if (params.e == 'Flu-ONT' || 'SC2-Spike-Only-ONT' || 'SC2-Whole-Genome-ONT') {
+        platform = 'ont'
+    }
 
-    SAMTOOLS_SORT(ch_bam)
-    ch_versions = ch_versions.mix(SAMTOOLS_SORT.out.versions.first())
+    //creating virus value
+    if (params.e == 'Flu_Illumina' || 'Flu-ONT') {
+        virus = 'flu'
+    } else if (params.e == 'SC2-Spike-Only-ONT' || 'SC2-Whole-Genome-ONT' || 'SC2-Whole-Genome-Illumina') {
+        virus = 'sc2'
+    }
 
-    SAMTOOLS_INDEX(SAMTOOLS_SORT.out.bam)
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
+    PREPAREIRMAJSON(dais_outputs_ch, platform, virus)
+    ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
     emit:
-    // TODO nf-core: edit emitted channels
-    bam      = SAMTOOLS_SORT.out.bam           // channel: [ val(meta), [ bam ] ]
-    bai      = SAMTOOLS_INDEX.out.bai          // channel: [ val(meta), [ bai ] ]
-    csi      = SAMTOOLS_INDEX.out.csi          // channel: [ val(meta), [ csi ] ]
 
     versions = ch_versions                     // channel: [ versions.yml ]
 }
-
