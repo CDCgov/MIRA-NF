@@ -51,12 +51,12 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// Info required for completion email and summary
+//input is the sample sheet
+//outdir is the run direcotry
 
 workflow flu_i {
     //Initializing parameters
-    //input is the sample sheet
-    //outdir is the run direcotry
+
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
@@ -68,12 +68,13 @@ workflow flu_i {
 
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    //INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
-    //ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    //READQC(INPUT_CHECK.out.reads, summary_params)
-    //ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    READQC(INPUT_CHECK.out.reads, summary_params)
+    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    multiqc_report = READQC.out.multiqc_report
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
@@ -99,12 +100,8 @@ workflow flu_i {
     //Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
 
-/*
-    CUSTOM_DUMPSOFTWAREVERSIONS(
-        ch_versions_2.unique().collectFile(name: 'collated_versions.yml')
-    )
+    ch_versions.unique().collectFile(name: 'collated_versions.yml')
 
-*/
 //
 }
 
@@ -145,12 +142,17 @@ workflow CLI {
 
 workflow.onComplete {
     if (params.email || params.email_on_fail) {
-        NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report)
-    }
-    NfcoreTemplate.dump_parameters(workflow, params)
-    NfcoreTemplate.summary(workflow, params, log)
-    if (params.hook_url) {
-        NfcoreTemplate.IM_notification(workflow, params, summary_params, projectDir, log)
+        def msg = """
+       Pipeline execution summary
+       Completed at: ${workflow.complete}
+       Duration    : ${workflow.duration}
+       Success     : ${workflow.success}
+       workDir     : ${workflow.workDir}
+       exit status : ${workflow.exitStatus}
+       """
+       .stripIndent()
+
+        sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg, attach: './summary.xlsx')
     }
 }
 

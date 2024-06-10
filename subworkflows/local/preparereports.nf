@@ -6,6 +6,7 @@
 
 include { PREPAREIRMAJSON   } from "${launchDir}/modules/local/prepareirmajson"
 include { STATICHTML        } from "${launchDir}/modules/local/statichtml"
+include { PREPEMAIL         } from "${launchDir}/modules/local/prepemail"
 
 workflow PREPAREREPORTS {
     take:
@@ -33,10 +34,11 @@ workflow PREPAREREPORTS {
     PREPAREIRMAJSON(dais_outputs_ch, platform, virus)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
-    STATICHTML(PREPAREIRMAJSON.out.hold)
+    STATICHTML(PREPAREIRMAJSON.out.dash_json)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
-    emit:
+    PREPEMAIL(STATICHTML.out.html)
 
+    emit:
     versions = ch_versions                     // channel: [ versions.yml ]
 }

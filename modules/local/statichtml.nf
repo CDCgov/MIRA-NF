@@ -9,7 +9,7 @@ process STATICHTML {
     val x
 
     output:
-    path("*"), emit: dash_json
+    path("*"), emit: html
     path 'versions.yml'           , emit: versions
 
     when:
