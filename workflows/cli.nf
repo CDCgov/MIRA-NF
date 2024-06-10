@@ -67,7 +67,7 @@ workflow flu_i {
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
     INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    /ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads, summary_params)
@@ -80,7 +80,15 @@ workflow flu_i {
     IRMA(PREPILLUMINAREADS.out.irma_ch)
 
     //SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
-    CHECKIRMA(IRMA.out)
+    check_irma_ch = IRMA.out.map { item ->
+        def sample = item[0]
+        def paths = item[1]
+        def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
+        return tuple(sample, directory)
+    }
+    CHECKIRMA(check_irma_ch)
+
+    // Run dais_ribosome
 
 /*
     CUSTOM_DUMPSOFTWAREVERSIONS(
