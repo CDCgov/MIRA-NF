@@ -63,7 +63,6 @@ workflow PREPILLUMINAREADS {
     irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
-        .view()
 
     emit:
     irma_chemistry_ch         // channel: sample chemistry csv for later

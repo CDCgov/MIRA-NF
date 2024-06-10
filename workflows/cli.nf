@@ -75,11 +75,11 @@ workflow flu_i {
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
 
-    //Run IRMA
+    // Run IRMA
     IRMA(PREPILLUMINAREADS.out.irma_ch)
-/*
+
     // Irma checkpoint
-    check_irma_ch = irma_f_i.out.map { item ->
+    check_irma_ch = IRMA.out.map { item ->
         def sample = item[0]
         def paths = item[1]
         def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
@@ -87,6 +87,7 @@ workflow flu_i {
     }
     check_irma(check_irma_ch)
 
+/*
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions_2.unique().collectFile(name: 'collated_versions.yml')
     )

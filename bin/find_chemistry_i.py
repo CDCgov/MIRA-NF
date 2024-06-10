@@ -42,7 +42,7 @@ elif exp_type == "SC2-Whole-Genome-Illumina":
     dais_module = "BETACORONAVIRUS"
 
 filename = f"{sample}_chemistry.csv"
-headers = "sample_ID,irma_custom_0,irma_custom_1,subsample,IRMA_module,dais_module\n"
+headers = "sample_ID,irma_custom_0,irma_custom_1,subsample,irma_module,dais_module\n"
 with open(filename, "w") as file:
     file.write(
         headers
