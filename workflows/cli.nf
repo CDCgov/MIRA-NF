@@ -33,6 +33,7 @@ include { READQC               } from "${launchDir}/subworkflows/local/readqc"
 include { PREPILLUMINAREADS    } from "${launchDir}/subworkflows/local/prepilluminareads"
 include { IRMA                 } from "${launchDir}/modules/local/irma"
 include { CHECKIRMA            } from "${launchDir}/subworkflows/local/checkirma"
+include { DAISRIBOSOME         } from "${launchDir}/modules/local/daisribosome"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -71,22 +72,28 @@ workflow flu_i {
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads, summary_params)
-    ch_versions = ch_versions.mix(READQC.out.versions)
+    ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+    ch_versions = ch_versions.unique().mix(PREPILLUMINAREADS.out.versions)
 
     // Run IRMA
     IRMA(PREPILLUMINAREADS.out.irma_ch)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
     //SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
-    check_irma_ch = IRMA.out.map { item ->
+    check_irma_ch = IRMA.out.outputs.map { item ->
         def sample = item[0]
         def paths = item[1]
         def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
         return tuple(sample, directory)
     }
     CHECKIRMA(check_irma_ch)
+
+    //Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
 /*
     CUSTOM_DUMPSOFTWAREVERSIONS(

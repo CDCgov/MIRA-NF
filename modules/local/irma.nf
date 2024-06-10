@@ -10,7 +10,8 @@ process IRMA {
     tuple val(sample), path(subsampled_fastq_files), val(irma_custom_0), val(irma_custom_1), val(module)
 
     output:
-    tuple val(sample), path('*')
+    tuple val(sample), path('*') , emit: outputs
+    path 'versions.yml' , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -37,7 +38,7 @@ process IRMA {
     def args = task.ext.args ?: ''
 
     """
-    touch ${prefix}.bam
+    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

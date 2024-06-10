@@ -14,8 +14,6 @@ workflow CHECKIRMA {
 
     main:
 
-    ch_versions = Channel.empty()
-
     //IRMA checkpoint
     CONFIRMIRMAOUTPUT(check_irma_ch)
 
@@ -31,6 +29,5 @@ workflow CHECKIRMA {
 
     emit:
     dais_ch                    // channel: paths to dais inputs
-    versions = ch_versions     // channel: [ versions.yml ]
 }
 
