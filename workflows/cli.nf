@@ -32,6 +32,7 @@ include { INPUT_CHECK          } from "${launchDir}/subworkflows/local/input_che
 include { READQC               } from "${launchDir}/subworkflows/local/readqc"
 include { PREPILLUMINAREADS    } from "${launchDir}/subworkflows/local/prepilluminareads"
 include { IRMA                 } from "${launchDir}/modules/local/irma"
+include { CHECKIRMA            } from "${launchDir}/subworkflows/local/checkirma"
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -77,6 +78,9 @@ workflow flu_i {
 
     // Run IRMA
     IRMA(PREPILLUMINAREADS.out.irma_ch)
+
+    //SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    CHECKIRMA(IRMA.out)
 
 /*
     CUSTOM_DUMPSOFTWAREVERSIONS(
