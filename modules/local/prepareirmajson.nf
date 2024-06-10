@@ -9,7 +9,7 @@ process PREPAREIRMAJSON {
     val virus
 
     output:
-    val x
+    val x , emit: hold
     path 'versions.yml'           , emit: versions
 
     when:

@@ -4,7 +4,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { PREPAREIRMAJSON       } from "${launchDir}/modules/local/prepareirmajson"
+include { PREPAREIRMAJSON   } from "${launchDir}/modules/local/prepareirmajson"
+include { STATICHTML        } from "${launchDir}/modules/local/statichtml"
 
 workflow PREPAREREPORTS {
     take:
@@ -31,6 +32,9 @@ workflow PREPAREREPORTS {
 
     PREPAREIRMAJSON(dais_outputs_ch, platform, virus)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
+
+    STATICHTML(PREPAREIRMAJSON.out.hold)
+    ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
     emit:
 
