@@ -56,7 +56,6 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custo
 
 workflow flu_i {
     //Initializing parameters
-
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
@@ -106,6 +105,12 @@ workflow flu_i {
 }
 
 workflow flu_o {
+    //Initializing parameters
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
+
     println 'Flu ONT workflow under construction'
 }
 
