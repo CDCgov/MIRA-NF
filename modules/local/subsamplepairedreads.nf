@@ -12,6 +12,7 @@ process SUBSAMPLEPAIREDREADS {
     tuple val(sample), path('*_subsampled_R1.fastq'), path('*_subsampled_R2.fastq'), emit: subsampled_fastq
     path '*.reformat.stdout.log', emit: subsample_log_out
     path '*.reformat.stderr.log', emit: subsample_log_err
+    path 'versions.yml'           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

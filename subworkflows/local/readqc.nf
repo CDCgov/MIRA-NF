@@ -30,7 +30,7 @@ workflow READQC {
     // MODULE: Run FastQC
     //
     FASTQC(reads)
-    ch_versions = ch_versions.mix(FASTQC.out.versions)
+    ch_versions = ch_versions.unique().mix(FASTQC.out.versions)
 
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions.unique().collectFile(name: 'fastqc_versions.yml')
@@ -57,9 +57,7 @@ workflow READQC {
         ch_multiqc_custom_config.toList(),
         ch_multiqc_logo.toList()
     )
-    multiqc_report = MULTIQC.out.report.toList()
 
     emit:
-    multiqc_report
     versions = ch_versions                     // channel: [ versions.yml ]
 }

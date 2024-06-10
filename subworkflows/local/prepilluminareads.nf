@@ -24,7 +24,7 @@ workflow PREPILLUMINAREADS {
     }
     find_chemistry_ch = new_ch.combine(run_ID_ch)
     FINDCHEMISTRYI(find_chemistry_ch)
-    ch_versions = ch_versions.mix(FINDCHEMISTRYI.out.versions)
+    ch_versions = ch_versions.unique().mix(FINDCHEMISTRYI.out.versions)
 
     // Create the irma chemistry channel
     irma_chemistry_ch = FINDCHEMISTRYI.out.sample_chem_csv
@@ -44,6 +44,7 @@ workflow PREPILLUMINAREADS {
 
     SUBSAMPLEPAIREDREADS(subsample_ch)
     fastqs_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq
+    ch_versions = ch_versions.unique().mix(SUBSAMPLEPAIREDREADS.out.versions)
 
     //// Make IRMA input channel
     //restructing read 1 and read2 so that they are passed as one thing

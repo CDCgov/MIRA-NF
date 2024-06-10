@@ -27,6 +27,7 @@ WorkflowCli.initialise(params, log)
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
+include { CONCATFASTQS         } from "${launchDir}/modules/local/concatfastqs"
 include { NEXTFLOWSAMPLESHEETI } from "${launchDir}/modules/local/nextflowsamplesheeti"
 include { INPUT_CHECK          } from "${launchDir}/subworkflows/local/input_check"
 include { READQC               } from "${launchDir}/subworkflows/local/readqc"
@@ -73,7 +74,6 @@ workflow flu_i {
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads, summary_params)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
-    multiqc_report = READQC.out.multiqc_report
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
@@ -98,8 +98,10 @@ workflow flu_i {
 
     //Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
 
-    ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    //work on this more later
+    ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
 
 //
 }
@@ -110,6 +112,16 @@ workflow flu_o {
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+
+    //Concat all fastq files by barcode
+    set_up_ch = samplesheet_ch
+        .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+    new_ch = set_up_ch { item ->
+        [item.barcode, item.sample_id] }
+    concatFastqs(new_ch)
+
+    // Convert the samplesheet to a nextflow format
+    create_nextflow_samplesheet_o(samplesheet_ch, run_ID_ch, experiment_type_ch, concatFastqs.out)
 
     println 'Flu ONT workflow under construction'
 }
