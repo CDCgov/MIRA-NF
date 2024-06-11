@@ -1,5 +1,5 @@
 process IRMA {
-    tag { "assembling genome with IRMA for ${sample}" }
+    tag { "${sample}" }
     label 'process_high'
     container 'cdcgov/irma-latest'
 

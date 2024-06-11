@@ -1,7 +1,5 @@
 process TRIMRIGHT {
-    tag '$bam'
-    label 'process_medium'
-    tag { "trimming left barcode for ${sample} ONT data" }
+    tag { "${sample}" }
     label 'process_low'
     container 'staphb/bbtools:39.01'
 

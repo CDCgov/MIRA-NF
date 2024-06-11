@@ -76,6 +76,14 @@ workflow PREPONTREADS {
     }
     CUTADAPT30(new_ch6)
 
+    // Create IRMA channel
+    new_ch7 = CUTADAPT30.out.cutadapt_fastq.map { item ->
+        [sample_ID: item[0], barcode:item[1], cutadapt_fastq_path:item[2]]
+    }
+    irma_ch = new_ch7.combine(irma_chemistry_ch)
+        .filter { it[0].sample_ID == it[1].sample_ID }
+        .map { [it[0].sample_ID, it[0].cutadapt_fastq_path, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+
     //creating dais module input
     if (params.e == 'Flu-ONT') {
         dais_module = 'INFLUENZA'
@@ -83,16 +91,8 @@ workflow PREPONTREADS {
         dais_module = 'BETACORONAVIRUS'
     }
 
-    // Create IRMA channel
-    new_ch8 = cutadapt_30.out.cutadapt_fastq.map { item ->
-        [sample_ID: item[0], barcode:item[1], cutadapt_fastq_path:item[2]]
-    }
-    irma_ch = new_ch8.combine(irma_chemistry_ch)
-        .filter { it[0].sample_ID == it[1].sample_ID }
-        .map { [it[0].sample_ID, it[0].cutadapt_fastq_path, it[1].irma_custom_0, it[1].irma_custom_1] }
-
     emit:
     dais_module         // channel: sample chemistry csv for later
-    //irma_ch                   // channel: variables need to run IRMA
+    irma_ch                   // channel: variables need to run IRMA
     versions = ch_versions    // channel: [ versions.yml ]
 }

@@ -1,5 +1,5 @@
 process SUBSAMPLEPAIREDREADS {
-    tag { 'subsampling for illumina data' }
+    tag { "${sample}" }
     label 'process_low'
     container 'staphb/bbtools:39.01'
 

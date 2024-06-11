@@ -139,6 +139,11 @@ workflow flu_o {
     PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
+    // Run IRMA
+    //PREPONTREADS.out.irma_ch.view()
+    IRMA(PREPONTREADS.out.irma_ch)
+    //ch_versions = ch_versions.unique().mix(IRMA.out.versions)
+
     println 'Flu ONT workflow under construction'
 }
 

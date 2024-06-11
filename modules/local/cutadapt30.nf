@@ -1,5 +1,5 @@
 process CUTADAPT30 {
-    tag { "trimming adapters for ${sample} ONT data" }
+    tag { "${sample}" }
     label 'process_low'
     container 'cdcgov/spyne:latest'
 
@@ -12,7 +12,7 @@ process CUTADAPT30 {
     output:
     tuple val(sample), val(barcode), path('*bartrim_lr_cutadapt.fastq'), emit: cutadapt_fastq
     path '*.cutadapt.stdout.log', emit: cut_adapt_log_out
-    path '*.cutadapt.stderr.log', emit: trim_r_log_err
+    path '*.cutadapt.stderr.log', emit: cut_adapt_log_err
 
     when:
     task.ext.when == null || task.ext.when

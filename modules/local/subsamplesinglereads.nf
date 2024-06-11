@@ -1,5 +1,5 @@
 process SUBSAMPLESINGLEREADS {
-    tag '$bam'
+    tag { "${sample}" }
     label 'process_low'
     container 'staphb/bbtools:39.01'
 
