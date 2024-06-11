@@ -14,7 +14,7 @@ process CONCATFASTQS {
 
     """
     #Removing if previous made
-    if [ -e ${launchDir}/summary.xlsx ]; then
+    if [ -f -e ${launchDir}/summary.xlsx ]; then
     rm ${launchDir}/summary.xlsx
     fi
     #Set up so that email sends whether workflow finishes or not

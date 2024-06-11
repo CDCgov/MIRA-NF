@@ -32,16 +32,23 @@ workflow PREPONTREADS {
         .splitCsv(header: true)
 
     // Subsample
-    new_ch3 = input_ch.map { item ->
-        [sample_ID:item.sample_ID, barcodes:item.barcodes, fastq_file_path:item.fastq_file_path]
+    new_ch2 = input_ch.map { item ->
+        [sample_ID:item.sample, barcodes:item.barcodes, fastq_file_path:item.fastq_1]
     }
-    new_ch4 = irma_chemistry_ch.map { item ->
+    new_ch3 = irma_chemistry_ch.map { item ->
                 [sample_ID:item.sample_ID, subsample:item.subsample]
     }
-    subsample_ch = new_ch3.combine(new_ch4)
+    subsample_ch = new_ch2.combine(new_ch3)
                 .filter { it[0].sample_ID == it[1].sample_ID }
                 .map { [it[0].sample_ID, it[0].barcodes, it[0].fastq_file_path, it[1].subsample] }
     SUBSAMPLESINGLEREADS(subsample_ch)
+
+    //creating dais module input
+    if (params.e == 'Flu-ONT') {
+        dais_module = 'INFLUENZA'
+    } else if (params.e == 'SC2-Spike-Only-ONT' || 'SC2-Whole-Genome-ONT') {
+        dais_module = 'BETACORONAVIRUS'
+    }
 
     emit:
     dais_module         // channel: sample chemistry csv for later
