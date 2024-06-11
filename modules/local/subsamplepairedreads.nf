@@ -1,5 +1,6 @@
 process SUBSAMPLEPAIREDREADS {
     tag { 'subsampling for illumina data' }
+    label 'process_low'
     container 'staphb/bbtools:39.01'
 
     publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
