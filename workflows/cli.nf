@@ -157,6 +157,13 @@ workflow flu_o {
     DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //Create reports
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
+
+    //work on this more later
+    ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
+
     println 'Flu ONT workflow under construction'
 }
 
