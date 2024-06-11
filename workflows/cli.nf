@@ -153,6 +153,10 @@ workflow flu_o {
     }
     CHECKIRMA(check_irma_ch)
 
+    //Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
     println 'Flu ONT workflow under construction'
 }
 
