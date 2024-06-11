@@ -6,6 +6,9 @@
 
 include { FINDCHEMISTRYO       } from "${launchDir}/modules/local/findchemistryo"
 include { SUBSAMPLESINGLEREADS } from "${launchDir}/modules/local/subsamplesinglereads"
+include { TRIMLEFT             } from "${launchDir}/modules/local/trimleft"
+include { TRIMRIGHT            } from "${launchDir}/modules/local/trimright"
+include { CUTADAPT30           } from "${launchDir}/modules/local/cutadapt30"
 
 workflow PREPONTREADS {
     take:
@@ -56,15 +59,22 @@ workflow PREPONTREADS {
     trim_ch_l = new_ch4.combine(bc_ch)
         .filter { it[0].barcode == it[1].barcode }
         .map { [it[0].sample, it[0].barcode, it[0].subsample_file_path, it[1].seq_f] }
-    trim_l_o(trim_ch_l)
+    TRIMLEFT(trim_ch_l)
+
     //right trim
-    new_ch6 = trim_l_o.out.trim_l_fastq.map { item ->
+    new_ch5 = TRIMLEFT.out.trim_l_fastq.map { item ->
         [sample:item[0], barcode:item[1], trim_l_file_path:item[2]]
     }
-    trim_ch_r = new_ch6.combine(bc_ch)
+    trim_ch_r = new_ch5.combine(bc_ch)
         .filter { it[0].barcode == it[1].barcode }
         .map { [it[0].sample, it[0].barcode, it[0].trim_l_file_path, it[1].seq_rc] }
-    trim_r_o(trim_ch_r)
+    TRIMRIGHT(trim_ch_r)
+   /*
+    //cutadapt
+    new_ch6 = TRIMRIGHT.out.trim_r_fastq.map { item ->
+        [sample:item[0], barcode:item[1], trim_lr_file_path:item[2]]
+    }
+    CUTADAPT30(new_ch7)
 
     //creating dais module input
     if (params.e == 'Flu-ONT') {
@@ -72,7 +82,7 @@ workflow PREPONTREADS {
     } else if (params.e == 'SC2-Spike-Only-ONT' || 'SC2-Whole-Genome-ONT') {
         dais_module = 'BETACORONAVIRUS'
     }
-
+*/
     emit:
     dais_module         // channel: sample chemistry csv for later
     //irma_ch                   // channel: variables need to run IRMA
