@@ -13,6 +13,7 @@ workflow PREPONTREADS {
 
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    barcode_ch = Channel.fromPath('./data/primers/ont_barcodes.csv', checkIfExists: true)
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
 
@@ -42,6 +43,28 @@ workflow PREPONTREADS {
                 .filter { it[0].sample_ID == it[1].sample_ID }
                 .map { [it[0].sample_ID, it[0].barcodes, it[0].fastq_file_path, it[1].subsample] }
     SUBSAMPLESINGLEREADS(subsample_ch)
+
+    //// Trim reads and adapters
+    //left trim
+    new_ch4 = SUBSAMPLESINGLEREADS.out.subsampled_fastq.map { item ->
+        [sample:item[0], barcode:item[1], subsample_file_path:item[2]]
+    }
+    set_up_barcode_ch = barcode_ch
+        .splitCsv(header: true)
+    bc_ch = set_up_barcode_ch.map { item ->
+        [barcode:item.barcode, seq_f:item.seq_f, seq_rc:item.seq_rc] }
+    trim_ch_l = new_ch4.combine(bc_ch)
+        .filter { it[0].barcode == it[1].barcode }
+        .map { [it[0].sample, it[0].barcode, it[0].subsample_file_path, it[1].seq_f] }
+    trim_l_o(trim_ch_l)
+    //right trim
+    new_ch6 = trim_l_o.out.trim_l_fastq.map { item ->
+        [sample:item[0], barcode:item[1], trim_l_file_path:item[2]]
+    }
+    trim_ch_r = new_ch6.combine(bc_ch)
+        .filter { it[0].barcode == it[1].barcode }
+        .map { [it[0].sample, it[0].barcode, it[0].trim_l_file_path, it[1].seq_rc] }
+    trim_r_o(trim_ch_r)
 
     //creating dais module input
     if (params.e == 'Flu-ONT') {
