@@ -59,22 +59,26 @@ Each row represents a sample.
 Second, move samplesheet into a run folder with fastq files:
 
 Illumina should be set up as follows:
-<RUN_PATH>/run/fastqs
-<RUN_PATH>/run/samplesheet.csv
+
+1. <RUN_PATH>/run/fastqs
+2. <RUN_PATH>/run/samplesheet.csv
 
 Oxford Nanopore should be set up as follows:
-$PWD/run/fastq_pass
-$PWD/run/samplesheet.csv
+
+1. <RUN_PATH>/run/fastq_pass
+2. <RUN_PATH>/run/samplesheet.csv
 
 Now, you can run the pipeline using:
 
 Now, you can run the pipeline using:
+
+Before running the command below you will need to load nextflow.
 
 ```bash
 nextflow run mira/cli \
    -profile <singularity/hpc> \ always run with singularity profile. hpc profile for running on computing cluster.
    --input samplesheet.csv \
-   --outdir <OUTDIR>
+   --outdir <OUTDIR> \ The <RUN_PATH> described above. Your fastq_folder and samplesheet.csv should be in here
    --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
    --p <PRIMER_SHEMA> (optional) \ options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
    --process_q <QUEUE> (optional) \ provide queue name if hpc profile has been selected
