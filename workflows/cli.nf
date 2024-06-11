@@ -33,6 +33,7 @@ include { NEXTFLOWSAMPLESHEETO } from "${launchDir}/modules/local/nextflowsample
 include { INPUT_CHECK          } from "${launchDir}/subworkflows/local/input_check"
 include { READQC               } from "${launchDir}/subworkflows/local/readqc"
 include { PREPILLUMINAREADS    } from "${launchDir}/subworkflows/local/prepilluminareads"
+include { PREPONTREADS         } from "${launchDir}/subworkflows/local/prepontreads"
 include { IRMA                 } from "${launchDir}/modules/local/irma"
 include { CHECKIRMA            } from "${launchDir}/subworkflows/local/checkirma"
 include { DAISRIBOSOME         } from "${launchDir}/modules/local/daisribosome"
@@ -124,6 +125,19 @@ workflow flu_o {
     // Convert the samplesheet to a nextflow format
     NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
     ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+
+    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+    //
+    INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+
+    // SUBWORKFLOW: Process reads through FastQC and MultiQC
+    READQC(INPUT_CHECK.out.reads, summary_params)
+    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
+    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    //ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
     println 'Flu ONT workflow under construction'
 }

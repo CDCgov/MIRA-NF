@@ -12,8 +12,8 @@ process NEXTFLOWSAMPLESHEETO {
     path('*')
 
     output:
-    path 'nextflow_samplesheet.csv'
-    path 'versions.yml'           , emit: versions
+    path 'nextflow_samplesheet.csv', emit: nf_samplesheet
+    path 'versions.yml' , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

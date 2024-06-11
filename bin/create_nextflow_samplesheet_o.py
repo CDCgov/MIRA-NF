@@ -48,20 +48,19 @@ print(samplesheet)
 df = pd.read_csv(samplesheet)
 dfd = df.to_dict("index")
 
-data = "sample_ID,barcodes,fastq_file_path,sample_type\n"
+data = "sample,barcodes,fastq_1,fastq_2,sample_type\n"
 for d in dfd.values():
     id = d["Sample ID"]
     barcode = d["Barcode #"]
     print(f"runpath = {runpath}\nid = {barcode}\nid = {id}")
-    fastq_file_path = glob(
-        f"{runpath}/fastq_pass/cat_fastqs/{id}.fastq*", recursive=True
-    )[0]
+    fastq_1 = glob(f"{runpath}/fastq_pass/cat_fastqs/{id}.fastq*", recursive=True)[0]
+    fastq_2 = ""
     sample_type = d["Sample Type"]
     if len(barcode) < 1:
         print(f"Fastqs not found for sample {id}")
         exit()
     else:
-        data += f"{id},{barcode},{fastq_file_path},{sample_type}\n"
+        data += f"{id},{barcode},{fastq_1},{fastq_2},{sample_type}\n"
 
 with open("nextflow_samplesheet.csv", "w") as out:
     out.write(data)
