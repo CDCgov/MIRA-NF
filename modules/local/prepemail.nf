@@ -12,7 +12,10 @@ process PREPEMAIL {
     script:
     """
     rm ${launchDir}/summary.xlsx
-    mv *_summary.xlsx summary.xlsx
-    cp summary.xlsx ${launchDir}
+    cp ${params.outdir}/*_summary.xlsx ${launchDir}/summary.xlsx
+    ## Remove folder if created
+    if [ -d -e ${params.outdir}/prepareirmajson ]; then
+    rm -r ${params.outdir}/prepareirmajson
+    fi
     """
 }

@@ -6,6 +6,7 @@
 
 include { PREPAREIRMAJSON   } from "${launchDir}/modules/local/prepareirmajson"
 include { STATICHTML        } from "${launchDir}/modules/local/statichtml"
+include { PARQUETMAKER      } from "${launchDir}/modules/local/parquetmaker"
 include { PREPEMAIL         } from "${launchDir}/modules/local/prepemail"
 
 workflow PREPAREREPORTS {
@@ -15,6 +16,7 @@ workflow PREPAREREPORTS {
     main:
     platform = Channel.empty()
     virus = Channel.empty()
+    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     ch_versions = Channel.empty()
 
     //creating platform value
@@ -37,7 +39,10 @@ workflow PREPAREREPORTS {
     STATICHTML(PREPAREIRMAJSON.out.dash_json)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
-    PREPEMAIL(STATICHTML.out.html)
+    PARQUETMAKER(STATICHTML.out.html, run_ID_ch)
+    ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
+
+    PREPEMAIL(PARQUETMAKER.out.summary_parq)
 
     emit:
     versions = ch_versions                     // channel: [ versions.yml ]

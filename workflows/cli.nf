@@ -114,7 +114,6 @@ workflow flu_o {
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
-    run_ID_ch.view()
 
     //Concat all fastq files by barcode
     set_up_ch = samplesheet_ch
@@ -129,12 +128,12 @@ workflow flu_o {
 
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    //INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
-    //ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    //READQC(INPUT_CHECK.out.reads, summary_params)
-    //ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    READQC(INPUT_CHECK.out.reads, summary_params)
+    ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)

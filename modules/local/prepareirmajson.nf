@@ -23,7 +23,7 @@ process PREPAREIRMAJSON {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        prepareirmajson: \$(python3 --version |& sed '1!d ; s/python3 //')
+        prepareirmajson_lkjh: \$(python3 --version |& sed '1!d ; s/python3 //')
     END_VERSIONS
     """
 
@@ -35,7 +35,7 @@ process PREPAREIRMAJSON {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        prepareirmajson: \$(python3 --version |& sed '1!d ; s/python3 //')
+        prepareirmajson_asdf: \$(python3 --version |& sed '1!d ; s/python3 //')
     END_VERSIONS
     """
 }
