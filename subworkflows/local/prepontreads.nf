@@ -69,12 +69,12 @@ workflow PREPONTREADS {
         .filter { it[0].barcode == it[1].barcode }
         .map { [it[0].sample, it[0].barcode, it[0].trim_l_file_path, it[1].seq_rc] }
     TRIMRIGHT(trim_ch_r)
-   /*
+
     //cutadapt
     new_ch6 = TRIMRIGHT.out.trim_r_fastq.map { item ->
         [sample:item[0], barcode:item[1], trim_lr_file_path:item[2]]
     }
-    CUTADAPT30(new_ch7)
+    CUTADAPT30(new_ch6)
 
     //creating dais module input
     if (params.e == 'Flu-ONT') {
@@ -82,7 +82,15 @@ workflow PREPONTREADS {
     } else if (params.e == 'SC2-Spike-Only-ONT' || 'SC2-Whole-Genome-ONT') {
         dais_module = 'BETACORONAVIRUS'
     }
-*/
+
+    // Create IRMA channel
+    new_ch8 = cutadapt_30.out.cutadapt_fastq.map { item ->
+        [sample_ID: item[0], barcode:item[1], cutadapt_fastq_path:item[2]]
+    }
+    irma_ch = new_ch8.combine(irma_chemistry_ch)
+        .filter { it[0].sample_ID == it[1].sample_ID }
+        .map { [it[0].sample_ID, it[0].cutadapt_fastq_path, it[1].irma_custom_0, it[1].irma_custom_1] }
+
     emit:
     dais_module         // channel: sample chemistry csv for later
     //irma_ch                   // channel: variables need to run IRMA

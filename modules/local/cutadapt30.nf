@@ -25,7 +25,7 @@ process CUTADAPT30 {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        cutadapt30: \$(samtools --version |& sed '1!d ; s/samtools //')
+        cutadapt30: \$(cutadapt --version |& sed '1!d ; s/cutadapt //')
     END_VERSIONS
     """
 
@@ -37,7 +37,7 @@ process CUTADAPT30 {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        cutadapt30: \$(samtools --version |& sed '1!d ; s/samtools //')
+        cutadapt30: \$(cutadapt --version |& sed '1!d ; s/cutadapt //')
     END_VERSIONS
     """
 }
