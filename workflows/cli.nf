@@ -114,6 +114,7 @@ workflow flu_o {
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    run_ID_ch.view()
 
     //Concat all fastq files by barcode
     set_up_ch = samplesheet_ch
@@ -163,8 +164,6 @@ workflow flu_o {
 
     //work on this more later
     ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
-
-    println 'Flu ONT workflow under construction'
 }
 
 workflow sc2_spike_o {
