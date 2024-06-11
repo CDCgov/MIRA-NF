@@ -166,6 +166,32 @@ workflow flu_o {
 }
 
 workflow sc2_spike_o {
+    //Initializing parameters
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
+
+    //Concat all fastq files by barcode
+    set_up_ch = samplesheet_ch
+        .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+    new_ch = set_up_ch.map { item ->
+        [item.barcode, item.sample_id] }
+    CONCATFASTQS(new_ch)
+
+    // Convert the samplesheet to a nextflow format
+    NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+
+    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+    //
+    INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+
+    // SUBWORKFLOW: Process reads through FastQC and MultiQC
+    READQC(INPUT_CHECK.out.reads, summary_params)
+    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
     println 'SARS-CoV-2 Spike ONT workflow under construction'
 }
 
