@@ -20,8 +20,9 @@ process IRMA {
     def args = task.ext.args ?: ''
 
     """
+    ${irma_custom_0}
 
-    ${irma_custom_0} IRMA \\
+    IRMA \\
         ${module} \\
         ${subsampled_fastq_files} \\
         ${sample} \\

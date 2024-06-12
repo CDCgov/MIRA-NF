@@ -7,6 +7,7 @@ process STATICHTML {
 
     input:
     val x
+    val run_ID_ch
 
     output:
     path("*"), emit: html
@@ -19,7 +20,7 @@ process STATICHTML {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${launchDir}/bin/static_report.py -d ${params.outdir} -l ${launchDir}
+    python3 ${launchDir}/bin/static_report.py -d ${run_ID_ch} -l ${launchDir}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -31,9 +32,6 @@ process STATICHTML {
     def args = task.ext.args ?: ''
 
     """
-    #Setting up fasta files for parquet maker in later steps
-    cat ${params.outdir}/MIRA_*_amended_consensus.fasta > nt.fasta
-    cat ${params.outdir}/MIRA_*_amino_acid_consensus.fasta > aa.fasta
     touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml

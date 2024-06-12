@@ -20,23 +20,35 @@ workflow PREPAREREPORTS {
     ch_versions = Channel.empty()
 
     //creating platform value
-    if (params.e == 'Flu_Illumina' || 'SC2-Whole-Genome-Illumina') {
+    if (params.e == 'Flu_Illumina') {
         platform = 'illumina'
-    } else if (params.e == 'Flu-ONT' || 'SC2-Spike-Only-ONT' || 'SC2-Whole-Genome-ONT') {
+    } else if (params.e == 'SC2-Whole-Genome-Illumina') {
+        platform = 'illumina'
+    } else if (params.e == 'Flu-ONT') {
+        platform = 'ont'
+    } else if (params.e == 'SC2-Spike-Only-ONT') {
+        platform = 'ont'
+    } else if (params.e == 'SC2-Whole-Genome-ONT') {
         platform = 'ont'
     }
 
     //creating virus value
-    if (params.e == 'Flu_Illumina' || 'Flu-ONT') {
+    if (params.e == 'Flu_Illumina') {
         virus = 'flu'
-    } else if (params.e == 'SC2-Spike-Only-ONT' || 'SC2-Whole-Genome-ONT' || 'SC2-Whole-Genome-Illumina') {
+    } else if (params.e == 'Flu-ONT') {
+        virus = 'flu'
+    } else if (params.e == 'SC2-Spike-Only-ONT') {
+        virus = 'sc2-spike'
+    } else if (params.e == 'SC2-Whole-Genome-ONT') {
+        virus = 'sc2'
+    } else if (params.e == 'SC2-Whole-Genome-Illumina') {
         virus = 'sc2'
     }
 
     PREPAREIRMAJSON(dais_outputs_ch, platform, virus)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
-    STATICHTML(PREPAREIRMAJSON.out.dash_json)
+    STATICHTML(PREPAREIRMAJSON.out.dash_json, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
     PARQUETMAKER(STATICHTML.out.html, run_ID_ch)

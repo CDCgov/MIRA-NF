@@ -87,7 +87,9 @@ workflow PREPONTREADS {
     //creating dais module input
     if (params.e == 'Flu-ONT') {
         dais_module = 'INFLUENZA'
-    } else if (params.e == 'SC2-Spike-Only-ONT' || 'SC2-Whole-Genome-ONT') {
+    } else if (params.e == 'SC2-Spike-Only-ONT') {
+        dais_module = 'BETACORONAVIRUS'
+    } else if (params.e == 'SC2-Whole-Genome-ONT') {
         dais_module = 'BETACORONAVIRUS'
     }
 
