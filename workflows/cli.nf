@@ -214,12 +214,10 @@ workflow sc2_spike_o {
 
     //Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
-    //ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
 
     //work on this more later
-    //ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
-
-    println 'SARS-CoV-2 Spike ONT workflow under construction'
+    ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
 }
 
 workflow sc2_wgs_o {
@@ -227,6 +225,16 @@ workflow sc2_wgs_o {
 }
 
 workflow sc2_wgs_i {
+    //Initializing parameters
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
+
+    // Convert the samplesheet to a nextflow format
+    NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
+    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
+
     println 'SARS-CoV-2 WGS Illumina workflow under construction'
 }
 
@@ -238,9 +246,9 @@ workflow CLI {
     } else if (params.e == 'SC2-Spike-Only-ONT') {
         sc2_spike_o()
     } else if (params.e == 'SC2-Whole-Genome-ONT') {
-        sc2_wg_o()
+        sc2_wgs_o()
     } else if (params.e == 'SC2-Whole-Genome-Illumina') {
-        sc2_wg_i()
+        sc2_wgs_i()
     }
 }
 /*
