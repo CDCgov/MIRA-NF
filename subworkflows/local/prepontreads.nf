@@ -93,6 +93,6 @@ workflow PREPONTREADS {
 
     emit:
     dais_module         // channel: sample chemistry csv for later
-    irma_ch                   // channel: variables need to run IRMA
+    //irma_ch                   // channel: variables need to run IRMA
     versions = ch_versions    // channel: [ versions.yml ]
 }

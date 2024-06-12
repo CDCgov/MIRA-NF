@@ -185,12 +185,17 @@ workflow sc2_spike_o {
 
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    //INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    //ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads, summary_params)
-    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    //READQC(INPUT_CHECK.out.reads, summary_params)
+    //ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
+    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    //ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
+    //PREPONTREADS.out.irma_ch.view()
 
     println 'SARS-CoV-2 Spike ONT workflow under construction'
 }

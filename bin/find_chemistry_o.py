@@ -14,7 +14,6 @@ args = parser.parse_args()
 sample = args.sample
 fastq = args.fastq
 runid = args.runid
-runid = args.runid
 exp_type = args.exp_type
 
 try:
@@ -24,7 +23,13 @@ except:
     with gzip.open(fastq) as infi:
         contents = infi.readlines()
 
-if len(contents[1]) > 145:
+if exp_type == "Flu-ONT":
+    irma_custom = ["", ""]
+    subsample = "50000"
+elif exp_type == "SC2-Spike-Only-ONT":
+    irma_custom = ["", ""]
+    subsample = "5000"
+elif exp_type == "SC2-Whole-Genome-ONT":
     irma_custom = ["", ""]
     subsample = "50000"
 # elif len(contents[1]) > 70:
