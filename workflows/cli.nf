@@ -235,6 +235,15 @@ workflow sc2_wgs_i {
     NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
     ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
 
+    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+    //
+    INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+
+    // SUBWORKFLOW: Process reads through FastQC and MultiQC
+    READQC(INPUT_CHECK.out.reads, summary_params)
+    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
     println 'SARS-CoV-2 WGS Illumina workflow under construction'
 }
 
