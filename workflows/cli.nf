@@ -140,9 +140,8 @@ workflow flu_o {
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
     // Run IRMA
-    //PREPONTREADS.out.irma_ch.view()
     IRMA(PREPONTREADS.out.irma_ch)
-    //ch_versions = ch_versions.unique().mix(IRMA.out.versions)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
     //SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
     check_irma_ch = IRMA.out.outputs.map { item ->
@@ -194,8 +193,11 @@ workflow sc2_spike_o {
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
-    //ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
-    //PREPONTREADS.out.irma_ch.view()
+    ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
+
+    // Run IRMA
+    IRMA(PREPONTREADS.out.irma_ch)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
     println 'SARS-CoV-2 Spike ONT workflow under construction'
 }
