@@ -13,6 +13,7 @@ workflow PREPILLUMINAREADS {
 
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    primer_ch = Channel.fromPath(params.p, checkIfExists: true)
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
 
@@ -45,6 +46,9 @@ workflow PREPILLUMINAREADS {
     SUBSAMPLEPAIREDREADS(subsample_ch)
     fastqs_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq
     ch_versions = ch_versions.unique().mix(SUBSAMPLEPAIREDREADS.out.versions)
+
+    if (primer_ch.true) {
+    }
 
     //// Make IRMA input channel
     //restructing read 1 and read2 so that they are passed as one thing
