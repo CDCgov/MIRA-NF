@@ -221,6 +221,18 @@ workflow sc2_spike_o {
 }
 
 workflow sc2_wgs_o {
+    //Initializing parameters
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
+
+    // MODULE: Concat all fastq files by barcode
+    set_up_ch = samplesheet_ch
+        .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+    new_ch = set_up_ch.map { item ->
+        [item.barcode, item.sample_id] }
+    CONCATFASTQS(new_ch)
     println 'SARS-CoV-2 WGS ONT workflow under construction'
 }
 
@@ -271,8 +283,6 @@ workflow sc2_wgs_i {
 
     //work on this more later
     ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
-
-    println 'SARS-CoV-2 WGS Illumina workflow under construction'
 }
 
 workflow CLI {
