@@ -7,10 +7,10 @@ process SUBSAMPLEPAIREDREADS {
     publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
 
     input:
-    tuple val(sample), path(R1), path(R2), val(target)
+    tuple val(sample), path(R1), path(R2), val(target), path(primers)
 
     output:
-    tuple val(sample), path('*_subsampled_R1.fastq'), path('*_subsampled_R2.fastq'), emit: subsampled_fastqs
+    tuple val(sample), path('*_subsampled_R1.fastq'), path('*_subsampled_R2.fastq'), path(primers), emit: subsampled_fastq
     path '*.reformat.stdout.log', emit: subsample_log_out
     path '*.reformat.stderr.log', emit: subsample_log_err
     path 'versions.yml'           , emit: versions

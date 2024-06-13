@@ -7,11 +7,10 @@ process TRIMPRIMERSLEFT {
     publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
 
     input:
-    tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2)
-    path(primers)
+    tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers)
 
     output:
-    tuple val(sample), path('*ptrim_l_R1.fastq'), path('*ptrim_l_R2.fastq'), emit: trim_l_fastqs
+    tuple val(sample), path('*ptrim_l_R1.fastq'), path('*ptrim_l_R2.fastq'), path(primers), emit: trim_l_fastqs
     path '*.primertrim_left.stdout.log', emit: primertrim_l_log_out
     path '*.primertrim_left.stderr.log', emit: primertrim_l_log_err
     path 'versions.yml'           , emit: versions
