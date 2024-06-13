@@ -252,6 +252,19 @@ workflow sc2_wgs_i {
     IRMA(PREPILLUMINAREADS.out.irma_ch)
     ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    check_irma_ch = IRMA.out.outputs.map { item ->
+        def sample = item[0]
+        def paths = item[1]
+        def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
+        return tuple(sample, directory)
+    }
+    CHECKIRMA(check_irma_ch)
+
+    // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
     println 'SARS-CoV-2 WGS Illumina workflow under construction'
 }
 
