@@ -17,7 +17,7 @@ fastq = args.fastq
 runid = args.runid
 exp_type = args.exp_type
 wd_path = args.wd_path
-config_path_sc_wgs_i = wd_path + "/bin/irma_config/s-gene-container.sh"
+config_path_sc_wgs_i = wd_path + "/bin/irma_config/SC2-2x75.sh"
 
 try:
     with open(fastq) as infi:
