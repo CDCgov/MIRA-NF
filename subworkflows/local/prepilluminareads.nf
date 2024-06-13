@@ -6,6 +6,8 @@
 
 include { FINDCHEMISTRYI       } from "${launchDir}/modules/local/findchemistryi"
 include { SUBSAMPLEPAIREDREADS } from "${launchDir}/modules/local/subsamplepairedreads"
+include { TRIMPRIMERSLEFT      } from "${launchDir}/modules/local/trimprimersleft"
+include { TRIMPRIMERSRIGHT     } from "${launchDir}/modules/local/trimprimersright"
 
 workflow PREPILLUMINAREADS {
     take:
@@ -13,7 +15,7 @@ workflow PREPILLUMINAREADS {
 
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
-    primer_ch = Channel.fromPath(params.p, checkIfExists: true)
+    primers = Channel.empty()
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
 
@@ -44,31 +46,57 @@ workflow PREPILLUMINAREADS {
         .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1].subsample] }
 
     SUBSAMPLEPAIREDREADS(subsample_ch)
-    fastqs_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq
     ch_versions = ch_versions.unique().mix(SUBSAMPLEPAIREDREADS.out.versions)
 
-    if (primer_ch.true) {
-    }
+    //If primer are given then the reads will go through a trimming step.
+    //If not they are passed to the irma channel immediately
+    if (params.p) {
+        //// Trim primers
+        //left trim
+        primer_trim_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
+            [sample:item[0], subsampled_fastq_1:item[1], subsampled_fastq_2:item[2]]
+        }
 
-    //// Make IRMA input channel
-    //restructing read 1 and read2 so that they are passed as one thing
-    read_1_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
-        [ item[0], item[1]]
-    }
-    read_2_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
-        [item[0], item[2]]
-    }
-    reads_ch = read_1_ch.concat(read_2_ch)
-    reads_combined_ch = reads_ch.groupTuple(by: 0)
-    reads_combined_ch.map { item ->
-        [ sample_ID: item[0], subsampled_fastq_files: item[1]]
-    }
+        if (params.p == 'artic3') {
+            primers = Channel.fromPath('./data/primers/articv3.fasta', checkIfExists: true)
+        } else if (params.p == 'atric4') {
+            primers = Channel.fromPath('./data/primers/articv4.fasta', checkIfExists: true)
+        } else if (params.p == 'atric4.1') {
+            primers = Channel.fromPath('./data/primers/articv4.1.fasta', checkIfExists: true)
+        } else if (params.p == 'atric5.3.2') {
+            primers = Channel.fromPath('./data/primers/articv5.3.2.fasta', checkIfExists: true)
+        } else if (params.p == 'qiagen') {
+            primers = Channel.fromPath('./data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta', checkIfExists: true)
+        } else if (params.p == 'swift') {
+            primers = Channel.fromPath('./data/primers/SNAP_v2_amplicon_panel.fasta', checkIfExists: true)
+        } else if (params.p == 'swift_211206') {
+            primers = Channel.fromPath('./data/primers/swift_211206.fasta', checkIfExists: true)
+        }  else if (params.p == 'varskip') {
+            primers = Channel.fromPath('./data/primers/neb_vss1a.primer.fasta', checkIfExists: true)
+        }
+
+        TRIMPRIMERSLEFT(primer_trim_ch, primers)
+    } else {
+        //// Make IRMA input channel without trimming primers
+        //restructing read 1 and read2 so that they are passed as one thing
+        read_1_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
+            [ item[0], item[1]]
+        }
+        read_2_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
+            [item[0], item[2]]
+        }
+        reads_ch = read_1_ch.concat(read_2_ch)
+        reads_combined_ch = reads_ch.groupTuple(by: 0)
+        reads_combined_ch.map { item ->
+            [ sample_ID: item[0], subsampled_fastq_files: item[1]]
+        }
     .set { final_combined_reads_ch }
 
-    //combining chemistry info with read info
-    irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
+        //combining chemistry info with read info
+        irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+    }
 
     //creating dais module input
     if (params.e == 'Flu_Illumina') {
@@ -79,6 +107,6 @@ workflow PREPILLUMINAREADS {
 
     emit:
     dais_module         // channel: sample chemistry csv for later
-    irma_ch                   // channel: variables need to run IRMA
+    //irma_ch                   // channel: variables need to run IRMA
     versions = ch_versions    // channel: [ versions.yml ]
 }

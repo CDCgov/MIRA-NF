@@ -47,7 +47,7 @@ workflow PREPONTREADS {
                 .map { [it[0].sample_ID, it[0].barcodes, it[0].fastq_file_path, it[1].subsample] }
     SUBSAMPLESINGLEREADS(subsample_ch)
 
-    //// Trim reads and adapters
+    //// Trim barcodes
     //left trim
     new_ch4 = SUBSAMPLESINGLEREADS.out.subsampled_fastq.map { item ->
         [sample:item[0], barcode:item[1], subsample_file_path:item[2]]
