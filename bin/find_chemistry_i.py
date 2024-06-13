@@ -30,11 +30,11 @@ if len(contents[1]) > 145 and exp_type == "Flu_Illumina":
     irma_custom_0 = ""
     irma_custom_1 = ""
     subsample = "100000"
-elif len(contents[5]) > 145 and exp_type == "SC2-Whole-Genome-Illumina":
+elif len(contents[1]) > 80 and exp_type == "SC2-Whole-Genome-Illumina":
     irma_custom_0 = ""
     irma_custom_1 = ""
     subsample = "100000"
-elif 145 > len(contents[1]) > 70 and exp_type == "SC2-Whole-Genome-Illumina":
+elif len(contents[1]) < 80 and exp_type == "SC2-Whole-Genome-Illumina":
     irma_custom_0 = ""
     irma_custom_1 = f"--external-config {config_path_sc_wgs_i}"
     subsample = "200000"

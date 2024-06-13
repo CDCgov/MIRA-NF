@@ -64,7 +64,7 @@ workflow flu_i {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
-    // Convert the samplesheet to a nextflow format
+    // MODULE: Convert the samplesheet to a nextflow format
     NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
     ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
 
@@ -81,7 +81,7 @@ workflow flu_i {
     PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
     ch_versions = ch_versions.unique().mix(PREPILLUMINAREADS.out.versions)
 
-    // Run IRMA
+    // MODULE: Run IRMA
     IRMA(PREPILLUMINAREADS.out.irma_ch)
     ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
@@ -94,11 +94,11 @@ workflow flu_i {
     }
     CHECKIRMA(check_irma_ch)
 
-    //Run Dais Ribosome
+    // MODULE: Run Dais Ribosome
     DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
-    //Create reports
+    // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
 
@@ -115,14 +115,14 @@ workflow flu_o {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
-    //Concat all fastq files by barcode
+    // MODULE: Concat all fastq files by barcode
     set_up_ch = samplesheet_ch
         .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
     new_ch = set_up_ch.map { item ->
         [item.barcode, item.sample_id] }
     CONCATFASTQS(new_ch)
 
-    // Convert the samplesheet to a nextflow format
+    // MODULE: Convert the samplesheet to a nextflow format
     NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
     ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
 
@@ -139,11 +139,11 @@ workflow flu_o {
     PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
-    // Run IRMA
+    // MODULE: Run IRMA
     IRMA(PREPONTREADS.out.irma_ch)
     ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
-    //SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
     check_irma_ch = IRMA.out.outputs.map { item ->
         def sample = item[0]
         def paths = item[1]
@@ -152,11 +152,11 @@ workflow flu_o {
     }
     CHECKIRMA(check_irma_ch)
 
-    //Run Dais Ribosome
+    // MODULE: Run Dais Ribosome
     DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
-    //Create reports
+    //SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
 
@@ -247,6 +247,10 @@ workflow sc2_wgs_i {
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
     ch_versions = ch_versions.unique().mix(PREPILLUMINAREADS.out.versions)
+
+    // MODULE: Run IRMA
+    IRMA(PREPILLUMINAREADS.out.irma_ch)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
     println 'SARS-CoV-2 WGS Illumina workflow under construction'
 }

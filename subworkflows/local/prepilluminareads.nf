@@ -39,7 +39,7 @@ workflow PREPILLUMINAREADS {
             primers = Channel.fromPath('./data/primers/neb_vss1a.primer.fasta', checkIfExists: true)
         }
     } else {
-        primers = 'NA'
+        primers = Channel.fromPath('./data/primers/', checkIfExists: true)
     }
 
     // Find chemistry
@@ -78,7 +78,30 @@ workflow PREPILLUMINAREADS {
     if (params.p) {
         //// Trim primers
         //left trim
+        SUBSAMPLEPAIREDREADS.out.subsampled_fastq
         TRIMPRIMERSLEFT(SUBSAMPLEPAIREDREADS.out.subsampled_fastq)
+        //right trim
+        TRIMPRIMERSRIGHT(TRIMPRIMERSLEFT.out.trim_l_fastqs)
+
+        //// Make IRMA input channel without trimming primers
+        //restructing read 1 and read2 so that they are passed as one thing
+        read_1_ch = TRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
+            [ item[0], item[1]]
+        }
+        read_2_ch = TRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
+            [item[0], item[2]]
+        }
+        reads_ch = read_1_ch.concat(read_2_ch)
+        reads_combined_ch = reads_ch.groupTuple(by: 0)
+        reads_combined_ch.map { item ->
+            [ sample_ID: item[0], subsampled_fastq_files: item[1]]
+        }
+        .set { final_combined_reads_ch }
+
+        //combining chemistry info with read info
+        irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
+        .filter { it[0].sample_ID == it[1].sample_ID }
+        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
     } else {
         //// Make IRMA input channel without trimming primers
         //restructing read 1 and read2 so that they are passed as one thing
@@ -93,7 +116,7 @@ workflow PREPILLUMINAREADS {
         reads_combined_ch.map { item ->
             [ sample_ID: item[0], subsampled_fastq_files: item[1]]
         }
-    .set { final_combined_reads_ch }
+        .set { final_combined_reads_ch }
 
         //combining chemistry info with read info
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
@@ -110,6 +133,6 @@ workflow PREPILLUMINAREADS {
 
     emit:
     dais_module         // channel: sample chemistry csv for later
-    //irma_ch                   // channel: variables need to run IRMA
+    irma_ch                   // channel: variables need to run IRMA
     versions = ch_versions    // channel: [ versions.yml ]
 }

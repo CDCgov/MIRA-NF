@@ -23,34 +23,38 @@ process TRIMPRIMERSLEFT {
 
     """
     bbduk.sh \\
-        in1=${subsampled_fastq_1} in2= ${subsampled_fastq_2} \\
-        out1=${sample}_ptrim_l_R1.fastq out2=${sample}_ptrim_l_R2.fastq \\
-        rcomp=t \\
-        qtrim=r \\
+        in=${subsampled_fastq_1} \\
+        in2=${subsampled_fastq_2} \\
+        out=${sample}_ptrim_l_R1.fastq \\
+        out2=${sample}_ptrim_l_R2.fastq \\
+        ktrim=l \\
+        minlen=60 \\
+        trimpolyg=10 \\
         mm=f \\
         hdist=1 \\
+        rcomp=t \\
         ref=${primers} \\
         ordered=t \\
         minlength=0 \\
         k=17 \\
-        restrictright=30 \\
+        restrictleft=30 \\
         1> ${sample}.primertrim_left.stdout.log \\
         2> ${sample}.primertrim_left.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        trimprimersleft: \$(bbtools --version |& sed '1!d ; s/samtools //')
+        trimprimersleft: \$(bbtools --version |& sed '1!d ; s/bbtools //')
     END_VERSIONS
     """
 
     stub:
     def args = task.ext.args ?: ''
     """
-    touch ${prefix}.bam
+    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        trimprimersleft: \$(samtools --version |& sed '1!d ; s/samtools //')
+        trimprimersleft: \$(bbtools --version |& sed '1!d ; s/bbtools //')
     END_VERSIONS
     """
 }
