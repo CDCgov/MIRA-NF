@@ -62,13 +62,13 @@ Second, move samplesheet into a run folder with fastq files:
 
 Illumina should be set up as follows:
 
-1. <RUN_PATH>/run/fastqs <- all fastqs should be out at this level
-2. <RUN_PATH>/run/samplesheet.csv
+1. <RUN_PATH>/fastqs <- all fastqs should be out at this level
+2. <RUN_PATH>/samplesheet.csv
 
 Oxford Nanopore should be set up as follows:
 
-1. <RUN_PATH>/run/fastq_pass <- fastqs should be within barcode folders as given by ONT machine
-2. <RUN_PATH>/run/samplesheet.csv
+1. <RUN_PATH>/fastq_pass <- fastqs should be within barcode folders as given by ONT machine
+2. <RUN_PATH>/samplesheet.csv
 
 Third, pull the mira-cli work flow from github using:
 
