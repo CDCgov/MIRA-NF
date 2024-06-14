@@ -18,6 +18,7 @@ runid = args.runid
 exp_type = args.exp_type
 wd_path = args.wd_path
 config_path_sc_spike = wd_path + "/bin/irma_config/s-gene-container.sh"
+config_path_sc_wgs = wd_path + "/bin/irma_config/SC2-WGS-Nanopore.sh"
 
 try:
     with open(fastq) as infi:
@@ -36,7 +37,7 @@ elif exp_type == "SC2-Spike-Only-ONT":
     subsample = "5000"
 elif exp_type == "SC2-Whole-Genome-ONT":
     irma_custom_0 = ""
-    irma_custom_1 = ""
+    irma_custom_1 = f"--external-config {config_path_sc_wgs}"
     subsample = "50000"
 # elif len(contents[1]) > 70:
 #    config_path = "/home/try8/spyne_nextflow/workflow/irma_contif/FLU-2x75.sh"

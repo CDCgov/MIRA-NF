@@ -240,12 +240,37 @@ workflow sc2_wgs_o {
 
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    //INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    //ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads, summary_params)
-    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    //READQC(INPUT_CHECK.out.reads, summary_params)
+    //ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
+    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
+
+    // MODULE: Run IRMA
+    IRMA(PREPONTREADS.out.irma_ch)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
+
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    check_irma_ch = IRMA.out.outputs.map { item ->
+        def sample = item[0]
+        def paths = item[1]
+        def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
+        return tuple(sample, directory)
+    }
+    CHECKIRMA(check_irma_ch)
+
+    // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //SUBWORKFLOW: Create reports
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
 
     println 'SARS-CoV-2 WGS ONT workflow under construction'
 }
