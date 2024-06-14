@@ -14,7 +14,7 @@ process PREPEMAIL {
     rm ${launchDir}/summary.xlsx
     cp ${params.outdir}/*_summary.xlsx ${launchDir}/summary.xlsx
     ## Remove folder if created
-    if [ -d -e ${params.outdir}/prepareirmajson ]; then
+    if [ -d ${params.outdir}/prepareirmajson ]; then
     rm -r ${params.outdir}/prepareirmajson
     fi
     """
