@@ -23,12 +23,14 @@
 
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+3.
 
 ## Usage
 
 :::note
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
+<!-- TODO: add test configuration -->
 :::
 
 First, prepare a samplesheet with your input data that looks as follows:
@@ -60,29 +62,51 @@ Second, move samplesheet into a run folder with fastq files:
 
 Illumina should be set up as follows:
 
-1. <RUN_PATH>/run/fastqs
+1. <RUN_PATH>/run/fastqs <- all fastqs should be out at this level
 2. <RUN_PATH>/run/samplesheet.csv
 
 Oxford Nanopore should be set up as follows:
 
-1. <RUN_PATH>/run/fastq_pass
+1. <RUN_PATH>/run/fastq_pass <- fastqs should be within barcode folders as given by ONT machine
 2. <RUN_PATH>/run/samplesheet.csv
 
-Now, you can run the pipeline using:
-
-Now, you can run the pipeline using:
-
-Before running the command below you will need to load nextflow.
+Third, pull the mira-cli work flow from github using:
 
 ```bash
+git clone https://github.com/cdcent/mira-cli.git
+cd mira-cli
+git checkout dev
+```
+
+cd **using dev branch temporary
+
+Now, you can run the pipeline using two methods: locally or within a high computing cluster
+
+To run locally you will need to install Nextflow on your computer (see link above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
+
+```bash
+module load nextflow/23.10.0 <later versions may be used>
 nextflow run mira/cli \
    -profile <singularity/hpc> \ always run with singularity profile. hpc profile for running on computing cluster.
-   --input samplesheet.csv \
+   --input samplesheet.csv \ <RUN_PATH>/samplesheet.csv described above
    --outdir <OUTDIR> \ The <RUN_PATH> described above. Your fastq_folder and samplesheet.csv should be in here
    --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
    --p <PRIMER_SHEMA> (optional) \ options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
    --process_q <QUEUE> (optional) \ provide queue name if hpc profile has been selected
    --email <EMAIL_ADDRESS> (optional) \ provide an email if you would like to receive an email with the irma summary upon completion
+```
+
+To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
+
+```bash
+qsub MIRA_nextflow.sh \
+   -f singularity,hpc \ these profiles must be used in this case
+   -i samplesheet.csv \ <RUN_PATH>/samplesheet.csv described above
+   -o <OUTDIR> \ The <RUN_PATH> described above. Your fastq_folder and samplesheet.csv should be in here
+   -e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+   -p <PRIMER_SHEMA> (optional) \ options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
+   -q <QUEUE> (optional) \ provide queue name if hpc profile has been selected
+   -m <EMAIL_ADDRESS> (optional) \ provide an email if you would like to receive an email with the irma summary upon completion
 ```
 
 > [!WARNING]
