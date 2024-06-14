@@ -78,15 +78,15 @@ cd mira-cli
 git checkout dev
 ```
 
-cd **using dev branch temporary
+**using dev branch temporary
 
-Now, you can run the pipeline using two methods: locally or within a high computing cluster
+Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-cli folder.
 
 To run locally you will need to install Nextflow on your computer (see link above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
 ```bash
 module load nextflow/23.10.0 <later versions may be used>
-nextflow run mira/cli \
+nextflow run ./main.nf \
    -profile <singularity/hpc> \ always run with singularity profile. hpc profile for running on computing cluster.
    --input samplesheet.csv \ <RUN_PATH>/samplesheet.csv described above
    --outdir <OUTDIR> \ The <RUN_PATH> described above. Your fastq_folder and samplesheet.csv should be in here
