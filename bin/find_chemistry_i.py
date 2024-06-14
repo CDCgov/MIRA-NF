@@ -17,7 +17,8 @@ fastq = args.fastq
 runid = args.runid
 exp_type = args.exp_type
 wd_path = args.wd_path
-config_path_sc_wgs_i = wd_path + "/bin/irma_config/SC2-2x75.sh"
+config_path_sc_wgs_i = wd_path + "/bin/irma_config/FLU-2x75.sh"
+config_path_flu_75 = wd_path + "/bin/irma_config/SC2-2x75.sh"
 
 try:
     with open(fastq) as infi:
@@ -27,6 +28,10 @@ except:
         contents = infi.readlines()
 
 if len(contents[1]) > 145 and exp_type == "Flu_Illumina":
+    irma_custom_0 = ""
+    irma_custom_1 = f"--external-config {config_path_flu_75}"
+    subsample = "100000"
+elif 145 > len(contents[1]) > 70 and exp_type == "Flu_Illumina":
     irma_custom_0 = ""
     irma_custom_1 = ""
     subsample = "100000"
