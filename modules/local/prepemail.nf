@@ -5,6 +5,7 @@ process PREPEMAIL {
 
     input:
     path('*')
+    path(collated_versions)
 
     output:
     stdout
@@ -17,5 +18,6 @@ process PREPEMAIL {
     if [ -d ${params.outdir}/prepareirmajson ]; then
     rm -r ${params.outdir}/prepareirmajson
     fi
+    cat ${collated_versions} > ${params.outdir}/collated_program_versions.yml
     """
 }

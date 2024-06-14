@@ -3,7 +3,7 @@ process NEXTFLOWSAMPLESHEETO {
     label 'process_single'
     container 'cdcgov/spyne:latest'
 
-    publishDir "${params.outdir}", mode: 'copy'
+    publishDir "${params.outdir}", pattern: '.csv', mode: 'copy'
 
     input:
     path samplesheet
@@ -34,7 +34,7 @@ process NEXTFLOWSAMPLESHEETO {
     def args = task.ext.args ?: ''
 
     """
-    touch ${prefix}.bam
+    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

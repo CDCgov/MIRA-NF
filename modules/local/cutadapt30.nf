@@ -13,6 +13,7 @@ process CUTADAPT30 {
     tuple val(sample), val(barcode), path('*bartrim_lr_cutadapt.fastq'), emit: cutadapt_fastq
     path '*.cutadapt.stdout.log', emit: cut_adapt_log_out
     path '*.cutadapt.stderr.log', emit: cut_adapt_log_err
+    path 'versions.yml'           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

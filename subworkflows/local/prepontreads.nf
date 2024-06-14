@@ -60,6 +60,7 @@ workflow PREPONTREADS {
         .filter { it[0].barcode == it[1].barcode }
         .map { [it[0].sample, it[0].barcode, it[0].subsample_file_path, it[1].seq_f] }
     TRIMLEFT(trim_ch_l)
+    ch_versions = ch_versions.unique().mix(TRIMLEFT.out.versions)
 
     //right trim
     new_ch5 = TRIMLEFT.out.trim_l_fastq.map { item ->
@@ -69,12 +70,14 @@ workflow PREPONTREADS {
         .filter { it[0].barcode == it[1].barcode }
         .map { [it[0].sample, it[0].barcode, it[0].trim_l_file_path, it[1].seq_rc] }
     TRIMRIGHT(trim_ch_r)
+    ch_versions = ch_versions.unique().mix(TRIMRIGHT.out.versions)
 
     //cutadapt
     new_ch6 = TRIMRIGHT.out.trim_r_fastq.map { item ->
         [sample:item[0], barcode:item[1], trim_lr_file_path:item[2]]
     }
     CUTADAPT30(new_ch6)
+    ch_versions = ch_versions.unique().mix(CUTADAPT30.out.versions)
 
     // Create IRMA channel
     new_ch7 = CUTADAPT30.out.cutadapt_fastq.map { item ->

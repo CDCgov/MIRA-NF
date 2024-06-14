@@ -11,13 +11,13 @@ include { PREPEMAIL         } from "${launchDir}/modules/local/prepemail"
 
 workflow PREPAREREPORTS {
     take:
-    dais_outputs_ch
+    dais_outputs_ch // channel: holds dais outputs
+    ch_versions // channel: holds all previous version
 
     main:
     platform = Channel.empty()
     virus = Channel.empty()
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
-    ch_versions = Channel.empty()
 
     //creating platform value
     if (params.e == 'Flu_Illumina') {
@@ -54,7 +54,8 @@ workflow PREPAREREPORTS {
     PARQUETMAKER(STATICHTML.out.html, run_ID_ch)
     ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
-    PREPEMAIL(PARQUETMAKER.out.summary_parq)
+    versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
+    PREPEMAIL(PARQUETMAKER.out.summary_parq, versions_path_ch)
 
     emit:
     versions = ch_versions                     // channel: [ versions.yml ]

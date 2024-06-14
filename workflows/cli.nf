@@ -58,7 +58,7 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custo
 //outdir is the run direcotry
 
 workflow flu_i {
-    //Initializing parameters
+    // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
@@ -85,7 +85,7 @@ workflow flu_i {
     IRMA(PREPILLUMINAREADS.out.irma_ch)
     ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
-    //SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
     check_irma_ch = IRMA.out.outputs.map { item ->
         def sample = item[0]
         def paths = item[1]
@@ -99,17 +99,11 @@ workflow flu_i {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
-    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
-
-    //work on this more later
-    ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
-
-//
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 }
 
 workflow flu_o {
-    //Initializing parameters
+    // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
@@ -127,7 +121,6 @@ workflow flu_o {
     ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
 
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
     INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
@@ -157,21 +150,17 @@ workflow flu_o {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
-    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
-
-    //work on this more later
-    ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 }
 
 workflow sc2_spike_o {
-    //Initializing parameters
+    // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
-    //Concat all fastq files by barcode
+    // MODULE: Concat all fastq files by barcode
     set_up_ch = samplesheet_ch
         .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
     new_ch = set_up_ch.map { item ->
@@ -183,7 +172,6 @@ workflow sc2_spike_o {
     ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
 
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
     INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
@@ -213,15 +201,11 @@ workflow sc2_spike_o {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
-    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
-
-    //work on this more later
-    ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 }
 
 workflow sc2_wgs_o {
-    //Initializing parameters
+    // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
@@ -269,8 +253,7 @@ workflow sc2_wgs_o {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
-    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 }
 
 workflow sc2_wgs_i {
@@ -285,7 +268,6 @@ workflow sc2_wgs_i {
     ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
 
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
     INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
@@ -315,13 +297,11 @@ workflow sc2_wgs_i {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect())
-    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.versions)
-
-    //work on this more later
-    ch_versions.unique().collectFile(name: 'collated_versions.yml').view()
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 }
 
+// MAIN WORKFLOW
+// Decides which experiment type workflow to run based on experiemtn parameter given
 workflow CLI {
     if (params.e == 'Flu_Illumina') {
         flu_i()

@@ -3,7 +3,9 @@ process STATICHTML {
     label 'process_single'
     container 'cdcgov/mira:latest'
 
-    publishDir "${params.outdir}", mode: 'copy'
+    publishDir "${params.outdir}", pattern: '*.html', mode: 'copy'
+    publishDir "${params.outdir}", pattern: '*.xlsx', mode: 'copy'
+    publishDir "${params.outdir}", pattern: '*.fasta', mode: 'copy'
 
     input:
     val x

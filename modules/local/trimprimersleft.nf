@@ -43,7 +43,7 @@ process TRIMPRIMERSLEFT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        trimprimersleft: \$(bbtools --version |& sed '1!d ; s/bbtools //')
+        trimprimersleft: \$(bbversion.sh --version |& sed '1!d ; s/bbtools //')
     END_VERSIONS
     """
 
@@ -54,7 +54,7 @@ process TRIMPRIMERSLEFT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        trimprimersleft: \$(bbtools --version |& sed '1!d ; s/bbtools //')
+        trimprimersleft: \$(bbversion.sh --version |& sed '1!d ; s/bbtools //')
     END_VERSIONS
     """
 }

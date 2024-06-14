@@ -36,7 +36,7 @@ process TRIMRIGHT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        trimright: \$(bbtools --version |& sed '1!d ; s/bbtools //')
+        trimright_bbduk: \$(bbversion.sh |& sed '1!d ; s/bbtools //')
     END_VERSIONS
     """
 
@@ -44,11 +44,11 @@ process TRIMRIGHT {
     def args = task.ext.args ?: ''
 
     """
-    touch ${prefix}.bam
+    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        trimright: \$(bbtools --version |& sed '1!d ; s/bbtools //')
+        trimright_bbduk: \$(bbversion.sh |& sed '1!d ; s/bbtools //')
     END_VERSIONS
     """
 }

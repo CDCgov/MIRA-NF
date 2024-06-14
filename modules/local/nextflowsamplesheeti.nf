@@ -39,7 +39,7 @@ process NEXTFLOWSAMPLESHEETI {
     def args = task.ext.args ?: ''
 
     """
-    touch ${prefix}.bam
+    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

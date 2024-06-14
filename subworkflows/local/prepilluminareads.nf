@@ -78,13 +78,14 @@ workflow PREPILLUMINAREADS {
     if (params.p) {
         //// Trim primers
         //left trim
-        SUBSAMPLEPAIREDREADS.out.subsampled_fastq
         TRIMPRIMERSLEFT(SUBSAMPLEPAIREDREADS.out.subsampled_fastq)
+        ch_versions = ch_versions.mix(TRIMPRIMERSLEFT.out.versions)
         //right trim
         TRIMPRIMERSRIGHT(TRIMPRIMERSLEFT.out.trim_l_fastqs)
+        ch_versions = ch_versions.mix(TRIMPRIMERSRIGHT.out.versions)
 
         //// Make IRMA input channel without trimming primers
-        //restructing read 1 and read2 so that they are passed as one thing
+        //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
         read_1_ch = TRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
             [ item[0], item[1]]
         }
@@ -104,7 +105,7 @@ workflow PREPILLUMINAREADS {
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
     } else {
         //// Make IRMA input channel without trimming primers
-        //restructing read 1 and read2 so that they are passed as one thing
+        //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
         read_1_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
             [ item[0], item[1]]
         }

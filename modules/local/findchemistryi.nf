@@ -21,7 +21,7 @@ process FINDCHEMISTRYI {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        findchemistryi: \$(samtools --version |& sed '1!d ; s/samtools //')
+        findchemistryi: \$(python3 --version |& sed '1!d ; s/python3 //')
     END_VERSIONS
     """
 
@@ -33,7 +33,7 @@ process FINDCHEMISTRYI {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        findchemistryi: \$(samtools --version |& sed '1!d ; s/samtools //')
+        findchemistryi: \$(python3 --version |& sed '1!d ; s/python3 //')
     END_VERSIONS
     """
 }
