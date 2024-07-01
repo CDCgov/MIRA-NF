@@ -27,11 +27,11 @@ except:
     with gzip.open(fastq) as infi:
         contents = infi.readlines()
 
-if len(contents[1]) > 145 and exp_type == "Flu_Illumina":
+if 145 <= len(contents[1]) and exp_type == "Flu_Illumina":
     irma_custom_0 = ""
     irma_custom_1 = ""
     subsample = "100000"
-elif 145 > len(contents[1]) > 70 and exp_type == "Flu_Illumina":
+elif 70 <= len(contents[1]) < 145 and exp_type == "Flu_Illumina":
     irma_custom_0 = ""
     irma_custom_1 = f"--external-config {config_path_flu_75}"
     subsample = "100000"
