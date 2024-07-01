@@ -1,6 +1,6 @@
 process SUBSAMPLEPAIREDREADS {
     tag { "${sample}" }
-    label 'process_low'
+    label 'process_medium'
     container 'staphb/bbtools:39.01'
 
     publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
