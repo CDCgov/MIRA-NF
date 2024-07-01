@@ -75,7 +75,7 @@ workflow PREPILLUMINAREADS {
 
     //If primer are given then the reads will go through a trimming step.
     //If not they are passed to the irma channel immediately
-    if (params.p) {
+    if (params.e == 'SC2-Whole-Genome-Illumina') {
         //// Trim primers
         //left trim
         TRIMPRIMERSLEFT(SUBSAMPLEPAIREDREADS.out.subsampled_fastq)
@@ -103,7 +103,7 @@ workflow PREPILLUMINAREADS {
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
-    } else {
+    } else if (params.e == 'Flu_Illumina') {
         //// Make IRMA input channel without trimming primers
         //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
         read_1_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
