@@ -39,10 +39,6 @@ elif exp_type == "SC2-Whole-Genome-ONT":
     irma_custom_0 = ""
     irma_custom_1 = f"--external-config {config_path_sc_wgs}"
     subsample = "50000"
-# elif len(contents[1]) > 70:
-#    config_path = "/home/try8/spyne_nextflow/workflow/irma_contif/FLU-2x75.sh"
-#    irma_custom = [f"mkdir -p /home/try8/results/IRMA && cp {config_path} /home/try8/results/IRMA/ &&", f"--external-config /data/{runid}/IRMA/FLU-2x75.sh"]
-#    subsample = "200000"
 
 if exp_type == "Flu-ONT":
     IRMA_module = "FLU-minion"
