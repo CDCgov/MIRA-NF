@@ -23,7 +23,8 @@
 
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
-3.
+3. Trimming and Quality Filtering (['bbduk'])
+4. Genome Assembly (['IRMA'](https://wonder.cdc.gov/amd/flu/irma/))
 
 ## Usage
 
