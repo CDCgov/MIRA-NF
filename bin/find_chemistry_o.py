@@ -17,6 +17,7 @@ fastq = args.fastq
 runid = args.runid
 exp_type = args.exp_type
 wd_path = args.wd_path
+config_path_flu_minion = wd_path + "/bin/irma_config/FLU-minion-container.sh"
 config_path_sc_spike = wd_path + "/bin/irma_config/s-gene-container.sh"
 config_path_sc_wgs = wd_path + "/bin/irma_config/SC2-WGS-Nanopore.sh"
 
@@ -29,7 +30,7 @@ except:
 
 if exp_type == "Flu-ONT":
     irma_custom_0 = ""
-    irma_custom_1 = ""
+    irma_custom_1 = f"--external-config {config_path_flu_minion}"
     subsample = "50000"
 elif exp_type == "SC2-Spike-Only-ONT":
     irma_custom_0 = ""
