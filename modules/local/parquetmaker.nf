@@ -6,7 +6,7 @@ process PARQUETMAKER {
     publishDir "${params.outdir}/parq_files", pattern: '*.parq',  mode: 'copy'
 
     input:
-    val x
+    path(html_outputs)
     val run_path
 
     output:
@@ -21,24 +21,24 @@ process PARQUETMAKER {
     def run_name = run_path.getBaseName()
 
     """
-    if [ -f  ${params.outdir}/failed_amended_consensus.fasta ]; then
-    cat ${params.outdir}/MIRA_${run_name}_amended_consensus.fasta ${params.outdir}/MIRA_${run_name}_failed_amended_consensus.fasta > nt.fasta
+    if [ -f  failed_amended_consensus.fasta ]; then
+    cat MIRA_${run_name}_amended_consensus.fasta MIRA_${run_name}_failed_amended_consensus.fasta > nt.fasta
     fi
-    if [ ! -f  ${params.outdir}/failed_amended_consensus.fasta ]; then
-    cat ${params.outdir}/MIRA_${run_name}_amended_consensus.fasta > nt.fasta
+    if [ ! -f  failed_amended_consensus.fasta ]; then
+    cat MIRA_${run_name}_amended_consensus.fasta > nt.fasta
     fi
-    if [ -f  ${params.outdir}/failed_amino_acid_consensus.fasta ]; then
-    cat ${params.outdir}/MIRA_${run_name}_amino_acid_consensus.fasta ${params.outdir}/MIRA_${run_name}_amino_acid_consensus.fasta > aa.fasta
+    if [ -f  failed_amino_acid_consensus.fasta ]; then
+    cat MIRA_${run_name}_amino_acid_consensus.fasta MIRA_${run_name}_amino_acid_consensus.fasta > aa.fasta
     fi
-    if [ ! -f  ${params.outdir}/failed_amino_acid_consensus.fasta ]; then
-    cat ${params.outdir}/MIRA_${run_name}_amino_acid_consensus.fasta > aa.fasta
+    if [ ! -f  failed_amino_acid_consensus.fasta ]; then
+    cat MIRA_${run_name}_amino_acid_consensus.fasta > aa.fasta
     fi
     python3 ${launchDir}/bin/parquet_maker.py -f nt.fasta -o ${run_name}_amended_consensus.parq -r ${run_name}
     python3 ${launchDir}/bin/parquet_maker.py -f aa.fasta -o ${run_name}_amino_acid_consensus.parq -r ${run_name}
     python3 ${launchDir}/bin/parquet_maker.py -f ${params.outdir}/samplesheet.csv -o ${run_name}_samplesheet.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -f ${params.outdir}/*minorindels.xlsx -o ${run_name}_indels.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -f ${params.outdir}/*minorvariants.xlsx -o ${run_name}_variants.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -f ${params.outdir}/*summary.xlsx -o ${run_name}_summary.parq -r ${run_name}
+    python3 ${launchDir}/bin/parquet_maker.py -f *minorindels.xlsx -o ${run_name}_indels.parq -r ${run_name}
+    python3 ${launchDir}/bin/parquet_maker.py -f *minorvariants.xlsx -o ${run_name}_variants.parq -r ${run_name}
+    python3 ${launchDir}/bin/parquet_maker.py -f *summary.xlsx -o ${run_name}_summary.parq -r ${run_name}
     python3 ${launchDir}/bin/parquet_maker.py -p ${params.outdir} -r ${run_name}
     cat ${params.outdir}/IRMA/*/logs/run_info.txt > run_info_setup.txt
     head -n 65 run_info_setup.txt > run_info.txt
