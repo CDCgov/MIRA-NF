@@ -1,6 +1,7 @@
 process CUTADAPT30 {
     tag { "${sample}" }
     label 'process_low'
+    label 'error_retry'
     container 'cdcgov/spyne:latest'
 
     publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'

@@ -1,6 +1,7 @@
 process PREPEMAIL {
     tag { 'Prepare email for completeion of run' }
-
+    label 'process_single'
+    label 'error_retry'
     publishDir "${params.outdir}",  mode: 'copy'
 
     input:

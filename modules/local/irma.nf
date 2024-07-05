@@ -1,6 +1,7 @@
 process IRMA {
     tag { "${sample}" }
     label 'process_high'
+    label 'error_retry'
     container 'cdcgov/irma-latest'
 
     publishDir "${params.outdir}/IRMA",  mode: 'copy'

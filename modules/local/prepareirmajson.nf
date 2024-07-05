@@ -2,6 +2,7 @@ process PREPAREIRMAJSON {
     tag 'Creating Plotly-Dash readable figures and tables for IRMA-SPY'
     container 'cdcgov/spyne:latest'
     label 'process_low'
+    label 'error_retry'
 
     input:
     val x

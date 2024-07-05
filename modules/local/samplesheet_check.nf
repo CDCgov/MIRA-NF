@@ -1,6 +1,7 @@
 process SAMPLESHEET_CHECK {
     tag "$samplesheet"
     label 'process_single'
+    label 'error_retry'
 
     conda 'conda-forge::python=3.8.3'
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

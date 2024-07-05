@@ -1,6 +1,7 @@
 process FINDCHEMISTRYO {
     tag { "finding chemistry parameters for ${sample}" }
     label 'process_single'
+    label 'error_retry'
     publishDir "${params.outdir}/IRMA", mode: 'copy'
 
     input:

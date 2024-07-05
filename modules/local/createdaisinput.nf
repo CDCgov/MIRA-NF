@@ -1,6 +1,7 @@
 process CREATEDAISINPUT {
     tag { 'Collecting consensus genomes' }
     label 'process_single'
+    label 'error_retry'
 
     publishDir "${params.outdir}/IRMA/dais_results", mode: 'copy'
 

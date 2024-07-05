@@ -1,6 +1,7 @@
 process FINDCHEMISTRYI {
     tag 'finding chemistry parameters for '
     label 'process_single'
+    label 'error_retry'
     publishDir "${params.outdir}/IRMA", pattern: '*.csv', mode: 'copy'
 
     input:
