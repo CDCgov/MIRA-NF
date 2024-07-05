@@ -88,7 +88,7 @@ To run locally you will need to install Nextflow on your computer (see link abov
 ```bash
 module load nextflow/23.10.0 <later versions may be used>
 nextflow run ./main.nf \
-   -profile <singularity/hpc> \ always run with singularity profile. hpc profile for running on computing cluster.
+   -profile singularity,local \ these profiles must be used in this case
    --input samplesheet.csv \ <RUN_PATH>/samplesheet.csv described above
    --outdir <OUTDIR> \ The <RUN_PATH> described above. Your fastq_folder and samplesheet.csv should be in here
    --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
