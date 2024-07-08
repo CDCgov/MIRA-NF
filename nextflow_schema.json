@@ -31,6 +31,21 @@
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
                 },
+                "e": {
+                    "type": "string",
+                    "description": "The experiment type and data type. options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina",
+                    "fa_icon": "fas fa-file-signature"
+                },
+                "p": {
+                    "type": "string",
+                    "description": "The primer schema if given. options: options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206",
+                    "fa_icon": "fas fa-file-signature"
+                },
+                "process_q": {
+                    "type": "string",
+                    "description": "The name of the processing queue if using the hpc profile",
+                    "fa_icon": "fas fa-file-signature"
+                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",
