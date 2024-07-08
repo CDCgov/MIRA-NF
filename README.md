@@ -26,8 +26,6 @@
 
 ## Usage
 
-:::note
-> [!NOTE]
 > To run this pipeline you will need to have these programs installed:
 
 1. Nextflow - If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
@@ -35,8 +33,9 @@
 3. git - INformation about git installation can be found [here] (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
 
 Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data. If you would like to test the pipeline using our test data it can be downloaded from this link:
-**ADD**
-:::
+
+- Tiny test data from ONT Ilnfluenza genome and SARS-CoV-2-spike - 40Mb [Download](https://centersfordiseasecontrol.sharefile.com/d-s839d7319e9b04e2baba07b4d328f02c2).
+- Full test data set - the data set from above + full genomes of Influenza and SARS-CoV-2 from Illumina MiSeqs 1 Gb [Download] (<https://centersfordiseasecontrol.sharefile.com/d-s3c52c0b25c2243078f506d60bd787c62>).
 
 To run this pipeline:
 
