@@ -97,7 +97,7 @@ nextflow run ./main.nf \
    -profile singularity,local \ these profiles must be used in this case
    --input samplesheet.csv \ <RUN_PATH>/samplesheet.csv described above
    --outdir <OUTDIR> \ The <RUN_PATH> described above. Your fastq_folder and samplesheet.csv should be in here
-   --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+   --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
    --p <PRIMER_SHEMA> (optional) \ options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
    --process_q <QUEUE> (optional) \ provide queue name if hpc profile has been selected
    --email <EMAIL_ADDRESS> (optional) \ provide an email if you would like to receive an email with the irma summary upon completion

@@ -20,7 +20,7 @@ workflow PREPAREREPORTS {
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
 
     //creating platform value
-    if (params.e == 'Flu_Illumina') {
+    if (params.e == 'Flu-Illumina') {
         platform = 'illumina'
     } else if (params.e == 'SC2-Whole-Genome-Illumina') {
         platform = 'illumina'
@@ -33,7 +33,7 @@ workflow PREPAREREPORTS {
     }
 
     //creating virus value
-    if (params.e == 'Flu_Illumina') {
+    if (params.e == 'Flu-Illumina') {
         virus = 'flu'
     } else if (params.e == 'Flu-ONT') {
         virus = 'flu'

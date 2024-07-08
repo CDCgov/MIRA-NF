@@ -17,7 +17,7 @@ parser.add_argument(
 parser.add_argument(
     "-e",
     "--experiment_type",
-    help="Experiment type options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina",
+    help="Experiment type options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina",
 )
 
 inputarguments = parser.parse_args()
