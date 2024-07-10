@@ -22,7 +22,7 @@ process STATICHTML {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${launchDir}/bin/static_report.py -d ${run_ID_ch} -l ${launchDir}
+    python3 ${projectDir}/bin/static_report.py -d ${run_ID_ch} -l ${projectDir}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

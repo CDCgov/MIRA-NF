@@ -22,13 +22,13 @@ process NEXTFLOWSAMPLESHEETI {
 
     """
     #Removing if previous made
-    if [ -f -e ${launchDir}/summary.xlsx ]; then
-    rm ${launchDir}/summary.xlsx
+    if [ -f -e ${projectDir}/summary.xlsx ]; then
+    rm ${projectDir}/summary.xlsx
     fi
     #Set up so that email sends whether workflow finishes or not
-    cp ${launchDir}/assets/summary.xlsx ${launchDir}/summary.xlsx
+    cp ${projectDir}/assets/summary.xlsx ${projectDir}/summary.xlsx
     #Create nf samplesheet
-    python3 ${launchDir}/bin/create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${params.outdir}" -e "${experiment_type}"
+    python3 ${projectDir}/bin/create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${params.outdir}" -e "${experiment_type}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

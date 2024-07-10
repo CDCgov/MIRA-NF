@@ -13,8 +13,8 @@ process PREPEMAIL {
 
     script:
     """
-    rm ${launchDir}/summary.xlsx
-    cp ${params.outdir}/*_summary.xlsx ${launchDir}/summary.xlsx
+    rm ${projectDir}/summary.xlsx
+    cp ${params.outdir}/*_summary.xlsx ${projectDir}/summary.xlsx
     ## Remove folder if created
     if [ -d ${params.outdir}/prepareirmajson ]; then
     rm -r ${params.outdir}/prepareirmajson

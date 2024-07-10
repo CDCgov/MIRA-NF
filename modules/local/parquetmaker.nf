@@ -34,16 +34,16 @@ process PARQUETMAKER {
     if [ ! -f  failed_amino_acid_consensus.fasta ]; then
     cat MIRA_${run_name}_amino_acid_consensus.fasta > aa.fasta
     fi
-    python3 ${launchDir}/bin/parquet_maker.py -f nt.fasta -o ${run_name}_amended_consensus.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -f aa.fasta -o ${run_name}_amino_acid_consensus.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -f ${params.outdir}/samplesheet.csv -o ${run_name}_samplesheet.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -f *minorindels.xlsx -o ${run_name}_indels.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -f *minorvariants.xlsx -o ${run_name}_variants.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -f *summary.xlsx -o ${run_name}_summary.parq -r ${run_name}
-    python3 ${launchDir}/bin/parquet_maker.py -p ${params.outdir} -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -f nt.fasta -o ${run_name}_amended_consensus.parq -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -f aa.fasta -o ${run_name}_amino_acid_consensus.parq -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -f ${params.outdir}/samplesheet.csv -o ${run_name}_samplesheet.parq -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -f *minorindels.xlsx -o ${run_name}_indels.parq -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -f *minorvariants.xlsx -o ${run_name}_variants.parq -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -f *summary.xlsx -o ${run_name}_summary.parq -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -p ${params.outdir} -r ${run_name}
     cat ${params.outdir}/IRMA/*/logs/run_info.txt > run_info_setup.txt
     head -n 65 run_info_setup.txt > run_info.txt
-    python3 ${launchDir}/bin/parquet_maker.py -f run_info.txt -o ${run_name}_irma_config.parq -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -f run_info.txt -o ${run_name}_irma_config.parq -r ${run_name}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
