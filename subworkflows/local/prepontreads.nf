@@ -4,11 +4,11 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { FINDCHEMISTRYO       } from "${launchDir}/modules/local/findchemistryo"
-include { SUBSAMPLESINGLEREADS } from "${launchDir}/modules/local/subsamplesinglereads"
-include { TRIMLEFT             } from "${launchDir}/modules/local/trimleft"
-include { TRIMRIGHT            } from "${launchDir}/modules/local/trimright"
-include { CUTADAPT30           } from "${launchDir}/modules/local/cutadapt30"
+include { FINDCHEMISTRYO       } from '../../modules/local/findchemistryo'
+include { SUBSAMPLESINGLEREADS } from '../../modules/local/subsamplesinglereads'
+include { TRIMLEFT             } from '../../modules/local/trimleft'
+include { TRIMRIGHT            } from '../../modules/local/trimright'
+include { CUTADAPT30           } from '../../modules/local/cutadapt30'
 
 workflow PREPONTREADS {
     take:

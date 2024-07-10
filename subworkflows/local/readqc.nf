@@ -15,9 +15,9 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 include { paramsSummaryLog            } from 'plugin/nf-schema'
-include { FASTQC                      } from "${launchDir}/modules/nf-core/fastqc/main"
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custom/dumpsoftwareversions/main"
-include { MULTIQC                     } from "${launchDir}/modules/nf-core/multiqc/main"
+include { FASTQC                      } from '../../modules/nf-core/fastqc/main'
+include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../../modules/nf-core/custom/dumpsoftwareversions/main'
+include { MULTIQC                     } from '../../modules/nf-core/multiqc/main'
 
 workflow READQC {
     take:

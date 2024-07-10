@@ -4,9 +4,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CONFIRMIRMAOUTPUT  } from "${launchDir}/modules/local/confirmirmaoutput"
-include { PASSFAILED         } from "${launchDir}/modules/local/passfailed"
-include { CREATEDAISINPUT    } from "${launchDir}/modules/local/createdaisinput"
+include { CONFIRMIRMAOUTPUT  } from '../../modules/local/confirmirmaoutput'
+include { PASSFAILED         } from '../../modules/local/passfailed'
+include { CREATEDAISINPUT    } from '../../modules/local/createdaisinput'
 
 workflow CHECKIRMA {
     take:

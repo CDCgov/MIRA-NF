@@ -4,10 +4,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { FINDCHEMISTRYI       } from "${launchDir}/modules/local/findchemistryi"
-include { SUBSAMPLEPAIREDREADS } from "${launchDir}/modules/local/subsamplepairedreads"
-include { TRIMPRIMERSLEFT      } from "${launchDir}/modules/local/trimprimersleft"
-include { TRIMPRIMERSRIGHT     } from "${launchDir}/modules/local/trimprimersright"
+include { FINDCHEMISTRYI       } from '../../modules/local/findchemistryi'
+include { SUBSAMPLEPAIREDREADS } from '../../modules/local/subsamplepairedreads'
+include { TRIMPRIMERSLEFT      } from '../../modules/local/trimprimersleft'
+include { TRIMPRIMERSRIGHT     } from '../../modules/local/trimprimersright'
 
 workflow PREPILLUMINAREADS {
     take:

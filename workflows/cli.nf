@@ -27,17 +27,17 @@ WorkflowCli.initialise(params, log)
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { CONCATFASTQS         } from "${launchDir}/modules/local/concatfastqs"
-include { NEXTFLOWSAMPLESHEETI } from "${launchDir}/modules/local/nextflowsamplesheeti"
-include { NEXTFLOWSAMPLESHEETO } from "${launchDir}/modules/local/nextflowsamplesheeto"
-include { INPUT_CHECK          } from "${launchDir}/subworkflows/local/input_check"
-include { READQC               } from "${launchDir}/subworkflows/local/readqc"
-include { PREPILLUMINAREADS    } from "${launchDir}/subworkflows/local/prepilluminareads"
-include { PREPONTREADS         } from "${launchDir}/subworkflows/local/prepontreads"
-include { IRMA                 } from "${launchDir}/modules/local/irma"
-include { CHECKIRMA            } from "${launchDir}/subworkflows/local/checkirma"
-include { DAISRIBOSOME         } from "${launchDir}/modules/local/daisribosome"
-include { PREPAREREPORTS       } from "${launchDir}/subworkflows/local/preparereports"
+include { CONCATFASTQS         } from '../modules/local/concatfastqs'
+include { NEXTFLOWSAMPLESHEETI } from '../modules/local/nextflowsamplesheeti'
+include { NEXTFLOWSAMPLESHEETO } from '../modules/local/nextflowsamplesheeto'
+include { INPUT_CHECK          } from '../subworkflows/local/input_check'
+include { READQC               } from '../subworkflows/local/readqc'
+include { PREPILLUMINAREADS    } from '../subworkflows/local/prepilluminareads'
+include { PREPONTREADS         } from '../subworkflows/local/prepontreads'
+include { IRMA                 } from '../modules/local/irma'
+include { CHECKIRMA            } from '../subworkflows/local/checkirma'
+include { DAISRIBOSOME         } from '../modules/local/daisribosome'
+include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -47,7 +47,7 @@ include { PREPAREREPORTS       } from "${launchDir}/subworkflows/local/preparere
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from "${launchDir}/modules/nf-core/custom/dumpsoftwareversions/main"
+include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW

@@ -4,10 +4,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { PREPAREIRMAJSON   } from "${launchDir}/modules/local/prepareirmajson"
-include { STATICHTML        } from "${launchDir}/modules/local/statichtml"
-include { PARQUETMAKER      } from "${launchDir}/modules/local/parquetmaker"
-include { PREPEMAIL         } from "${launchDir}/modules/local/prepemail"
+include { PREPAREIRMAJSON   } from '../../modules/local/prepareirmajson'
+include { STATICHTML        } from '../../modules/local/statichtml'
+include { PARQUETMAKER      } from '../../modules/local/parquetmaker'
+include { PREPEMAIL         } from '../../modules/local/prepemail'
 
 workflow PREPAREREPORTS {
     take:
