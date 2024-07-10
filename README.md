@@ -29,8 +29,8 @@
 > To run this pipeline you will need to have these programs installed:
 
 1. Nextflow - If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
-2. singularity - Information on how to install singularity can be found [here](https://docs.sylabs.io/guides/3.0/user-guide/installation.html).
-3. git - INformation about git installation can be found [here] (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
+2. singularity - Information on how to install singularity can be found [here](https://docs.sylabs.io/guides/4.1/user-guide/quick_start.html#quick-installation-steps).
+3. git - INformation about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
 
 Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data. If you would like to test the pipeline using our test data it can be downloaded from this link:
 
