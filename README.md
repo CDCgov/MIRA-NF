@@ -102,7 +102,7 @@ To run locally you will need to install Nextflow and singularity-ce on your comp
 ```bash
 nextflow run ./main.nf \
    -profile singularity,local \
-   --input <RUN_PATH>/samplesheet.csv \ <RUN_PATH>
+   --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
@@ -114,7 +114,7 @@ To run in a high computing cluster you will need to add hpc to the profile and p
 ```bash
 nextflow run ./main.nf \
    -profile singularity,local \
-   --input <RUN_PATH>/samplesheet.csv \ <RUN_PATH>
+   --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
