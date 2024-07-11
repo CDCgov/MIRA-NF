@@ -18,7 +18,7 @@ process FINDCHEMISTRYO {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${projectDir}/bin/find_chemistry_o.py -s "${sample}" -q "${fastq}" -r "${runid}" -e "${params.e}" -p "${launchDir}"
+    python3 ${projectDir}/bin/find_chemistry_o.py -s "${sample}" -q "${fastq}" -r "${runid}" -e "${params.e}" -p "${projectDir}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -15,31 +15,31 @@ workflow PREPILLUMINAREADS {
 
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
-    primers = Channel.fromPath('./data/primers/', checkIfExists: true)
+    primers = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
 
     //if primers given,set the file path to them
     if (params.p) {
         if (params.p == 'artic3') {
-            primers = Channel.fromPath('./data/primers/articv3.fasta', checkIfExists: true)
+            primers = Channel.fromPath("${projectDir}/data/primers/articv3.fasta", checkIfExists: true)
         } else if (params.p == 'atric4') {
-            primers = Channel.fromPath('./data/primers/articv4.fasta', checkIfExists: true)
+            primers = Channel.fromPath("${projectDir}/data/primers/articv4.fasta", checkIfExists: true)
         } else if (params.p == 'atric4.1') {
-            primers = Channel.fromPath('./data/primers/articv4.1.fasta', checkIfExists: true)
+            primers = Channel.fromPath("${projectDir}/data/primers/articv4.1.fasta", checkIfExists: true)
         } else if (params.p == 'atric5.3.2') {
-            primers = Channel.fromPath('./data/primers/articv5.3.2.fasta', checkIfExists: true)
+            primers = Channel.fromPath("${projectDir}/data/primers/articv5.3.2.fasta", checkIfExists: true)
         } else if (params.p == 'qiagen') {
-            primers = Channel.fromPath('./data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta', checkIfExists: true)
+            primers = Channel.fromPath("${projectDir}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
         } else if (params.p == 'swift') {
-            primers = Channel.fromPath('./data/primers/SNAP_v2_amplicon_panel.fasta', checkIfExists: true)
+            primers = Channel.fromPath("${projectDir}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
         } else if (params.p == 'swift_211206') {
-            primers = Channel.fromPath('./data/primers/swift_211206.fasta', checkIfExists: true)
+            primers = Channel.fromPath("${projectDir}/data/primers/swift_211206.fasta", checkIfExists: true)
         }  else if (params.p == 'varskip') {
-            primers = Channel.fromPath('./data/primers/neb_vss1a.primer.fasta', checkIfExists: true)
+            primers = Channel.fromPath("${projectDir}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
         }
     } else {
-        primers = Channel.fromPath('./data/primers/', checkIfExists: true)
+        primers = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
     }
 
     // Find chemistry

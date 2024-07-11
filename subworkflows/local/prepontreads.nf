@@ -16,7 +16,7 @@ workflow PREPONTREADS {
 
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
-    barcode_ch = Channel.fromPath('./data/primers/ont_barcodes.csv', checkIfExists: true)
+    barcode_ch = Channel.fromPath("${projectDir}/data/primers/ont_barcodes.csv", checkIfExists: true)
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
 

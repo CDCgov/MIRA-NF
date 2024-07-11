@@ -333,7 +333,7 @@ workflow.onComplete {
        """
        .stripIndent()
 
-        sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg, attach: './summary.xlsx')
+        sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg, attach: "${projectDir}/summary.xlsx")
     }
 }
 
