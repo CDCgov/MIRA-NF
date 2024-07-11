@@ -29,7 +29,7 @@
 > To run this pipeline you will need to have these programs installed:
 
 1. Nextflow - If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
-2. singularity - Information on how to install singularity can be found [here](https://docs.sylabs.io/guides/4.1/user-guide/quick_start.html#quick-installation-steps).
+2. singularity-ce - Information on how to install singularity can be found [here](https://docs.sylabs.io/guides/4.1/user-guide/quick_start.html#quick-installation-steps).
 3. git - INformation about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
 
 Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data. If you would like to test the pipeline using our test data it can be downloaded from this link:
@@ -88,31 +88,51 @@ git checkout dev
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-cli folder.
 
-To run locally you will need to install Nextflow on your computer (see link above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
-
-```bash
-module load nextflow/23.10.0 <later versions may be used>
-nextflow run ./main.nf \
-   -profile singularity,local \ these profiles must be used in this case
-   --input samplesheet.csv \ <RUN_PATH>/samplesheet.csv described above
-   --outdir <OUTDIR> \ The <RUN_PATH> described above. Your fastq_folder and samplesheet.csv should be in here
+Inputs for the pipeline include:
+   -profile singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
+   --input samplesheet.csv \ <RUN_PATH>/samplesheet.csv format described above.
+   --outdir <RUN_PATH> \ The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
    --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
    --p <PRIMER_SHEMA> (optional) \ options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
-   --process_q <QUEUE> (optional) \ provide queue name if hpc profile has been selected
+   --process_q <JOB_SCHEDULER> (required for hpc profile) \ provide the name of the job scheduler that will submit to the queue
    --email <EMAIL_ADDRESS> (optional) \ provide an email if you would like to receive an email with the irma summary upon completion
+
+To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
+
+```bash
+nextflow run ./main.nf \
+   -profile singularity,local \
+   --input <RUN_PATH>/samplesheet.csv \ <RUN_PATH>
+   --outdir <RUN_PATH> \
+   --e <EXPERIMENT_TYPE> \
+   --p <PRIMER_SHEMA> (optional) \
+   --email <EMAIL_ADDRESS> (optional)
 ```
 
 To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
 
 ```bash
+nextflow run ./main.nf \
+   -profile singularity,local \
+   --input <RUN_PATH>/samplesheet.csv \ <RUN_PATH>
+   --outdir <RUN_PATH> \
+   --e <EXPERIMENT_TYPE> \
+   --p <PRIMER_SHEMA> (optional) \
+   --process_q <JOB_SCHEDULER> \
+   --email <EMAIL_ADDRESS> (optional)
+```
+
+For in house testing:
+
+```bash
 qsub MIRA_nextflow.sh \
-   -f singularity,hpc \ these profiles must be used in this case
-   -i samplesheet.csv \ <RUN_PATH>/samplesheet.csv described above
-   -o <OUTDIR> \ The <RUN_PATH> described above. Your fastq_folder and samplesheet.csv should be in here
-   -e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
-   -p <PRIMER_SHEMA> (optional) \ options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
-   -q <QUEUE> \ provide the name a queue if hpc profile has been selected
-   -m <EMAIL_ADDRESS> (optional) \ provide an email if you would like to receive an email with the irma summary upon completion
+   -f singularity,hpc 
+   -i <RUN_PATH>/samplesheet.csv \
+   -o <RUN_PATH> \
+   -e <EXPERIMENT_TYPE> \
+   -p <PRIMER_SHEMA> (optional) \
+   -q <JOB_SCHEDULER> \
+   -m <EMAIL_ADDRESS> (optional)
 ```
 
 > [!WARNING]
