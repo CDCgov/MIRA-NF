@@ -247,10 +247,9 @@
         },
         "optional": {
             "title": "Optional inputs",
-            "type": "array",
+            "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": false,
             "properties": {
                 "p": {
                     "type": "string",
@@ -282,6 +281,13 @@
         },
         {
             "$ref": "#/definitions/generic_options"
+        },
+        {
+            "not": {
+                "required": [
+                    "#/definitions/optional"
+                ]
+            }
         }
     ]
 }
