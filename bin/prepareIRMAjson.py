@@ -74,7 +74,7 @@ ref_proteins = {
     "PA": "A_PA B_PA",
 }
 
-makedirs(f"{irma_path}/../dash-json", exist_ok=True)
+
 ###############################################################
 ## Dataframes
 ###############################################################
@@ -286,7 +286,7 @@ def irma_summary(
     allsamples_df = ss_df[["Sample ID"]].rename(columns={"Sample ID": "Sample"})
     neg_controls = list(ss_df[ss_df["Sample Type"] == "- Control"]["Sample ID"])
     qc_statement = negative_qc_statement(reads_df, neg_controls)
-    with open(f"{irma_path}/../dash-json/qc_statement.json", "w") as out:
+    with open(f"./qc_statement.json", "w") as out:
         json.dump(qc_statement, out)
     reads_df = (
         reads_df[reads_df["Record"].str.contains("^1|^2-p|^4")]
@@ -444,36 +444,36 @@ def noref(ref):
 def generate_dfs(irma_path):
     print("Building coverage_df")
     coverage_df = irma2pandas.dash_irma_coverage_df(irma_path)
-    with open(f"{irma_path}/../dash-json/coverage.json", "w") as out:
+    with open(f"./coverage.json", "w") as out:
         coverage_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> coverage_df saved to {out.name}")
     print("Building read_df")
     read_df = irma2pandas.dash_irma_reads_df(irma_path)
-    with open(f"{irma_path}/../dash-json/reads.json", "w") as out:
+    with open(f"./reads.json", "w") as out:
         read_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> read_df saved to {out.name}")
     print("Build vtype_df")
     vtype_df = irma2pandas.dash_irma_sample_type(read_df)
     # Get most common vtype/sample
-    with open(f"{irma_path}/../dash-json/vtype.json", "w") as out:
+    with open(f"./vtype.json", "w") as out:
         vtype_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> vtype_df saved to {out.name}")
     print("Building alleles_df")
     alleles_df = irma2pandas.dash_irma_alleles_df(irma_path)
     alleles_df = alleles_df[alleles_df["Minority Frequency"] >= 0.05]
-    with open(f"{irma_path}/../dash-json/alleles.json", "w") as out:
+    with open(f"./alleles.json", "w") as out:
         alleles_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> alleles_df saved to {out.name}")
     print("Building indels_df")
     indels_df = irma2pandas.dash_irma_indels_df(irma_path)
     indels_df = indels_df[indels_df["Frequency"] >= 0.2]
-    with open(f"{irma_path}/../dash-json/indels.json", "w") as out:
+    with open(f"./indels.json", "w") as out:
         indels_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> indels_df saved to {out.name}")
     print("Building ref_data")
     ref_lens = irma2pandas.reference_lens(irma_path)
     segments, segset, segcolor = irma2pandas.returnSegData(coverage_df)
-    with open(f"{irma_path}/../dash-json/ref_data.json", "w") as out:
+    with open(f"./ref_data.json", "w") as out:
         json.dump(
             {
                 "ref_lens": ref_lens,
@@ -492,7 +492,7 @@ def generate_dfs(irma_path):
             time.sleep(1)
         c += 1
     dais_vars_df = dais2pandas.compute_dais_variants(f"{irma_path}/dais_results")
-    with open(f"{irma_path}/../dash-json/dais_vars.json", "w") as out:
+    with open(f"./dais_vars.json", "w") as out:
         dais_vars_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> dais_vars_df saved to {out.name}")
     print("Building irma_summary_df")
@@ -511,7 +511,7 @@ def generate_dfs(irma_path):
         )
     print("Building pass_fail_df")
     pass_fail_df = pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df)
-    with open(f"{irma_path}/../dash-json/pass_fail_qc.json", "w") as out:
+    with open(f"./pass_fail_qc.json", "w") as out:
         pass_fail_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> pass_fail_qc_df saved to {out.name}")
     pass_fail_seqs_df = (
@@ -620,7 +620,7 @@ def generate_dfs(irma_path):
         ),
         axis=1,
     )
-    with open(f"{irma_path}/../dash-json/nt_sequences.json", "w") as out:
+    with open(f"./nt_sequences.json", "w") as out:
         nt_seqs_df.to_json(out, orient="split")
         print(f"  -> nt_sequence_df saved to {out.name}")
     irma_summary_df = irma_summary_df.merge(
@@ -633,7 +633,7 @@ def generate_dfs(irma_path):
     )
     irma_summary_df["Reasons"] = irma_summary_df["Reasons"].fillna("Fail")
     irma_summary_df = irma_summary_df.rename(columns={"Reasons": "Pass/Fail Reason"})
-    with open(f"{irma_path}/../dash-json/irma_summary.json", "w") as out:
+    with open(f"./irma_summary.json", "w") as out:
         irma_summary_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> irma_summary_df saved to {out.name}")
     return read_df, coverage_df, segments, segcolor, pass_fail_df
@@ -713,8 +713,8 @@ def createheatmap(irma_path, coverage_medians_df):
     )
     fig.update_layout(legend=dict(x=0.4, y=1.2, orientation="h"))
     fig.update_xaxes(side="top")
-    pio.write_json(fig, f"{irma_path}/../dash-json/heatmap.json")
-    print(f"  -> coverage heatmap json saved to {irma_path}/../dash-json/heatmap.json")
+    pio.write_json(fig, f"./heatmap.json")
+    print(f"  -> coverage heatmap json saved to ./dash-json/heatmap.json")
 
 
 def assign_number(reason):
@@ -775,9 +775,9 @@ def create_passfail_heatmap(irma_path, pass_fail_df):
     fig.update_xaxes(side="top")
     fig.update_traces(showscale=False)
     fig.update_layout(paper_bgcolor="white", plot_bgcolor="white")
-    pio.write_json(fig, f"{irma_path}/../dash-json/pass_fail_heatmap.json")
+    pio.write_json(fig, f"./pass_fail_heatmap.json")
     print(
-        f"  -> pass_fail heatmap json saved to {irma_path}/../dash-json/pass_fail_heatmap.json"
+        f"  -> pass_fail heatmap json saved to ./pass_fail_heatmap.json"
     )
 
 
@@ -787,9 +787,9 @@ def createsankey(irma_path, read_df, virus):
         sankeyfig = irma2pandas.dash_reads_to_sankey(
             read_df[read_df["Sample"] == sample], virus
         )
-        pio.write_json(sankeyfig, f"{irma_path}/../dash-json/readsfig_{sample}.json")
+        pio.write_json(sankeyfig, f"./readsfig_{sample}.json")
         print(
-            f"  -> read sankey plot json saved to {irma_path}/../dash-json/readsfig_{sample}.json"
+            f"  -> read sankey plot json saved to ./readsfig_{sample}.json"
         )
 
 
@@ -798,9 +798,9 @@ def createReadPieFigure(irma_path, read_df):
     read_df = read_df[read_df["Record"] == "1-initial"]
     fig = px.pie(read_df, values="Reads", names="Sample")
     fig.update_traces(textposition="inside", textinfo="percent+label")
-    fig.write_json(f"{irma_path}/../dash-json/barcode_distribution.json")
+    fig.write_json(f"./barcode_distribution.json")
     print(
-        f"  -> barcode distribution pie figure saved to {irma_path}/../dash-json/barcode_distribution.json"
+        f"  -> barcode distribution pie figure saved to ./barcode_distribution.json"
     )
 
 
@@ -912,16 +912,9 @@ def createcoverageplot(irma_path, coverage_df, segments, segcolor):
             sample, coverage_df, segments, segcolor, True
         )
         pio.write_json(
-            coveragefig, f"{irma_path}/../dash-json/coveragefig_{sample}_linear.json"
+            coveragefig, f"./coveragefig_{sample}_linear.json"
         )
-        print(f"  -> saved {irma_path}/../dash-json/coveragefig_{sample}_linear.json")
-        # coveragefig = createSampleCoverageFig(
-        #    sample, coverage_df, segments, segcolor, True
-        # )
-        # pio.write_json(
-        #    coveragefig, f"{irma_path}/../dash-json/coveragefig_{sample}_log.json"
-        # )
-        # print(f"  -> saved {irma_path}/../dash-json/coveragefig_{sample}_log.json")
+        print(f"  -> saved ./coveragefig_{sample}_linear.json")
     print(f" --> All coverage jsons saved")
 
 

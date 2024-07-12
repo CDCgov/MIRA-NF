@@ -4,13 +4,15 @@ process PREPAREIRMAJSON {
     label 'process_low'
     label 'error_retry'
 
+    publishDir "${params.outdir}/dash-json", pattern: '*.json', mode: 'copy'
+
     input:
     val x
     val platform
     val virus
 
     output:
-    val x , emit: dash_json
+    path('*.json') , emit: dash_json
     path 'versions.yml'           , emit: versions
 
     when:

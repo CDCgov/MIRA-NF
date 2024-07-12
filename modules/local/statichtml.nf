@@ -8,7 +8,7 @@ process STATICHTML {
     publishDir "${params.outdir}", pattern: '*.fasta', mode: 'copy'
 
     input:
-    val x
+    path json_files
     val run_ID_ch
 
     output:
