@@ -2,7 +2,8 @@ process FINDCHEMISTRYO {
     tag { "finding chemistry parameters for ${sample}" }
     label 'process_single'
     label 'error_retry'
-    publishDir "${params.outdir}/IRMA", mode: 'copy'
+
+    publishDir "${params.outdir}/IRMA", pattern: '*.csv', mode: 'copy'
 
     input:
     tuple val(sample), val(barcode), path(fastq), path(runid)
