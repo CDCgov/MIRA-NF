@@ -321,9 +321,10 @@ workflow CLI {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-workflow.onComplete {
-    if (params.email || params.email_on_fail) {
-        def msg = """
+if (params.email) {
+    workflow.onComplete {
+        if (params.email || params.email_on_fail) {
+            def msg = """
        Pipeline execution summary
        Completed at: ${workflow.complete}
        Duration    : ${workflow.duration}
@@ -333,17 +334,17 @@ workflow.onComplete {
        """
        .stripIndent()
 
-        sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg, attach: "${projectDir}/summary.xlsx")
+            sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg, attach: "${projectDir}/summary.xlsx")
+        }
+    }
+
+    workflow.onError {
+        if (workflow.errorReport.contains('Process requirement exceeds available memory')) {
+            println('🛑 Default resources exceed availability 🛑 ')
+            println('💡 See here on how to configure pipeline: https://nf-co.re/docs/usage/configuration#tuning-workflow-resources 💡')
+        }
     }
 }
-
-workflow.onError {
-    if (workflow.errorReport.contains('Process requirement exceeds available memory')) {
-        println('🛑 Default resources exceed availability 🛑 ')
-        println('💡 See here on how to configure pipeline: https://nf-co.re/docs/usage/configuration#tuning-workflow-resources 💡')
-    }
-}
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     THE END

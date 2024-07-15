@@ -94,7 +94,7 @@ Inputs for the pipeline include:
    --outdir <RUN_PATH> \ The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
    --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
    --p <PRIMER_SHEMA> (optional) \ options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
-   --process_q <JOB_SCHEDULER> (required for hpc profile) \ provide the name of the job scheduler that will submit to the queue
+   --process_q <JOB_SCHEDULER> (required for hpc profile) \ provide the name of the processing queue that will submit to the queue
    --email <EMAIL_ADDRESS> (optional) \ provide an email if you would like to receive an email with the irma summary upon completion
 
 To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
@@ -113,16 +113,16 @@ To run in a high computing cluster you will need to add hpc to the profile and p
 
 ```bash
 nextflow run ./main.nf \
-   -profile singularity,local \
+   -profile singularity,hpc \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
-   --process_q <JOB_SCHEDULER> \
+   --process_q <QUEUE_NAME> \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
-For in house testing:
+For in house testing (all values must be filled in to execute qsub - for primer schema if none, put none):
 
 ```bash
 qsub MIRA_nextflow.sh \
@@ -130,9 +130,9 @@ qsub MIRA_nextflow.sh \
    -i <RUN_PATH>/samplesheet.csv \
    -o <RUN_PATH> \
    -e <EXPERIMENT_TYPE> \
-   -p <PRIMER_SHEMA> (optional) \
-   -q <JOB_SCHEDULER> \
-   -m <EMAIL_ADDRESS> (optional)
+   -p <PRIMER_SHEMA> \
+   -q <QUEUE_NAME> \
+   -m <EMAIL_ADDRESS>
 ```
 
 > [!WARNING]
