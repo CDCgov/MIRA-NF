@@ -7,8 +7,6 @@ process CUSTOM_DUMPSOFTWAREVERSIONS {
         'https://depot.galaxyproject.org/singularity/multiqc:1.19--pyhdfd78af_0' :
         'biocontainers/multiqc:1.19--pyhdfd78af_0' }"
 
-    publishDir "${params.outdir}", mode: 'copy'
-
     input:
     path versions
 

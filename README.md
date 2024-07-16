@@ -5,9 +5,18 @@
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira/cli)
 
+**General disclaimer:** This repository was created for use by CDC programs to collaborate on public health related projects in support of the CDC mission. GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
+
 ## Introduction
 
-**mira/cli** is a bioinformatics pipeline that ...
+**mira/cli** is a bioinformatics pipeline that assembles Influenza Genomes, SARS-CoV-2 Genomes and the SARS-CoV-2 Spike-Gene when give only the raw fastq files and a samplesheet. mira/cli can analyze reasds from Illumina and OxFord Nanopore sequencing machines.
+
+MIRA relies on four Docker containers to run its genome assembly and curation:
+
+IRMA (Iterative Refinement Meta-Assembler): designed for the robust assembly, variant calling, and phasing of highly variable RNA viruses. IRMA is deployed with modules for influenza, ebolavirus and coronavirus.
+DAIS-Ribosome: compartmentalizes the translation engine developed for the CDC Influenza Division protein analytics database. The tool has been extended for use with Betacoronavirus.
+spyne: a Snakemake workflow manager designed for running Influenza Genome and SARS-CoV-2 Spike-Gene assembly.
+MIRA: a GUI web interface that allows users to interactively create a metadata and config file for running Influenza Genome and SARS-CoV-2 Spike-Gene assembly and curation.
 
 <!-- TODO nf-core:
    Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the

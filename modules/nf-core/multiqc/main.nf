@@ -6,8 +6,6 @@ process MULTIQC {
         'https://depot.galaxyproject.org/singularity/multiqc:1.19--pyhdfd78af_0' :
         'biocontainers/multiqc:1.19--pyhdfd78af_0' }"
 
-    publishDir "${params.outdir}", pattern: '*', mode: 'copy'
-
     input:
     path  multiqc_files, stageAs: '?/*'
     path(multiqc_config)
