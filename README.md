@@ -98,13 +98,14 @@ git checkout dev
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-cli folder.
 
 Inputs for the pipeline include:
-   -profile singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
-   --input samplesheet.csv \ <RUN_PATH>/samplesheet.csv format described above.
-   --outdir <RUN_PATH> \ The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
-   --e <EXPERIMENT_TYPE> \ options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
-   --p <PRIMER_SHEMA> (optional) \ options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
-   --process_q <JOB_SCHEDULER> (required for hpc profile) \ provide the name of the processing queue that will submit to the queue
-   --email <EMAIL_ADDRESS> (optional) \ provide an email if you would like to receive an email with the irma summary upon completion
+-profile - singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
+
+- input - <RUN_PATH>/samplesheet.csv with the format described above.
+- outdir - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
+- e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+- p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
+- process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue
+- email - (optional) provide an email if you would like to receive an email with the irma summary upon completion
 
 To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
