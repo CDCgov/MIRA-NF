@@ -1,25 +1,5 @@
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT LOCAL PLUGINS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-include { paramsSummaryLog; paramsSummaryMap } from 'plugin/nf-validation'
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    PRINT PARAMS SUMMARY
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
-def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
-def summary_params = paramsSummaryMap(workflow)
-
-// Print parameter summary log to screen
-log.info logo + paramsSummaryLog(workflow) + citation
-
-WorkflowCli.initialise(params, log)
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT LOCAL MODULES/SUBWORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
@@ -38,16 +18,7 @@ include { IRMA                 } from '../modules/local/irma'
 include { CHECKIRMA            } from '../subworkflows/local/checkirma'
 include { DAISRIBOSOME         } from '../modules/local/daisribosome'
 include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT NF-CORE MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
 
-//
-// MODULE: Installed directly from nf-core/modules
-//
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -74,7 +45,7 @@ workflow flu_i {
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads, summary_params)
+    READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
@@ -125,7 +96,7 @@ workflow flu_o {
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads, summary_params)
+    READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
@@ -176,7 +147,7 @@ workflow sc2_spike_o {
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads, summary_params)
+    READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
@@ -228,7 +199,7 @@ workflow sc2_wgs_o {
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads, summary_params)
+    READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
@@ -272,7 +243,7 @@ workflow sc2_wgs_i {
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads, summary_params)
+    READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
