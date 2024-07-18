@@ -7,8 +7,6 @@ process FINDCHEMISTRYI {
         'https://depot.galaxyproject.org/singularity/python:3.8.3' :
         'biocontainers/python:3.8.3' }"
 
-    publishDir "${params.outdir}/IRMA", pattern: '*.csv', mode: 'copy'
-
     input:
     tuple val(sample), path(fastq), path(runid)
 

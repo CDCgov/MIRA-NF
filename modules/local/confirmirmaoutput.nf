@@ -2,8 +2,6 @@ process CONFIRMIRMAOUTPUT {
     tag { "checking irma for ${sample}" }
     label 'process_single'
 
-    publishDir "${params.outdir}/IRMA", mode: 'copy'
-
     input:
     tuple val(sample), val(irma_dir)
 

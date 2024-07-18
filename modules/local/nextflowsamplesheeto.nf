@@ -4,8 +4,6 @@ process NEXTFLOWSAMPLESHEETO {
 
     container 'cdcgov/spyne-dev:v1.2.0'
 
-    publishDir "${params.outdir}", pattern: '.csv', mode: 'copy'
-
     input:
     path samplesheet
     path run_ID

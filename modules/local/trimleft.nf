@@ -4,9 +4,6 @@ process TRIMLEFT {
 
     container 'staphb/bbtools:39.01'
 
-    publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
-    publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
-
     input:
     tuple val(sample), val(barcode), path(subsample_file_path), val(seq_f)
 

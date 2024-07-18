@@ -4,8 +4,6 @@ process PARQUETMAKER {
 
     container 'cdcgov/spyne-dev:v1.2.0'
 
-    publishDir "${params.outdir}/parq_files", pattern: '*.parq',  mode: 'copy'
-
     input:
     path(html_outputs)
     val run_path

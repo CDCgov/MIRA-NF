@@ -2,8 +2,6 @@ process CONCATFASTQS {
     tag 'concat all fastq files within barcode folder'
     label 'process_single'
 
-    publishDir "${params.outdir}/fastq_pass/cat_fastqs", mode: 'copy'
-
     input:
     tuple val(barcode), val(sample)
 

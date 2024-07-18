@@ -4,9 +4,6 @@ process TRIMPRIMERSLEFT {
 
     container 'staphb/bbtools:39.01'
 
-    publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
-    publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
-
     input:
     tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers)
 

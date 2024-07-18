@@ -2,8 +2,6 @@ process CREATEDAISINPUT {
     tag { 'Collecting consensus genomes' }
     label 'process_single'
 
-    publishDir "${params.outdir}/IRMA/dais_results", mode: 'copy'
-
     input:
     val irma_out
 

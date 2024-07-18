@@ -4,10 +4,6 @@ process STATICHTML {
 
     container 'cdcgov/spyne-dev:v1.2.0'
 
-    publishDir "${params.outdir}", pattern: '*.html', mode: 'copy'
-    publishDir "${params.outdir}", pattern: '*.xlsx', mode: 'copy'
-    publishDir "${params.outdir}", pattern: '*.fasta', mode: 'copy'
-
     input:
     path json_files
     val run_ID_ch

@@ -57,7 +57,7 @@ base64_excellogo = base64_fun(excel_logo)
 # read MIRA barcode distribution pie
 try:
     bdp_html = pio.read_json(
-        f"{data_root}/dash-json/barcode_distribution.json"
+        f"{data_root}/dash_json/barcode_distribution.json"
     ).to_html(
         config={
             "toImageButtonOptions": {
@@ -71,7 +71,7 @@ except:
 
 # read MIRA pass fail heatmap json and make html string
 try:
-    pfhm_html = pio.read_json(f"{data_root}/dash-json/pass_fail_heatmap.json").to_html(
+    pfhm_html = pio.read_json(f"{data_root}/dash_json/pass_fail_heatmap.json").to_html(
         config={
             "toImageButtonOptions": {
                 "format": "svg",
@@ -84,7 +84,7 @@ except:
 
 # read MIRA coverage heatmap and make html string
 try:
-    chm_html = pio.read_json(f"{data_root}/dash-json/heatmap.json").to_html(
+    chm_html = pio.read_json(f"{data_root}/dash_json/heatmap.json").to_html(
         config={
             "toImageButtonOptions": {
                 "format": "svg",
@@ -98,7 +98,7 @@ except:
 # read MIRA irma summary table json and make html string
 try:
     irma_sum_pd = pd.read_json(
-        f"{data_root}/dash-json/irma_summary.json", orient="split"
+        f"{data_root}/dash_json/irma_summary.json", orient="split"
     )
     irma_sum_pd.to_excel(f"MIRA_{run}_summary.xlsx", engine="openpyxl", index=False)
     irma_sum_html = go.Figure(
@@ -134,13 +134,13 @@ except:
 # save html images of coverage plots/sample and make links as html for summary
 coverage_links_html = """<h2>Individual Sample Coverage Figures</h2><p2>"""
 try:
-    for cf in glob.glob(f"{data_root}/dash-json/coveragefig*linear.json"):
+    for cf in glob.glob(f"{data_root}/dash_json/coveragefig*linear.json"):
         coveragefig = pio.read_json(cf)
         sample = (
             cf.split("/")[-1].replace("coveragefig_", "").replace("_linear.json", "")
         )
         print(f"sample = {sample}")
-        sankeyfig = pio.read_json(f"{data_root}/dash-json/readsfig_{sample}.json")
+        sankeyfig = pio.read_json(f"{data_root}/dash_json/readsfig_{sample}.json")
         # sankeyfig.write_html(f"MIRA_{sample}_sankey.html")
         with open(f"MIRA_{sample}_coverage.html", "a") as out:
             out.write(
@@ -174,7 +174,7 @@ except:
 
 # read MIRA dais var table json and make html string
 try:
-    dais_var_pd = pd.read_json(f"{data_root}/dash-json/dais_vars.json", orient="split")
+    dais_var_pd = pd.read_json(f"{data_root}/dash_json/dais_vars.json", orient="split")
     dais_var_pd.to_excel(f"MIRA_{run}_aavars.xlsx", engine="openpyxl", index=False)
     dais_var_html = go.Figure(
         data=[
@@ -203,7 +203,7 @@ except:
 
 # link to minor variants table
 try:
-    mvdf = pd.read_json(f"{data_root}/dash-json/alleles.json", orient="split")
+    mvdf = pd.read_json(f"{data_root}/dash_json/alleles.json", orient="split")
     mvdf.to_excel(f"MIRA_{run}_minorvariants.xlsx", engine="openpyxl", index=False)
     # fmt: off
     minorvars_links_html = '''<p2><a href="./MIRA_'''+f'{run}'+'''_minorvariants.xlsx" download>Download minor variants table</a></p2><br>'''
@@ -213,7 +213,7 @@ except:
 
 # link to indels table
 try:
-    indels_df = pd.read_json(f"{data_root}/dash-json/indels.json", orient="split")
+    indels_df = pd.read_json(f"{data_root}/dash_json/indels.json", orient="split")
     indels_df.to_excel(f"MIRA_{run}_minorindels.xlsx", engine="openpyxl", index=False)
     # fmt: off
     indels_links_html = '''<p2><a href="./MIRA_'''+f'{run}'+'''_minorindels.xlsx" download>Download minor indels table</a></p2><br>'''

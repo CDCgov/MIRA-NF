@@ -714,7 +714,7 @@ def createheatmap(irma_path, coverage_medians_df):
     fig.update_layout(legend=dict(x=0.4, y=1.2, orientation="h"))
     fig.update_xaxes(side="top")
     pio.write_json(fig, f"./heatmap.json")
-    print(f"  -> coverage heatmap json saved to ./dash-json/heatmap.json")
+    print(f"  -> coverage heatmap json saved to ./heatmap.json")
 
 
 def assign_number(reason):
@@ -776,9 +776,7 @@ def create_passfail_heatmap(irma_path, pass_fail_df):
     fig.update_traces(showscale=False)
     fig.update_layout(paper_bgcolor="white", plot_bgcolor="white")
     pio.write_json(fig, f"./pass_fail_heatmap.json")
-    print(
-        f"  -> pass_fail heatmap json saved to ./pass_fail_heatmap.json"
-    )
+    print(f"  -> pass_fail heatmap json saved to ./pass_fail_heatmap.json")
 
 
 def createsankey(irma_path, read_df, virus):
@@ -788,9 +786,7 @@ def createsankey(irma_path, read_df, virus):
             read_df[read_df["Sample"] == sample], virus
         )
         pio.write_json(sankeyfig, f"./readsfig_{sample}.json")
-        print(
-            f"  -> read sankey plot json saved to ./readsfig_{sample}.json"
-        )
+        print(f"  -> read sankey plot json saved to ./readsfig_{sample}.json")
 
 
 def createReadPieFigure(irma_path, read_df):
@@ -799,9 +795,7 @@ def createReadPieFigure(irma_path, read_df):
     fig = px.pie(read_df, values="Reads", names="Sample")
     fig.update_traces(textposition="inside", textinfo="percent+label")
     fig.write_json(f"./barcode_distribution.json")
-    print(
-        f"  -> barcode distribution pie figure saved to ./barcode_distribution.json"
-    )
+    print(f"  -> barcode distribution pie figure saved to ./barcode_distribution.json")
 
 
 def zerolift(x):
@@ -911,9 +905,7 @@ def createcoverageplot(irma_path, coverage_df, segments, segcolor):
         coveragefig = createSampleCoverageFig(
             sample, coverage_df, segments, segcolor, True
         )
-        pio.write_json(
-            coveragefig, f"./coveragefig_{sample}_linear.json"
-        )
+        pio.write_json(coveragefig, f"./coveragefig_{sample}_linear.json")
         print(f"  -> saved ./coveragefig_{sample}_linear.json")
     print(f" --> All coverage jsons saved")
 

@@ -2,8 +2,6 @@ process PREPEMAIL {
     tag { 'Prepare email for completeion of run' }
     label 'process_single'
 
-    publishDir "${params.outdir}",  mode: 'copy'
-
     input:
     path('*')
     path(collated_versions)

@@ -1,12 +1,9 @@
 process DAISRIBOSOME {
     tag 'Translating sequences into open reading frames (ORFs) with DAIS-Ribosome'
     label 'process_medium'
+
     container 'cdcgov/dais-ribosome:v1.3.2'
     containerOptions '--bind ${launchDir}/tmp:/dais-ribosome/workdir --bind ${launchDir}/tmp:/dais-ribosome/lib/sswsort/workdir/'
-
-    publishDir "${params.outdir}/IRMA/dais_results", pattern: '*.del', mode: 'copy'
-    publishDir "${params.outdir}/IRMA/dais_results", pattern: '*.ins', mode: 'copy'
-    publishDir "${params.outdir}/IRMA/dais_results", pattern: '*.seq', mode: 'copy'
 
     input:
     path input_fasta

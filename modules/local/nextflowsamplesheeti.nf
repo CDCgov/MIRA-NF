@@ -4,8 +4,6 @@ process NEXTFLOWSAMPLESHEETI {
 
     container 'cdcgov/spyne-dev:v1.2.0'
 
-    publishDir "${params.outdir}", pattern: '*.csv', mode: 'copy'
-
     input:
     path samplesheet
     val experiment_type
