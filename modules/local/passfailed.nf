@@ -1,7 +1,7 @@
 process PASSFAILED {
     tag { "passing negatives for ${sample }" }
     label 'process_single'
-    label 'error_retry'
+
     publishDir "${params.outdir}/IRMA_negative", mode: 'copy'
 
     input:

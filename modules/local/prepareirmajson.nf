@@ -1,8 +1,8 @@
 process PREPAREIRMAJSON {
     tag 'Creating Plotly-Dash readable figures and tables for IRMA-SPY'
-    container 'cdcgov/spyne:latest'
     label 'process_low'
-    label 'error_retry'
+
+    container 'cdcgov/spyne-dev:v1.2.0'
 
     publishDir "${params.outdir}/dash-json", pattern: '*.json', mode: 'copy'
 

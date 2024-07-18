@@ -1,8 +1,8 @@
 process CUTADAPT30 {
     tag { "${sample}" }
     label 'process_low'
-    label 'error_retry'
-    container 'cdcgov/spyne:latest'
+
+    container 'cdcgov/spyne-dev:v1.2.0'
 
     publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
     publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'

@@ -1,8 +1,8 @@
 process NEXTFLOWSAMPLESHEETO {
     tag 'Generating the samplesheet for nextflow'
     label 'process_single'
-    label 'error_retry'
-    container 'cdcgov/spyne:latest'
+
+    container 'cdcgov/spyne-dev:v1.2.0'
 
     publishDir "${params.outdir}", pattern: '.csv', mode: 'copy'
 

@@ -1,7 +1,6 @@
 process DAISRIBOSOME {
     tag 'Translating sequences into open reading frames (ORFs) with DAIS-Ribosome'
     label 'process_medium'
-    label 'error_retry'
     container 'cdcgov/dais-ribosome:v1.3.2'
     containerOptions '--bind ${launchDir}/tmp:/dais-ribosome/workdir --bind ${launchDir}/tmp:/dais-ribosome/lib/sswsort/workdir/'
 

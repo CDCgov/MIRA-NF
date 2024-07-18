@@ -1,7 +1,7 @@
 process PARQUETMAKER {
     tag { 'Creating paquet output' }
     label 'process_low'
-    label 'error_retry'
+
     container 'cdcgov/spyne-dev:v1.2.0'
 
     publishDir "${params.outdir}/parq_files", pattern: '*.parq',  mode: 'copy'

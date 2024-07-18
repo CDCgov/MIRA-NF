@@ -1,7 +1,8 @@
 process STATICHTML {
     tag 'Creating static HTML output'
     label 'process_single'
-    container 'cdcgov/mira:latest'
+
+    container 'cdcgov/spyne-dev:v1.2.0'
 
     publishDir "${params.outdir}", pattern: '*.html', mode: 'copy'
     publishDir "${params.outdir}", pattern: '*.xlsx', mode: 'copy'
