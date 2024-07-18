@@ -31,7 +31,7 @@ include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 workflow flu_i {
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -76,7 +76,7 @@ workflow flu_i {
 workflow flu_o {
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -127,7 +127,7 @@ workflow flu_o {
 workflow sc2_spike_o {
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -178,7 +178,7 @@ workflow sc2_spike_o {
 workflow sc2_wgs_o {
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -230,7 +230,7 @@ workflow sc2_wgs_o {
 workflow sc2_wgs_i {
     //Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 

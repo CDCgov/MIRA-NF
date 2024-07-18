@@ -17,7 +17,7 @@ workflow PREPAREREPORTS {
     main:
     platform = Channel.empty()
     virus = Channel.empty()
-    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
 
     //creating platform value
     if (params.e == 'Flu-Illumina') {
@@ -51,7 +51,7 @@ workflow PREPAREREPORTS {
     STATICHTML(PREPAREIRMAJSON.out.dash_json, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
-    PARQUETMAKER(STATICHTML.out.html, run_ID_ch)
+    PARQUETMAKER(STATICHTML.out.html, run_ID_ch, params.input)
     ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
     versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')

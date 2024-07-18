@@ -23,7 +23,7 @@ process NEXTFLOWSAMPLESHEETO {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${projectDir}/bin/create_nextflow_samplesheet_o.py -s "${params.input}" -r "${params.outdir}" -e "${experiment_type}"
+    python3 ${projectDir}/bin/create_nextflow_samplesheet_o.py -s "${params.input}" -r "${params.runpath}" -e "${experiment_type}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -9,6 +9,7 @@ process PARQUETMAKER {
     input:
     path(html_outputs)
     val run_path
+    val samplesheet
 
     output:
     path('*'), emit: summary_parq
@@ -36,7 +37,7 @@ process PARQUETMAKER {
     fi
     python3 ${projectDir}/bin/parquet_maker.py -f nt.fasta -o ${run_name}_amended_consensus.parq -r ${run_name}
     python3 ${projectDir}/bin/parquet_maker.py -f aa.fasta -o ${run_name}_amino_acid_consensus.parq -r ${run_name}
-    python3 ${projectDir}/bin/parquet_maker.py -f ${params.outdir}/samplesheet.csv -o ${run_name}_samplesheet.parq -r ${run_name}
+    python3 ${projectDir}/bin/parquet_maker.py -f ${samplesheet} -o ${run_name}_samplesheet.parq -r ${run_name}
     python3 ${projectDir}/bin/parquet_maker.py -f *minorindels.xlsx -o ${run_name}_indels.parq -r ${run_name}
     python3 ${projectDir}/bin/parquet_maker.py -f *minorvariants.xlsx -o ${run_name}_variants.parq -r ${run_name}
     python3 ${projectDir}/bin/parquet_maker.py -f *summary.xlsx -o ${run_name}_summary.parq -r ${run_name}

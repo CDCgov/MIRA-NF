@@ -13,6 +13,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--data_path", help="the file path to the data")
+parser.add_argument("-r", "--run_path", help="the file path to the data")
 parser.add_argument(
     "-l", "--logo_path", help="the file path to the assests folder containing the logos"
 )
@@ -24,19 +25,17 @@ if inputarguments.data_path:
 else:
     data_root = Path.cwd()
 
+if inputarguments.run_path:
+    run_root = inputarguments.run_path
+else:
+    run_root = data_root
+
 if inputarguments.logo_path:
     logo_path = inputarguments.logo_path
 else:
     logo_path = ""
 
-run = os.path.basename(data_root)
-
-######################################################################################
-## HARCODE IN DEV
-# data_root = "/home/nbx0/FLU_SC2_SEQUENCING"
-# run = "20230824_paris_flu_"
-##
-######################################################################################
+run = os.path.basename(run_root)
 
 # image locations
 mira_logo = f"{logo_path}/assets/mira-logo-midjourney_20230526_rmbkgnd.png"

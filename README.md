@@ -75,15 +75,17 @@ Each row represents a sample.
 
 Second, move samplesheet into a run folder with fastq files:
 
-Illumina should be set up as follows:
+Illumina set up should be set up as follows:
 
 1. <RUN_PATH>/fastqs <- all fastqs should be out at this level
 2. <RUN_PATH>/samplesheet.csv
 
-Oxford Nanopore should be set up as follows:
+Oxford Nanopore set up should be set up as follows:
 
 1. <RUN_PATH>/fastq_pass <- fastqs should be within barcode folders as given by ONT machine
 2. <RUN_PATH>/samplesheet.csv
+
+**Note:** The name of the run folder will be used to name outputs files.
 
 Third, pull the mira-cli work flow from github using:
 
@@ -98,10 +100,11 @@ git checkout dev
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-cli folder.
 
 Inputs for the pipeline include:
--profile - singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
 
+- profile - singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
 - input - <RUN_PATH>/samplesheet.csv with the format described above.
-- outdir - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
+- outdir - The file path to where you would like the output directory to write the files
+- r - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 - p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue
@@ -113,7 +116,8 @@ To run locally you will need to install Nextflow and singularity-ce on your comp
 nextflow run ./main.nf \
    -profile singularity,local \
    --input <RUN_PATH>/samplesheet.csv \
-   --outdir <RUN_PATH> \
+   --outdir <OUTDIR> \
+   --r <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
    --email <EMAIL_ADDRESS> (optional)
@@ -126,6 +130,7 @@ nextflow run ./main.nf \
    -profile singularity,hpc \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
+   --r <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
    --process_q <QUEUE_NAME> \
@@ -136,9 +141,11 @@ For in house testing (all values must be filled in to execute qsub - for primer 
 
 ```bash
 qsub MIRA_nextflow.sh \
-   -f singularity,hpc 
+   -d <FILE_PATH_TO_MIRA-CLI_DIR> \
+   -f singularity,hpc \
    -i <RUN_PATH>/samplesheet.csv \
-   -o <RUN_PATH> \
+   -o <OUTDIR>> \
+   -r <RUN_PATH> \
    -e <EXPERIMENT_TYPE> \
    -p <PRIMER_SHEMA> \
    -q <QUEUE_NAME> \
