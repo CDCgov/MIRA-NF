@@ -15,11 +15,11 @@ MIRA performs these steps for genome assembly and curation:
 
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
-3. Subsampling to faster analysis (['bbtools'](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
-4. Trimming and Quality Filtering (['bbduk'](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
-5. Adapter removal (['cutadapt'](https://github.com/marcelm/cutadapt/))
-6. Genome Assembly (['IRMA'](https://wonder.cdc.gov/amd/flu/irma/))
-7. Annotation of assembly (['DAIS-ribosome'](https://hub.docker.com/r/cdcgov/dais-ribosome))
+3. Subsampling to faster analysis ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
+4. Trimming and Quality Filtering ([`bbduk`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
+5. Adapter removal ([`cutadapt`](https://github.com/marcelm/cutadapt/))
+6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
+7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
 8. Collect results from IRMA and DAIS-Ribosome in json files
 9. Creatge html, excel files and amended consensus fasta files
 10. Convert into parquet files
