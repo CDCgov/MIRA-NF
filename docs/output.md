@@ -13,8 +13,14 @@ The directories listed below will be created in the results directory after the 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
 - [FastQC](#fastqc) - Raw read QC
-- [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipeline
+- [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipelilsne
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
+- [Reads Prepped for IRMA](#reads-prepped-for-irma) - The subsampled and trimmed fastq inputs that IRMA will use for assembly
+- [IRMA](https://wonder.cdc.gov/amd/flu/irma/) -
+- [DAIS-ribosome](https://hub.docker.com/r/cdcgov/dais-ribosome) -
+- [prepareIRMAjson](#prepare-IRMA-json) - Collect results from IRMA and DAIS-Ribosome in json files
+- [statichtml](#static-html) - Creatge html, excel files and amended consensus fasta files
+- [parquetmaker`](#parquet-maker) - Convert into parquet files
 
 ### FastQC
 

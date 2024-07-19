@@ -1,0 +1,987 @@
+N E X T F L O W  ~  version 23.10.0
+Launching `/scicomp/home-pure/xpa3/mira-cli/main.nf` [marvelous_austin] DSL2 - revision: d528359270
+WARN: Access to undefined parameter `monochromeLogs` -- Initialise it to a default value eg. `params.monochromeLogs = some_value`
+
+
+------------------------------------------------------
+                                        ,--./,-.
+        ___     __   __   __   ___     /,-._.--~'
+  |\ | |__  __ /  ` /  \ |__) |__         }  {
+  | \| |       \__, \__/ |  \ |___     \`-._,-`-,
+                                        `._,._,'
+  mira/cli v1.0dev
+------------------------------------------------------
+Core Nextflow options
+  runName        : marvelous_austin
+  containerEngine: singularity
+  launchDir      : /scicomp/home-pure/xpa3/mira-cli
+  workDir        : /scicomp/scratch/xpa3/nextflow/work
+  projectDir     : /scicomp/home-pure/xpa3/mira-cli
+  userName       : xpa3
+  profile        : singularity,hpc
+  configFiles    : 
+
+Input/output options
+  input          : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/test/samplesheet.csv
+  outdir         : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/test/outputs
+  runpath        : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/test
+  e              : Flu-ONT
+
+Optional inputs
+  p              : none
+  email          : xpa3@cdc.gov
+  process_q      : flu.q
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+------------------------------------------------------
+If you use mira/cli for your analysis please cite:
+
+* The pipeline
+
+* The nf-core framework
+  https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+  https://github.com/mira/cli/blob/master/CITATIONS.md
+------------------------------------------------------
+[-        ] process > MIRA_CLI:CLI:flu_o:CONCATFA... -
+[-        ] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... -
+[-        ] process > MIRA_CLI:CLI:flu_o:INPUT_CH... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+
+[-        ] process > MIRA_CLI:CLI:flu_o:CONCATFA... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... -
+[-        ] process > MIRA_CLI:CLI:flu_o:INPUT_CH... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (1)
+[e3/026baf] process > MIRA_CLI:CLI:flu_o:CONCATFA... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... -
+[-        ] process > MIRA_CLI:CLI:flu_o:INPUT_CH... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (2)
+[cf/ec3b0d] process > MIRA_CLI:CLI:flu_o:CONCATFA... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... -
+[-        ] process > MIRA_CLI:CLI:flu_o:INPUT_CH... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (3)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... -
+[-        ] process > MIRA_CLI:CLI:flu_o:INPUT_CH... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (3)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:INPUT_CH... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (4)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:INPUT_CH... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (5)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (7)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[ea/a20831] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (8)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (8)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:F... -
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (10)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[c5/bc5785] process > MIRA_CLI:CLI:flu_o:READQC:F... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (11)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (12)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[e0/abc159] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (13)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[cd/85c26c] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (14)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (14)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... -
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (16)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... [  0%] 0 of 1
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[d3/f9139b] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (17)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:READQC:M... [  0%] 0 of 1
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (18)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [  0%] 0 of 1
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (18)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (21)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... -
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (21)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (24)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (24)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:IRMA        [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (27)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [  0%] 0 of 3
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (28)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[c1/40ccaf] process > MIRA_CLI:CLI:flu_o:IRMA (s2)   [ 33%] 1 of 3
+[c0/8f586e] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (28)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[c1/40ccaf] process > MIRA_CLI:CLI:flu_o:IRMA (s2)   [ 33%] 1 of 3
+[c0/8f586e] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (29)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[c1/40ccaf] process > MIRA_CLI:CLI:flu_o:IRMA (s2)   [ 33%] 1 of 3
+[c0/8f586e] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (29)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[c1/40ccaf] process > MIRA_CLI:CLI:flu_o:IRMA (s2)   [ 33%] 1 of 3
+[c0/8f586e] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (29)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[c0/8f586e] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [ 33%] 1 of 3
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (31)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [ 33%] 1 of 3
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... -
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (31)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (32)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (32)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (33)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (34)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (35)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[20/723c91] process > MIRA_CLI:CLI:flu_o:PREPARER... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (35)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[20/723c91] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (36)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[20/723c91] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[5e/1f28ab] process > MIRA_CLI:CLI:flu_o:PREPARER... [  0%] 0 of 1
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... -
+
+executor >  sge (37)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[20/723c91] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[5e/1f28ab] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[-        ] process > MIRA_CLI:CLI:flu_o:PREPARER... [  0%] 0 of 1
+
+executor >  sge (37)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[20/723c91] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[5e/1f28ab] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[28/8bbec2] process > MIRA_CLI:CLI:flu_o:PREPARER... [  0%] 0 of 1
+
+executor >  sge (37)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[20/723c91] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[5e/1f28ab] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[28/8bbec2] process > MIRA_CLI:CLI:flu_o:PREPARER... [  0%] 0 of 1
+
+executor >  sge (37)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[20/723c91] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[5e/1f28ab] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[28/8bbec2] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+-[mira/cli] Pipeline completed successfully-
+
+executor >  sge (37)
+[e3/11f571] process > MIRA_CLI:CLI:flu_o:CONCATFA... [100%] 3 of 3 ✔
+[c6/7fb679] process > MIRA_CLI:CLI:flu_o:NEXTFLOW... [100%] 1 of 1 ✔
+[48/316bc1] process > MIRA_CLI:CLI:flu_o:INPUT_CH... [100%] 1 of 1 ✔
+[58/11af92] process > MIRA_CLI:CLI:flu_o:READQC:F... [100%] 3 of 3 ✔
+[b1/ca44ee] process > MIRA_CLI:CLI:flu_o:READQC:M... [100%] 1 of 1 ✔
+[7f/05b4cb] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[a8/652040] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[10/e8add7] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/f439e3] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[4e/8e6b2d] process > MIRA_CLI:CLI:flu_o:PREPONTR... [100%] 3 of 3 ✔
+[ce/dcedbc] process > MIRA_CLI:CLI:flu_o:IRMA (s3)   [100%] 3 of 3 ✔
+[01/e11264] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 3 of 3 ✔
+[86/1c8283] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[44/d2693f] process > MIRA_CLI:CLI:flu_o:CHECKIRM... [100%] 1 of 1 ✔
+[75/77a33c] process > MIRA_CLI:CLI:flu_o:DAISRIBO... [100%] 1 of 1 ✔
+[91/34a553] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[20/723c91] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[5e/1f28ab] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+[28/8bbec2] process > MIRA_CLI:CLI:flu_o:PREPARER... [100%] 1 of 1 ✔
+-[mira/cli] Pipeline completed successfully-
+Completed at: 19-Jul-2024 14:58:43
+Duration    : 3m 5s
+CPU hours   : 0.2
+Succeeded   : 37
+
+
