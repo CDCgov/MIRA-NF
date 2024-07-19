@@ -45,6 +45,7 @@ workflow PREPAREREPORTS {
         virus = 'sc2'
     }
 
+    //
     PREPAREIRMAJSON(dais_outputs_ch, platform, virus)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 

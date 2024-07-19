@@ -9,29 +9,32 @@
 
 ## Introduction
 
-**mira/cli** is a bioinformatics pipeline that assembles Influenza Genomes, SARS-CoV-2 Genomes and the SARS-CoV-2 Spike-Gene when give only the raw fastq files and a samplesheet. mira/cli can analyze reasds from Illumina and OxFord Nanopore sequencing machines.
+**mira/cli** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira/cli can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
 
-MIRA relies on four Docker containers to run its genome assembly and curation:
+MIRA performs these steps for genome assembly and curation:
 
-IRMA (Iterative Refinement Meta-Assembler): designed for the robust assembly, variant calling, and phasing of highly variable RNA viruses. IRMA is deployed with modules for influenza, ebolavirus and coronavirus.
-DAIS-Ribosome: compartmentalizes the translation engine developed for the CDC Influenza Division protein analytics database. The tool has been extended for use with Betacoronavirus.
-spyne: a Snakemake workflow manager designed for running Influenza Genome and SARS-CoV-2 Spike-Gene assembly.
-MIRA: a GUI web interface that allows users to interactively create a metadata and config file for running Influenza Genome and SARS-CoV-2 Spike-Gene assembly and curation.
+1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
+2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+3. Subsampling to faster analysis (['bbtools'](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
+4. Trimming and Quality Filtering (['bbduk'](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
+5. Adapter removal (['cutadapt'](https://github.com/marcelm/cutadapt/))
+6. Genome Assembly (['IRMA'](https://wonder.cdc.gov/amd/flu/irma/))
+7. Annotation of assembly (['DAIS-ribosome'](https://hub.docker.com/r/cdcgov/dais-ribosome))
+8. Collect results from IRMA and DAIS-Ribosome in json files
+9. Creatge html, excel files and amended consensus fasta files
+10. Convert into parquet files
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+MIRA is able to analyze 5 data types:
+
+1. Flu-Illumina - Flu whole genome data created with an illumina machine
+2. Flu-ONT - Flu whole genome data created with an OxFord nanoppore machine
+3. SC2-Whole-Genome-Illumina - SARS-CoV-2 whole genome data created with an illumina machine
+4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord nanoppore machine
+5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord nanoppore machine
 
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
-
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
-3. Trimming and Quality Filtering (['bbduk'])
-4. Genome Assembly (['IRMA'](https://wonder.cdc.gov/amd/flu/irma/))
 
 ## Usage
 

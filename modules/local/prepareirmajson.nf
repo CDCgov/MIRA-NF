@@ -1,5 +1,5 @@
 process PREPAREIRMAJSON {
-    tag 'Creating Plotly-Dash readable figures and tables from IRMA'
+    tag 'Creating jsons files from IRMA outputs'
     label 'process_low'
 
     container 'cdcgov/spyne-dev:v1.2.0'
