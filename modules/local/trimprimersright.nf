@@ -4,6 +4,9 @@ process TRIMPRIMERSRIGHT {
 
     container 'staphb/bbtools:39.01'
 
+    publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
+    publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
+
     input:
     tuple val(sample), path(ltrim_fastq_1), path(ltrim_fastq_2), path(primers)
 
