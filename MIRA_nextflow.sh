@@ -5,7 +5,7 @@
 #$ -pe smp 4
 #$ -l h_rt=72:00:00
 #$ -l h_vmem=32G
-#$ -q all.q
+#$ -q lonq.q
 #$ -cwd
 #$ -V
 
