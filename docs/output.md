@@ -6,8 +6,6 @@ This document describes the output produced by the pipeline. Most of the plots a
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
-<!-- TODO nf-core: Write this documentation describing your workflow's output -->
-
 ## Pipeline overview
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
@@ -19,31 +17,8 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [IRMA](#irma-outputs) - A folder containing all of the outs made by IRMA
 - [DAIS-ribosome](dais-ribosome-outputs) - Aggregate insertion, deletion and seqeunce file for the input data
 - [prepareIRMAjson](#prepare-IRMA-json) - Collected results from IRMA and DAIS-Ribosome in json files
-- [statichtml](#static-html) - Creatge html, excel files and amended consensus fasta files
-- [parquetmaker`](#parquet-maker) - Convert into parquet files
-
-### FastQC
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `fastqc/`
-  - `*_fastqc.html`: FastQC report containing quality metrics.
-  - `*_fastqc.zip`: Zip archive containing the FastQC report, tab-delimited data file and plot images.
-
-</details>
-
-[FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) gives general quality metrics about your sequenced reads. It provides information about the quality score distribution across your reads, per base sequence content (%A/T/G/C), adapter contamination and overrepresented sequences. For further reading and documentation see the [FastQC help pages](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
-
-![MultiQC - FastQC sequence counts plot](images/mqc_fastqc_counts.png)
-
-![MultiQC - FastQC mean quality scores plot](images/mqc_fastqc_quality.png)
-
-![MultiQC - FastQC adapter content plot](images/mqc_fastqc_adapter.png)
-
-:::note
-The FastQC plots displayed in the MultiQC report shows _untrimmed_ reads. They may contain adapter sequence and potentially regions with low quality.
-:::
+- [statichtml](#static-html) - Create html files, excel files and amended consensus fasta files
+- [parquetmaker`](#parquet-maker) - Excels and amended consensus fasta converted parquet files for importing into a database
 
 ### MultiQC
 
@@ -56,6 +31,16 @@ The FastQC plots displayed in the MultiQC report shows _untrimmed_ reads. They m
   - `multiqc_plots/`: directory containing static images from the report in various formats.
 
 </details>
+
+![MultiQC - FastQC sequence counts plot](images/mqc_fastqc_counts.png)
+
+![MultiQC - FastQC mean quality scores plot](images/mqc_fastqc_quality.png)
+
+![MultiQC - FastQC adapter content plot](images/mqc_fastqc_adapter.png)
+
+:::note
+The FastQC plots displayed in the MultiQC report shows _untrimmed_ reads. They may contain adapter sequence and potentially regions with low quality.
+:::
 
 [MultiQC](http://multiqc.info) is a visualization tool that generates a single HTML report summarising all samples in your project. Most of the pipeline QC results are visualised in the report and further statistics are available in the report data directory.
 
@@ -171,41 +156,100 @@ IRMA output directory structre (only showing A_MP)
 
 </details>
 
+The output for IRMA is written into the working directory as a new subfolder. This subfolder is named using the sample name. Above are the typical outputs created by IRMA. These outputs include an amended consensus, variant information and coverage information.
+
+![Alt text](image.png)
+Coverage figure created by IRMA
+
 ### DAIS-ribosome
 
-Aggregate insertion, deletion and seqeunce file for the input data
 <details markdown="1">
 <summary>Output files</summary>
 
-- `reads_prepped_for_IRMA/`
-  - Subsampled read in fastq file
-  - trimmed reads in fastq files for those experiment taypes that require trimming
+- `IRMA/dais_results/`
+  - DAIS_ribosome.in - file contains the insertion found in all the samples assembled by IRMA
+  - DAIS_ribosome.del - file contains the deletions found in all the samples assembled by IRMA
+  - DAIS_ribosome.seq - file contains sequence related data from all the samples assembled by IRMA
 
 </details>
+
+Aggregate insertion, deletion and seqeunce file for the input data
+
+An insertion file output example:
+
+| ID | C_type | Ref_ID | Protein | Upstream_aa | Inserted_nuceotides | Inserted_residues | Upstream_nt | Codon_shift |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| 11209 | B_HA | PHUKET3073 | HA | 161 | aaa | K | 483 | 0 |
+| 154957 | B_HA | PHUKET3073 | HA | 163 | krc | X | 489 | 0 |
+| 223550 | B_HA | PHUKET3073 | HA | 161 | caa | Q | 483 | 0 |
+
+A deletion file example:
+
+| ID | C_type | Ref_ID | Protein | VH | Del_AA_start | Del_AA_end | Del_AA_len | In_frame | CDS_ID | Del_CDS_start | Del_CDS_end | Del_CDS_len |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+|EPI_ISL_410721|SARS-CoV-2|WUHAN19|orf1ab|5ba70e95c9a3251bc6155f62295dd3e8|994|1002|9|true|29cd767e2d144c31179395fd606d1489ce731746|2980|3006|27|
+|EPI_ISL_410721|SARS-CoV-2|WUHAN19|orf1ab|5ba70e95c9a3251bc6155f62295dd3e8|1012|1012|1|true|29cd767e2d144c31179395fd606d1489ce731746|3034|3036|3|
+|EPI_ISL_410721|SARS-CoV-2|WUHAN19|S|450c068c437e7536d27fdb883d95d4f4|72|72|1|true|36a75a0d34960c048abaf82ee46a1b713eee534e|214|216|3|
+|EPI_ISL_410721|SARS-CoV-2|WUHAN19|S|450c068c437e7536d27fdb883d95d4f4|146|146|1|true|36a75a0d34960c048abaf82ee46a1b713eee534e|436|438|3|
+|EPI_ISL_410721|SARS-CoV-2|WUHAN19|S|450c068c437e7536d27fdb883d95d4f4|254|256|3|true|36a75a0d34960c048abaf82ee46a1b713eee534e|760|768|9|
+|EPI_ISL_410721|SARS-CoV-2|WUHAN19|S|450c068c437e7536d27fdb883d95d4f4|680|683|4|true|36a75a0d34960c048abaf82ee46a1b713eee534e|2038|2049|12|
+
+A sequence file output example:
+
+| ID | C_type | Ref_ID | Protein | VH |  AA_seq | AA_aln | CDS_id | Insertion | Shift_Insert | CDS_seq | CDS_aln | Query_nt_coordinates | CDS_nt_coordinates |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| 223550 | B_HA | BRISBANE60 | HA-signal | e81d2d895c70e91bb3ef917fe49fdab7 | MKAIIVLLMVVTSNA | MKAIIVLLMVVTSNA | 2aa6443b92ca45b301faa4d46e5fbd3b010e3ab7 |  false | false |ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | 20..64 | 1..45 |
+| 223550 | B_HA | PHUKET3073 | HA-signal | e81d2d895c70e91bb3ef917fe49fdab7 | MKAIIVLLMVVTSNA | MKAIIVLLMVVTSNA | 2aa6443b92ca45b301faa4d46e5fbd3b010e3ab7 | false | false | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | 20..64 | 1..45 |
+| 11209 | B_HA | BRISBANE60 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false | false | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45 | 1..45 |
+| 11209 | B_HA | PHUKET3073 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false | false | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45 | 1..45 |
 
 ### prepareIRMAjson
 
-Collected results from IRMA and DAIS-Ribosome in json files
 <details markdown="1">
 <summary>Output files</summary>
 
-- `reads_prepped_for_IRMA/`
-  - Subsampled read in fastq file
-  - trimmed reads in fastq files for those experiment taypes that require trimming
+- `dash_json/`
+  - alleles.json
+  - barcode_distribution.json
+  - coveragefig_sample_#_linear.json
+  - coverage.json
+  - dais_vars.json
+  - heatmap.json
+  - indels.json
+  - irma_summary.json
+  - nt_sequences.json
+  - pass_fail_heatmap.json
+  - pass_fail_qc.json
+  - qc_statement.json
+  - readsfig_sample_#.json
+  - reads.json
+  - ref_data.json
+  - vtpye.json
 
 </details>
+
+The collected results from IRMA and DAIS-Ribosome in json files
 
 ### Statichtml
 
-Creatge html, excel files and amended consensus fasta files
 <details markdown="1">
 <summary>Output files</summary>
 
-- `reads_prepped_for_IRMA/`
-  - Subsampled read in fastq file
-  - trimmed reads in fastq files for those experiment taypes that require trimming
+- `outdir/`
+  - MIRA_run_name_amended_consensus.fasta
+  - MIRA_run_name_failed_amended_consensus.fasta
+  - MIRA_run_name_amino_acid_consensus.fasta
+  - MIRA_run_name_failed_amino_acid_consensus.fasta
+  - MIRA_sample_#_coverage.html
+  - MIRA-summary-tiny_test_run_flu_illumina.html
+  - MIRA_run_name_aavars.xlsx
+  - MIRA_run_name_minorindels.xlsx
+  - MIRA_run_name_minorvariants.xlsx
+  - MIRA_run_name_summary.xlsx
 
 </details>
+
+ Html files, excel files and combined amended consensus fasta files are created in this step.
 
 ### parquetmaker
 
@@ -213,9 +257,17 @@ Convert into parquet files
 <details markdown="1">
 <summary>Output files</summary>
 
-- `reads_prepped_for_IRMA/`
-  - Subsampled read in fastq file
-  - trimmed reads in fastq files for those experiment taypes that require trimming
+- `parq_files/`
+  - run_name_alleles.parq
+  - run_name_amended_consensus.parq
+  - run_name_amino_acid_consensus.parq
+  - run_name_coverage.parq
+  - run_name_indels.parq
+  - run_name_irma_config.parq
+  - run_name_reads.parq
+  - run_name_samplesheet.parq
+  - run_name_summary.parq
+  - run_name_variants.parq
 
 </details>
 
