@@ -56,18 +56,18 @@ First, prepare a samplesheet with your input data that looks as follows:
 Illumina data should be set up as follows:
 
 ```csv
-Sample ID,Sample Type,Unnamed: 2
-sample_1,Test, nan
-sample_2,Test,nan
-sample_3,Test,nan
-sample_4,Test,nan
+Sample ID,Sample Type
+sample_1,Test
+sample_2,Test
+sample_3,Test
+sample_4,Test
 ```
 
 Oxford Nanopore data should be set up as follows:
 
 ```csv
 Barcode #,Sample ID,Sample Type
-barcode27,s1,Test
+barcode07,s1,Test
 barcode37,s2,Test
 barcode41,s3,Test
 ```

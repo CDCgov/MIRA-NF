@@ -42,18 +42,23 @@ The sample sheet will need to be set up as seen below. Using the samplesheet tha
 Illumina data should be set up as follows:
 
 ```csv
-Sample ID,Sample Type,Unnamed: 2
-sample_1,Test, nan
-sample_2,Test,nan
-sample_3,Test,nan
-sample_4,Test,nan
+Sample ID,Sample Type
+sample_1,Test
+sample_2,Test
+sample_3,Test
+sample_4,Test
 ```
 
-Oxford Nanopore data should be set up as follows:
+Each row represents a sample.
+
+| Column    | Description                                                                                                                                                                            |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Sample ID`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all sapces in sample names to underscores (`_`). |
+| `Sample Type` | The sample type for the given sample. Ex: test, positive, negative, etc.  |
 
 ```csv
 Barcode #,Sample ID,Sample Type
-barcode27,s1,Test
+barcode07,s1,Test
 barcode37,s2,Test
 barcode41,s3,Test
 ```
@@ -62,9 +67,9 @@ Each row represents a sample.
 
 | Column    | Description                                                                                                                                                                            |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+| `Barcode #`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
+| `Sample ID` | Custom sample name. Convert all sapces in sample names to underscores (`_`).                                                          |
+| `Sample Type` | The sample type for the given sample. Ex: test, positive, negative, etc.                                                            |
 
 After creating the samplesheet, move it into a run folder with fastq files:
 
