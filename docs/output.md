@@ -158,7 +158,7 @@ IRMA output directory structre (only showing A_MP)
 
 The output for IRMA is written into the working directory as a new subfolder. This subfolder is named using the sample name. Above are the typical outputs created by IRMA. These outputs include an amended consensus, variant information and coverage information.
 
-![Alt text](image.png)
+![Alt text](images/irma_coverage_image.png)
 Coverage figure created by IRMA
 
 ### DAIS-ribosome
