@@ -100,7 +100,7 @@ git checkout dev
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-cli folder.
 
-Inputs for the pipeline include:
+Input parameters for the pipeline include:
 
 - profile - singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
 - input - <RUN_PATH>/samplesheet.csv with the format described above.

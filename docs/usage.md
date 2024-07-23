@@ -4,7 +4,28 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+**mira/cli** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira/cli can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
+
+MIRA performs these steps for genome assembly and curation:
+
+1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
+2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+3. Subsampling to faster analysis ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
+4. Trimming and Quality Filtering ([`bbduk`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
+5. Adapter removal ([`cutadapt`](https://github.com/marcelm/cutadapt/))
+6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
+7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
+8. Collect results from IRMA and DAIS-Ribosome in json files
+9. Creatge html, excel files and amended consensus fasta files
+10. Convert into parquet files
+
+MIRA is able to analyze 5 data types:
+
+1. Flu-Illumina - Flu whole genome data created with an illumina machine
+2. Flu-ONT - Flu whole genome data created with an OxFord nanoppore machine
+3. SC2-Whole-Genome-Illumina - SARS-CoV-2 whole genome data created with an illumina machine
+4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord nanoppore machine
+5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord nanoppore machine
 
 ## Samplesheet input
 
@@ -14,33 +35,30 @@ You will need to create a samplesheet with information about the samples you wou
 --input '[path to samplesheet file]'
 ```
 
-### Multiple runs of the same sample
-
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
-```
-
 ### Full samplesheet
 
-The pipeline will auto-detect whether a sample is single- or paired-end using the information provided in the samplesheet. The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below.
+The sample sheet will need to be set up as seen below. Using the samplesheet that corresponds to the type of data that you are analyzing.
 
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 6 samples, where `TREATMENT_REP3` has been sequenced twice.
+Illumina data should be set up as follows:
 
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP2,AEG588A2_S2_L002_R1_001.fastq.gz,AEG588A2_S2_L002_R2_001.fastq.gz
-CONTROL_REP3,AEG588A3_S3_L002_R1_001.fastq.gz,AEG588A3_S3_L002_R2_001.fastq.gz
-TREATMENT_REP1,AEG588A4_S4_L003_R1_001.fastq.gz,
-TREATMENT_REP2,AEG588A5_S5_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
+```csv
+Sample ID,Sample Type,Unnamed: 2
+sample_1,Test, nan
+sample_2,Test,nan
+sample_3,Test,nan
+sample_4,Test,nan
 ```
+
+Oxford Nanopore data should be set up as follows:
+
+```csv
+Barcode #,Sample ID,Sample Type
+barcode27,s1,Test
+barcode37,s2,Test
+barcode41,s3,Test
+```
+
+Each row represents a sample.
 
 | Column    | Description                                                                                                                                                                            |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -48,17 +66,61 @@ TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
 | `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
 | `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+After creating the samplesheet, move it into a run folder with fastq files:
+
+Illumina set up should be set up as follows:
+
+1. <RUN_PATH>/fastqs <- all fastqs should be out at this level
+2. <RUN_PATH>/samplesheet.csv
+
+Oxford Nanopore set up should be set up as follows:
+
+1. <RUN_PATH>/fastq_pass <- fastqs should be within barcode folders as given by ONT machine
+2. <RUN_PATH>/samplesheet.csv
+
+**Note:** The name of the run folder will be used to name outputs files
 
 ## Running the pipeline
 
-The typical command for running the pipeline is as follows:
+Inputs for the pipeline include:
+
+- profile - singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
+- input - <RUN_PATH>/samplesheet.csv with the format described above.
+- outdir - The file path to where you would like the output directory to write the files
+- r - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
+- e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+- p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
+- process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue
+- email - (optional) provide an email if you would like to receive an email with the irma summary upon completion
+
+To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
 ```bash
-nextflow run mira/cli --input ./samplesheet.csv --outdir ./results --genome GRCh37 -profile docker
+nextflow run ./main.nf \
+   -profile singularity,local \
+   --input <RUN_PATH>/samplesheet.csv \
+   --outdir <OUTDIR> \
+   --r <RUN_PATH> \
+   --e <EXPERIMENT_TYPE> \
+   --p <PRIMER_SHEMA> (optional) \
+   --email <EMAIL_ADDRESS> (optional)
 ```
 
-This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
+To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
+
+```bash
+nextflow run ./main.nf \
+   -profile singularity,hpc \
+   --input <RUN_PATH>/samplesheet.csv \
+   --outdir <RUN_PATH> \
+   --r <RUN_PATH> \
+   --e <EXPERIMENT_TYPE> \
+   --p <PRIMER_SHEMA> (optional) \
+   --process_q <QUEUE_NAME> \
+   --email <EMAIL_ADDRESS> (optional)
+```
+
+Both of these will launch the pipeline with the `singularity` configuration profile. See below for more information about profiles.
 
 Note that the pipeline will create the following files in your working directory:
 
@@ -142,20 +204,12 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 - `test`
   - A profile with a complete configuration for automated testing
   - Includes links to test data so needs no other parameters
-- `docker`
-  - A generic configuration profile to be used with [Docker](https://docker.com/)
 - `singularity`
-  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/)
-- `podman`
-  - A generic configuration profile to be used with [Podman](https://podman.io/)
-- `shifter`
-  - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
-- `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
-- `apptainer`
-  - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
-- `conda`
-  - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
+  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/). The singularirty profile has to be used for this pipeline to work
+- `hpc`
+  - A configuration profile that enables the pipeline to be executed on an HPC with a SGE.
+- `local`
+  - A configuration profile that enables the pipeline to run smoothly on a local machine.
 
 ### `-resume`
 
@@ -177,9 +231,9 @@ To change the resource requests, please see the [max resources](https://nf-co.re
 
 ### Custom Containers
 
-In some cases you may wish to change which container or conda environment a step of the pipeline uses for a particular tool. By default nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However in some cases the pipeline specified version maybe out of date.
+In some cases you may wish to change which container a step of the pipeline uses for a particular tool. By default nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However in some cases the pipeline specified version maybe out of date.
 
-To use a different container from the default container or conda environment specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/usage/configuration#updating-tool-versions) section of the nf-core website.
+To use a different container from the default container specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/usage/configuration#updating-tool-versions) section of the nf-core website.
 
 ### Custom Tool Arguments
 
