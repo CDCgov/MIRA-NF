@@ -121,6 +121,7 @@ try:
                         irma_sum_pd["Count of Minor SNVs >= 0.05"],
                         irma_sum_pd["Count of Minor Indels >= 0.05"],
                         irma_sum_pd["Pass/Fail Reason"],
+                        irma_sum_pd["MIRA module"],
                     ],
                     fill_color="lavender",
                     align="left",
