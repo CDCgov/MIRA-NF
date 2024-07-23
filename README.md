@@ -32,7 +32,7 @@ MIRA is able to analyze 5 data types:
 4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord nanoppore machine
 5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord nanoppore machine
 
-![Alt text](irma_coverage_image.png)
+![Alt text](docs/images/mira_cli_workflow_image.png)
 
 ## Usage
 
