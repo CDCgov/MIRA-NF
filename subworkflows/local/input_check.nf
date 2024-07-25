@@ -9,9 +9,9 @@ workflow INPUT_CHECK {
     samplesheet // file: /path/to/samplesheet.csv
 
     main:
-    SAMPLESHEET_CHECK ( samplesheet )
+    SAMPLESHEET_CHECK(samplesheet)
         .csv
-        .splitCsv ( header:true, sep:',' )
+        .splitCsv(header:true, sep:',')
         .map { create_fastq_channel(it) }
         .set { reads }
 
