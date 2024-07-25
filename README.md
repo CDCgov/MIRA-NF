@@ -138,21 +138,6 @@ nextflow run ./main.nf \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
-For in house testing (all values must be filled in to execute qsub - for primer schema if none, put none):
-
-```bash
-qsub MIRA_nextflow.sh \
-   -d <FILE_PATH_TO_MIRA-CLI_DIR> \
-   -f singularity,hpc \
-   -i <RUN_PATH>/samplesheet.csv \
-   -o <OUTDIR>> \
-   -r <RUN_PATH> \
-   -e <EXPERIMENT_TYPE> \
-   -p <PRIMER_SHEMA> \
-   -q <QUEUE_NAME> \
-   -m <EMAIL_ADDRESS>
-```
-
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
 > see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
