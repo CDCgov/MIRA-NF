@@ -93,7 +93,6 @@ Third, pull the mira-cli work flow from github using:
 ```bash
 git clone https://github.com/cdcent/mira-cli.git
 cd mira-cli
-git checkout dev
 ```
 
 **using dev branch temporary
