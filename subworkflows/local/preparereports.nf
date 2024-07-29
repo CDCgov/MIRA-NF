@@ -52,11 +52,16 @@ workflow PREPAREREPORTS {
     STATICHTML(PREPAREIRMAJSON.out.dash_json, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
-    PARQUETMAKER(STATICHTML.out.html, run_ID_ch, params.input)
-    ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
+    if (params.parquet_files == true) {
+        PARQUETMAKER(STATICHTML.out.html, run_ID_ch, params.input)
+        ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
-    versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
-    PREPEMAIL(PARQUETMAKER.out.summary_parq, versions_path_ch)
+        versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
+        PREPEMAIL(PARQUETMAKER.out.summary_parq, versions_path_ch)
+    } else if (params.parquet_files == false) {
+        versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
+        PREPEMAIL(STATICHTML.out.html, versions_path_ch)
+    }
 
     emit:
     versions = ch_versions                     // channel: [ versions.yml ]

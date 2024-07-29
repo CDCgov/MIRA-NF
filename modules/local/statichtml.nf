@@ -5,7 +5,7 @@ process STATICHTML {
     container 'cdcgov/spyne-dev:v1.2.0'
 
     input:
-    path json_files
+    path(json_files)
     val run_ID_ch
 
     output:
@@ -19,7 +19,8 @@ process STATICHTML {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${projectDir}/bin/static_report.py -d ${params.outdir} -r ${run_ID_ch} -l ${projectDir}
+    touch ${json_files}
+    python3 ${projectDir}/bin/static_report.py -d ./ -r ${run_ID_ch} -l ${projectDir}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

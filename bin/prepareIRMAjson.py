@@ -666,7 +666,7 @@ def seq_df2fastas(
         output_name = f"{nt_or_aa}_{sample}_{reference}.fasta"
     if failed_reason != "":
         failed_reason = f"|{failed_reason}"
-    with open(f"{irma_path}/../{output_name}", "a+") as out:
+    with open(f"./{output_name}", "a+") as out:
         print(f">{sample}|{reference}{failed_reason}\n{sequence}", file=out)
 
 
