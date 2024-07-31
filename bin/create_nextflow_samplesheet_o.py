@@ -52,7 +52,6 @@ data = "sample,barcodes,fastq_1,fastq_2,sample_type\n"
 for d in dfd.values():
     id = d["Sample ID"]
     barcode = d["Barcode #"]
-    print(f"runpath = {runpath}\nid = {barcode}\nid = {id}")
     fastq_1 = glob(f"{runpath}/fastq_pass/cat_fastqs/{id}.fastq*", recursive=True)[0]
     fastq_2 = ""
     sample_type = d["Sample Type"]
