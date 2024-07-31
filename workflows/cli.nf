@@ -294,18 +294,32 @@ workflow CLI {
 
 if (params.email) {
     workflow.onComplete {
-        if (params.email || params.email_on_fail) {
+        if (workflow.success == true) {
             def msg = """
        Pipeline execution summary
        Completed at: ${workflow.complete}
        Duration    : ${workflow.duration}
        Success     : ${workflow.success}
        workDir     : ${workflow.workDir}
+       outDir      : ${params.outdir}
        exit status : ${workflow.exitStatus}
        """
        .stripIndent()
 
-            sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg, attach: "${projectDir}/summary.xlsx")
+            sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg, attach: "${params.outdir}/email_summary.xlsx")
+        } else if (workflow.success == false) {
+            def msg = """
+       Pipeline execution summary
+       Completed at: ${workflow.complete}
+       Duration    : ${workflow.duration}
+       Success     : ${workflow.success}
+       workDir     : ${workflow.workDir}
+       outDir      : ${params.outdir}
+       exit status : ${workflow.exitStatus}
+       """
+       .stripIndent()
+
+            sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg)
         }
     }
 
