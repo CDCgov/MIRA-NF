@@ -11,8 +11,7 @@ process PREPEMAIL {
 
     script:
     """
-    rm ${projectDir}/summary.xlsx
-    cp ${params.outdir}/*_summary.xlsx ${projectDir}/summary.xlsx
+    cp ${params.outdir}/MIRA_*_summary.xlsx ${params.outdir}/email_summary.xlsx
     cat ${collated_versions} > ${params.outdir}/collated_program_versions.yml
     """
 }
