@@ -1,5 +1,5 @@
 //
-// Subworkflow with functionality specific to the nf-core/cli pipeline
+// Subworkflow with functionality specific to the mira_nf pipeline
 //
 
 /*

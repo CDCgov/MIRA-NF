@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    mira/cli
+    mira_nf/mira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/mira/cli
+    Github : https://github.com/cdcent/mira-nf/tree/dev
 ----------------------------------------------------------------------------------------
 */
 
@@ -15,7 +15,7 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CLI  } from './workflows/cli'
+include { MIRA  } from './workflows/mira'
 include { PIPELINE_INITIALISATION     } from './subworkflows/local/utils_nfcore_cli_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_cli_pipeline'
 
@@ -26,10 +26,10 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_cli_
 */
 
 //
-// WORKFLOW: Run main mira/cli analysis pipeline
+// WORKFLOW: Run main mira-nf/mira analysis pipeline
 //
-workflow MIRA_CLI {
-    CLI()
+workflow MIRA_NF {
+    MIRA()
 }
 
 /*
@@ -58,7 +58,7 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    MIRA_CLI()
+    MIRA_NF()
 
     //
     // SUBWORKFLOW: Run completion tasks
