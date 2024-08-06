@@ -2,6 +2,8 @@
 [![GitHub Actions Linting Status](https://github.com/mira/cli/workflows/nf-core%20linting/badge.svg)](https://github.com/mira/cli/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
+[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
+[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira/cli)
 
@@ -39,7 +41,7 @@ MIRA is able to analyze 5 data types:
 > To run this pipeline you will need to have these programs installed:
 
 1. Nextflow - If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
-2. singularity-ce - Information on how to install singularity can be found [here](https://docs.sylabs.io/guides/4.1/user-guide/quick_start.html#quick-installation-steps).
+2. singularity-ce or docker - Information on how to install singularity-ce can be found [here](https://docs.sylabs.io/guides/4.1/user-guide/quick_start.html#quick-installation-steps) and information to install dpcler can be found [here](https://www.docker.com/).
 3. git - INformation about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
 
 Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data. If you would like to test the pipeline using our test data it can be downloaded from this link:
@@ -102,12 +104,13 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 Input parameters for the pipeline include:
 
-- profile - singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
+- profile - singularity,docker,local,hpc \ You can use docker or singularity. Use local for running on local computer and hpc for running on an hpc.
 - input - <RUN_PATH>/samplesheet.csv with the format described above.
 - outdir - The file path to where you would like the output directory to write the files
 - r - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 - p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
+- parquet_files - optinal flag to produce parquet files (boolean). Default set to false.
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion
 
@@ -121,6 +124,7 @@ nextflow run ./main.nf \
    --r <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
+   -- parquet_files true (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
@@ -135,6 +139,7 @@ nextflow run ./main.nf \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
    --process_q <QUEUE_NAME> \
+   -- parquet_files true (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
@@ -150,6 +155,7 @@ qsub MIRA_nextflow.sh \
    -e <EXPERIMENT_TYPE> \
    -p <PRIMER_SHEMA> \
    -q <QUEUE_NAME> \
+   -a true \
    -m <EMAIL_ADDRESS>
 ```
 
