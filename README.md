@@ -95,7 +95,6 @@ Third, pull the mira-cli work flow from github using:
 ```bash
 git clone https://github.com/cdcent/mira-cli.git
 cd mira-cli
-git checkout dev
 ```
 
 **using dev branch temporary
@@ -142,6 +141,7 @@ nextflow run ./main.nf \
    -- parquet_files true (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
+
 
 For in house testing (all values must be filled in to execute qsub - for primer schema if none, put none):
 
