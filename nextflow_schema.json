@@ -93,6 +93,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "The name of the processing queue if using the hpc profile"
+                },
+                "subsample_reads": {
+                    "type": "integer",
+                    "default": 10000000,
+                    "description": "The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000."
                 }
             }
         },
