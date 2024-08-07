@@ -306,7 +306,7 @@ if (params.email) {
        """
        .stripIndent()
 
-            sendMail(to: params.email , subject: 'Nextflow pipeline execution', body:msg, attach: "${params.outdir}/email_summary.xlsx")
+            sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'Nextflow pipeline execution', body:msg, attach: "${params.outdir}/email_summary.xlsx")
         } else if (workflow.success == false) {
             def msg = """
        Pipeline execution summary
