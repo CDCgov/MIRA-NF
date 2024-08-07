@@ -2,7 +2,7 @@ process NEXTFLOWSAMPLESHEETI {
     tag 'Generating the samplesheet for nextflow'
     label 'process_single'
 
-    container 'cdcgov/spyne-dev:v1.2.0'
+    container 'cdcgov/mira-nf:latest'
 
     input:
     path samplesheet

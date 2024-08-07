@@ -2,7 +2,7 @@ process PREPAREIRMAJSON {
     tag 'Creating jsons files from IRMA outputs'
     label 'process_low'
 
-    container 'cdcgov/spyne-dev:v1.2.0'
+    container 'cdcgov/mira-nf:latest'
 
     input:
     val x

@@ -2,7 +2,7 @@ process CUTADAPT30 {
     tag { "${sample}" }
     label 'process_low'
 
-    container 'cdcgov/spyne-dev:v1.2.0'
+    container 'cdcgov/mira-nf:latest'
 
     publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
     publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
