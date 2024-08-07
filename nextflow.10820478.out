@@ -326,3 +326,136 @@ executor >  sge (13)
 [-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
 [-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
 
+executor >  sge (14)
+[a7/66276b] process > MIRA_NF:MIRA:sc2_wgs_i:NEXT... [100%] 1 of 1 ✔
+[6d/1b89c1] process > MIRA_NF:MIRA:sc2_wgs_i:INPU... [100%] 1 of 1 ✔
+[9d/2f5daa] process > MIRA_NF:MIRA:sc2_wgs_i:READ... [ 50%] 2 of 4
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:READ... -
+[b7/535b58] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [ 50%] 2 of 4
+[a3/707396] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[73/2fa20a] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [  0%] 0 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+
+executor >  sge (14)
+[a7/66276b] process > MIRA_NF:MIRA:sc2_wgs_i:NEXT... [100%] 1 of 1 ✔
+[6d/1b89c1] process > MIRA_NF:MIRA:sc2_wgs_i:INPU... [100%] 1 of 1 ✔
+[9d/2f5daa] process > MIRA_NF:MIRA:sc2_wgs_i:READ... [ 50%] 2 of 4
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:READ... -
+[b7/535b58] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [ 50%] 2 of 4
+[a3/707396] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[73/2fa20a] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [  0%] 0 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+
+executor >  sge (16)
+[a7/66276b] process > MIRA_NF:MIRA:sc2_wgs_i:NEXT... [100%] 1 of 1 ✔
+[6d/1b89c1] process > MIRA_NF:MIRA:sc2_wgs_i:INPU... [100%] 1 of 1 ✔
+[9d/2f5daa] process > MIRA_NF:MIRA:sc2_wgs_i:READ... [ 50%] 2 of 4
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:READ... -
+[b7/535b58] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [ 50%] 2 of 4
+[a3/707396] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[73/2fa20a] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[6a/3cb93d] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [  0%] 0 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+
+executor >  sge (16)
+[a7/66276b] process > MIRA_NF:MIRA:sc2_wgs_i:NEXT... [100%] 1 of 1 ✔
+[6d/1b89c1] process > MIRA_NF:MIRA:sc2_wgs_i:INPU... [100%] 1 of 1 ✔
+[9d/2f5daa] process > MIRA_NF:MIRA:sc2_wgs_i:READ... [ 50%] 2 of 4
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:READ... -
+[54/827c64] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 4 of 4 ✔
+[a3/707396] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [ 50%] 2 of 4
+[73/2fa20a] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[6a/3cb93d] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+
+executor >  sge (17)
+[a7/66276b] process > MIRA_NF:MIRA:sc2_wgs_i:NEXT... [100%] 1 of 1 ✔
+[6d/1b89c1] process > MIRA_NF:MIRA:sc2_wgs_i:INPU... [100%] 1 of 1 ✔
+[9d/2f5daa] process > MIRA_NF:MIRA:sc2_wgs_i:READ... [ 50%] 2 of 4
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:READ... -
+[54/827c64] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 4 of 4 ✔
+[ba/72ee45] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [ 50%] 2 of 4
+[73/2fa20a] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[6a/3cb93d] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+
+executor >  sge (18)
+[a7/66276b] process > MIRA_NF:MIRA:sc2_wgs_i:NEXT... [100%] 1 of 1 ✔
+[6d/1b89c1] process > MIRA_NF:MIRA:sc2_wgs_i:INPU... [100%] 1 of 1 ✔
+[9d/2f5daa] process > MIRA_NF:MIRA:sc2_wgs_i:READ... [ 50%] 2 of 4
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:READ... -
+[54/827c64] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 4 of 4 ✔
+[4b/706ee9] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [ 50%] 2 of 4
+[73/2fa20a] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[6a/3cb93d] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+
+executor >  sge (19)
+[a7/66276b] process > MIRA_NF:MIRA:sc2_wgs_i:NEXT... [100%] 1 of 1 ✔
+[6d/1b89c1] process > MIRA_NF:MIRA:sc2_wgs_i:INPU... [100%] 1 of 1 ✔
+[9d/6f3349] process > MIRA_NF:MIRA:sc2_wgs_i:READ... [100%] 4 of 4 ✔
+[f0/3d1c55] process > MIRA_NF:MIRA:sc2_wgs_i:READ... [  0%] 0 of 1
+[54/827c64] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 4 of 4 ✔
+[4b/706ee9] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [ 50%] 2 of 4
+[73/2fa20a] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[6a/3cb93d] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... [100%] 2 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_i:PREP... -
+
