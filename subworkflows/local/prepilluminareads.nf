@@ -51,7 +51,6 @@ workflow PREPILLUMINAREADS {
     find_chemistry_ch = new_ch.combine(run_ID_ch)
     FINDCHEMISTRYI(find_chemistry_ch, params.subsample_reads)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRYI.out.versions)
-    FINDCHEMISTRYI.out.sample_chem_csv.view()
 
     // Create the irma chemistry channel
     irma_chemistry_ch = FINDCHEMISTRYI.out.sample_chem_csv

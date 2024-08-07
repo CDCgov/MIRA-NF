@@ -68,7 +68,6 @@
                     "type": "string",
                     "description": "The primer schema if given. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206",
                     "enum": [
-                        "none",
                         "articv3",
                         "articv4",
                         "articv4.1",
