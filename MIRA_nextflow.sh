@@ -71,7 +71,7 @@ fi
 
 # Run nextflow
 module load nextflow/23.10.0
-nextflow run "$DIRNAME"/mira-cli/main.nf \
+nextflow run "$DIRNAME"/mira-nf/main.nf \
 	--input "$INPUT" \
 	--outdir "$OUTPATH" \
 	--runpath "$RUNPATH" \

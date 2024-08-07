@@ -106,7 +106,7 @@ Input parameters for the pipeline include:
 - profile - singularity,docker,local,hpc \ You can use docker or singularity. Use local for running on local computer and hpc for running on an hpc.
 - input - <RUN_PATH>/samplesheet.csv with the format described above.
 - outdir - The file path to where you would like the output directory to write the files.
-- r - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here.
+- runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here.
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina.
 - p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
@@ -121,7 +121,7 @@ nextflow run ./main.nf \
    -profile singularity,local \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <OUTDIR> \
-   --r <RUN_PATH> \
+   --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
    -- parquet_files true (optional) \
@@ -135,7 +135,7 @@ nextflow run ./main.nf \
    -profile singularity,hpc \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
-   --r <RUN_PATH> \
+   --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
    --process_q <QUEUE_NAME> \

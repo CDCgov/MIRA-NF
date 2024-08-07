@@ -281,13 +281,13 @@ def perc_len(maplen, ref, ref_lens):
 def version_module():
     module = qc_plat_vir
     descript_dict = {}
-    with open("/spyne/DESCRIPTION", "r") as infi:
+    with open("/mira-nf/DESCRIPTION", "r") as infi:
         for line in infi:
             try:
                 descript_dict[line.split(":")[0]] = line.split(":")[1]
             except:
                 continue
-    modulestring = f"MIRA-v{descript_dict['Version'].strip()} {module}"
+    modulestring = f"MIRA-NF-v{descript_dict['Version'].strip()} {module}"
     return modulestring
 
 

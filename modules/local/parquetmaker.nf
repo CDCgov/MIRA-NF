@@ -2,7 +2,7 @@ process PARQUETMAKER {
     tag { 'Creating paquet output' }
     label 'process_low'
 
-    container 'cdcgov/spyne-dev:v1.2.0'
+    container 'cdcgov/mira-nf:latest'
 
     input:
     path(html_outputs)
