@@ -28,7 +28,7 @@ workflow PREPONTREADS {
     }
 
     find_chemistry_ch = new_ch.combine(run_ID_ch)
-    FINDCHEMISTRYO(find_chemistry_ch)
+    FINDCHEMISTRYO(find_chemistry_ch, params.subsample_reads)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRYO.out.versions)
 
     // Create the irma chemistry channel
