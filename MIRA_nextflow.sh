@@ -52,13 +52,13 @@ else
 	OPTIONALARGS2="--parquet_files $PAQUET"
 fi
 
-if [[ -z "${PAQUET}" ]]; then
+if [[ -z "${READ_COUNTS}" ]]; then
 	OPTIONALARGS3=""
 else
 	OPTIONALARGS3="--subsample_reads $READ_COUNTS"
 fi
 
-if [[ -z "${PAQUET}" ]]; then
+if [[ -z "${EMAIL}" ]]; then
 	OPTIONALARGS4=""
 else
 	OPTIONALARGS4="--email $EMAIL"
