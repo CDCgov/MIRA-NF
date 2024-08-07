@@ -68,7 +68,6 @@
                     "type": "string",
                     "description": "The primer schema if given. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206",
                     "enum": [
-                        "none",
                         "articv3",
                         "articv4",
                         "articv4.1",
@@ -93,6 +92,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "The name of the processing queue if using the hpc profile"
+                },
+                "subsample_reads": {
+                    "type": "integer",
+                    "default": 10000000,
+                    "description": "The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000."
                 }
             }
         },

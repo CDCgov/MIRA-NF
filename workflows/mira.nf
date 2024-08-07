@@ -273,7 +273,7 @@ workflow sc2_wgs_i {
 
 // MAIN WORKFLOW
 // Decides which experiment type workflow to run based on experiemtn parameter given
-workflow CLI {
+workflow MIRA {
     if (params.e == 'Flu-Illumina') {
         flu_i()
 } else if (params.e == 'Flu-ONT') {

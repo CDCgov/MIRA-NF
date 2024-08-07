@@ -8,7 +8,8 @@ parser.add_argument("-s", "--sample", required=True, help="Sample name")
 parser.add_argument("-q", "--fastq", required=True, help="R1.fastq file path")
 parser.add_argument("-r", "--runid", required=True, help="Run ID")
 parser.add_argument("-e", "--exp_type", required=True, help="Exp type")
-parser.add_argument("-p", "--wd_path", required=True, help="Exp type")
+parser.add_argument("-p", "--wd_path", required=True, help="primer type")
+parser.add_argument("-c", "--read_count", required=True, help="read counts")
 
 args = parser.parse_args()
 
@@ -20,6 +21,7 @@ wd_path = args.wd_path
 config_path_flu_minion = wd_path + "/bin/irma_config/FLU-minion-container.sh"
 config_path_sc_spike = wd_path + "/bin/irma_config/s-gene-container.sh"
 config_path_sc_wgs = wd_path + "/bin/irma_config/SC2-WGS-Nanopore.sh"
+read_count = args.read_count
 
 try:
     with open(fastq) as infi:
@@ -31,15 +33,27 @@ except:
 if exp_type == "Flu-ONT":
     irma_custom_0 = ""
     irma_custom_1 = f"--external-config {config_path_flu_minion}"
-    subsample = "50000"
+    subsample = read_count
+elif len(contents[1]) == 0 and exp_type == "Flu-ONT":
+    irma_custom_0 = ""
+    irma_custom_1 = ""
+    subsample = "0"
 elif exp_type == "SC2-Spike-Only-ONT":
     irma_custom_0 = ""
     irma_custom_1 = f"--external-config {config_path_sc_spike}"
-    subsample = "5000"
+    subsample = read_count
+elif len(contents[1]) == 0 and exp_type == "SC2-Spike-Only-ONT":
+    irma_custom_0 = ""
+    irma_custom_1 = ""
+    subsample = "0"
 elif exp_type == "SC2-Whole-Genome-ONT":
     irma_custom_0 = ""
     irma_custom_1 = f"--external-config {config_path_sc_wgs}"
-    subsample = "50000"
+    subsample = read_count
+elif len(contents[1]) == 0 and exp_type == "SC2-Whole-Genome-ONT":
+    irma_custom_0 = ""
+    irma_custom_1 = ""
+    subsample = "0"
 
 if exp_type == "Flu-ONT":
     IRMA_module = "FLU-minion"

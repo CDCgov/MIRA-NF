@@ -105,13 +105,14 @@ Input parameters for the pipeline include:
 
 - profile - singularity,docker,local,hpc \ You can use docker or singularity. Use local for running on local computer and hpc for running on an hpc.
 - input - <RUN_PATH>/samplesheet.csv with the format described above.
-- outdir - The file path to where you would like the output directory to write the files
-- r - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
-- e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+- outdir - The file path to where you would like the output directory to write the files.
+- r - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here.
+- e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina.
 - p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
-- parquet_files - optinal flag to produce parquet files (boolean). Default set to false.
-- process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue
-- email - (optional) provide an email if you would like to receive an email with the irma summary upon completion
+- parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
+- subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000.
+- process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
+- email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
 
 To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -142,7 +143,6 @@ nextflow run ./main.nf \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
-
 For in house testing (all values must be filled in to execute qsub - for primer schema if none, put none):
 
 ```bash
@@ -150,13 +150,14 @@ qsub MIRA_nextflow.sh \
    -d <FILE_PATH_TO_MIRA-CLI_DIR> \
    -f singularity,hpc \
    -i <RUN_PATH>/samplesheet.csv \
-   -o <OUTDIR>> \
+   -o <OUTDIR> \
    -r <RUN_PATH> \
    -e <EXPERIMENT_TYPE> \
-   -p <PRIMER_SHEMA> \
+   -p <PRIMER_SHEMA> \ (optional)
    -q <QUEUE_NAME> \
-   -a true \
-   -m <EMAIL_ADDRESS>
+   -a <PARQUET_FILE_CREATION> \ (optional)
+   -c <SUBSAMPLED_READ_COUTNS> \ (optional)
+   -m <EMAIL_ADDRESS>  (optional)
 ```
 
 > [!WARNING]
