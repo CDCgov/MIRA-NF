@@ -108,11 +108,13 @@ Input parameters for the pipeline include:
 - outdir - The file path to where you would like the output directory to write the files.
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here.
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina.
+*all commands listed below can not be included in run command and the defaults will be used*
 - p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
-- subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000.
+- subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
+- irma_config - (optional) Call flu-sensitive or flu-secondary irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
 
 To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -124,7 +126,9 @@ nextflow run ./main.nf \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
+   -- subsample_reads <READ_COUNT> \
    -- parquet_files true (optional) \
+   --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
@@ -140,6 +144,7 @@ nextflow run ./main.nf \
    --p <PRIMER_SHEMA> (optional) \
    --process_q <QUEUE_NAME> \
    -- parquet_files true (optional) \
+   --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
@@ -157,11 +162,13 @@ qsub MIRA_nextflow.sh \
    -q <QUEUE_NAME> \
    -a <PARQUET_FILE_CREATION> \ (optional)
    -c <SUBSAMPLED_READ_COUTNS> \ (optional)
-   -m <EMAIL_ADDRESS>  (optional)
+   -b <OTHER_IRMA_CONFIG> (optional)
+   -m <EMAIL_ADDRESS> \ (optional)
+
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***;
 > see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
 ## Credits
@@ -181,4 +188,4 @@ This pipeline uses code and infrastructure developed and maintained by the [nf-c
 >
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
 >
-> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+> *Nat Biotechnol.* 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
