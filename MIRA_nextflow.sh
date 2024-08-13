@@ -10,14 +10,14 @@
 #$ -V
 
 usage() {
-	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -a paquet_files> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -n > " 1>&2
+	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -a paquet_files> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -n > " 1>&2
 	exit 1
 }
 
 # Experiment type options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 # Primer Schema options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
 
-while getopts 'd:i:o:r:e:p:f:a:c:q:m:na' OPTION; do
+while getopts 'd:i:o:r:e:p:f:a:c:q:m:b:na' OPTION; do
 	case "$OPTION" in
 	d) DIRNAME="$OPTARG" ;;
 	i) INPUT="$OPTARG" ;;
@@ -30,6 +30,7 @@ while getopts 'd:i:o:r:e:p:f:a:c:q:m:na' OPTION; do
 	c) READ_COUNTS="$OPTARG" ;;
 	q) PROCESSQ="$OPTARG" ;;
 	m) EMAIL="$OPTARG" ;;
+	b) OTHER_IRMA_CONFIG="$OPTARG" ;;
 	*) usage ;;
 	esac
 done
@@ -58,10 +59,16 @@ else
 	OPTIONALARGS3="--subsample_reads $READ_COUNTS"
 fi
 
-if [[ -z "${EMAIL}" ]]; then
+if [[ -z "${OTHER_IRMA_CONFIG}" ]]; then
 	OPTIONALARGS4=""
 else
-	OPTIONALARGS4="--email $EMAIL"
+	OPTIONALARGS4="--irma_config $OTHER_IRMA_CONFIG"
+fi
+
+if [[ -z "${EMAIL}" ]]; then
+	OPTIONALARGS5=""
+else
+	OPTIONALARGS5="--email $EMAIL"
 fi
 
 # Archive previous run using the summary.xlsx file sent in email
@@ -81,4 +88,5 @@ nextflow run "$DIRNAME"/mira-nf/main.nf \
 	$OPTIONALARGS1 \
 	$OPTIONALARGS2 \
 	$OPTIONALARGS3 \
-	$OPTIONALARGS4
+	$OPTIONALARGS4 \
+	$OPTIONALARGS5

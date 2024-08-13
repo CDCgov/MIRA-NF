@@ -10,6 +10,7 @@ process FINDCHEMISTRYI {
     input:
     tuple val(sample), path(fastq), path(runid)
     val read_counts
+    val irma_config
 
     output:
     path "${sample}_chemistry.csv", emit: sample_chem_csv
@@ -22,7 +23,7 @@ process FINDCHEMISTRYI {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${projectDir}/bin/find_chemistry_i.py -s "${sample}" -q "${fastq}" -r "${runid}" -e "${params.e}" -p "${projectDir}" -c "${read_counts}"
+    python3 ${projectDir}/bin/find_chemistry_i.py -s "${sample}" -q "${fastq}" -r "${runid}" -e "${params.e}" -p "${projectDir}" -c "${read_counts}" -i ${irma_config}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
