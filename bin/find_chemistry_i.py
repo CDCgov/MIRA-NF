@@ -23,6 +23,7 @@ config_path_flu = wd_path + "/bin/irma_config/FLU.sh"
 config_path_flu_75 = wd_path + "/bin/irma_config/FLU-2x75.sh"
 config_path_flu_sensitive = wd_path + "/bin/irma_config/FLU-sensitive.sh"
 config_path_flu_secondary = wd_path + "/bin/irma_config/FLU-secondary.sh"
+config_path_flu_utr = wd_path + "/bin/irma_config/FLU-utr.sh"
 config_path_sc_wgs_i = wd_path + "/bin/irma_config/SC2-2x75.sh"
 read_count = args.read_count
 irma_config = args.irma_config
@@ -70,6 +71,10 @@ elif irma_config == "sensitive":
 elif irma_config == "secondary":
     irma_custom_0 = ""
     irma_custom_1 = f"--external-config {config_path_flu_secondary}"
+    subsample = read_count
+elif irma_config == "utr":
+    irma_custom_0 = ""
+    irma_custom_1 = f"--external-config {config_path_flu_utr}"
     subsample = read_count
 
 if exp_type == "Flu-Illumina":

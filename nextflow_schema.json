@@ -104,6 +104,7 @@
                     "enum": [
                         "sensitive",
                         "secondary",
+                        "utr",
                         "none"
                     ]
                 }
