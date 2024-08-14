@@ -1,17 +1,17 @@
-[![GitHub Actions CI Status](https://github.com/mira/cli/workflows/nf-core%20CI/badge.svg)](https://github.com/mira/cli/actions?query=workflow%3A%22nf-core+CI%22)
-[![GitHub Actions Linting Status](https://github.com/mira/cli/workflows/nf-core%20linting/badge.svg)](https://github.com/mira/cli/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions CI Status](https://github.com/mira/nf/workflows/nf-core%20CI/badge.svg)](https://github.com/mira/nf/actions?query=workflow%3A%22nf-core+CI%22)
+[![GitHub Actions Linting Status](https://github.com/mira/nf/workflows/nf-core%20linting/badge.svg)](https://github.com/mira/nf/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira/cli)
+[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira/nf)
 
 **General disclaimer:** This repository was created for use by CDC programs to collaborate on public health related projects in support of the CDC mission. GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
 
 ## Introduction
 
-**mira/cli** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira/cli can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
+**mira/nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira/nf can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
@@ -34,7 +34,7 @@ MIRA is able to analyze 5 data types:
 4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord nanoppore machine
 5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord nanoppore machine
 
-![Alt text](docs/images/mira_cli_workflow_image.png)
+![Alt text](docs/images/mira_nf_workflow_image.png)
 
 ## Usage
 
@@ -90,16 +90,16 @@ Oxford Nanopore set up should be set up as follows:
 
 **Note:** The name of the run folder will be used to name outputs files.
 
-Third, pull the mira-cli work flow from github using:
+Third, pull the mira-nf work flow from github using:
 
 ```bash
-git clone https://github.com/cdcent/mira-cli.git
-cd mira-cli
+git clone https://github.com/cdcent/mira-nf.git
+cd mira-nf
 ```
 
 **using dev branch temporary
 
-Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-cli folder.
+Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
 Input parameters for the pipeline include:
 
@@ -114,7 +114,7 @@ Input parameters for the pipeline include:
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
-- irma_config - (optional) Call flu-sensitive or flu-secondary irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
+- irma_config - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
 
 To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -152,7 +152,7 @@ For in house testing (all values must be filled in to execute qsub - for primer 
 
 ```bash
 qsub MIRA_nextflow.sh \
-   -d <FILE_PATH_TO_MIRA-CLI_DIR> \
+   -d <FILE_PATH_TO_MIRA-NF_DIR> \
    -f singularity,hpc \
    -i <RUN_PATH>/samplesheet.csv \
    -o <OUTDIR> \
@@ -168,17 +168,17 @@ qsub MIRA_nextflow.sh \
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***;
+> Please provide pipeline parameters via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***;
 > see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
 ## Credits
 
-mira/cli was originally written by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan.
+mira/nf was originally written by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan.
 
 ## Citations
 
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use mira/cli for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
+<!-- If you use mira/nf for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 

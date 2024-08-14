@@ -1,10 +1,10 @@
-# mira/cli: Usage
+# mira/nf: Usage
 
 > _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
 
 ## Introduction
 
-**mira/cli** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira/cli can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
+**mira/nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira/nf can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
@@ -92,11 +92,15 @@ Inputs for the pipeline include:
 - profile - singularity,local,hpc \ the singularity profile must always be selected, use local for running on local computer and hpc for running on an hpc.
 - input - <RUN_PATH>/samplesheet.csv with the format described above.
 - outdir - The file path to where you would like the output directory to write the files
-- r - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
+- runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+*all commands listed below can not be included in run command and the defaults will be used*
 - p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
-- process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue
-- email - (optional) provide an email if you would like to receive an email with the irma summary upon completion
+- parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
+- subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
+- process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
+- email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
+- irma_config - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
 
 To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -105,9 +109,12 @@ nextflow run ./main.nf \
    -profile singularity,local \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <OUTDIR> \
-   --r <RUN_PATH> \
+   --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
+   -- subsample_reads <READ_COUNT> (optional) \
+   -- parquet_files true (optional) \
+   --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
@@ -118,10 +125,11 @@ nextflow run ./main.nf \
    -profile singularity,hpc \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
-   --r <RUN_PATH> \
-   --e <EXPERIMENT_TYPE> \
+   --runpath <RUN_PATH> \
    --p <PRIMER_SHEMA> (optional) \
    --process_q <QUEUE_NAME> \
+   -- parquet_files true (optional) \
+   --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
@@ -147,7 +155,7 @@ Do not use `-c <file>` to specify parameters as this will result in errors. Cust
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run mira/cli -profile docker -params-file params.yaml
+nextflow run mira/nf -profile docker -params-file params.yaml
 ```
 
 with `params.yaml` containing:
@@ -155,7 +163,13 @@ with `params.yaml` containing:
 ```yaml
 input: './samplesheet.csv'
 outdir: './results/'
-genome: 'GRCh37'
+runpath: '/RUN_PATH/'
+e: 'experiment_type'
+p: 'primer_schema' (optional)
+subsample_reads: 'read_counts' (optional)
+parquet_files: true (optional)
+irma_config: 'config_type' (optional)
+email: 'email' (optional)
 <...>
 ```
 
@@ -166,14 +180,14 @@ You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-c
 When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline:
 
 ```bash
-nextflow pull mira/cli
+nextflow pull mira/nf
 ```
 
 ### Reproducibility
 
 It is a good idea to specify a pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [mira/cli releases page](https://github.com/mira/cli/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [mira/nf releases page](https://github.com/mira/nf/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
 
@@ -209,8 +223,20 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 - `test`
   - A profile with a complete configuration for automated testing
   - Includes links to test data so needs no other parameters
+- `docker`
+  - A generic configuration profile to be used with [Docker](https://docker.com/)
 - `singularity`
-  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/). The singularirty profile has to be used for this pipeline to work
+  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/)
+- `podman`
+  - A generic configuration profile to be used with [Podman](https://podman.io/)
+- `shifter`
+  - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
+- `charliecloud`
+  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
+- `apptainer`
+  - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
+- `conda`
+  - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
 - `hpc`
   - A configuration profile that enables the pipeline to be executed on an HPC with a SGE.
 - `local`
