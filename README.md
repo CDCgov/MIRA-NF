@@ -1,17 +1,17 @@
-[![GitHub Actions CI Status](https://github.com/mira/nf/workflows/nf-core%20CI/badge.svg)](https://github.com/mira/nf/actions?query=workflow%3A%22nf-core+CI%22)
-[![GitHub Actions Linting Status](https://github.com/mira/nf/workflows/nf-core%20linting/badge.svg)](https://github.com/mira/nf/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions CI Status](https://github.com/mira-nf/mira/workflows/nf-core%20CI/badge.svg)](https://github.com/mira-nf/mira/actions?query=workflow%3A%22nf-core+CI%22)
+[![GitHub Actions Linting Status](https://github.com/mira-nf/mira/workflows/nf-core%20linting/badge.svg)](https://github.com/mira-nf/mira/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira/nf)
+[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira-nf/mira)
 
 **General disclaimer:** This repository was created for use by CDC programs to collaborate on public health related projects in support of the CDC mission. GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
 
 ## Introduction
 
-**mira/nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira/nf can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
+**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
@@ -109,7 +109,7 @@ Input parameters for the pipeline include:
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here.
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina.
 *all commands listed below can not be included in run command and the defaults will be used*
-- p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
+- p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206 or you can provide your own primer fasta file.
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
@@ -125,7 +125,7 @@ nextflow run ./main.nf \
    --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> (optional) \
+   --p <PRIMER_SHEMA> or <FILE_PATH>/custom_primer.fasta  (optional) \
    -- subsample_reads <READ_COUNT> \
    -- parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
@@ -141,7 +141,7 @@ nextflow run ./main.nf \
    --outdir <RUN_PATH> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> (optional) \
+   --p <PRIMER_SHEMA> or <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
    -- parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
@@ -158,7 +158,7 @@ qsub MIRA_nextflow.sh \
    -o <OUTDIR> \
    -r <RUN_PATH> \
    -e <EXPERIMENT_TYPE> \
-   -p <PRIMER_SHEMA> \ (optional)
+   -p <PRIMER_SHEMA> or <FILE_PATH>/custom_primer.fasta  \ (optional)
    -q <QUEUE_NAME> \
    -a <PARQUET_FILE_CREATION> \ (optional)
    -c <SUBSAMPLED_READ_COUTNS> \ (optional)
@@ -173,12 +173,12 @@ qsub MIRA_nextflow.sh \
 
 ## Credits
 
-mira/nf was originally written by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan.
+mira-nf/mira was originally written by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan.
 
 ## Citations
 
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use mira/nf for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
+<!-- If you use mira-nf/mira for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 

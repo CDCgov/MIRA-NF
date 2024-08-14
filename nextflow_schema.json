@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/mira/cli/master/nextflow_schema.json",
-    "title": "mira/cli pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/mira-nf/mira/master/nextflow_schema.json",
+    "title": "mira-nf/mira pipeline parameters",
     "description": "Pipeline for Influenza, SARS-CoV-2, and RSV genome assembly, annotation, and curation",
     "type": "object",
     "definitions": {
@@ -66,16 +66,7 @@
             "properties": {
                 "p": {
                     "type": "string",
-                    "description": "The primer schema if given. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206",
-                    "enum": [
-                        "articv3",
-                        "articv4",
-                        "articv4.1",
-                        "articv5.3.2",
-                        "qiagen",
-                        "swift",
-                        "swift_211206"
-                    ]
+                    "description": "The primer schema if given. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206"
                 },
                 "email": {
                     "type": "string",
