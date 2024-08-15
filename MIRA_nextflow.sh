@@ -10,7 +10,7 @@
 #$ -V
 
 usage() {
-	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -a paquet_files> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -n > " 1>&2
+	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -a parquet_files> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -n > " 1>&2
 	exit 1
 }
 
@@ -26,7 +26,7 @@ while getopts 'd:i:o:r:e:p:f:a:c:q:m:b:na' OPTION; do
 	e) EXPERIMENT_TYPE="$OPTARG" ;;
 	p) PRIMER_SCHEMA="$OPTARG" ;;
 	f) APPLICATION="$OPTARG" ;;
-	a) PAQUET="$OPTARG" ;;
+	a) PARQUET="$OPTARG" ;;
 	c) READ_COUNTS="$OPTARG" ;;
 	q) PROCESSQ="$OPTARG" ;;
 	m) EMAIL="$OPTARG" ;;
@@ -47,10 +47,10 @@ else
 	OPTIONALARGS1="--p $PRIMER_SCHEMA"
 fi
 
-if [[ -z "${PAQUET}" ]]; then
+if [[ -z "${PARQUET}" ]]; then
 	OPTIONALARGS2=""
 else
-	OPTIONALARGS2="--parquet_files $PAQUET"
+	OPTIONALARGS2="--parquet_files $PARQUET"
 fi
 
 if [[ -z "${READ_COUNTS}" ]]; then
