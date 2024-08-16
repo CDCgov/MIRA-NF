@@ -66,7 +66,21 @@
             "properties": {
                 "p": {
                     "type": "string",
-                    "description": "The primer schema if given. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206"
+                    "description": "The primer schema used for SARS-CoV-2 Illumina data. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206",
+                    "enum": [
+                        "articv3",
+                        "articv4",
+                        "articv4.1",
+                        "articv5.3.2",
+                        "qiagen",
+                        "swift",
+                        "swift_211206"
+                    ]
+                },
+                "custom_primers": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "The primer schema used for SARS-CoV-2 Illumina data as a file path to the fasta file containing custom primers used for SARS-CoV-2 Illumina Data"
                 },
                 "email": {
                     "type": "string",
@@ -280,7 +294,7 @@
                     "hidden": true,
                     "help_text": "By default, parameters set as _hidden_ in the schema are not shown on the command line when a user runs with `--help`. Specifying this option will tell the pipeline to show all parameters."
                 },
-                "validationFailUnrecognizedParams": {
+                "validationFailUnrecognisedParams": {
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters fails when an unrecognized parameter is found.",

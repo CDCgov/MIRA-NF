@@ -95,14 +95,15 @@ Inputs for the pipeline include:
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 *all commands listed below can not be included in run command and the defaults will be used*
-- p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206 or you can provide your own primer fasta file.
+- p - provide a built in primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
+- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formated.
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
 - irma_config - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
 
-To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
+To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
 ```bash
 nextflow run ./main.nf \
@@ -111,8 +112,9 @@ nextflow run ./main.nf \
    --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> or <FILE_PATH>/custom_primer.fasta (optional) \
-   -- subsample_reads <READ_COUNT> (optional) \
+   --p <PRIMER_SHEMA> (optional) \
+   --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
+   -- subsample_reads <READ_COUNT> \
    -- parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
@@ -126,7 +128,9 @@ nextflow run ./main.nf \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
    --runpath <RUN_PATH> \
-   --p <PRIMER_SHEMA> or <FILE_PATH>/custom_primer.fasta (optional) \
+   --e <EXPERIMENT_TYPE> \
+   --p <PRIMER_SHEMA> (optional) \
+   --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
    -- parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
@@ -166,6 +170,7 @@ outdir: './results/'
 runpath: '/RUN_PATH/'
 e: 'experiment_type'
 p: 'primer_schema' (optional)
+custom_priemr: '/file_path/custom_primer.fasta'
 subsample_reads: 'read_counts' (optional)
 parquet_files: true (optional)
 irma_config: 'config_type' (optional)

@@ -228,6 +228,20 @@ workflow sc2_wgs_o {
 }
 
 workflow sc2_wgs_i {
+    //checking that primer parameter chas been provided before proceding through workflow - aborts pipeline if none are given
+    if (params.p == null && params.custom_primers == null) {
+        println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
+        println 'Please provide primers using either --p or --custom_primers'
+        workflow.exit
+    } else if (params.custom_primers != null) {
+        println 'Using custom primers for trimming'
+    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4') {
+        println "using ${params.p} primers for trimming"
+    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' && params.custom_primers != null) {
+        println 'using custom primers for trimming'
+        params.p = null
+    }
+
     //Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
