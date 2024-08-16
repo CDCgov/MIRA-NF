@@ -96,7 +96,7 @@ Inputs for the pipeline include:
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 *all commands listed below can not be included in run command and the defaults will be used*
 - p - provide a built in primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
-- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formated.
+- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formated.  **Trimming will only work with custom primers that are greater than 15bp**
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
