@@ -94,7 +94,9 @@ Inputs for the pipeline include:
 - outdir - The file path to where you would like the output directory to write the files
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+
 *all commands listed below can not be included in run command and the defaults will be used*
+
 - p - provide a built in primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
 - custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formated.  **Trimming will only work with custom primers that are greater than 15bp**
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
