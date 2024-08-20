@@ -94,8 +94,11 @@ Inputs for the pipeline include:
 - outdir - The file path to where you would like the output directory to write the files
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
 - e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+
 *all commands listed below can not be included in run command and the defaults will be used*
-- p - primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
+
+- p - provide a built in primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
+- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formated.  **Trimming will only work with custom primers that are greater than 15bp**
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
@@ -112,7 +115,8 @@ nextflow run ./main.nf \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
-   -- subsample_reads <READ_COUNT> (optional) \
+   --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
+   -- subsample_reads <READ_COUNT> \
    -- parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
@@ -126,7 +130,9 @@ nextflow run ./main.nf \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
    --runpath <RUN_PATH> \
+   --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
+   --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
    -- parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
@@ -166,6 +172,7 @@ outdir: './results/'
 runpath: '/RUN_PATH/'
 e: 'experiment_type'
 p: 'primer_schema' (optional)
+custom_priemr: '/file_path/custom_primer.fasta'
 subsample_reads: 'read_counts' (optional)
 parquet_files: true (optional)
 irma_config: 'config_type' (optional)

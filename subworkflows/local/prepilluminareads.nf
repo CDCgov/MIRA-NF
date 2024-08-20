@@ -37,9 +37,11 @@ workflow PREPILLUMINAREADS {
             primers = Channel.fromPath("${projectDir}/data/primers/swift_211206.fasta", checkIfExists: true)
         }  else if (params.p == 'varskip') {
             primers = Channel.fromPath("${projectDir}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
-        }  else if (params.p == 'nano') {
-            primers = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
         }
+    }
+
+    if (params.custom_primers) {
+        primers = Channel.fromPath("${params.custom_primers}", checkIfExists: true)
     }
 
     // Find chemistry

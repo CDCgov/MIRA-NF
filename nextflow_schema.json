@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/mira/cli/master/nextflow_schema.json",
-    "title": "mira/cli pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/mira-nf/mira/master/nextflow_schema.json",
+    "title": "mira-nf/mira pipeline parameters",
     "description": "Pipeline for Influenza, SARS-CoV-2, and RSV genome assembly, annotation, and curation",
     "type": "object",
     "definitions": {
@@ -59,14 +59,14 @@
                 }
             }
         },
-        "additonal_options": {
+        "additional_options": {
             "title": "Optional inputs",
             "type": "object",
             "description": "Pass the pipeline optional inputs",
             "properties": {
                 "p": {
                     "type": "string",
-                    "description": "The primer schema if given. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206",
+                    "description": "The primer schema used for SARS-CoV-2 Illumina data. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206",
                     "enum": [
                         "articv3",
                         "articv4",
@@ -76,6 +76,11 @@
                         "swift",
                         "swift_211206"
                     ]
+                },
+                "custom_primers": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "The primer schema used for SARS-CoV-2 Illumina data as a file path to the fasta file containing custom primers used for SARS-CoV-2 Illumina Data"
                 },
                 "email": {
                     "type": "string",
@@ -114,8 +119,8 @@
             "title": "Institutional config options",
             "type": "object",
             "fa_icon": "fas fa-university",
-            "description": "Parameters used to describe centralised config profiles. These should not be edited.",
-            "help_text": "The centralised nf-core configuration profiles use a handful of pipeline parameters to describe themselves. This information is then printed to the Nextflow log when you run a pipeline. You should not need to change these values when you run a pipeline.",
+            "description": "Parameters used to describe centralized config profiles. These should not be edited.",
+            "help_text": "The centralized nf-core configuration profiles use a handful of pipeline parameters to describe themselves. This information is then printed to the Nextflow log when you run a pipeline. You should not need to change these values when you run a pipeline.",
             "properties": {
                 "custom_config_version": {
                     "type": "string",
@@ -198,7 +203,7 @@
             "type": "object",
             "fa_icon": "fas fa-file-import",
             "description": "Less common options for the pipeline, typically set in a config file.",
-            "help_text": "These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.\n\nTypically these options would be set in a Nextflow config file loaded for all pipeline runs, such as `~/.nextflow/config`.",
+            "help_text": "These options are common to all nf-core pipelines and allow you to customize some of the core preferences for how the pipeline runs.\n\nTypically these options would be set in a Nextflow config file loaded for all pipeline runs, such as `~/.nextflow/config`.",
             "properties": {
                 "help": {
                     "type": "boolean",
@@ -292,16 +297,16 @@
                 "validationFailUnrecognisedParams": {
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
-                    "description": "Validation of parameters fails when an unrecognised parameter is found.",
+                    "description": "Validation of parameters fails when an unrecognized parameter is found.",
                     "hidden": true,
-                    "help_text": "By default, when an unrecognised parameter is found, it returns a warinig."
+                    "help_text": "By default, when an unrecognized parameter is found, it returns a warning."
                 },
                 "validationLenientMode": {
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters in lenient more.",
                     "hidden": true,
-                    "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
+                    "help_text": "Allows string values that are parsable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
                 }
             }
         }
@@ -311,7 +316,7 @@
             "$ref": "#/definitions/input_output_options"
         },
         {
-            "$ref": "#/definitions/additonal_options"
+            "$ref": "#/definitions/additional_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
