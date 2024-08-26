@@ -309,6 +309,10 @@ workflow MIRA {
 if (params.email) {
     workflow.onComplete {
         if (workflow.success == true) {
+            def path = "${params.runpath}"
+            def file = new File(path)
+            def basename = file.name
+            def final_files = ["${params.outdir}/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/MIRA_" + basename + '_amended_consensus.fasta']
             def msg = """
        Pipeline execution summary
        Completed at: ${workflow.complete}
@@ -320,7 +324,7 @@ if (params.email) {
        """
        .stripIndent()
 
-            sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach: "${params.outdir}/email_summary.xlsx")
+            sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
         } else if (workflow.success == false) {
             def msg = """
        Pipeline execution summary

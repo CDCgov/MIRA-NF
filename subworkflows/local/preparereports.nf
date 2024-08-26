@@ -7,7 +7,6 @@
 include { PREPAREIRMAJSON   } from '../../modules/local/prepareirmajson'
 include { STATICHTML        } from '../../modules/local/statichtml'
 include { PARQUETMAKER      } from '../../modules/local/parquetmaker'
-include { PREPEMAIL         } from '../../modules/local/prepemail'
 
 workflow PREPAREREPORTS {
     take:
@@ -57,12 +56,12 @@ workflow PREPAREREPORTS {
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
         versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
-        PREPEMAIL(PARQUETMAKER.out.summary_parq, versions_path_ch)
     } else if (params.parquet_files == false) {
         versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
-        PREPEMAIL(STATICHTML.out.html, versions_path_ch)
     }
 
+    versions_path_ch.view()
+
     emit:
-    versions = ch_versions                     // channel: [ versions.yml ]
+    collated_versions = versions_path_ch                     // channel: [ versions.yml ]
 }
