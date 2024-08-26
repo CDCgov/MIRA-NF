@@ -136,8 +136,8 @@ nextflow run ./main.nf \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
-   -- subsample_reads <READ_COUNT> \
-   -- parquet_files true (optional) \
+   --subsample_reads <READ_COUNT> \
+   --parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
@@ -154,7 +154,7 @@ nextflow run ./main.nf \
    --p <PRIMER_SHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
-   -- parquet_files true (optional) \
+   --parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
 ```
