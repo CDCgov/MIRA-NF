@@ -11,6 +11,7 @@ include { PARQUETMAKER      } from '../../modules/local/parquetmaker'
 workflow PREPAREREPORTS {
     take:
     dais_outputs_ch // channel: holds dais outputs
+    nf_samplesheet_ch //channel: hold the nextflow samplesheet
     ch_versions // channel: holds all previous version
 
     main:
@@ -45,7 +46,7 @@ workflow PREPAREREPORTS {
     }
 
     //
-    PREPAREIRMAJSON(dais_outputs_ch, platform, virus)
+    PREPAREIRMAJSON(dais_outputs_ch, nf_samplesheet_ch, platform, virus)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
     STATICHTML(PREPAREIRMAJSON.out.dash_json, run_ID_ch)

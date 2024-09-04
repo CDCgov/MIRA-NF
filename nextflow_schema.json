@@ -97,6 +97,11 @@
                     "default": false,
                     "description": "The name of the processing queue if using the hpc profile"
                 },
+                "amd_platform": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip the nextflow samplesheet creation step for AMD platform"
+                },
                 "subsample_reads": {
                     "type": "integer",
                     "default": 10000000,
