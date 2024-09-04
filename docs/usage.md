@@ -35,7 +35,7 @@ You will need to create a samplesheet with information about the samples you wou
 --input '[path to samplesheet file]'
 ```
 
-### Full samplesheet
+### MIRA samplesheet set up
 
 The sample sheet will need to be set up as seen below. Using the samplesheet that corresponds to the type of data that you are analyzing.
 
@@ -53,8 +53,10 @@ Each row represents a sample.
 
 | Column    | Description                                                                                                                                                                            |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Sample ID`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all sapces in sample names to underscores (`_`). |
-| `Sample Type` | The sample type for the given sample. Ex: test, positive, negative, etc.  |
+| `Sample ID`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all sapces in sample names to underscores (`_`).                                       |
+| `Sample Type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                         |
+
+ONT data should be set up as follows:
 
 ```csv
 Barcode #,Sample ID,Sample Type
@@ -65,25 +67,77 @@ barcode41,s3,Test
 
 Each row represents a sample.
 
+| Column    | Description                                                                                                                                                                                          |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Barcode #`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
+| `Sample ID` | Custom sample name. Convert all sapces in sample names to underscores (`_`).                                                                                                                       |
+| `Sample Type` | The sample type for the given sample. Ex: test, positive, negative, etc.                                                                                                                         |
+
+### amd platform samplesheet set up
+
+Illumina data should be set up as follows:
+
+```csv
+sample,fastq_1,fastq_2,sample_type
+CONTROL_REP1,<FILE_PATH>/fastqs/AEG588A1_S1_L002_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A1_S1_L002_R2_001.fastq.gz,- control
+TREATMENT_REP1,<FILE_PATH>/fastqs/AEG588A4_S4_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A4_S4_L003_R2_001.fastq.gz,test
+TREATMENT_REP2,<FILE_PATH>/fastqs/AEG588A5_S5_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A5_S5_L003_R2_001.fastq.gz,test
+TREATMENT_REP3,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R2_001.fastq.gz,test
+
 | Column    | Description                                                                                                                                                                            |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Barcode #`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
-| `Sample ID` | Custom sample name. Convert all sapces in sample names to underscores (`_`).                                                          |
-| `Sample Type` | The sample type for the given sample. Ex: test, positive, negative, etc.                                                            |
+| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
+| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                         |
+
+ONT data should be set up as follows:
+
+```csv
+sample,fastq_1,fastq_2,barcodes,sample_type
+s1,<FILE_PATH>/fastq_pass/cat_fastqs/s1.fastq.gz,,barcode27,Test
+s2,<FILE_PATH>/fastq_pass/cat_fastqs/s2.fastq.gz,,barcode37,Test
+s3,<FILE_PATH>/fastq_pass/cat_fastqs/s3.fastq.gz,,barcode41,Test
+
+```
+
+| Column    | Description                                                                                                                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).            |
+| `fastq_1` | Full path to FastQ file for ONT that have been concatenated by barcode. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                    |
+| `fastq_2` | Leave blank for ONT data.                                                                                                                                                                         |
+| `barcode` | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                                    |
+
+### File set-up with MIRA samplesheet
 
 After creating the samplesheet, move it into a run folder with fastq files:
 
 Illumina set up should be set up as follows:
 
-1. <RUN_PATH>/fastqs <- all fastqs should be out at this level
+1. <RUN_PATH>/fastqs <- all fastq files should be out at this level
 2. <RUN_PATH>/samplesheet.csv
 
 Oxford Nanopore set up should be set up as follows:
 
-1. <RUN_PATH>/fastq_pass <- fastqs should be within barcode folders as given by ONT machine
+1. <RUN_PATH>/fastq_pass <- fastq files should be within barcode folders as given by ONT machine
 2. <RUN_PATH>/samplesheet.csv
 
 **Note:** The name of the run folder will be used to name outputs files
+
+### File set-up with amd platform samplesheet
+
+After creating the samplesheet, move it into a run folder with fastq files:
+
+Illumina set up should be set up as follows:
+
+1. <RUN_PATH>/fastqs <- all fastq filess should be out at this level
+2. <RUN_PATH>/samplesheet.csv
+
+Oxford Nanopore set up should be set up as follows:
+
+1. <RUN_PATH>/fastq_pass/cat_fastqs <- all concatenated fastq files should be out at this level
+2. <RUN_PATH>/samplesheet.csv
 
 ## Running the pipeline
 
@@ -104,8 +158,9 @@ Inputs for the pipeline include:
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
 - irma_config - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
+- amd_platform - (optional) this flag allows the user to skip the "nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
 
-To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
+To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
 ```bash
 nextflow run ./main.nf \
@@ -116,10 +171,10 @@ nextflow run ./main.nf \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
-   -- subsample_reads <READ_COUNT> \
-   -- parquet_files true (optional) \
+   --subsample_reads <READ_COUNT> \
+   --parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
-   --email <EMAIL_ADDRESS> (optional)
+   --amd_platform false (optional)
 ```
 
 To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
@@ -137,6 +192,7 @@ nextflow run ./main.nf \
    -- parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
+   --amd_platform false (optional)
 ```
 
 Both of these will launch the pipeline with the `singularity` configuration profile. See below for more information about profiles.
@@ -167,16 +223,17 @@ nextflow run mira/nf -profile docker -params-file params.yaml
 with `params.yaml` containing:
 
 ```yaml
-input: './samplesheet.csv'
-outdir: './results/'
+input: '/RUN_PATH/samplesheet.csv'
+outdir: '/FILE_PATH/results/'
 runpath: '/RUN_PATH/'
 e: 'experiment_type'
 p: 'primer_schema' (optional)
-custom_priemr: '/file_path/custom_primer.fasta'
+custom_priemr: '/FILE_PATH/custom_primer.fasta'
 subsample_reads: 'read_counts' (optional)
 parquet_files: true (optional)
 irma_config: 'config_type' (optional)
 email: 'email' (optional)
+amd_platform: false (optional)
 <...>
 ```
 
@@ -242,8 +299,6 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
 - `apptainer`
   - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
-- `conda`
-  - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
 - `hpc`
   - A configuration profile that enables the pipeline to be executed on an HPC with a SGE.
 - `local`

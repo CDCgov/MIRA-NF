@@ -55,7 +55,7 @@ Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-r
 - Tiny test data from ONT Influenza genome and SARS-CoV-2-spike - 40Mb [Download](https://centersfordiseasecontrol.sharefile.com/d-s839d7319e9b04e2baba07b4d328f02c2).
 - Full test data set - the data set from above + full genomes of Influenza and SARS-CoV-2 from Illumina MiSeqs 1 Gb [Download](<https://centersfordiseasecontrol.sharefile.com/d-s3c52c0b25c2243078f506d60bd787c62>).
 
-To run this pipeline:
+To run this pipeline with the MIRA setup:
 
 First, prepare a samplesheet with your input data that looks as follows:
 
@@ -81,6 +81,8 @@ barcode41,s3,Test
 ```
 
 Each row represents a sample.
+
+**To use the nextflow samplesheet setup please refer to the usage document (../assests/usage.md). USING THE NEXTFLOW SAMPLESHEET SET UP WITH ONT DATA WILL REQUIRE YOU TO COMBINE ONT FASTQS YOURSELF.**
 
 Second, move samplesheet into a run folder with fastq files:
 
@@ -110,9 +112,9 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 Input parameters for the pipeline include:
 
 - profile - singularity,docker,local,hpc \ You can use docker or singularity. Use local for running on local computer and hpc for running on an hpc.
-- input - <RUN_PATH>/samplesheet.csv with the format described above.
-- outdir - The file path to where you would like the output directory to write the files.
-- runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here.
+- input - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
+- outdir - The file path to where you would like the output directory to write the files. The full file path is required.
+- runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.
 - e - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina.
 
 *all commands listed below can not be included in run command and the defaults will be used*
@@ -124,8 +126,9 @@ Input parameters for the pipeline include:
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
 - irma_config - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
+- amd_platform - (optional) this flag allows the user to skip the "nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
 
-To run locally you will need to install Nextflow and singularity-ce on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
+To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
 ```bash
 nextflow run ./main.nf \
@@ -139,7 +142,6 @@ nextflow run ./main.nf \
    --subsample_reads <READ_COUNT> \
    --parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
-   --email <EMAIL_ADDRESS> (optional)
 ```
 
 To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:

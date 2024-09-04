@@ -35,21 +35,31 @@ workflow flu_i {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
-    // MODULE: Convert the samplesheet to a nextflow format
-    NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
-    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
+    if (params.amd_platform == false) {
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
 
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
-    INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    } else if (params.amd_platform == true) {
+        //save samplesheet as the nf sample
+        nf_samplesheet_ch = samplesheet_ch
 
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(nf_samplesheet_ch)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    }
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
-    PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+    PREPILLUMINAREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPILLUMINAREADS.out.versions)
 
     // MODULE: Run IRMA
@@ -70,7 +80,7 @@ workflow flu_i {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 }
 
 workflow flu_o {
@@ -80,27 +90,39 @@ workflow flu_o {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
-    // MODULE: Concat all fastq files by barcode
-    set_up_ch = samplesheet_ch
-        .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
-    new_ch = set_up_ch.map { item ->
-        [item.barcode, item.sample_id] }
-    CONCATFASTQS(new_ch)
+    if (params.amd_platform == false) {
+        // MODULE: Concat all fastq files by barcode
+        set_up_ch = samplesheet_ch
+            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+        new_ch = set_up_ch.map { item ->
+            [item.barcode, item.sample_id] }
+        CONCATFASTQS(new_ch)
 
-    // MODULE: Convert the samplesheet to a nextflow format
-    NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
-    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
 
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    } else if (params.amd_platform == true) {
+        //save samplesheet as the nf sample
+        nf_samplesheet_ch = samplesheet_ch
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(nf_samplesheet_ch)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    }
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
-    PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
     // MODULE: Run IRMA
@@ -121,7 +143,7 @@ workflow flu_o {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 }
 
 workflow sc2_spike_o {
@@ -131,27 +153,38 @@ workflow sc2_spike_o {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
-    // MODULE: Concat all fastq files by barcode
-    set_up_ch = samplesheet_ch
-        .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
-    new_ch = set_up_ch.map { item ->
-        [item.barcode, item.sample_id] }
-    CONCATFASTQS(new_ch)
+    if (params.amd_platform == false) {
+        // MODULE: Concat all fastq files by barcode
+        set_up_ch = samplesheet_ch
+            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+        new_ch = set_up_ch.map { item ->
+            [item.barcode, item.sample_id] }
+        CONCATFASTQS(new_ch)
 
-    // Convert the samplesheet to a nextflow format
-    NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
-    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
 
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    } else if (params.amd_platform == true) {
+        //save samplesheet as the nf sample
+        nf_samplesheet_ch = samplesheet_ch
 
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(nf_samplesheet_ch)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    }
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
-    PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
     // Run IRMA
@@ -172,7 +205,7 @@ workflow sc2_spike_o {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 }
 
 workflow sc2_wgs_o {
@@ -182,28 +215,39 @@ workflow sc2_wgs_o {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
-    // MODULE: Concat all fastq files by barcode
-    set_up_ch = samplesheet_ch
-        .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
-    new_ch = set_up_ch.map { item ->
-        [item.barcode, item.sample_id] }
-    CONCATFASTQS(new_ch)
+    if (params.amd_platform == false) {
+        // MODULE: Concat all fastq files by barcode
+        set_up_ch = samplesheet_ch
+            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+        new_ch = set_up_ch.map { item ->
+            [item.barcode, item.sample_id] }
+        CONCATFASTQS(new_ch)
 
-    // Convert the samplesheet to a nextflow format
-    NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
-    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
 
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
-    INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    } else if (params.amd_platform == true) {
+        //save samplesheet as the nf sample
+        nf_samplesheet_ch = samplesheet_ch
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(nf_samplesheet_ch)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    }
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
-    PREPONTREADS(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+    PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
     // MODULE: Run IRMA
@@ -224,7 +268,7 @@ workflow sc2_wgs_o {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 }
 
 workflow sc2_wgs_i {
@@ -248,20 +292,32 @@ workflow sc2_wgs_i {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
-    // Convert the samplesheet to a nextflow format
-    NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
-    ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
+    if (params.amd_platform == false) {
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
 
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    } else if (params.amd_platform == true) {
+        //save samplesheet as the nf sample
+        nf_samplesheet_ch = samplesheet_ch
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(nf_samplesheet_ch)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    }
 
     // SUBWORKFLOW: Process reads through FastQC and MultiQC
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
-    PREPILLUMINAREADS(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+    PREPILLUMINAREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPILLUMINAREADS.out.versions)
 
     // MODULE: Run IRMA
@@ -282,7 +338,7 @@ workflow sc2_wgs_i {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 }
 
 // MAIN WORKFLOW

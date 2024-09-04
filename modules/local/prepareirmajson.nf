@@ -6,6 +6,7 @@ process PREPAREIRMAJSON {
 
     input:
     val x
+    path nf_samplesheet
     val platform
     val virus
 
@@ -20,7 +21,7 @@ process PREPAREIRMAJSON {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${projectDir}/bin/prepareIRMAjson.py ${params.outdir}/IRMA ${params.input} ${platform} ${virus}
+    python3 ${projectDir}/bin/prepareIRMAjson.py ${params.outdir}/IRMA ${nf_samplesheet} ${platform} ${virus}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
