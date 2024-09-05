@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [PR #21](https://github.com/cdcent/mira-nf/pull/21) - add amended_consensus.fasta to email
 - [PR #22](https://github.com/cdcent/mira-nf/pull/22) - add flag that skips the nf-samplesheet creation step. To use this flag you will have to provide a samplesheet that is described as amd platform format in the usage doc
-- [PR #23](https://github.com/cdcent/mira-nf/pull/22) - added in test profile configuration.
+- [PR #23](https://github.com/cdcent/mira-nf/pull/23) - added in test profile configuration. Added logos.
 
 ### Parameters
 
