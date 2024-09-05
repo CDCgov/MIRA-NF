@@ -286,7 +286,8 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 
 - `test`
   - A profile with a complete configuration for automated testing
-  - Includes links to test data so needs no other parameters
+  - Includes links to test data so only the profile (singularity or docker) parameter is needed.
+  - will make a directory named "testing_config".
 - `docker`
   - A generic configuration profile to be used with [Docker](https://docker.com/)
 - `singularity`
