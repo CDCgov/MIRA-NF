@@ -1,4 +1,4 @@
-# mira/cli: Output
+# mira-nf/mira: Output
 
 ## Introduction
 

@@ -1,10 +1,10 @@
 Run Name: $runName
 
 <% if (success){
-    out << "## mira/cli execution completed successfully! ##"
+    out << "## mira-nf/mira execution completed successfully! ##"
 } else {
     out << """####################################################
-## mira/cli execution completed unsuccessfully! ##
+## mira-nf/mira execution completed unsuccessfully! ##
 ####################################################
 The exit status of the task that caused the workflow execution to fail was: $exitStatus.
 The full error message was:
@@ -27,5 +27,5 @@ Pipeline Configuration:
 <% out << summary.collect{ k,v -> " - $k: $v" }.join("\n") %>
 
 --
-mira/cli
-https://github.com/mira/cli
+mira-nf/mira
+https://github.com/mira-nf/mira

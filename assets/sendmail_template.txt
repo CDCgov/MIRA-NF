@@ -9,12 +9,12 @@ Content-Type: text/html; charset=utf-8
 $email_html
 
 --nfcoremimeboundary
-Content-Type: image/png;name="mira-cli_logo.png"
+Content-Type: image/png;name="mira-nf-mira_logo.png"
 Content-Transfer-Encoding: base64
 Content-ID: <nfcorepipelinelogo>
-Content-Disposition: inline; filename="mira-cli_logo_light.png"
+Content-Disposition: inline; filename="mira-nf-mira_logo_light.png"
 
-<% out << new File("$projectDir/assets/mira-cli_logo_light.png").
+<% out << new File("$projectDir/assets/mira-nf-mira_logo_light.png").
     bytes.
     encodeBase64().
     toString().
