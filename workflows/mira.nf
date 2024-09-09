@@ -341,6 +341,16 @@ workflow sc2_wgs_i {
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 }
 
+workflow rsv_i {
+    //Initializing parameters
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
+
+    println '!!RSV Illumina workflow under construction!!'
+}
+
 // MAIN WORKFLOW
 // Decides which experiment type workflow to run based on experiemtn parameter given
 workflow MIRA {
@@ -354,6 +364,8 @@ workflow MIRA {
         sc2_wgs_o()
     } else if (params.e == 'SC2-Whole-Genome-Illumina') {
         sc2_wgs_i()
+    } else if (params.e == 'RSV-Illumina') {
+        rsv_i()
     }
 }
 /*
