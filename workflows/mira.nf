@@ -342,12 +342,6 @@ workflow sc2_wgs_i {
 }
 
 workflow rsv_i {
-    //Initializing parameters
-    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
-    experiment_type_ch = Channel.value(params.e)
-    ch_versions = Channel.empty()
-
     if (params.p == null && params.custom_primers == null) {
         println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
@@ -359,6 +353,32 @@ workflow rsv_i {
     } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' && params.custom_primers != null) {
         println 'using custom primers for trimming'
         params.p = null
+    }
+
+    //Initializing parameters
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
+
+    if (params.amd_platform == false) {
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    } else if (params.amd_platform == true) {
+        //save samplesheet as the nf sample
+        nf_samplesheet_ch = samplesheet_ch
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(nf_samplesheet_ch)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
 
     println '!!RSV Illumina workflow under construction!!'
