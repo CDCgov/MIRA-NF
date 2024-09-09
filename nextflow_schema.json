@@ -75,7 +75,8 @@
                         "articv5.3.2",
                         "qiagen",
                         "swift",
-                        "swift_211206"
+                        "swift_211206",
+                        "RSV_CDC_8amplicon_230901"
                     ]
                 },
                 "custom_primers": {

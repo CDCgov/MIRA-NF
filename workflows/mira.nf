@@ -348,6 +348,19 @@ workflow rsv_i {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
+    if (params.p == null && params.custom_primers == null) {
+        println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
+        println 'Please provide primers using either --p or --custom_primers'
+        workflow.exit
+    } else if (params.custom_primers != null) {
+        println 'Using custom primers for trimming'
+    } else if (params.p == 'RSV_CDC_8amplicon_230901') {
+        println "using ${params.p} primers for trimming"
+    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' && params.custom_primers != null) {
+        println 'using custom primers for trimming'
+        params.p = null
+    }
+
     println '!!RSV Illumina workflow under construction!!'
 }
 
