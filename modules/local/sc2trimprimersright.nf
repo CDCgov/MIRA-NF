@@ -1,4 +1,4 @@
-process TRIMPRIMERSRIGHT {
+process SC2TRIMPRIMERSRIGHT {
     tag { "${sample }" }
     label 'process_medium'
 
