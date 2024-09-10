@@ -402,6 +402,10 @@ workflow rsv_i {
     }
     CHECKIRMA(check_irma_ch)
 
+    // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
     println '!!RSV Illumina workflow under construction!!'
 }
 
