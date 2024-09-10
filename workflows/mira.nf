@@ -406,6 +406,9 @@ workflow rsv_i {
     DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    // SUBWORKFLOW: Create reports
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+
     println '!!RSV Illumina workflow under construction!!'
 }
 
