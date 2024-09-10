@@ -2,7 +2,7 @@ process IRMA {
     tag { "${sample}" }
     label 'process_high'
 
-    container 'cdcgov/irma:latest'
+    container 'cdcgov/irma:v1.2.0'
 
     publishDir "${params.outdir}/IRMA",  mode: 'copy'
     publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'

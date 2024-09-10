@@ -389,6 +389,19 @@ workflow rsv_i {
     PREPILLUMINAREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPILLUMINAREADS.out.versions)
 
+    // MODULE: Run IRMA
+    IRMA(PREPILLUMINAREADS.out.irma_ch)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
+
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    check_irma_ch = IRMA.out.outputs.map { item ->
+        def sample = item[0]
+        def paths = item[1]
+        def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
+        return tuple(sample, directory)
+    }
+    CHECKIRMA(check_irma_ch)
+
     println '!!RSV Illumina workflow under construction!!'
 }
 
