@@ -67,13 +67,12 @@ ref_proteins = {
     "HA-signal": "A_HA_H10 A_HA_H11 A_HA_H12 A_HA_H13 A_HA_H14 A_HA_H15 A_HA_H16 A_HA_H1 \
         A_HA_H2 A_HA_H3 A_HA_H4 A_HA_H5 A_HA_H6 A_HA_H7 A_HA_H8 A_HA_H9 B_HA",
     "PA-X": "A_PA B_PA",
-    "NS1": "A_NS B_NS",
+    "NS1": "A_NS B_NS RSV_AD RSV_BD RSV_A RSV_B",
     "NS": "A_NS B_NS",
     "M2": "A_MP B_MP",
     "M": "A_MP B_MP SARS-CoV-2 RSV_AD RSV_BD",
     "NA": "A_NA_N1 A_NA_N2 A_NA_N3 A_NA_N4 A_NA_N5 A_NA_N6 A_NA_N7 A_NA_N8 A_NA_N9 B_NA",
     "PA": "A_PA B_PA",
-    "NS1": "RSV_AD RSV_BD RSV_A RSV_B",
     "NS2": "RSV_AD RSV_BD RSV_A RSV_B",
     "P": "RSV_AD RSV_BD RSV_A RSV_B",
     "SH": "RSV_AD RSV_BD RSV_A RSV_B",
@@ -491,6 +490,7 @@ def generate_dfs(irma_path):
         irma_path, samplesheet, read_df, indels_df, alleles_df, coverage_df, ref_lens
     )
     print("Building nt_sequence_df")
+    print(qc_values)
     nt_seqs_df = irma2pandas.dash_irma_sequence_df(
         irma_path, pad=qc_values[qc_plat_vir]["padded_consensus"]
     )

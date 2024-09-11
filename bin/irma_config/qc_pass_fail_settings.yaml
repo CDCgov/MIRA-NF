@@ -15,7 +15,7 @@ ont-sc2-spike:
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
   negative_control_perc_exception: 10 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
   positive_control_minimum: 1000 # minimum number of reads required to match to expected reference to pass positive controls
-  padded_consensus: True
+  padded_consensus: False
 illumina-flu:
   med_cov: 100 # mean coverage depth across reference
   minor_vars: 10 # maximum allowed minor variants >= 5%
@@ -43,6 +43,24 @@ ont-sc2:
   allow_stop_codons: False # True = allow premature stop codons; False = do not allow
   perc_ref_covered: 90 # Mimimum % of reference to cover
   perc_ref_spike_covered: 90 # Mimimum % of spike gene reference to cover
+  negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
+  negative_control_perc_exception: 10 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
+  positive_control_minimum: 1000 # minimum number of reads required to match to expected reference to pass positive controls
+  padded_consensus: True
+illumina-rsv:
+  med_cov: 100 # mean coverage depth across reference
+  minor_vars: 50 # maximum allowed minor variants >= 5%
+  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  perc_ref_covered: 90 # Mimimum % of reference to cover
+  negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
+  negative_control_perc_exception: 1000 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
+  positive_control_minimum: 100000 # minimum number of reads required to match to expected reference to pass positive controls
+  padded_consensus: False
+ont-rsv:
+  med_cov: 50 # median coverage depth across reference
+  minor_vars: 20 # maximum allowed minor variants >= 5%
+  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  perc_ref_covered: 90 # Mimimum % of reference to cover
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
   negative_control_perc_exception: 10 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
   positive_control_minimum: 1000 # minimum number of reads required to match to expected reference to pass positive controls

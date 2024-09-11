@@ -40,7 +40,7 @@ workflow PREPAREREPORTS {
     } else if (params.e == 'SC2-Whole-Genome-Illumina') {
         virus = 'sc2'
     } else if (params.e == 'RSV-Illumina') {
-        platform = 'rsv'
+        virus = 'rsv'
     } else if (params.e == 'Flu-ONT') {
         virus = 'flu'
     } else if (params.e == 'SC2-Spike-Only-ONT') {
