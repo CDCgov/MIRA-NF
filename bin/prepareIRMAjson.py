@@ -490,7 +490,6 @@ def generate_dfs(irma_path):
         irma_path, samplesheet, read_df, indels_df, alleles_df, coverage_df, ref_lens
     )
     print("Building nt_sequence_df")
-    print(qc_values)
     nt_seqs_df = irma2pandas.dash_irma_sequence_df(
         irma_path, pad=qc_values[qc_plat_vir]["padded_consensus"]
     )
@@ -925,8 +924,8 @@ def createSampleCoverageFig(sample, df, segments, segcolor, cov_linear_y):
                     x=[pos[0], pos[1], pos[1], pos[0], pos[0]],
                     y=[oy, oy, 0, 0, oy],
                     fill="toself",
-                    fillcolor=px.colors.qualitative.Pastel[color_index],
-                    line=dict(color=px.colors.qualitative.Pastel[color_index]),
+                    fillcolor=px.colors.qualitative.Set3[color_index],
+                    line=dict(color=px.colors.qualitative.Set3[color_index]),
                     mode="lines",
                     name=orf,
                     opacity=0.8,
