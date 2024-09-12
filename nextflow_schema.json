@@ -67,7 +67,7 @@
             "properties": {
                 "p": {
                     "type": "string",
-                    "description": "The primer schema used for SARS-CoV-2 Illumina data. options: options: none, articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206",
+                    "description": "The primer schema used for SARS-CoV-2 Illumina AND rsv data. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV option: RSV_CDC_8amplicon_230901",
                     "enum": [
                         "articv3",
                         "articv4",
@@ -92,12 +92,12 @@
                 },
                 "process_q": {
                     "type": "string",
-                    "description": "The name of the processing queue if using the hpc profile"
+                    "description": "The name of the processing queue if using the sge or slurm profile"
                 },
                 "parquet_files": {
                     "type": "boolean",
                     "default": false,
-                    "description": "The name of the processing queue if using the hpc profile"
+                    "description": "When set to true, this flag creates parquet files. Default: false"
                 },
                 "amd_platform": {
                     "type": "boolean",

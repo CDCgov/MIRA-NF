@@ -21,7 +21,7 @@ The material embodied in this software is provided to you "as-is" and without wa
 
 ## Introduction
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
+**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
@@ -39,10 +39,10 @@ MIRA performs these steps for genome assembly and curation:
 MIRA is able to analyze 5 data types:
 
 1. Flu-Illumina - Flu whole genome data created with an illumina machine
-2. Flu-ONT - Flu whole genome data created with an OxFord nanopore machine
+2. Flu-ONT - Flu whole genome data created with an OxFord Nanopore machine
 3. SC2-Whole-Genome-Illumina - SARS-CoV-2 whole genome data created with an illumina machine
-4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord nanopore machine
-5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord nanopore machine
+4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord Nanopore machine
+5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord Nanopore machine
 
 ![Alt text](docs/images/mira_nf_workflow_image.png)
 
@@ -52,7 +52,7 @@ MIRA is able to analyze 5 data types:
 
 1. Nextflow - If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
 2. singularity-ce or docker - Information on how to install singularity-ce can be found [here](https://docs.sylabs.io/guides/4.1/user-guide/quick_start.html#quick-installation-steps) and information to install docker can be found [here](https://www.docker.com/).
-3. git - INformation about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
+3. git - Information about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
 
 Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test,<singularity or docker>` to ensure that everything is installed properly before running the workflow on actual data. If you would like to further test the pipeline using our test data it can be downloaded from this link:
 
@@ -86,7 +86,7 @@ barcode41,s3,Test
 
 Each row represents a sample.
 
-**To use the nextflow samplesheet setup please refer to the usage document (../assests/usage.md). USING THE NEXTFLOW SAMPLESHEET SET UP WITH ONT DATA WILL REQUIRE YOU TO COMBINE ONT FASTQS YOURSELF.**
+**To use the nextflow samplesheet setup please refer to the usage document (../assets/usage.md). USING THE NEXTFLOW SAMPLESHEET SET UP WITH ONT DATA WILL REQUIRE YOU TO COMBINE ONT FASTQS YOURSELF.**
 
 Second, move samplesheet into a run folder with fastq files:
 
@@ -115,7 +115,7 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 Input parameters for the pipeline include:
 
-- profile - singularity,docker,local,hpc \ You can use docker or singularity. Use local for running on local computer and hpc for running on an hpc.
+- profile - singularity,docker,local,sge,slurm \ You can use docker or singularity. Use local for running on local computer.
 - input - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
 - outdir - The file path to where you would like the output directory to write the files. The full file path is required.
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.
@@ -123,14 +123,14 @@ Input parameters for the pipeline include:
 
 *all commands listed below can not be included in run command and the defaults will be used*
 
-- p - provide a built in primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
-- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formated. **Trimming will only work with custom primers that are greater than 15bp**
+- p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
+- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **Trimming will only work with custom primers that are greater than 15bp**
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
 - irma_config - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
-- amd_platform - (optional) this flag allows the user to skip the "nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
+- amd_platform - (optional) this flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -141,23 +141,23 @@ nextflow run ./main.nf \
    --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> (optional) \
+   --p <PRIMER_SCHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --subsample_reads <READ_COUNT> \
    --parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
 ```
 
-To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
+To run in a high computing cluster you will need to add sge or slurm to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
 
 ```bash
 nextflow run ./main.nf \
-   -profile singularity,hpc \
+   -profile singularity,sge \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> (optional) \
+   --p <PRIMER_SCHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
    --parquet_files true (optional) \
@@ -175,7 +175,7 @@ qsub MIRA_nextflow.sh \
    -o <OUTDIR> \
    -r <RUN_PATH> \
    -e <EXPERIMENT_TYPE> \
-   -p <PRIMER_SHEMA> \ (optional)
+   -p <PRIMER_SCHEMA> \ (optional)
    -g <FILE_PATH>/custom_primer.fasta \ (optional)
    -q <QUEUE_NAME> \
    -a <PARQUET_FILE_CREATION> \ (optional)

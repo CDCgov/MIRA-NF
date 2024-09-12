@@ -277,6 +277,10 @@ workflow sc2_wgs_i {
         println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
+    } else if (params.p == 'RSV_CDC_8amplicon_230901') {
+        println 'ERROR!!: The primer selection provided is not compatible with SARS-CoV-2'
+        println 'Please select the one of the SARS-CoV-2 primer sets or provide a custom primer set'
+        workflow.exit
     } else if (params.custom_primers != null) {
         println 'Using custom primers for trimming'
     } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4') {
@@ -350,7 +354,11 @@ workflow rsv_i {
         println 'Using custom primers for trimming'
     } else if (params.p == 'RSV_CDC_8amplicon_230901') {
         println "using ${params.p} primers for trimming"
-    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' && params.custom_primers != null) {
+    }else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4') {
+        println 'ERROR!!: The primer selection provided is not compatible with RSV'
+        println 'Please select the RSV_CDC_8amplicon_230901 primer set or provide a custom primer set'
+        workflow.exit
+    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' || 'RSV_CDC_8amplicon_230901' && params.custom_primers != null) {
         println 'using custom primers for trimming'
         params.p = null
     }
@@ -408,8 +416,6 @@ workflow rsv_i {
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
-
-    println '!!RSV Illumina workflow under construction!!'
 }
 
 // MAIN WORKFLOW
