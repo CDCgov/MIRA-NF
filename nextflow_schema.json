@@ -42,7 +42,7 @@
                 },
                 "e": {
                     "type": "string",
-                    "description": "The experiment type and data type. options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina",
+                    "description": "The experiment type and data type. options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT",
                     "fa_icon": "fas fa-file-signature",
                     "enum": [
                         "Flu-ONT",
@@ -50,7 +50,8 @@
                         "Flu-Illumina",
                         "SC2-Whole-Genome-ONT",
                         "SC2-Whole-Genome-Illumina",
-                        "RSV-Illumina"
+                        "RSV-Illumina",
+                        "RSV-ONT"
                     ]
                 },
                 "multiqc_title": {
