@@ -11,7 +11,7 @@
 
 ## Introduction
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
+**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
@@ -42,7 +42,7 @@ MIRA is able to analyze 5 data types:
 
 1. Nextflow - If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
 2. singularity-ce or docker - Information on how to install singularity-ce can be found [here](https://docs.sylabs.io/guides/4.1/user-guide/quick_start.html#quick-installation-steps) and information to install docker can be found [here](https://www.docker.com/).
-3. git - INformation about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
+3. git - Information about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
 
 Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data. If you would like to test the pipeline using our test data it can be downloaded from this link:
 
@@ -103,7 +103,7 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 Input parameters for the pipeline include:
 
-- profile - singularity,docker,local,hpc \ You can use docker or singularity. Use local for running on local computer and hpc for running on an hpc.
+- profile - singularity,docker,local,hpc \ You can use docker or singularity. Use local for running on local computer and hpc for running on an HPC.
 - input - <RUN_PATH>/samplesheet.csv with the format described above.
 - outdir - The file path to where you would like the output directory to write the files.
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here.
@@ -111,7 +111,7 @@ Input parameters for the pipeline include:
 
 *all commands listed below can not be included in run command and the defaults will be used*
 
-- p - provide a built in primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
+- p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
 - custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formated. **Trimming will only work with custom primers that are greater than 15bp**
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
@@ -128,7 +128,7 @@ nextflow run ./main.nf \
    --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> (optional) \
+   --p <PRIMER_SCHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    -- subsample_reads <READ_COUNT> \
    -- parquet_files true (optional) \
@@ -145,7 +145,7 @@ nextflow run ./main.nf \
    --outdir <RUN_PATH> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> (optional) \
+   --p <PRIMER_SCHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
    -- parquet_files true (optional) \
@@ -163,7 +163,7 @@ qsub MIRA_nextflow.sh \
    -o <OUTDIR> \
    -r <RUN_PATH> \
    -e <EXPERIMENT_TYPE> \
-   -p <PRIMER_SHEMA> \ (optional)
+   -p <PRIMER_SCHEMA> \ (optional)
    -g <FILE_PATH>/custom_primer.fasta \ (optional)
    -q <QUEUE_NAME> \
    -a <PARQUET_FILE_CREATION> \ (optional)
