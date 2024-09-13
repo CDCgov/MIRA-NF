@@ -121,7 +121,7 @@ workflow flu_o {
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
-    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
@@ -183,7 +183,7 @@ workflow sc2_spike_o {
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
-    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
@@ -246,7 +246,7 @@ workflow sc2_wgs_o {
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
-    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
@@ -456,9 +456,22 @@ workflow rsv_o {
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
-    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
+
+    // MODULE: Run IRMA
+    IRMA(PREPONTREADS.out.irma_ch)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
+
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    check_irma_ch = IRMA.out.outputs.map { item ->
+        def sample = item[0]
+        def paths = item[1]
+        def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
+        return tuple(sample, directory)
+    }
+    CHECKIRMA(check_irma_ch)
 
     println 'The RSV ONT Workflow is under construction'
 }
