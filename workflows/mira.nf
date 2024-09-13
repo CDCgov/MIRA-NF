@@ -456,6 +456,10 @@ workflow rsv_o {
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
+    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    PREPONTREADS(nf_samplesheet_ch)
+    ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
+
     println 'The RSV ONT Workflow is under construction'
 }
 // MAIN WORKFLOW
