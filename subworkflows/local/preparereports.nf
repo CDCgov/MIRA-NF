@@ -32,6 +32,8 @@ workflow PREPAREREPORTS {
         platform = 'ont'
     } else if (params.e == 'SC2-Whole-Genome-ONT') {
         platform = 'ont'
+    } else if (params.e == 'RSV-ONT') {
+        platform = 'ont'
     }
 
     //creating virus value
@@ -47,6 +49,8 @@ workflow PREPAREREPORTS {
         virus = 'sc2-spike'
     } else if (params.e == 'SC2-Whole-Genome-ONT') {
         virus = 'sc2'
+    } else if (params.e == 'RSV-ONT') {
+        virus = 'rsv'
     }
 
     //

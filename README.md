@@ -21,7 +21,7 @@ The material embodied in this software is provided to you "as-is" and without wa
 
 ## Introduction
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
+**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
@@ -43,6 +43,8 @@ MIRA is able to analyze 5 data types:
 3. SC2-Whole-Genome-Illumina - SARS-CoV-2 whole genome data created with an illumina machine
 4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord Nanopore machine
 5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord Nanopore machine
+6. RSV-Illumina - RSV whole genome data created with an illumina machine
+7. RSV-ONT - RSV whole genome data created with an OxFord Nanopore machine
 
 ![Alt text](docs/images/mira_nf_workflow_image.png)
 
@@ -119,11 +121,11 @@ Input parameters for the pipeline include:
 - input - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
 - outdir - The file path to where you would like the output directory to write the files. The full file path is required.
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.
-- e - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina.
+- e - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT.
 
 *all commands listed below can not be included in run command and the defaults will be used*
 
-- p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
+- p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided**
 - custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **Trimming will only work with custom primers that are greater than 15bp**
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false

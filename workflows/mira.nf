@@ -473,7 +473,12 @@ workflow rsv_o {
     }
     CHECKIRMA(check_irma_ch)
 
-    println 'The RSV ONT Workflow is under construction'
+    // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    // SUBWORKFLOW: Create reports
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 }
 // MAIN WORKFLOW
 // Decides which experiment type workflow to run based on experiemtn parameter given
