@@ -7,7 +7,7 @@
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira-nf/mira)
 
-# <img src="assets/mira-logo-midjourney_20230526_rmbkgnd.png" align="left" width="190" /> MIRA-NF: A Nextflow Pipeline for Influenza Genome, SARS-CoV-2 and RSV Assembly and Curation
+# <img src="assets/mira-logo-midjourney_20230526_rmbkgnd.png" align="left" width="190" /> MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation
 
 **General disclaimer:** This repository was created for use by CDC programs to collaborate on public health related projects in support of the CDC mission. GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
 
