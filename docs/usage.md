@@ -4,7 +4,7 @@
 
 ## Introduction
 
-**mira/nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira/nf can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
+**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
@@ -19,13 +19,15 @@ MIRA performs these steps for genome assembly and curation:
 9. Create html, excel files and amended consensus fasta files
 10. Convert into parquet files
 
-MIRA is able to analyze 5 data types:
+MIRA is able to analyze 7 data types:
 
-1. Flu-Illumina - Flu whole genome data created with an illumina machine
-2. Flu-ONT - Flu whole genome data created with an OxFord nanoppore machine
+1. Flu-Illumina - Flu whole genome data created with an Illumina machine
+2. Flu-ONT - Flu whole genome data created with an OxFord Nanoppore machine
 3. SC2-Whole-Genome-Illumina - SARS-CoV-2 whole genome data created with an illumina machine
-4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord nanoppore machine
-5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord nanoppore machine
+4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord Nanoppore machine
+5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord Nanoppore machine
+6. RSV-Illumina - RSV whole genome data created with an Illumina machine
+7. RSV-ONT - RSV whole genome data created with an OxFord Nanopore machine
 
 ## Samplesheet input
 
@@ -143,16 +145,16 @@ Oxford Nanopore set up should be set up as follows:
 
 Inputs for the pipeline include:
 
-- profile - singularity,local,sge,slurm \ the singularity profile must always be selected, use local for running on local computer.
-- input - <RUN_PATH>/samplesheet.csv with the format described above.
-- outdir - The file path to where you would like the output directory to write the files
-- runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here
-- e - exeperminet type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
+- profile - singularity,docker,local,sge,slurm \ You can use docker or singularity. Use local for running on local computer.
+- input - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
+- outdir - The file path to where you would like the output directory to write the files. The full file path is required.
+- runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.
+- e - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT.
 
 *all commands listed below can not be included in run command and the defaults will be used*
 
-- p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
-- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted.  **Trimming will only work with custom primers that are greater than 15bp**
+- p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided**
+- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **Trimming will only work with custom primers that are greater than 15bp**
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
@@ -273,10 +275,6 @@ Use this parameter to choose a configuration profile. Profiles can give configur
 
 Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Shifter, Charliecloud, Apptainer, Conda) - see below.
 
-:::info
-We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
-:::
-
 The pipeline also dynamically loads configurations from [https://github.com/nf-core/configs](https://github.com/nf-core/configs) when it runs, making multiple config profiles for various institutional clusters available at run time. For more information and to see if your system is available in these configs please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
 
 Note that multiple profiles can be loaded, for example: `-profile test,docker` - the order of arguments is important!
@@ -300,8 +298,10 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
 - `apptainer`
   - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
-- `hpc`
-  - A configuration profile that enables the pipeline to be executed on an HPC with a SGE.
+- `sge`
+  - A configuration profile that enables the pipeline to be executed on an HPC with a Sun Grid Engine (SGE) job scheduling system.
+- `slurm`
+  - A configuration profile that enables the pipeline to be executed on an HPC or cloud platform with Simple Linux Utility for Resource Management (SLURM) job scheduling system.
 - `local`
   - A configuration profile that enables the pipeline to run smoothly on a local machine.
 
