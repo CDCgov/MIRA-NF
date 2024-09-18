@@ -6,8 +6,10 @@
 
 include { FINDCHEMISTRYI       } from '../../modules/local/findchemistryi'
 include { SUBSAMPLEPAIREDREADS } from '../../modules/local/subsamplepairedreads'
-include { TRIMPRIMERSLEFT      } from '../../modules/local/trimprimersleft'
-include { TRIMPRIMERSRIGHT     } from '../../modules/local/trimprimersright'
+include { SC2TRIMPRIMERSLEFT   } from '../../modules/local/sc2trimprimersleft'
+include { SC2TRIMPRIMERSRIGHT  } from '../../modules/local/sc2trimprimersright'
+include { RSVTRIMPRIMERSLEFT   } from '../../modules/local/rsvtrimprimersleft'
+include { RSVTRIMPRIMERSRIGHT  } from '../../modules/local/rsvtrimprimersright'
 
 workflow PREPILLUMINAREADS {
     take:
@@ -37,6 +39,8 @@ workflow PREPILLUMINAREADS {
             primers = Channel.fromPath("${projectDir}/data/primers/swift_211206.fasta", checkIfExists: true)
         }  else if (params.p == 'varskip') {
             primers = Channel.fromPath("${projectDir}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
+        }  else if (params.p == 'RSV_CDC_8amplicon_230901') {
+            primers = Channel.fromPath("${projectDir}/data/primers/RSV_CDC_8amplicon_230901.fasta", checkIfExists: true)
         }
     }
 
@@ -75,23 +79,52 @@ workflow PREPILLUMINAREADS {
     SUBSAMPLEPAIREDREADS(subsample_ch)
     ch_versions = ch_versions.unique().mix(SUBSAMPLEPAIREDREADS.out.versions)
 
-    //If primer are given then the reads will go through a trimming step.
+    //If experiment type is SC2-Whole-Genome-Illumina then samples will go through the primer trimming steps with SC2 primers
+
     //If not they are passed to the irma channel immediately
     if (params.e == 'SC2-Whole-Genome-Illumina') {
         //// Trim primers
         //left trim
-        TRIMPRIMERSLEFT(SUBSAMPLEPAIREDREADS.out.subsampled_fastq)
-        ch_versions = ch_versions.mix(TRIMPRIMERSLEFT.out.versions)
+        SC2TRIMPRIMERSLEFT(SUBSAMPLEPAIREDREADS.out.subsampled_fastq)
+        ch_versions = ch_versions.mix(SC2TRIMPRIMERSLEFT.out.versions)
         //right trim
-        TRIMPRIMERSRIGHT(TRIMPRIMERSLEFT.out.trim_l_fastqs)
-        ch_versions = ch_versions.mix(TRIMPRIMERSRIGHT.out.versions)
+        SC2TRIMPRIMERSRIGHT(SC2TRIMPRIMERSLEFT.out.trim_l_fastqs)
+        ch_versions = ch_versions.mix(SC2TRIMPRIMERSRIGHT.out.versions)
 
         //// Make IRMA input channel without trimming primers
         //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
-        read_1_ch = TRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
+        read_1_ch = SC2TRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
             [ item[0], item[1]]
         }
-        read_2_ch = TRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
+        read_2_ch = SC2TRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
+            [item[0], item[2]]
+        }
+        reads_ch = read_1_ch.concat(read_2_ch)
+        reads_combined_ch = reads_ch.groupTuple(by: 0)
+        reads_combined_ch.map { item ->
+            [ sample_ID: item[0], subsampled_fastq_files: item[1]]
+        }
+        .set { final_combined_reads_ch }
+
+        //combining chemistry info with read info
+        irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
+        .filter { it[0].sample_ID == it[1].sample_ID }
+        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+    } else if (params.e == 'RSV-Illumina') {
+        //// Trim primers
+        //left trim
+        RSVTRIMPRIMERSLEFT(SUBSAMPLEPAIREDREADS.out.subsampled_fastq)
+        ch_versions = ch_versions.mix(RSVTRIMPRIMERSLEFT.out.versions)
+        //right trim
+        RSVTRIMPRIMERSRIGHT(RSVTRIMPRIMERSLEFT.out.trim_l_fastqs)
+        ch_versions = ch_versions.mix(RSVTRIMPRIMERSRIGHT.out.versions)
+
+        //// Make IRMA input channel without trimming primers
+        //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
+        read_1_ch = RSVTRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
+            [ item[0], item[1]]
+        }
+        read_2_ch = RSVTRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
             [item[0], item[2]]
         }
         reads_ch = read_1_ch.concat(read_2_ch)
@@ -132,6 +165,8 @@ workflow PREPILLUMINAREADS {
         dais_module = 'INFLUENZA'
     } else if (params.e == 'SC2-Whole-Genome-Illumina') {
         dais_module = 'BETACORONAVIRUS'
+    } else if (params.e == 'RSV-Illumina') {
+        dais_module = 'RSV'
     }
 
     emit:

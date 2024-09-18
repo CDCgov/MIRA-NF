@@ -121,7 +121,7 @@ workflow flu_o {
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
-    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
@@ -183,7 +183,7 @@ workflow sc2_spike_o {
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
-    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
@@ -246,7 +246,7 @@ workflow sc2_wgs_o {
     READQC(INPUT_CHECK.out.reads)
     ch_versions = ch_versions.unique().mix(READQC.out.versions)
 
-    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
     ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
 
@@ -276,6 +276,10 @@ workflow sc2_wgs_i {
     if (params.p == null && params.custom_primers == null) {
         println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
+        workflow.exit
+    } else if (params.p == 'RSV_CDC_8amplicon_230901') {
+        println 'ERROR!!: The primer selection provided is not compatible with SARS-CoV-2'
+        println 'Please select the one of the SARS-CoV-2 primer sets or provide a custom primer set'
         workflow.exit
     } else if (params.custom_primers != null) {
         println 'Using custom primers for trimming'
@@ -341,6 +345,141 @@ workflow sc2_wgs_i {
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 }
 
+workflow rsv_i {
+    if (params.p == null && params.custom_primers == null) {
+        println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
+        println 'Please provide primers using either --p or --custom_primers'
+        workflow.exit
+    } else if (params.custom_primers != null) {
+        println 'Using custom primers for trimming'
+    } else if (params.p == 'RSV_CDC_8amplicon_230901') {
+        println "using ${params.p} primers for trimming"
+    }else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4') {
+        println 'ERROR!!: The primer selection provided is not compatible with RSV'
+        println 'Please select the RSV_CDC_8amplicon_230901 primer set or provide a custom primer set'
+        workflow.exit
+    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' || 'RSV_CDC_8amplicon_230901' && params.custom_primers != null) {
+        println 'using custom primers for trimming'
+        params.p = null
+    }
+
+    //Initializing parameters
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
+
+    if (params.amd_platform == false) {
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    } else if (params.amd_platform == true) {
+        //save samplesheet as the nf sample
+        nf_samplesheet_ch = samplesheet_ch
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(nf_samplesheet_ch)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    }
+
+    // SUBWORKFLOW: Process reads through FastQC and MultiQC
+    READQC(INPUT_CHECK.out.reads)
+    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
+    // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
+    PREPILLUMINAREADS(nf_samplesheet_ch)
+    ch_versions = ch_versions.unique().mix(PREPILLUMINAREADS.out.versions)
+
+    // MODULE: Run IRMA
+    IRMA(PREPILLUMINAREADS.out.irma_ch)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
+
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    check_irma_ch = IRMA.out.outputs.map { item ->
+        def sample = item[0]
+        def paths = item[1]
+        def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
+        return tuple(sample, directory)
+    }
+    CHECKIRMA(check_irma_ch)
+
+    // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    // SUBWORKFLOW: Create reports
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+}
+
+workflow rsv_o {
+    // Initializing parameters
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    experiment_type_ch = Channel.value(params.e)
+    ch_versions = Channel.empty()
+
+    if (params.amd_platform == false) {
+        // MODULE: Concat all fastq files by barcode
+        set_up_ch = samplesheet_ch
+            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+        new_ch = set_up_ch.map { item ->
+            [item.barcode, item.sample_id] }
+        CONCATFASTQS(new_ch)
+
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    } else if (params.amd_platform == true) {
+        //save samplesheet as the nf sample
+        nf_samplesheet_ch = samplesheet_ch
+
+        // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+        //
+        INPUT_CHECK(nf_samplesheet_ch)
+        ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+    }
+
+    // SUBWORKFLOW: Process reads through FastQC and MultiQC
+    READQC(INPUT_CHECK.out.reads)
+    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
+    // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
+    PREPONTREADS(nf_samplesheet_ch)
+    ch_versions = ch_versions.unique().mix(PREPONTREADS.out.versions)
+
+    // MODULE: Run IRMA
+    IRMA(PREPONTREADS.out.irma_ch)
+    ch_versions = ch_versions.unique().mix(IRMA.out.versions)
+
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    check_irma_ch = IRMA.out.outputs.map { item ->
+        def sample = item[0]
+        def paths = item[1]
+        def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
+        return tuple(sample, directory)
+    }
+    CHECKIRMA(check_irma_ch)
+
+    // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    // SUBWORKFLOW: Create reports
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+}
 // MAIN WORKFLOW
 // Decides which experiment type workflow to run based on experiemtn parameter given
 workflow MIRA {
@@ -354,6 +493,10 @@ workflow MIRA {
         sc2_wgs_o()
     } else if (params.e == 'SC2-Whole-Genome-Illumina') {
         sc2_wgs_i()
+    } else if (params.e == 'RSV-Illumina') {
+        rsv_i()
+    } else if (params.e == 'RSV-ONT') {
+        rsv_o()
     }
 }
 /*

@@ -24,25 +24,33 @@ workflow PREPAREREPORTS {
         platform = 'illumina'
     } else if (params.e == 'SC2-Whole-Genome-Illumina') {
         platform = 'illumina'
+    } else if (params.e == 'RSV-Illumina') {
+        platform = 'illumina'
     } else if (params.e == 'Flu-ONT') {
         platform = 'ont'
     } else if (params.e == 'SC2-Spike-Only-ONT') {
         platform = 'ont'
     } else if (params.e == 'SC2-Whole-Genome-ONT') {
+        platform = 'ont'
+    } else if (params.e == 'RSV-ONT') {
         platform = 'ont'
     }
 
     //creating virus value
     if (params.e == 'Flu-Illumina') {
         virus = 'flu'
+    } else if (params.e == 'SC2-Whole-Genome-Illumina') {
+        virus = 'sc2'
+    } else if (params.e == 'RSV-Illumina') {
+        virus = 'rsv'
     } else if (params.e == 'Flu-ONT') {
         virus = 'flu'
     } else if (params.e == 'SC2-Spike-Only-ONT') {
         virus = 'sc2-spike'
     } else if (params.e == 'SC2-Whole-Genome-ONT') {
         virus = 'sc2'
-    } else if (params.e == 'SC2-Whole-Genome-Illumina') {
-        virus = 'sc2'
+    } else if (params.e == 'RSV-ONT') {
+        virus = 'rsv'
     }
 
     //

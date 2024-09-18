@@ -1,17 +1,13 @@
-[![GitHub Actions CI Status](https://github.com/mira-nf/mira/workflows/nf-core%20CI/badge.svg)](https://github.com/mira-nf/mira/actions?query=workflow%3A%22nf-core+CI%22)
-[![GitHub Actions Linting Status](https://github.com/mira-nf/mira/workflows/nf-core%20linting/badge.svg)](https://github.com/mira-nf/mira/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
-[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 [![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira-nf/mira)
 
-<p align="center">
-  <img src="assets/mira-logo-midjourney_20230526_rmbkgnd.png" />
-</p>
+# <img src="assets/mira-logo-midjourney_20230526_rmbkgnd.png" align="left" width="190" /> MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation
 
-**General disclaimer:** This repository was created for use by CDC programs to collaborate on public health related projects in support of the CDC mission. GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
+**General disclaimer:** This repository was created for use by CDC programs to collaborate on public health related projects in support of the [CDC mission](https://www.cdc.gov/about/divisions-offices/index.html). GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
 
 Use of this service is limited only to non-sensitive and publicly available data. Users must not use, share, or store any kind of sensitive data like health status, provision or payment of healthcare, Personally Identifiable Information (PII) and/or Protected Health Information (PHI), etc. under ANY circumstance.
 
@@ -21,7 +17,7 @@ The material embodied in this software is provided to you "as-is" and without wa
 
 ## Introduction
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes and the SARS-CoV-2 spike-gene when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reasds from both Illumina and OxFord Nanopore sequencing machines.
+**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
@@ -36,15 +32,17 @@ MIRA performs these steps for genome assembly and curation:
 9. Create html, excel files and amended consensus fasta files
 10. Convert into parquet files
 
-MIRA is able to analyze 5 data types:
+MIRA is able to analyze 7 data types:
 
 1. Flu-Illumina - Flu whole genome data created with an illumina machine
-2. Flu-ONT - Flu whole genome data created with an OxFord nanopore machine
+2. Flu-ONT - Flu whole genome data created with an OxFord Nanopore machine
 3. SC2-Whole-Genome-Illumina - SARS-CoV-2 whole genome data created with an illumina machine
-4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord nanopore machine
-5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord nanopore machine
+4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord Nanopore machine
+5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord Nanopore machine
+6. RSV-Illumina - RSV whole genome data created with an illumina machine
+7. RSV-ONT - RSV whole genome data created with an OxFord Nanopore machine
 
-![Alt text](docs/images/mira_nf_workflow_image.png)
+![Alt text](docs/images/mira_nf_workflow_img_v2.png)
 
 ## Usage
 
@@ -52,7 +50,7 @@ MIRA is able to analyze 5 data types:
 
 1. Nextflow - If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
 2. singularity-ce or docker - Information on how to install singularity-ce can be found [here](https://docs.sylabs.io/guides/4.1/user-guide/quick_start.html#quick-installation-steps) and information to install docker can be found [here](https://www.docker.com/).
-3. git - INformation about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
+3. git - Information about git installation can be found [here](<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>).
 
 Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test,<singularity or docker>` to ensure that everything is installed properly before running the workflow on actual data. If you would like to further test the pipeline using our test data it can be downloaded from this link:
 
@@ -86,7 +84,7 @@ barcode41,s3,Test
 
 Each row represents a sample.
 
-**To use the nextflow samplesheet setup please refer to the usage document (../assests/usage.md). USING THE NEXTFLOW SAMPLESHEET SET UP WITH ONT DATA WILL REQUIRE YOU TO COMBINE ONT FASTQS YOURSELF.**
+**To use the nextflow samplesheet setup please refer to the usage document (../assets/usage.md). USING THE NEXTFLOW SAMPLESHEET SET UP WITH ONT DATA WILL REQUIRE YOU TO COMBINE ONT FASTQS YOURSELF.**
 
 Second, move samplesheet into a run folder with fastq files:
 
@@ -115,22 +113,22 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 Input parameters for the pipeline include:
 
-- profile - singularity,docker,local,hpc \ You can use docker or singularity. Use local for running on local computer and hpc for running on an hpc.
+- profile - singularity,docker,local,sge,slurm \ You can use docker or singularity. Use local for running on local computer.
 - input - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
 - outdir - The file path to where you would like the output directory to write the files. The full file path is required.
 - runpath - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.
-- e - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina.
+- e - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT.
 
 *all commands listed below can not be included in run command and the defaults will be used*
 
-- p - provide a built in primer schema if using experement type SC2-Whole-Genome-Illumina. options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. **Will be overwritten by custom_primers flag if both flags are provided**
-- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formated. **Trimming will only work with custom primers that are greater than 15bp**
+- p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided**
+- custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **Trimming will only work with custom primers that are greater than 15bp**
 - parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
 - irma_config - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
-- amd_platform - (optional) this flag allows the user to skip the "nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
+- amd_platform - (optional) this flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -141,23 +139,23 @@ nextflow run ./main.nf \
    --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> (optional) \
+   --p <PRIMER_SCHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --subsample_reads <READ_COUNT> \
    --parquet_files true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
 ```
 
-To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
+To run in a high computing cluster you will need to add sge or slurm to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
 
 ```bash
 nextflow run ./main.nf \
-   -profile singularity,hpc \
+   -profile singularity,sge \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <RUN_PATH> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SHEMA> (optional) \
+   --p <PRIMER_SCHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
    --parquet_files true (optional) \
@@ -175,7 +173,7 @@ qsub MIRA_nextflow.sh \
    -o <OUTDIR> \
    -r <RUN_PATH> \
    -e <EXPERIMENT_TYPE> \
-   -p <PRIMER_SHEMA> \ (optional)
+   -p <PRIMER_SCHEMA> \ (optional)
    -g <FILE_PATH>/custom_primer.fasta \ (optional)
    -q <QUEUE_NAME> \
    -a <PARQUET_FILE_CREATION> \ (optional)
@@ -195,9 +193,6 @@ mira-nf/mira is developed and maintained by Ben Rambo-Martin, Kristine Lacek, Re
 
 ## Citations
 
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use mira-nf/mira for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
 This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
@@ -207,3 +202,62 @@ This pipeline uses code and infrastructure developed and maintained by the [nf-c
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
 >
 > *Nat Biotechnol.* 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+
+## Public Domain Standard Notice
+
+This repository constitutes a work of the United States Government and is not
+subject to domestic copyright protection under 17 USC § 105. This repository is in
+the public domain within the United States, and copyright and related rights in
+the work worldwide are waived through the [CC0 1.0 Universal public domain dedication](https://creativecommons.org/publicdomain/zero/1.0/).
+All contributions to this repository will be released under the CC0 dedication. By
+submitting a pull request you are agreeing to comply with this waiver of
+copyright interest.
+
+## License Standard Notice
+
+The repository utilizes code licensed under the terms of the Apache Software
+License and therefore is licensed under ASL v2 or later.
+
+This source code in this repository is free: you can redistribute it and/or modify it under
+the terms of the Apache Software License version 2, or (at your option) any
+later version.
+
+This source code in this repository is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the Apache Software License for more details.
+
+You should have received a copy of the Apache Software License along with this
+program. If not, see <http://www.apache.org/licenses/LICENSE-2.0.html>
+
+The source code forked from other open source projects will inherit its license.
+
+## Privacy Standard Notice
+
+This repository contains only non-sensitive, publicly available data and
+information. All material and community participation is covered by the
+[Disclaimer](DISCLAIMER.md)
+and [Code of Conduct](code-of-conduct.md).
+For more information about CDC's privacy policy, please visit [http://www.cdc.gov/other/privacy.html](https://www.cdc.gov/other/privacy.html).
+
+## Contributing Standard Notice
+
+Anyone is encouraged to contribute to the repository by [forking](https://help.github.com/articles/fork-a-repo)
+and submitting a pull request. (If you are new to GitHub, you might start with a
+[basic tutorial](https://help.github.com/articles/set-up-git).) By contributing
+to this project, you grant a world-wide, royalty-free, perpetual, irrevocable,
+non-exclusive, transferable license to all users under the terms of the
+[Apache Software License v2](http://www.apache.org/licenses/LICENSE-2.0.html) or
+later.
+
+All comments, messages, pull requests, and other submissions received through
+CDC including this GitHub page may be subject to applicable federal law, including but not limited to the Federal Records Act, and may be archived. Learn more at [http://www.cdc.gov/other/privacy.html](http://www.cdc.gov/other/privacy.html).
+
+## Records Management Standard Notice
+
+This repository is not a source of government records, but is a copy to increase
+collaboration and collaborative potential. All government records will be
+published through the [CDC web site](http://www.cdc.gov).
+
+## Additional Standard Notices
+
+Please refer to [CDC's Template Repository](https://github.com/CDCgov/template) for more information about [contributing to this repository](https://github.com/CDCgov/template/blob/main/CONTRIBUTING.md), [public domain notices and disclaimers](https://github.com/CDCgov/template/blob/main/DISCLAIMER.md), and [code of conduct](https://github.com/CDCgov/template/blob/main/code-of-conduct.md).

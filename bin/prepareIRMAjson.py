@@ -20,7 +20,7 @@ try:
     irma_path, samplesheet, platform, virus = argv[1], argv[2], argv[3], argv[4]
 except IndexError:
     exit(
-        f"\n\tUSAGE: python {__file__} <path/to/irma/results/> <samplesheet> <ont|illumina> <flu|sc2|sc2-spike>\n"
+        f"\n\tUSAGE: python {__file__} <path/to/irma/results/> <samplesheet> <ont|illumina> <flu|sc2|sc2-spike|rsv>\n"
         f"\n\t\t*Inside path/to/irma/results should be the individual samples-irma-dir results\n"
         f"\n\tYou entered:\n\t{executable} {' '.join(argv)}\n\n"
     )
@@ -37,6 +37,7 @@ qc_plat_vir = f"{platform}-{virus}"
 proteins = {
     "sc2": "ORF10 S orf1ab ORF6 ORF8 ORF7a ORF7b M N ORF3a E ORF9b",
     "flu": "PB1-F2 HA M1 NP HA1 BM2 NB PB2 NEP PB1 HA-signal PA-X NS1 M2 NA PA",
+    "rsv": "NS1 NS2 N P M SH G F MS-1 M2-2 L"
 }
 ref_proteins = {
     "ORF10": "SARS-CoV-2",
@@ -46,7 +47,7 @@ ref_proteins = {
     "ORF8": "SARS-CoV-2",
     "ORF7a": "SARS-CoV-2",
     "ORF7b": "SARS-CoV-2",
-    "N": "SARS-CoV-2",
+    "N": "SARS-CoV-2 RSV_AD RSV_BD RSV_A RSV_B",
     "ORF3a": "SARS-CoV-2",
     "E": "SARS-CoV-2",
     "ORF9b": "SARS-CoV-2",
@@ -66,12 +67,20 @@ ref_proteins = {
     "HA-signal": "A_HA_H10 A_HA_H11 A_HA_H12 A_HA_H13 A_HA_H14 A_HA_H15 A_HA_H16 A_HA_H1 \
         A_HA_H2 A_HA_H3 A_HA_H4 A_HA_H5 A_HA_H6 A_HA_H7 A_HA_H8 A_HA_H9 B_HA",
     "PA-X": "A_PA B_PA",
-    "NS1": "A_NS B_NS",
+    "NS1": "A_NS B_NS RSV_AD RSV_BD RSV_A RSV_B",
     "NS": "A_NS B_NS",
     "M2": "A_MP B_MP",
-    "M": "A_MP B_MP SARS-CoV-2",
+    "M": "A_MP B_MP SARS-CoV-2 RSV_AD RSV_BD",
     "NA": "A_NA_N1 A_NA_N2 A_NA_N3 A_NA_N4 A_NA_N5 A_NA_N6 A_NA_N7 A_NA_N8 A_NA_N9 B_NA",
     "PA": "A_PA B_PA",
+    "NS2": "RSV_AD RSV_BD RSV_A RSV_B",
+    "P": "RSV_AD RSV_BD RSV_A RSV_B",
+    "SH": "RSV_AD RSV_BD RSV_A RSV_B",
+    "G": "RSV_AD RSV_BD RSV_A RSV_B",
+    "F": "RSV_AD RSV_BD RSV_A RSV_B",
+    "M2-1": "RSV_AD RSV_BD RSV_A RSV_B",
+    "M2-2": "RSV_AD RSV_BD RSV_A RSV_B",
+    "L": "RSV_AD RSV_BD RSV_A RSV_B",
 }
 
 
@@ -178,9 +187,9 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
             < qc_values[qc_plat_vir]["perc_ref_covered"]
         )
     ][["Sample", "Reference"]]
-    ref_covered_df["Reason_b"] = (
-        f"Less than {qc_values[qc_plat_vir]['perc_ref_covered']}% of reference covered"
-    )
+    ref_covered_df[
+        "Reason_b"
+    ] = f"Less than {qc_values[qc_plat_vir]['perc_ref_covered']}% of reference covered"
     if "sc2" in virus and "spike" not in virus:
         spike_ref_covered_df = irma_summary_df[
             (
@@ -188,18 +197,10 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
                 < qc_values[qc_plat_vir]["perc_ref_spike_covered"]
             )
         ][["Sample", "Reference"]]
-        spike_ref_covered_df["Reason_e"] = (
-            f"Less than {qc_values[qc_plat_vir]['perc_ref_spike_covered']}% of S gene reference covered"
-        )
+        spike_ref_covered_df["Reason_e"] = f"Less than {qc_values[qc_plat_vir]['perc_ref_spike_covered']}% of S gene reference covered"
         spike_med_cov_df = irma_summary_df[
-            (
-                irma_summary_df["Spike Median Coverage"]
-                < qc_values[qc_plat_vir]["med_spike_cov"]
-            )
-        ][["Sample", "Reference"]]
-        spike_med_cov_df["Reason_f"] = (
-            f"Median coverage of S gene < {qc_values[qc_plat_vir]['med_spike_cov']}"
-        )
+        (irma_summary_df["Spike Median Coverage"] < qc_values[qc_plat_vir]["med_spike_cov"])][["Sample", "Reference"]]
+        spike_med_cov_df["Reason_f"] = f"Median coverage of S gene < {qc_values[qc_plat_vir]['med_spike_cov']}"
     med_cov_df = irma_summary_df[
         (irma_summary_df["Median Coverage"] < qc_values[qc_plat_vir]["med_cov"])
     ][["Sample", "Reference"]]
@@ -210,32 +211,26 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
             > qc_values[qc_plat_vir]["minor_vars"]
         )
     ][["Sample", "Reference"]]
-    minor_vars_df["Reason_d"] = (
-        f"Count of minor variants at or over 5% > {qc_values[qc_plat_vir]['minor_vars']}"
-    )
+    minor_vars_df[
+        "Reason_d"
+    ] = f"Count of minor variants at or over 5% > {qc_values[qc_plat_vir]['minor_vars']}"
     combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
     combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
     combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])
     if "sc2" in virus and "spike" not in virus:
-        combined = combined.merge(
-            spike_ref_covered_df, how="outer", on=["Sample", "Reference"]
-        )
-        combined = combined.merge(
-            spike_med_cov_df, how="outer", on=["Sample", "Reference"]
-        )
+        combined = combined.merge(spike_ref_covered_df, how="outer", on=["Sample", "Reference"])
+        combined = combined.merge(spike_med_cov_df, how="outer", on=["Sample", "Reference"])
         combined["Reasons"] = (
-            combined[
-                ["Reason_a", "Reason_b", "Reason_c", "Reason_d", "Reason_e", "Reason_f"]
-            ]
-            .fillna("")
-            .agg("; ".join, axis=1)
-        )
-    else:
+        combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d", "Reason_e", "Reason_f"]]
+        .fillna("")
+        .agg("; ".join, axis=1)
+    )
+    else:    
         combined["Reasons"] = (
-            combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d"]]
-            .fillna("")
-            .agg("; ".join, axis=1)
-        )
+        combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d"]]
+        .fillna("")
+        .agg("; ".join, axis=1)
+    )
     # Add in found sequences
     combined = combined.merge(nt_seqs_df, how="outer", on=["Sample", "Reference"])
     combined["Reasons"] = combined.apply(
@@ -358,45 +353,26 @@ def irma_summary(
     if virus.lower() == "sc2-spike":
         coverage_df = coverage_df[coverage_df["HMM_Position"].between(21563, 25384)]
     if "sc2" in virus and "spike" not in virus:
-        spike_coverage_df = coverage_df[
-            coverage_df["HMM_Position"].between(21563, 25384)
-        ]
+        spike_coverage_df = coverage_df[coverage_df["HMM_Position"].between(21563, 25384)]
         spike_cov_ref_lens = (
-            spike_coverage_df[
-                ~spike_coverage_df["Consensus"].isin(["-", "N", "a", "c", "t", "g"])
-            ]
-            .groupby(["Sample", "Reference_Name"])
-            .agg({"Sample": "count"})
-            .rename(columns={"Sample": "spikemaplen"})
-            .reset_index()
+        spike_coverage_df[~spike_coverage_df["Consensus"].isin(["-", "N", "a", "c", "t", "g"])]
+        .groupby(["Sample", "Reference_Name"])
+        .agg({"Sample": "count"})
+        .rename(columns={"Sample": "spikemaplen"})
+        .reset_index()
         )
-        spike_coverage_df = (
-            spike_coverage_df.groupby(["Sample", "Reference_Name"])
-            .agg({"Coverage Depth": "median"})
-            .reset_index()
-            .rename(
-                columns={
-                    "Coverage Depth": "Spike Median Coverage",
-                    "Reference_Name": "Reference",
-                }
-            )
+        spike_coverage_df = spike_coverage_df.groupby(["Sample", "Reference_Name"]).agg({"Coverage Depth": "median"}).reset_index().rename(
+            columns={"Coverage Depth": "Spike Median Coverage", "Reference_Name": "Reference"}
         )
-        spike_coverage_df["Spike Median Coverage"] = (
-            spike_coverage_df[["Spike Median Coverage"]]
-            .applymap(lambda x: f"{x:.0f}")
-            .astype(float)
-        )
+        spike_coverage_df["Spike Median Coverage"] = spike_coverage_df[["Spike Median Coverage"]].applymap(lambda x: f"{x:.0f}").astype(float)
         spike_cov_ref_lens["% Spike Covered"] = spike_cov_ref_lens.apply(
             lambda x: perc_len(x["spikemaplen"], "spike", ref_lens), axis=1
         )
         spike_cov_ref_lens["% Spike Covered"] = (
-            spike_cov_ref_lens["% Spike Covered"]
-            .map(lambda x: f"{x:.2f}")
-            .astype(float)
-        )
+            spike_cov_ref_lens["% Spike Covered"].map(lambda x: f"{x:.2f}").astype(float)
+            )
         spike_cov_ref_lens = spike_cov_ref_lens[
-            ["Sample", "Reference_Name", "% Spike Covered"]
-        ].rename(columns={"Reference_Name": "Reference"})
+        ["Sample", "Reference_Name", "% Spike Covered"]].rename(columns={"Reference_Name": "Reference"})
     coverage_df = (
         coverage_df.groupby(["Sample", "Reference_Name"])
         .agg({"Coverage Depth": "median"})
@@ -416,8 +392,9 @@ def irma_summary(
         .merge(allsamples_df, "outer", on="Sample")
     )
     if "sc2" in virus and "spike" not in virus:
-        summary_df = summary_df.merge(spike_coverage_df, "left").merge(
-            spike_cov_ref_lens, "left"
+        summary_df = (
+            summary_df.merge(spike_coverage_df, "left")
+            .merge(spike_cov_ref_lens, "left")
         )
     summary_df["Reference"] = summary_df["Reference"].fillna("")
     summary_df = summary_df.fillna(0)
@@ -536,21 +513,36 @@ def generate_dfs(irma_path):
     # Print nt sequence fastas
     ## Exclude HA/NA/S premature stop sequences for Illumina
     if "ont" not in virus:
-        passed_df = pass_fail_seqs_df.loc[
-            (pass_fail_seqs_df["Reasons"] == "Pass")
-            | (
-                (pass_fail_seqs_df["Reasons"].str.contains("Premature stop codon"))
-                & (~pass_fail_seqs_df["Reasons"].str.contains(";", na=False))
-                & (~pass_fail_seqs_df["Reference"].str.contains(r"'[H|N]A'|'S'"))
-            )
-        ]
+        if "flu" in virus:
+            passed_df = pass_fail_seqs_df.loc[
+        (pass_fail_seqs_df["Reasons"] == "Pass")
+        | (
+            (pass_fail_seqs_df["Reasons"].str.contains("Premature stop codon"))
+            & (~pass_fail_seqs_df["Reasons"].str.contains(";", na=False))
+            & (~pass_fail_seqs_df["Reference"].str.contains(r"'[H|N]A'"))
+        )]
+        elif "sc2" in virus:
+            passed_df = pass_fail_seqs_df.loc[
+        (pass_fail_seqs_df["Reasons"] == "Pass")
+        | (
+            (pass_fail_seqs_df["Reasons"].str.contains("Premature stop codon"))
+            & (~pass_fail_seqs_df["Reasons"].str.contains(";", na=False))
+            & (~pass_fail_seqs_df["Reference"].str.contains(r"'S'")) )
+    ]
+        elif "rsv" in virus:
+            passed_df = pass_fail_seqs_df.loc[
+        (pass_fail_seqs_df["Reasons"] == "Pass")
+        | (
+            (pass_fail_seqs_df["Reasons"].str.contains("Premature stop codon"))
+            & (~pass_fail_seqs_df["Reasons"].str.contains(";", na=False))
+            & (~pass_fail_seqs_df["Reference"].str.contains(r"'[F|G]'")) ) ]
     else:
         passed_df = pass_fail_seqs_df.loc[
-            (pass_fail_seqs_df["Reasons"] == "Pass")
-            | (
-                (pass_fail_seqs_df["Reasons"].str.contains("Premature stop codon"))
-                & (~pass_fail_seqs_df["Reasons"].str.contains(";", na=False))
-            )
+        (pass_fail_seqs_df["Reasons"] == "Pass")
+        | (
+            (pass_fail_seqs_df["Reasons"].str.contains("Premature stop codon"))
+            & (~pass_fail_seqs_df["Reasons"].str.contains(";", na=False))
+        )
         ]
     passed_df.apply(
         lambda x: seq_df2fastas(
@@ -592,8 +584,7 @@ def generate_dfs(irma_path):
         axis=1,
     )
     pass_fail_aa_df = (
-        pass_fail_df.astype(str)
-        .reset_index()
+        pass_fail_df.astype(str).reset_index()
         .melt(id_vars="Sample")
         .merge(aa_seqs_df.astype(str), how="left", on=["Sample", "Reference"])
         .rename(columns={"value": "Reasons"})
@@ -704,10 +695,15 @@ def createheatmap(irma_path, coverage_medians_df):
         coverage_medians_df.pivot(index="Sample", columns="Segment")
         .fillna(0)
         .reset_index()
-        .melt(id_vars="Sample")  # , value_name=cov_header)
+        .melt(id_vars="Sample")#, value_name=cov_header)
         .drop([None], axis=1)
     )
     coverage_medians_df = coverage_medians_df.rename(columns={"value": cov_header})
+    if virus == "rsv":
+        coverage_medians_df = coverage_medians_df.replace("RSV_AD", "RSV").replace("RSV_BD", "RSV").replace("RSV_A","RSV").replace("RSV_B","RSV")
+        coverage_medians_df = coverage_medians_df.sort_values(
+            by=["Sample", "Segment", "Coverage Depth"], ascending=False
+        ).drop_duplicates(subset=["Sample"], keep="first")
     cov_max = coverage_medians_df[cov_header].max()
     if cov_max <= 200:
         cov_max = 200
@@ -748,15 +744,20 @@ def assign_number(reason):
 
 def create_passfail_heatmap(irma_path, pass_fail_df):
     print("Building pass_fail_heatmap")
-    if virus == "flu":
+    if virus == "flu" or virus == "rsv":
         pass_fail_df = (
             pass_fail_df.fillna("z")
             .reset_index()
             .melt(id_vars=["Sample"], value_name="Reasons")
         )
-        pass_fail_df["Reference"] = pass_fail_df["Reference"].apply(
+        if virus == "flu":
+            pass_fail_df["Reference"] = pass_fail_df["Reference"].apply(
             lambda x: x.split("_")[1]
-        )
+            )
+        if virus == "rsv":
+            pass_fail_df["Reference"] = pass_fail_df["Reference"].apply(
+            lambda x: x.replace("_AD", "").replace("_BD", "").replace("_A","").replace("_B","")
+            )
         pass_fail_df = pass_fail_df.sort_values(
             by=["Sample", "Reference", "Reasons"], ascending=True
         ).drop_duplicates(subset=["Sample", "Reference"], keep="first")
@@ -819,6 +820,8 @@ def zerolift(x):
 
 
 def createSampleCoverageFig(sample, df, segments, segcolor, cov_linear_y):
+    if virus == "rsv":
+        df=df.dropna()
     if "Coverage_Depth" in df.columns:
         cov_header = "Coverage_Depth"
     else:
@@ -831,7 +834,7 @@ def createSampleCoverageFig(sample, df, segments, segcolor, cov_linear_y):
         df[cov_header] = df[cov_header].apply(lambda x: zerolift(x))
     df2 = df[df["Sample"] == sample]
     fig = go.Figure()
-    if "SARS-CoV-2" in segments:
+    if "SARS-CoV-2" in segments or "RSV_A" in segments or "RSV_B" in segments or "RSV_AD" in segments or "RSV_BD" in segments:
         # y positions for gene boxes
         oy = (
             max(df2[cov_header]) / 10
@@ -840,7 +843,8 @@ def createSampleCoverageFig(sample, df, segments, segcolor, cov_linear_y):
             ya = 0.9
         else:
             ya = 0 - (max(df2[cov_header]) / 20)
-        orf_pos = {
+        if "SARS-CoV-2" in segments:
+            orf_pos = {
             "orf1ab": (266, 21556),
             "S": [21563, 25385],
             "ORF3a": [25393, 26221],
@@ -853,9 +857,67 @@ def createSampleCoverageFig(sample, df, segments, segcolor, cov_linear_y):
             "N": [28274, 29534],
             "ORF10": [29558, 29675],
             "ORF9b": [28284, 28577],
-        }
+            }
+        elif "RSV_AD" in segments:
+            orf_pos = {
+                "NS1": [99,518],
+                "NS2": [628,1002],
+                "N": [1140,2315],
+                "P": [2347,3072],
+                "M": [3255,4025],
+                "SH": [4295, 4489],
+                "G": [4681,5646],
+                "F": [5726,7450],
+                "M2-1": [7669,8253],
+                "M2-2": [8228,8494],
+                "L": [8561,15058]
+            }
+        elif "RSV_BD" in segments:
+            orf_pos = {
+                "NS1": [100,519],
+                "NS2": [627,1001],
+                "N": [1140,2315],
+                "P": [2348,3073],
+                "M": [3263,4033],
+                "SH": [4302,4499],
+                "G": [4689,5621],
+                "F": [5719,7443],
+                "M2-1": [7670,8257],
+                "M2-2": [8223,8495],
+                "L": [8561,15061]
+            }
+        elif "RSV_B" in segments:
+            orf_pos = {
+                "NS1": [99,518],
+                "NS2": [626,1000],
+                "N": [1140,2315],
+                "P": [2348,3073],
+                "M": [3263,4033],
+                "SH": [4303,4500],
+                "G": [4690,5589],
+                "F": [5666,7390],
+                "M2-1": [7618,8205],
+                "M2-2": [8171,8443],
+                "L": [8509,15009]
+            }
+        elif "RSV_A" in segments:
+            orf_pos = {
+                "NS1": [99,518],
+                "NS2": [628,1002],
+                "N": [1141,2316],
+                "P": [2347,3072],
+                "M": [3262,4032],
+                "SH": [4304,4498],
+                "G": [4689,5585],
+                "F": [5662,7386],
+                "M2-1": [7607,8191],
+                "M2-2": [8160,8432],
+                "L": [8499,14996]
+            }
+            
+        #add B (nonD)
         color_index = 0
-        print(orf_pos)
+        #print(orf_pos)
         for orf, pos in orf_pos.items():
             fig.add_trace(
                 go.Scatter(

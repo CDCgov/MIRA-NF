@@ -94,6 +94,8 @@ workflow PREPONTREADS {
         dais_module = 'BETACORONAVIRUS'
     } else if (params.e == 'SC2-Whole-Genome-ONT') {
         dais_module = 'BETACORONAVIRUS'
+    }  else if (params.e == 'RSV-ONT') {
+        dais_module = 'RSV'
     }
 
     emit:

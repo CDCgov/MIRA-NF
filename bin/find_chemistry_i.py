@@ -24,7 +24,10 @@ config_path_flu_75 = wd_path + "/bin/irma_config/FLU-2x75.sh"
 config_path_flu_sensitive = wd_path + "/bin/irma_config/FLU-sensitive.sh"
 config_path_flu_secondary = wd_path + "/bin/irma_config/FLU-secondary.sh"
 config_path_flu_utr = wd_path + "/bin/irma_config/FLU-utr.sh"
-config_path_sc_wgs_i = wd_path + "/bin/irma_config/SC2-2x75.sh"
+config_path_sc2_wgs_illumina = wd_path + "/bin/irma_config/CoV.sh"
+config_path_sc2_wgs_illumina_75 = wd_path + "/bin/irma_config/SC2-2x75.sh"
+config_path_rsv_illumina = wd_path + "/bin/irma_config/RSV.sh"
+config_path_rsv_illumina_75 = wd_path + "/bin/irma_config/RSV-2x75.sh"
 read_count = args.read_count
 irma_config = args.irma_config
 
@@ -36,31 +39,43 @@ except:
         contents = infi.readlines()
 
 if irma_config == "none":
-    if 145 <= len(contents[1]) and exp_type == "Flu-Illumina":
+    if exp_type == "Flu-Illumina" and 145 <= len(contents[1]):
         irma_custom_0 = ""
         irma_custom_1 = f"--external-config {config_path_flu}"
         subsample = read_count
-    elif 70 <= len(contents[1]) < 145 and exp_type == "Flu-Illumina":
+    elif exp_type == "Flu-Illumina" and 70 <= len(contents[1]) < 145:
         irma_custom_0 = ""
         irma_custom_1 = f"--external-config {config_path_flu_75}"
         subsample = read_count
-    elif 0 < len(contents[1]) < 70 and exp_type == "Flu-Illumina":
+    elif exp_type == "Flu-Illumina" and 0 < len(contents[1]) < 70:
         irma_custom_0 = ""
         irma_custom_1 = f"--external-config {config_path_flu_75}"
         subsample = read_count
-    elif len(contents[1]) == 0 and exp_type == "Flu-Illumina":
+    elif exp_type == "Flu-Illumina" and len(contents[1]) == 0:
         irma_custom_0 = ""
         irma_custom_1 = ""
         subsample = "0"
-    elif len(contents[1]) > 80 and exp_type == "SC2-Whole-Genome-Illumina":
+    elif exp_type == "SC2-Whole-Genome-Illumina" and len(contents[1]) > 80:
+        irma_custom_0 = ""
+        irma_custom_1 = f"--external-config {config_path_sc2_wgs_illumina}"
+        subsample = read_count
+    elif exp_type == "SC2-Whole-Genome-Illumina" and len(contents[1]) < 80:
+        irma_custom_0 = ""
+        irma_custom_1 = f"--external-config {config_path_sc2_wgs_illumina_75}"
+        subsample = read_count
+    elif exp_type == "SC2-Whole-Genome-Illumina" and len(contents[1]) == 0:
         irma_custom_0 = ""
         irma_custom_1 = ""
-        subsample = read_count
-    elif len(contents[1]) < 80 and exp_type == "SC2-Whole-Genome-Illumina":
+        subsample = "0"
+    elif exp_type == "RSV-Illumina" and len(contents[1]) > 80:
         irma_custom_0 = ""
-        irma_custom_1 = f"--external-config {config_path_sc_wgs_i}"
+        irma_custom_1 = f"--external-config {config_path_rsv_illumina}"
         subsample = read_count
-    elif len(contents[1]) == 0 and exp_type == "SC2-Whole-Genome-Illumina":
+    elif exp_type == "RSV-Illumina" and len(contents[1]) < 80:
+        irma_custom_0 = ""
+        irma_custom_1 = f"--external-config {config_path_rsv_illumina_75}"
+        subsample = read_count
+    elif exp_type == "RSV-Illumina" and len(contents[1]) == 0:
         irma_custom_0 = ""
         irma_custom_1 = ""
         subsample = "0"
@@ -81,6 +96,8 @@ if exp_type == "Flu-Illumina":
     IRMA_module = "FLU"
 elif exp_type == "SC2-Whole-Genome-Illumina":
     IRMA_module = "CoV"
+elif exp_type == "RSV-Illumina":
+    IRMA_module = "RSV"
 
 filename = f"{sample}_chemistry.csv"
 headers = "sample_ID,irma_custom_0,irma_custom_1,subsample,irma_module\n"

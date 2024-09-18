@@ -2,7 +2,7 @@ process DAISRIBOSOME {
     tag 'Translating sequences into open reading frames (ORFs) with DAIS-Ribosome'
     label 'process_medium'
 
-    container 'cdcgov/dais-ribosome:v1.3.2'
+    container 'cdcgov/dais-ribosome:v1.5.4'
     containerOptions '--bind ${launchDir}/tmp:/dais-ribosome/workdir --bind ${launchDir}/tmp:/dais-ribosome/lib/sswsort/workdir/'
 
     input:

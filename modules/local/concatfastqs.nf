@@ -17,6 +17,11 @@ process CONCATFASTQS {
     rm -r ${params.runpath}/fastq_pass/cat_fastqs
     fi
     #concat fastq files within barcode folders
-    cat ${params.runpath}/fastq_pass/${barcode}/*fastq* > ${sample}.fastq.gz
+    if ls ${params.runpath}/fastq_pass/${barcode}/*fastq* 1> /dev/null 2>&1 ; then
+        cat ${params.runpath}/fastq_pass/${barcode}/*fastq* > ${sample}.fastq.gz
+    else
+        touch ${sample}.fastq
+        gzip ${sample}.fastq
+    fi
     """
 }
