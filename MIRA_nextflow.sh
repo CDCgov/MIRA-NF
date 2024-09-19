@@ -1,11 +1,11 @@
 #!/bin/bash
 #$ -o nextflow.$JOB_ID.out
 #$ -e nextflow.$JOB_ID.err
-#$ -N nf-mira-cli
+#$ -N MIRA-NF
 #$ -pe smp 4
 #$ -l h_rt=72:00:00
-#$ -l h_vmem=32G
-#$ -q all.q
+#$ -l h_vmem=128G
+#$ -q long.q
 #$ -cwd
 #$ -V
 
@@ -85,7 +85,7 @@ fi
 
 # Run nextflow
 module load nextflow/23.10.0
-nextflow run "$DIRNAME"/mira-nf/main.nf \
+nextflow run "$DIRNAME"/MIRA-NF/main.nf \
 	--input "$INPUT" \
 	--outdir "$OUTPATH" \
 	--runpath "$RUNPATH" \
