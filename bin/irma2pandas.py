@@ -97,7 +97,7 @@ def irmatable2df(irmaFiles):
 
 
 def dash_irma_reads_df(irma_path):
-    readFiles = glob(irma_path + "/*/tables/READ_COUNTS.txt")
+    readFiles = glob(irma_path + "/*/IRMA/*/tables/READ_COUNTS.txt")
     df = pd.DataFrame()
     df = irmatable2df(readFiles)
     df["Stage"] = df["Record"].apply(lambda x: int(x.split("-")[0]))
@@ -130,11 +130,11 @@ flu_segs = {'A':{'1':'PB2','2':'PB1','3':'PA','4':'HA','5':'NP','6':'NA','7':'M'
 def dash_irma_sequence_df(irma_path, amended=True, pad=True):
     if amended:
         if pad:
-            sequenceFiles = glob(irma_path + "/*/amended_consensus/*pad.fa")
+            sequenceFiles = glob(irma_path + "/*/IRMA/*/amended_consensus/*pad.fa")
         else:
-            sequenceFiles = [i for i in glob(irma_path + "/*/amended_consensus/*fa") if 'pad' not in i]
+            sequenceFiles = [i for i in glob(irma_path + "/*/IRMA/*/amended_consensus/*fa") if 'pad' not in i]
     else:
-        sequenceFiles = [i for i in glob(irma_path + "/*/*fasta") if 'pad' not in i]
+        sequenceFiles = [i for i in glob(irma_path + "/*/IRMA/*/*fasta") if 'pad' not in i]
     df = pd.DataFrame(columns=["Sample", "Sequence"])
     for f in sequenceFiles:
         content = open(f).read()
@@ -145,20 +145,20 @@ def dash_irma_sequence_df(irma_path, amended=True, pad=True):
 
 
 def dash_irma_coverage_df(irma_path):
-    coverageFiles = glob(irma_path + "/*/tables/*a2m.txt")
+    coverageFiles = glob(irma_path + "/*/IRMA/*/tables/*a2m.txt")
     # a2msamples = [i.split('/')[-3] for i in coverageFiles]
     # otherFiles = [i for i in glob(irma_path+'/*/tables/*coverage.txt')]
     if len(coverageFiles) == 0:
-        coverageFiles = glob(irma_path + "/*/tables/*coverage.txt")
+        coverageFiles = glob(irma_path + "/*/IRMA/*/tables/*coverage.txt")
     if len(coverageFiles) == 0:
-        return "No coverage files found under {}/*/tables/".format(irma_path)
+        return "No coverage files found under {}/*/IRMA/*/tables/".format(irma_path)
     df = irmatable2df(coverageFiles)
 
     return df
 
 
 def dash_irma_alleles_df(irma_path, full=False):
-    alleleFiles = glob(irma_path + "/*/tables/*variants.txt")
+    alleleFiles = glob(irma_path + "/*/IRMA/*/tables/*variants.txt")
     df = irmatable2df(alleleFiles)
     if not full:
         if "HMM_Position" in df.columns:
@@ -207,8 +207,8 @@ def dash_irma_alleles_df(irma_path, full=False):
 
 
 def dash_irma_indels_df(irma_path, full=False):
-    insertionFiles = glob(irma_path + "/*/tables/*insertions.txt")
-    deletionFiles = glob(irma_path + "/*/tables/*deletions.txt")
+    insertionFiles = glob(irma_path + "/*/IRMA/*/tables/*insertions.txt")
+    deletionFiles = glob(irma_path + "/*/IRMA/*/tables/*deletions.txt")
     idf = irmatable2df(insertionFiles)
     idf['Length'] = idf['Insert'].str.len()
     ddf = irmatable2df(deletionFiles)
@@ -262,7 +262,7 @@ def dash_irma_indels_df(irma_path, full=False):
 
 
 def reference_lens(irma_path):
-    reffiles = glob(irma_path + "/*/intermediate/0-ITERATIVE-REFERENCES/R0*ref")
+    reffiles = glob(irma_path + "/*/IRMA/*/intermediate/0-ITERATIVE-REFERENCES/R0*ref")
     ref_lens = {}
     for f in reffiles:
         ref = basename(f)[3:-4]

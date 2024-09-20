@@ -509,21 +509,40 @@ if (params.email) {
     workflow.onComplete {
         if (workflow.success == true) {
             def path = "${params.runpath}"
-            def file = new File(path)
-            def basename = file.name
-            def final_files = ["${params.outdir}/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/MIRA_" + basename + '_amended_consensus.fasta']
-            def msg = """
-       Pipeline execution summary
-       Completed at: ${workflow.complete}
-       Duration    : ${workflow.duration}
-       Success     : ${workflow.success}
-       workDir     : ${workflow.workDir}
-       outDir      : ${params.outdir}
-       exit status : ${workflow.exitStatus}
-       """
-       .stripIndent()
+            def folder_name = new File(path)
+            def basename = folder_name.name
+            def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta')
+            if (ac_file.exists()) {
+                /* groovylint-disable-next-line LineLength */
+                def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta']
+                def msg = """
+                Pipeline execution summary
+                Completed at: ${workflow.complete}
+                Duration    : ${workflow.duration}
+                Success     : ${workflow.success}
+                workDir     : ${workflow.workDir}
+                outDir      : ${params.outdir}
+                exit status : ${workflow.exitStatus}
+                """
+                .stripIndent()
 
-            sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+                    sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+            } else {
+                def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx']
+                def msg = """
+                Pipeline execution summary
+                Completed at: ${workflow.complete}
+                Duration    : ${workflow.duration}
+                Success     : ${workflow.success}
+                workDir     : ${workflow.workDir}
+                outDir      : ${params.outdir}
+                exit status : ${workflow.exitStatus}
+                No amended consensus was created!
+                """
+                .stripIndent()
+
+                    sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+            }
         } else if (workflow.success == false) {
             def msg = """
        Pipeline execution summary

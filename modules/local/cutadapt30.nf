@@ -4,9 +4,6 @@ process CUTADAPT30 {
 
     container 'cdcgov/mira-nf:latest'
 
-    publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
-    publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
-
     input:
     tuple val(sample), val(barcode), path(trim_lr_file_path)
 
