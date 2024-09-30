@@ -53,19 +53,21 @@ workflow PREPAREREPORTS {
         virus = 'rsv'
     }
 
-    //
+    //create aggregate reports
     PREPAREIRMAJSON(dais_outputs_ch, nf_samplesheet_ch, platform, virus)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
+    //convert aggragate reports (json files) into html files
     STATICHTML(PREPAREIRMAJSON.out.dash_json, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
-    if (params.parquet_files == true) {
+    //Parquet amker converts the report tables into csv files and parquet files
+    if (params.reformat_tables == true) {
         PARQUETMAKER(STATICHTML.out.html, run_ID_ch, params.input)
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
         versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
-    } else if (params.parquet_files == false) {
+    } else if (params.reformat_tables == false) {
         versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
     }
 

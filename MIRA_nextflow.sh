@@ -10,7 +10,7 @@
 #$ -V
 
 usage() {
-	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_amplicon_library> <optional: -a parquet_files> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -n > " 1>&2
+	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_amplicon_library> <optional: -a reformat_tables> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -n > " 1>&2
 	exit 1
 }
 
@@ -27,7 +27,7 @@ while getopts 'd:i:o:r:e:p:g:f:a:c:q:m:b:na' OPTION; do
 	p) PRIMER_SCHEMA="$OPTARG" ;;
 	g) CUSTOM_PRIMERS="$OPTARG" ;;
 	f) APPLICATION="$OPTARG" ;;
-	a) PARQUET="$OPTARG" ;;
+	a) REFORMAT="$OPTARG" ;;
 	c) READ_COUNTS="$OPTARG" ;;
 	q) PROCESSQ="$OPTARG" ;;
 	m) EMAIL="$OPTARG" ;;
@@ -54,10 +54,10 @@ else
 	OPTIONALARGS2="--custom_primers $CUSTOM_PRIMERS"
 fi
 
-if [[ -z "${PARQUET}" ]]; then
+if [[ -z "${REFORMAT}" ]]; then
 	OPTIONALARGS3=""
 else
-	OPTIONALARGS3="--parquet_files $PARQUET"
+	OPTIONALARGS3="--reformat_tables $REFORMAT"
 fi
 
 if [[ -z "${READ_COUNTS}" ]]; then

@@ -17,7 +17,7 @@ MIRA performs these steps for genome assembly and curation:
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
 8. Collect results from IRMA and DAIS-Ribosome in json files
 9. Create html, excel files and amended consensus fasta files
-10. Convert into parquet files
+10. Reformat tables into parquet files and csv files
 
 MIRA is able to analyze 7 data types:
 
@@ -155,7 +155,7 @@ Inputs for the pipeline include:
 
 - p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided**
 - custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **Trimming will only work with custom primers that are greater than 15bp**
-- parquet_files - (optional) flag to produce parquet files (boolean). Default set to false.
+- reformat_tables - (optional) flag to reformat report tables into parquet files and csv files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
@@ -174,7 +174,7 @@ nextflow run ./main.nf \
    --p <PRIMER_SCHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --subsample_reads <READ_COUNT> \
-   --parquet_files true (optional) \
+   --reformat_tables true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
    --amd_platform false (optional)
 ```
@@ -191,7 +191,7 @@ nextflow run ./main.nf \
    --p <PRIMER_SCHEMA> (optional) \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
-   -- parquet_files true (optional) \
+   -- reformat_tables true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
    --amd_platform false (optional)
@@ -232,7 +232,7 @@ e: 'experiment_type'
 p: 'primer_schema' (optional)
 custom_primer: '/FILE_PATH/custom_primer.fasta'
 subsample_reads: 'read_counts' (optional)
-parquet_files: true (optional)
+reformat_tables: true (optional)
 irma_config: 'config_type' (optional)
 email: 'email' (optional)
 amd_platform: false (optional)
