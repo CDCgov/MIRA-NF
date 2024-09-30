@@ -1,0 +1,25 @@
+version: "3.9"
+
+x-base-image:
+  &base-image
+  debian:trixie-slim
+
+x-data-volume:
+  &data-volume
+  type: bind
+  source: /home/snu3/Github/FLU_SC2_SEQUENCING
+  target: /data
+
+services:
+  mira-nf: 
+    container_name: mira-nf
+    image: mira-nf:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        base_image: *base-image
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
