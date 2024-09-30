@@ -21,7 +21,7 @@ process PREPAREIRMAJSON {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${projectDir}/bin/prepareIRMAjson.py ${params.outdir}/IRMA ${nf_samplesheet} ${platform} ${virus}
+    python3 ${projectDir}/bin/prepareIRMAjson.py ${params.outdir} ${nf_samplesheet} ${platform} ${virus}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

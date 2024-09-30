@@ -227,9 +227,9 @@ elif ".fasta" in infi:
     )
 
 elif infi == "":
-    readstable = irma_reads_df(wd_path + "/IRMA")
-    covtable = irma_coverage_df(wd_path + "/IRMA")
-    allelestable = irma_alleles_df(wd_path + "/IRMA")
+    readstable = irma_reads_df(wd_path + "/*/IRMA")
+    covtable = irma_coverage_df(wd_path + "/*/IRMA")
+    allelestable = irma_alleles_df(wd_path + "/*/IRMA")
     for t in (
         [readstable, f"{run_id}_reads.parq"],
         [covtable, f"{run_id}_coverage.parq"],

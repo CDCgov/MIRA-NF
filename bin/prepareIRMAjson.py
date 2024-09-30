@@ -481,7 +481,7 @@ def generate_dfs(irma_path):
         if len(glob(f"{irma_path}/dais_results/*seq")) == 0:
             time.sleep(1)
         c += 1
-    dais_vars_df = dais2pandas.compute_dais_variants(f"{irma_path}/dais_results")
+    dais_vars_df = dais2pandas.compute_dais_variants(f"{irma_path}/aggregate_outputs/dais-ribosome")
     with open(f"./dais_vars.json", "w") as out:
         dais_vars_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> dais_vars_df saved to {out.name}")
@@ -572,10 +572,10 @@ def generate_dfs(irma_path):
     # Wait up to 60 seconds for dais_results to be available
     c = 0
     while c < 60:
-        if len(glob(f"{irma_path}/dais_results/*seq")) == 0:
+        if len(glob(f"{irma_path}/aggregate_outputs/dais-ribosome/*seq")) == 0:
             time.sleep(1)
         c += 1
-    aa_seqs_df = dais2pandas.seq_df(f"{irma_path}/dais_results")
+    aa_seqs_df = dais2pandas.seq_df(f"{irma_path}/aggregate_outputs/dais-ribosome")
     aa_seqs_df["Sample"] = aa_seqs_df["Sample"].astype(str)
     if virus == "flu":
         aa_seqs_df = flu_dais_modifier(vtype_df, aa_seqs_df, irma_summary_df)

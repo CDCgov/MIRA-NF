@@ -4,9 +4,6 @@ process IRMA {
 
     container 'cdcgov/irma:v1.2.0'
 
-    publishDir "${params.outdir}/IRMA",  mode: 'copy'
-    publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
-
     input:
     tuple val(sample), path(subsampled_fastq_files), val(irma_custom_0), val(irma_custom_1), val(module)
 
