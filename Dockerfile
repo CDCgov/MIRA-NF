@@ -9,7 +9,9 @@ FROM ${base_image} as base
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install system libraries of general use
+RUN if [ -n "$APT_MIRROR_NAME" ]; then sed -i.bak -E '/security/! s^https?://.+?/(debian|ubuntu)^http://'"$APT_MIRROR_NAME"'/\1^' /etc/apt/sources.list && grep '^deb' /etc/apt/sources.list; fi
 RUN apt-get update --allow-releaseinfo-change --fix-missing \
+    && apt-get upgrade \
     && apt-get install --no-install-recommends -y \
     build-essential \ 
     iptables \
