@@ -163,7 +163,7 @@ nextflow run ./main.nf \
    --email <EMAIL_ADDRESS> (optional)
 ```
 
-For in house testing (all values must be filled in to execute qsub - for primer schema if none, put none):
+For in house testing:
 
 ```bash
 qsub MIRA_nextflow.sh \
