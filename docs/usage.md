@@ -155,6 +155,7 @@ Inputs for the pipeline include:
 
 - p - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided**
 - custom_primers - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **Trimming will only work with custom primers that are greater than 15bp**
+- read_qc - (optional) Run FastQC and MultiQC. Default: false.
 - reformat_tables - (optional) flag to reformat report tables into parquet files and csv files (boolean). Default set to false.
 - subsample_reads - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000. options: true or false
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
@@ -176,7 +177,8 @@ nextflow run ./main.nf \
    --subsample_reads <READ_COUNT> \
    --reformat_tables true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
-   --amd_platform false (optional)
+   --amd_platform false (optional) \ 
+   --read_qc false (optional)
 ```
 
 To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
@@ -195,6 +197,7 @@ nextflow run ./main.nf \
    --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
    --amd_platform false (optional)
+   --read_qc false (optional)
 ```
 
 Both of these will launch the pipeline with the `singularity` configuration profile. See below for more information about profiles.
@@ -236,6 +239,7 @@ reformat_tables: true (optional)
 irma_config: 'config_type' (optional)
 email: 'email' (optional)
 amd_platform: false (optional)
+read_qc: false (optional)
 <...>
 ```
 
