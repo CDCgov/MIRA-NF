@@ -1,32 +1,28 @@
-# Create an argument to pull a particular version of base image
+# Create an argument to pull a particular version of an image
 ARG base_image
-ARG base_image=${base_image:-debian:trixie-slim}
+ARG base_image=${base_image:-python3.10-alpine-pyarrow}
 
-# Start from a base image
+####################################################################################################
+# BASE IMAGE
+####################################################################################################
 FROM ${base_image} as base
 
-# Define a system argument
-ARG DEBIAN_FRONTEND=noninteractive
+# Required certs for apk update
+COPY ca.crt /root/ca.crt
+
+# Put certs in /etc/ssl/certs location
+RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
 
 # Install system libraries of general use
-RUN if [ -n "$APT_MIRROR_NAME" ]; then sed -i.bak -E '/security/! s^https?://.+?/(debian|ubuntu)^http://'"$APT_MIRROR_NAME"'/\1^' /etc/apt/sources.list && grep '^deb' /etc/apt/sources.list; fi
-RUN apt-get update --allow-releaseinfo-change --fix-missing \
-    && apt-get upgrade \
-    && apt-get install --no-install-recommends -y \
-    build-essential \ 
-    iptables \
-    python3 \
-    python3-venv \
-    python3-pip-whl \
-    python3-setuptools-whl \
-    ca-certificates \
-    default-jre \
-    default-jdk \
+RUN apk update \
+  && apk add  \
+    python3-dev \ 
+    openjdk11 \
+    bash \
     vim \
-    wget \
-    curl \
     tar \
-    dos2unix
+    dos2unix \ 
+    && pip install --upgrade pip
 
 # Create working directory variable
 ENV WORKDIR=/data
@@ -63,19 +59,10 @@ RUN bash ${PROJECT_DIR}/bbtools/install_bbtools.sh
 ############# Install python packages ##################
 
 # Copy all files to docker images
-COPY python ${PROJECT_DIR}/python
+COPY requirements.txt /mira-nf/requirements.txt
 
-# Copy all files to docker images
-COPY python/install_python_packages.sh ${PROJECT_DIR}/python/install_python_packages.sh
-
-# Convert bash script from Windows style line endings to Unix-like control characters
-RUN dos2unix ${PROJECT_DIR}/python/install_python_packages.sh
-
-# Allow permission to excute the bash script
-RUN chmod a+x ${PROJECT_DIR}/python/install_python_packages.sh
-
-# Execute bash script to wget the file and tar the package
-RUN bash ${PROJECT_DIR}/python/install_python_packages.sh
+# Install python requirements
+RUN pip install --no-cache-dir -r /mira-nf/requirements.txt
 
 ############# Run nextflow bash script ##################
 
@@ -88,10 +75,8 @@ RUN dos2unix ${PROJECT_DIR}/MIRA_nextflow.sh
 # Allow permission to excute the bash scripts
 RUN chmod a+x ${PROJECT_DIR}/MIRA_nextflow.sh
 
-# Clean up and remove unwanted files
-RUN apt-get autoremove -y \
-  && apt-get clean -y \
-  && rm -rf /var/lib/{apt,dpkg,cache,log}/
-
 # Export project directory to PATH
 ENV PATH "$PATH:${PROJECT_DIR}"
+
+# Allow container to keep running when it starts
+ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]

@@ -1,8 +1,15 @@
-version: "3.9"
 
 x-base-image:
   &base-image
-  debian:trixie-slim
+  python:3.10-alpine
+
+x-pyarrow-image:
+  &pyarrow-image
+  python3.10-alpine:pyarrow
+
+x-mira-nf-image:
+  &mira-nf-image
+  mira-nf:python3.10-alpine
 
 x-data-volume:
   &data-volume
@@ -11,14 +18,29 @@ x-data-volume:
   target: /data
 
 services:
+  pyarrow: 
+    container_name: pyarrow
+    image: *pyarrow-image
+    build:
+      context: .
+      dockerfile: Dockerfile-pyarrow
+      args:
+        base_image: *base-image
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
+
   mira-nf: 
     container_name: mira-nf
-    image: mira-nf:latest
+    image: *mira-nf-image
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        base_image: *base-image
+        base_image: *pyarrow-image
+    depends_on:
+      - pyarrow
     restart: always
     volumes:
       - *data-volume
