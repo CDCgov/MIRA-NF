@@ -40,3 +40,11 @@ then
 	echo "Done"
 
 fi
+
+# Export bbtools to system path
+bbtools_path=$(ls ${PACKAGE_ROOT})
+
+for eachdir in ${bbtools_path}
+do
+	export PATH=$PATH:${PACKAGE_ROOT}/${eachdir}
+done
