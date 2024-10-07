@@ -3,9 +3,28 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.2.0 - 2024
+
+### Credits
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+
+### Enhancements
+
+- Now maintaining code on cdcgov.
+- [PR #10](https://github.com/CDCgov/MIRA-NF/pull/10) - reformat the outputs structure
+- [PR #11](https://github.com/CDCgov/MIRA-NF/pull/11) - changes the parquet_files flag to reformat_tables flag. This flag now reformats the report tables into parquet files and csv files.
+
+### Parameters
+
+| Old parameter | New parameter                |
+| ------------- | ---------------------------- |
+| `--reformat_tables`| `--parquet_files` |
+
 ## v1.1.0 - 2024-09-19
 
 ### Credits
+
 - [Amanda Sullivan](https://github.com/mandysulli)
 
 ### Enhancements
@@ -25,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v1.0.0 - 2024-08-20
 
 ### Credits
+
 - [Ben Rambo-Martin](https://github.com/nbx0)
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Kristine Lacek](https://github.com/kristinelacek)

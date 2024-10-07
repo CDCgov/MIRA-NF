@@ -146,11 +146,11 @@ def irma_alleles_df(irma_path, full=False):
 
 # file I/O
 def parquetify(table, outfi):
-    pd.DataFrame.to_csv(table, "temp.csv", sep="\t", index=False, header=True)
+    pd.DataFrame.to_csv(table, f"{outfi}.csv", sep="\t", index=False, header=True)
     chunksize = 100_000
     # modified from https://stackoverflow.com/questions/26124417/how-to-convert-a-csv-file-to-parquet
     csv_stream = pd.read_csv(
-        "temp.csv", sep="\t", chunksize=chunksize, low_memory=False
+        f"{outfi}.csv", sep="\t", chunksize=chunksize, low_memory=False
     )
     for i, chunk in enumerate(csv_stream):
         print("Chunk", i)
@@ -179,7 +179,7 @@ def parquetify(table, outfi):
                 parquet_schema = pa.Table.from_pandas(df=chunk).schema
             # Open a Parquet file for writing
             parquet_writer = pq.ParquetWriter(
-                outfi, parquet_schema, compression="snappy", version="1.0"
+                f"{outfi}.parq", parquet_schema, compression="snappy", version="1.0"
             )
         # Write CSV chunk to the parquet file
         table = pa.Table.from_pandas(chunk, schema=parquet_schema)
@@ -231,9 +231,9 @@ elif infi == "":
     covtable = irma_coverage_df(wd_path + "/*/IRMA")
     allelestable = irma_alleles_df(wd_path + "/*/IRMA")
     for t in (
-        [readstable, f"{run_id}_reads.parq"],
-        [covtable, f"{run_id}_coverage.parq"],
-        [allelestable, f"{run_id}_alleles.parq"],
+        [readstable, f"{run_id}_reads"],
+        [covtable, f"{run_id}_coverage"],
+        [allelestable, f"{run_id}_alleles"],
     ):
         t[0]["runid"] = run_id
         t[0]["instrument"] = instrument
