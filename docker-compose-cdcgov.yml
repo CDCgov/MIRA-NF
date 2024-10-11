@@ -64,7 +64,6 @@ services:
       - fastqc
       - bbtools
       - cutadapt
-      - pyarrow
     restart: always
     volumes:
       - *data-volume
