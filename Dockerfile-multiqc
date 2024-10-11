@@ -1,15 +1,19 @@
 # Create an argument to pull a particular version of an image
 ARG python_image
-ARG python_image=${python_image:-mira-nf:pyarrow-alpine}
+ARG python_image=${python_image:-python:3.10-alpine}
 
 ####################################################################################################
 # BASE IMAGE
 ####################################################################################################
 FROM ${python_image} as base
 
-# Create environment variable to get base python version
+# Create environment variable to get specific version of fastqc
 ARG python_version
 ENV python_version=${python_version:-python3.10}
+
+# Create environment variable to get specific version of fastqc
+ARG multiqc_version
+ENV multiqc_version=${multiqc_version:-1.19}
 
 # Required certs for apk update
 COPY ca.crt /root/ca.crt
@@ -19,36 +23,14 @@ RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
 
 # Install system libraries of general use
 RUN apk update && apk add --no-cache \
+    openjdk11 \
     bash \
     vim \
-    tar \
-    dos2unix \ 
-    && pip install --upgrade pip
+    && pip install --upgrade pip \
+    && pip install --no-cache-dir multiqc==${multiqc_version}
 
-# Create working directory variable
-ENV PROJECT_DIR=/mira-nf
-
-# Copy all scripts to docker images
-COPY . ${PROJECT_DIR}
-
-############# Install python packages ##################
-
-# Copy all files to docker images
-COPY requirements.txt ${PROJECT_DIR}/requirements.txt
-
-# Install python requirements
-RUN pip install --no-cache-dir -r ${PROJECT_DIR}/requirements.txt
-
-############# Run nextflow bash script ##################
-
-# Copy all files to docker images
-COPY MIRA_nextflow.sh ${PROJECT_DIR}/MIRA_nextflow.sh
-
-# Convert spyne from Windows style line endings to Unix-like control characters
-RUN dos2unix ${PROJECT_DIR}/MIRA_nextflow.sh
-
-# Allow permission to excute the bash scripts
-RUN chmod a+x ${PROJECT_DIR}/MIRA_nextflow.sh
+# Set up project directory
+ENV PROJECT_DIR=/multiqc
 
 ############# Fix vulnerablities pkgs ##################
 
@@ -65,7 +47,7 @@ RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 RUN chmod a+x ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Execute bash script to wget the file and tar the package
-RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh  
+RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh    
 
 ############# Remove vulnerability pkgs ##################
 
@@ -89,7 +71,7 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 # Clean up and remove unwanted files
 RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
     && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor
-
+    
 ############# Set up working directory ##################
 
 # Create working directory variable
@@ -101,8 +83,6 @@ VOLUME ${WORKDIR}
 # Set up working directory in docker
 WORKDIR ${WORKDIR}    
 
-# Export project directory to PATH
-ENV PATH "$PATH:${PROJECT_DIR}"
-
 # Allow container to keep running when it starts
 ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]
+

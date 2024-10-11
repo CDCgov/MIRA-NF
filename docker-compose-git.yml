@@ -1,4 +1,8 @@
 
+x-mira-nf-git-repo:
+  &mira-nf-git-repo
+  https://github.com/CDCgov/MIRA-NF.git#fix_vulnerabilities
+
 x-python-image:
   &python-image
   python:3.10-alpine
@@ -26,7 +30,7 @@ services:
     container_name: multiqc
     image: mira-nf:multiqc-alpine
     build:
-      context: .
+      context: *mira-nf-git-repo
       dockerfile: Dockerfile-multiqc
       args:
         python_image: *python-image
@@ -41,7 +45,7 @@ services:
     container_name: fastqc
     image: mira-nf:fastqc-alpine
     build:
-      context: .
+      context: *mira-nf-git-repo
       dockerfile: Dockerfile-fastqc
       args:
         python_image: *python-image
@@ -55,7 +59,7 @@ services:
     container_name: bbtools
     image: mira-nf:bbtools-alpine
     build:
-      context: .
+      context: *mira-nf-git-repo
       dockerfile: Dockerfile-bbtools
       args:
         python_image: *python-image
@@ -68,7 +72,7 @@ services:
     container_name: pyarrow
     image: *pyarrow-image
     build:
-      context: .
+      context: *mira-nf-git-repo
       dockerfile: Dockerfile-pyarrow
       args:
         python_image: *python-image
@@ -82,7 +86,7 @@ services:
     container_name: cutadapt
     image: mira-nf:cutadapt-alpine
     build:
-      context: .
+      context: *mira-nf-git-repo
       dockerfile: Dockerfile-cutadapt
       args:
         python_image: *pyarrow-image
@@ -98,7 +102,7 @@ services:
     container_name: mira-nf
     image: *mira-nf-image
     build:
-      context: .
+      context: *mira-nf-git-repo
       dockerfile: Dockerfile
       args:
         python_image: *pyarrow-image

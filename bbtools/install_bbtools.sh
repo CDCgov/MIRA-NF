@@ -2,15 +2,14 @@
 #!/bin/bash
 # Wrapper to install downloaded packages 
 
-PACKAGE_ROOT=/opt/bbtools
-PROJECT_DIR=${PROJECT_DIR:-"/mira-nf"}
-bbtools_orig=${PROJECT_DIR}/bbtools/bbtools_file.txt
-bbtools_clean=${PROJECT_DIR}/bbtools/bbtools_file_clean.txt
+PROJECT_DIR=${PROJECT_DIR:-"/bbtools"}
+bbtools_orig=${PROJECT_DIR}/bbtools_file.txt
+bbtools_clean=${PROJECT_DIR}/bbtools_file_clean.txt
 
 # Make the bbtools directory exits, if not, create it
-if [[ ! -d ${PACKAGE_ROOT} ]]
+if [[ ! -d ${PROJECT_DIR} ]]
 then
-	mkdir ${PACKAGE_ROOT}
+	mkdir ${PROJECT_DIR}
 fi
 
 # Extract bbmap package to the bbtools directory
@@ -26,13 +25,19 @@ then
 	n=`wc -l < ${bbtools_clean}`
 	i=1
 
-	# Wget the file and install the package
+	# Get the file and install the package
 	while [[ i -le $n ]];
 	do
 		echo $i
 		file=$(head -${i} ${bbtools_clean} | tail -1 | sed 's,\r,,g')
 		echo $file
-		tar -zxf ${PROJECT_DIR}/bbtools/${file} -C ${PACKAGE_ROOT}
+		# Check if file exists
+		if [[ -f ${PROJECT_DIR}/${file} ]]
+		then
+			echo "extract bbmap"
+			tar -zvxf ${PROJECT_DIR}/${file} -C ${PROJECT_DIR}
+		fi
+		# Go to next file
 		i=$(($i+1))
 	done
 	
@@ -40,11 +45,3 @@ then
 	echo "Done"
 
 fi
-
-# Export bbtools to system path
-bbtools_path=$(ls ${PACKAGE_ROOT})
-
-for eachdir in ${bbtools_path}
-do
-	export PATH=$PATH:${PACKAGE_ROOT}/${eachdir}
-done

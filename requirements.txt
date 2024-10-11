@@ -1,9 +1,6 @@
 
-setuptools==70.0.0
-cutadapt==4.4
 pyarrow==17.0.0
 pandas==2.0.3
-Werkzeug==3.0.3
 numpy==1.23.1
 plotly==5.11.0
 pulp==2.7.0

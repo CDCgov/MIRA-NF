@@ -1,11 +1,11 @@
 # Create an argument to pull a particular version of base image
-ARG base_image
-ARG base_image=${base_image:-python:3.10-alpine}
+ARG python_image
+ARG python_image=${python_image:-python:3.10-alpine}
 
 ####################################################################################################
 # BASE IMAGE
 ####################################################################################################
-FROM ${base_image} AS base
+FROM ${python_image} AS base
 
 # Required certs for apk update
 COPY ca.crt /root/ca.crt
