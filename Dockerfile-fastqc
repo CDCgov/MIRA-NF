@@ -27,7 +27,8 @@ RUN apk update && apk add --no-cache \
     bash \
     perl \
     unzip \
-    vim 
+    vim  \
+    && pip install --upgrade pip 
 
 # Get package version
 ENV FASTQC_PKG="fastqc_v${fastqc_version}.zip"

@@ -23,7 +23,8 @@ RUN apk update && apk add --no-cache \
     bash \
     vim \
     tar \
-    dos2unix 
+    dos2unix \
+    && pip install --upgrade pip 
 
 # Set up project directory
 ENV PROJECT_DIR=/bbtools
