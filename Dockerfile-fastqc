@@ -23,13 +23,15 @@ RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
 
 # Install system libraries of general use
 RUN apk update && apk add --no-cache \
-    openjdk11 \
+    openjdk21-jre \
+    fontconfig \
+    ttf-dejavu \
     bash \
     perl \
     unzip \
     vim  \
     && pip install --upgrade pip 
-
+    
 # Get package version
 ENV FASTQC_PKG="fastqc_v${fastqc_version}.zip"
 
@@ -99,7 +101,7 @@ ENV WORKDIR=/data
 VOLUME ${WORKDIR}
 
 # Set up working directory in docker
-WORKDIR ${WORKDIR}     
+WORKDIR ${WORKDIR}   
 
 # Allow container to keep running when it starts
 ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]
