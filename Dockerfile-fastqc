@@ -41,7 +41,7 @@ ADD http://www.bioinformatics.babraham.ac.uk/projects/fastqc/${FASTQC_PKG} /tmp/
 
 # Download and install FastQC;
 RUN unzip /tmp/${FASTQC_PKG} \
-    && chmod 750 FastQC/fastqc \
+    && chmod 755 FastQC/fastqc \
     && rm -rf /tmp/${FASTQC_PKG}
 
 # Export program to PATH
