@@ -10,14 +10,14 @@
 #$ -V
 
 usage() {
-	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_amplicon_library> <optional: -a reformat_tables> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -n > " 1>&2
+	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_amplicon_library> <optional: -a reformat_tables> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -k read_qc> <optional: -n > " 1>&2
 	exit 1
 }
 
 # Experiment type options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 # Primer Schema options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
 
-while getopts 'd:i:o:r:e:p:g:f:a:c:q:m:b:na' OPTION; do
+while getopts 'd:i:o:r:e:p:g:f:a:c:q:m:b:k:na' OPTION; do
 	case "$OPTION" in
 	d) DIRNAME="$OPTARG" ;;
 	i) INPUT="$OPTARG" ;;
@@ -32,6 +32,7 @@ while getopts 'd:i:o:r:e:p:g:f:a:c:q:m:b:na' OPTION; do
 	q) PROCESSQ="$OPTARG" ;;
 	m) EMAIL="$OPTARG" ;;
 	b) OTHER_IRMA_CONFIG="$OPTARG" ;;
+	k) READS_QC="$OPTARG" ;;
 	*) usage ;;
 	esac
 done
@@ -78,6 +79,12 @@ else
 	OPTIONALARGS6="--email $EMAIL"
 fi
 
+if [[ -z "${READS_QC}" ]]; then
+	OPTIONALARGS7=""
+else
+	OPTIONALARGS7="--read_qc $READS_QC"
+fi
+
 # Archive previous run using the summary.xlsx file sent in email
 if [ -d "$1/dash-json/" ] && [ -n "${TAR}" ]; then
 	tar --remove-files -czf ${RUNPATH}/previous_run_$(date -d @$(stat -c %Y ${RUNPATH}/dash-json/) "+%Y%b%d-%H%M%S").tar.gz ${RUNPATH}/*html ${RUNPATH}/*fasta ${RUNPATH}/*txt ${RUNPATH}/*xlsx ${RUNPATH}/IRMA ${RUNPATH}/dash-json
@@ -97,4 +104,5 @@ nextflow run "$DIRNAME"/MIRA-NF/main.nf \
 	$OPTIONALARGS3 \
 	$OPTIONALARGS4 \
 	$OPTIONALARGS5 \
-	$OPTIONALARGS6
+	$OPTIONALARGS6 \
+	$OPTIONALARGS7

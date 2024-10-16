@@ -166,7 +166,7 @@ nextflow run ./main.nf \
    --read_qc false (optional)
 ```
 
-For in house testing (note that the read_qc parameter is not available when using the qsub - default set to false):
+For in house testing:
 
 ```bash
 qsub MIRA_nextflow.sh \
@@ -183,6 +183,7 @@ qsub MIRA_nextflow.sh \
    -c <SUBSAMPLED_READ_COUNTS> \ (optional)
    -b <OTHER_IRMA_CONFIG> (optional)
    -m <EMAIL_ADDRESS> \ (optional)
+   -k <READ_QC> \ (optional)
 
 ```
 
