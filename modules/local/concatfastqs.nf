@@ -1,5 +1,5 @@
 process CONCATFASTQS {
-    tag 'concat all fastq files within barcode folder'
+    tag "${sample}"
     label 'process_single'
 
     input:

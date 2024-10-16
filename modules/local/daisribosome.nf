@@ -1,5 +1,4 @@
 process DAISRIBOSOME {
-    tag 'Translating sequences into open reading frames (ORFs) with DAIS-Ribosome'
     label 'process_medium'
 
     container 'cdcgov/dais-ribosome:v1.5.4'

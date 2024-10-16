@@ -1,8 +1,8 @@
 process RSVTRIMPRIMERSRIGHT {
-    tag { "${sample }" }
+    tag "${sample}"
     label 'process_medium'
 
-    container 'staphb/bbtools:39.01'
+    container 'cdcgov/mira-nf:bbtools-alpine'
 
     publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
     publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'

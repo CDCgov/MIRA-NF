@@ -1,8 +1,8 @@
 process SC2TRIMPRIMERSLEFT {
-    tag { "${sample }" }
+    tag "${sample}"
     label 'process_medium'
 
-    container 'staphb/bbtools:39.01'
+    container 'cdcgov/mira-nf:bbtools-alpine'
 
     input:
     tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers)

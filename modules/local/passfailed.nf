@@ -1,5 +1,5 @@
 process PASSFAILED {
-    tag { "passing negatives for ${sample }" }
+    tag "${sample}"
     label 'process_single'
 
     input:

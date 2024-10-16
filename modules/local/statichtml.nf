@@ -1,8 +1,7 @@
 process STATICHTML {
-    tag 'Creating static HTML output'
     label 'process_single'
 
-    container 'cdcgov/mira-nf:latest'
+    container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
     path(json_files)

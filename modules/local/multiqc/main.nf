@@ -2,21 +2,19 @@ process MULTIQC {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/multiqc:1.21--pyhdfd78af_0' :
-        'biocontainers/multiqc:1.21--pyhdfd78af_0' }"
+    container 'cdcgov/mira-nf:multiqc-alpine'
 
     input:
-    path  multiqc_files, stageAs: "?/*"
+    path  multiqc_files, stageAs: '?/*'
     path(multiqc_config)
     path(extra_multiqc_config)
     path(multiqc_logo)
 
     output:
-    path "*multiqc_report.html", emit: report
-    path "*_data"              , emit: data
-    path "*_plots"             , optional:true, emit: plots
-    path "versions.yml"        , emit: versions
+    path '*multiqc_report.html', emit: report
+    path '*_data'              , emit: data
+    path '*_plots'             , optional:true, emit: plots
+    path 'versions.yml'        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
