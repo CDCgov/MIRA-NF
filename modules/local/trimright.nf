@@ -1,8 +1,8 @@
 process TRIMRIGHT {
-    tag { "${sample}" }
+    tag "${sample}"
     label 'process_medium'
 
-    container 'staphb/bbtools:39.01'
+    container 'cdcgov/mira-nf:bbtools-alpine'
 
     input:
     tuple val(sample), val(barcode), path(trim_l_file_path), val(seq_rc)

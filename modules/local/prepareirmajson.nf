@@ -1,8 +1,7 @@
 process PREPAREIRMAJSON {
-    tag 'Creating jsons files from IRMA outputs'
     label 'process_low'
 
-    container 'cdcgov/mira-nf:latest'
+    container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
     val x
@@ -21,7 +20,7 @@ process PREPAREIRMAJSON {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${projectDir}/bin/prepareIRMAjson.py ${params.outdir} ${nf_samplesheet} ${platform} ${virus}
+    python3 ${projectDir}/bin/prepareIRMAjson.py ${projectDir} ${params.outdir} ${nf_samplesheet} ${platform} ${virus}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

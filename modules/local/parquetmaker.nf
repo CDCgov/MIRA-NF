@@ -1,8 +1,7 @@
 process PARQUETMAKER {
-    tag { 'Creating paquet output' }
     label 'process_low'
 
-    container 'cdcgov/mira-nf:latest'
+    container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
     path(html_outputs)

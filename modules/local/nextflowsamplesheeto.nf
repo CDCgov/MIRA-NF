@@ -1,8 +1,7 @@
 process NEXTFLOWSAMPLESHEETO {
-    tag 'Generating the samplesheet for nextflow'
     label 'process_single'
 
-    container 'cdcgov/mira-nf:latest'
+    container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
     path samplesheet

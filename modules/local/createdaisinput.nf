@@ -1,5 +1,4 @@
 process CREATEDAISINPUT {
-    tag { 'Collecting consensus genomes' }
     label 'process_single'
 
     input:
