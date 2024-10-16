@@ -105,6 +105,11 @@
                     "default": false,
                     "description": "Skip the nextflow samplesheet creation step for AMD platform"
                 },
+                "read_qc": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Run fastq and multiqc steps. Default: false"
+                },
                 "subsample_reads": {
                     "type": "integer",
                     "default": 10000000,

@@ -54,9 +54,15 @@ workflow flu_i {
         INPUT_CHECK(nf_samplesheet_ch)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
-    // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads)
-    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
+    //Run or pass READQC subworkflow based on read_qc parameter
+    if (params.read_qc == false) {
+        println 'Bypassing FastQC and MultiQC steps'
+    } else if (params.read_qc == true) {
+        // SUBWORKFLOW: Process reads through FastQC and MultiQC
+        READQC(INPUT_CHECK.out.reads)
+        ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    }
 
     // SUBWORKFLOW: Process illumina reads for IRMA - find chemistry and subsample
     PREPILLUMINAREADS(nf_samplesheet_ch)
@@ -117,9 +123,14 @@ workflow flu_o {
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
 
-    // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads)
-    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    //Run or pass READQC subworkflow based on read_qc parameter
+    if (params.read_qc == false) {
+        println 'Bypassing FastQC and MultiQC steps'
+    } else if (params.read_qc == true) {
+        // SUBWORKFLOW: Process reads through FastQC and MultiQC
+        READQC(INPUT_CHECK.out.reads)
+        ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    }
 
     // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
@@ -179,9 +190,15 @@ workflow sc2_spike_o {
         INPUT_CHECK(nf_samplesheet_ch)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
-    // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads)
-    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+
+    //Run or pass READQC subworkflow based on read_qc parameter
+    if (params.read_qc == false) {
+        println 'Bypassing FastQC and MultiQC steps'
+    } else if (params.read_qc == true) {
+        // SUBWORKFLOW: Process reads through FastQC and MultiQC
+        READQC(INPUT_CHECK.out.reads)
+        ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    }
 
     // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
@@ -242,9 +259,14 @@ workflow sc2_wgs_o {
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
 
-    // SUBWORKFLOW: Process reads through FastQC and MultiQC
-    READQC(INPUT_CHECK.out.reads)
-    ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    //Run or pass READQC subworkflow based on read_qc parameter
+    if (params.read_qc == false) {
+        println 'Bypassing FastQC and MultiQC steps'
+    } else if (params.read_qc == true) {
+        // SUBWORKFLOW: Process reads through FastQC and MultiQC
+        READQC(INPUT_CHECK.out.reads)
+        ch_versions = ch_versions.unique().mix(READQC.out.versions)
+    }
 
     // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
