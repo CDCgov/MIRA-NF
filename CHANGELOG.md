@@ -15,7 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #10](https://github.com/CDCgov/MIRA-NF/pull/10) - reformat the outputs structure
 - [PR #11](https://github.com/CDCgov/MIRA-NF/pull/11) - changes the parquet_files flag to reformat_tables flag. This flag now reformats the report tables into parquet files and csv files.
 - [PR #12](https://github.com/CDCgov/MIRA-NF/pull/12) - Restructure so that the readqc subworkflow only runs when the flag `--read_qc` is set to true. Otherwise FastQC and MultiQC will not run.
-- [PR #12](https://github.com/CDCgov/MIRA-NF/pull/12) - creating and updating docker containers so that they contain no vulnerabilities.
+- [PR #13](https://github.com/CDCgov/MIRA-NF/pull/13) - creating and updating docker containers so that they contain no vulnerabilities.
+- [PR #14](https://github.com/CDCgov/MIRA-NF/pull/14) - updating scripts and logs to reflect new changes.
 
 ### Parameters
 
