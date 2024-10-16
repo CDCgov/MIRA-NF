@@ -1,0 +1,29 @@
+
+# ignore file extensions
+*.DS_Store
+*.Rmd
+*.html
+*.md
+*.Rhistory
+*.gitignore
+*.Rbuildignore
+*.Rproj
+
+# ignore folders
+**/.git
+**/.github
+**/.Rproj.user
+*docs
+*vignettes
+*man
+*docker
+*images
+*inst
+
+# ignore specific files
+change_log.txt
+docker-compose.yml
+docker-compose-*.yml
+
+
+

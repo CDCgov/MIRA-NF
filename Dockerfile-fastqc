@@ -1,0 +1,107 @@
+# Create an argument to pull a particular version of an image
+ARG python_image
+ARG python_image=${python_image:-python:3.10-alpine}
+
+####################################################################################################
+# BASE IMAGE
+####################################################################################################
+FROM ${python_image} as base
+
+# Create environment variable to get specific version of fastqc
+ARG python_version
+ENV python_version=${python_version:-python3.10}
+
+# Create environment variable to get specific version of fastqc
+ARG fastqc_version
+ENV fastqc_version=${fastqc_version:-0.12.1}
+
+# Copy required certs for apk update
+COPY ca.crt /root/ca.crt
+
+# Put certs in /etc/ssl/certs location
+RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
+
+# Install system libraries of general use
+RUN apk update && apk add --no-cache \
+    openjdk21-jre \
+    fontconfig \
+    ttf-dejavu \
+    bash \
+    perl \
+    unzip \
+    vim  \
+    && pip install --upgrade pip 
+    
+# Get package version
+ENV FASTQC_PKG="fastqc_v${fastqc_version}.zip"
+
+# Set up a working directory to install the package
+WORKDIR /usr/local
+
+# Download package file to tmp directory
+ADD http://www.bioinformatics.babraham.ac.uk/projects/fastqc/${FASTQC_PKG} /tmp/
+
+# Download and install FastQC;
+RUN unzip /tmp/${FASTQC_PKG} \
+    && chmod 755 FastQC/fastqc \
+    && rm -rf /tmp/${FASTQC_PKG}
+
+# Export program to PATH
+ENV PATH "$PATH:/usr/local/FastQC"
+
+# Set up project directory
+ENV PROJECT_DIR=/fastqc
+
+############# Fix vulnerablities pkgs ##################
+
+# Copy all files to docker images
+COPY fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+
+# Copy all files to docker images
+COPY fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Convert bash script from Windows style line endings to Unix-like control characters
+RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Allow permission to excute the bash script
+RUN chmod a+x ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Execute bash script to wget the file and tar the package
+RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh    
+
+############# Remove vulnerability pkgs ##################
+
+# Copy all files to docker images
+COPY remove_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+
+# Copy all files to docker images
+COPY remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+
+# Convert bash script from Windows style line endings to Unix-like control characters
+RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+
+# Allow permission to excute the bash script
+RUN chmod a+x ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+
+# Execute bash script to wget the file and tar the package
+RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+
+############# Remove the vendor packages ##################
+
+# Clean up and remove unwanted files
+RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor
+
+############# Set up working directory ##################
+
+ # Create working directory variable
+ENV WORKDIR=/data
+
+# Set up volume directory in docker
+VOLUME ${WORKDIR}
+
+# Set up working directory in docker
+WORKDIR ${WORKDIR}   
+
+# Allow container to keep running when it starts
+ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]
