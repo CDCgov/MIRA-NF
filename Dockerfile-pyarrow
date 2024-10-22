@@ -79,6 +79,3 @@ RUN cd /arrow/cpp \
     && python setup.py build_ext --build-type=$ARROW_BUILD_TYPE --with-parquet \
     && python setup.py install \
     && rm -rf /arrow /tmp/apache-arrow.tar.gz
-
-# Allow container to keep running when it starts
-ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]

@@ -103,5 +103,3 @@ VOLUME ${WORKDIR}
 # Set up working directory in docker
 WORKDIR ${WORKDIR}   
 
-# Allow container to keep running when it starts
-ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]

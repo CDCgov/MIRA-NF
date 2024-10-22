@@ -104,5 +104,3 @@ WORKDIR ${WORKDIR}
 # Export project directory to PATH
 ENV PATH "$PATH:${PROJECT_DIR}"
 
-# Allow container to keep running when it starts
-ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]
