@@ -49,6 +49,7 @@ services:
       dockerfile: Dockerfile-fastqc
       args:
         python_image: *python-image
+        python_version: *python-version
         fastqc_version: 0.12.1
     restart: always
     volumes:
@@ -63,6 +64,7 @@ services:
       dockerfile: Dockerfile-bbtools
       args:
         python_image: *python-image
+        python_version: *python-version
     restart: always
     volumes:
       - *data-volume
@@ -90,6 +92,7 @@ services:
       dockerfile: Dockerfile-cutadapt
       args:
         python_image: *pyarrow-image
+        python_version: *python-version
         cutadapt_version: 4.4
     depends_on:
       - pyarrow
