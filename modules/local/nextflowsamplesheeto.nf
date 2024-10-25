@@ -19,6 +19,7 @@ process NEXTFLOWSAMPLESHEETO {
     def args = task.ext.args ?: ''
 
     """
+    # AWS Healthomics requires a path to the samplesheet in order to stage the files for the pipeline
     #python3 ${projectDir}/bin/create_nextflow_samplesheet_o.py -s "${params.input}" -r "${params.runpath}" -e "${experiment_type}"
     python3 ${projectDir}/bin/create_nextflow_samplesheet_o.py -s "${samplesheet}" -r "${params.runpath}" -e "${experiment_type}"
 
