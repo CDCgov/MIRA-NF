@@ -9,6 +9,7 @@ process PREPAREIRMAJSON {
     val platform
     val virus
 
+    
     output:
     path('*.json') , emit: dash_json
     path 'versions.yml'           , emit: versions
@@ -39,4 +40,5 @@ process PREPAREIRMAJSON {
         prepareirmajson: \$(python3 --version |& sed '1!d ; s/python3 //')
     END_VERSIONS
     """
+
 }
