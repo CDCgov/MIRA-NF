@@ -1,8 +1,10 @@
 process DAISRIBOSOME {
     label 'process_medium'
 
+
     //container 'cdcgov/dais-ribosome:v1.5.4'
     //containerOptions '--bind ${launchDir}/tmp:/dais-ribosome/workdir --bind ${launchDir}/tmp:/dais-ribosome/lib/sswsort/workdir/'
+    // Change the container mount to /tmp as the above one is not working out with  AWS Healthomics!
     containerOptions '-v /tmp:/dais-ribosome/workdir -v /tmp:/dais-ribosome/lib/sswsort/workdir/'
     input:
     path input_fasta
