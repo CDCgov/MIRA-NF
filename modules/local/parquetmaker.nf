@@ -20,6 +20,7 @@ process PARQUETMAKER {
     def run_name = run_path.getBaseName()
 
     """
+    # Just cleaning up the logic otherise nt.fasta and aa.fasta will not created and the parquet_maker.py will fail
     if [[ -f MIRA_${run_name}_failed_amended_consensus.fasta && -f MIRA_${run_name}_amended_consensus.fasta ]]; then
         cat MIRA_${run_name}_amended_consensus.fasta MIRA_${run_name}_failed_amended_consensus.fasta > nt.fasta
     elif [[ -f MIRA_${run_name}_amended_consensus.fasta ]]; then
