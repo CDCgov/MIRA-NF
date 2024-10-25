@@ -1,6 +1,7 @@
 process IRMA {
     tag "${sample}"
-    label 'process_high'
+    
+    label params.irma_resource_label 
 
     container 'cdcgov/irma:bookworm-test5'
 

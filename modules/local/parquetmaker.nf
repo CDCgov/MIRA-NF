@@ -6,10 +6,10 @@ process PARQUETMAKER {
     input:
     path(html_outputs)
     val run_path
-    val samplesheet
+    path samplesheet
 
     output:
-    path('*'), emit: summary_parq
+    path('*.{parq,csv}'), emit: summary_parq
     path 'versions.yml' , emit: versions
 
     when:
@@ -20,24 +20,25 @@ process PARQUETMAKER {
     def run_name = run_path.getBaseName()
 
     """
-    if [[ -f  MIRA_${run_name}_failed_amended_consensus.fasta && -f MIRA_${run_name}_amended_consensus.fasta ]]; then
-    cat MIRA_${run_name}_amended_consensus.fasta MIRA_${run_name}_failed_amended_consensus.fasta > nt.fasta
+    if [[ -f MIRA_${run_name}_failed_amended_consensus.fasta && -f MIRA_${run_name}_amended_consensus.fasta ]]; then
+        cat MIRA_${run_name}_amended_consensus.fasta MIRA_${run_name}_failed_amended_consensus.fasta > nt.fasta
+    elif [[ -f MIRA_${run_name}_amended_consensus.fasta ]]; then
+        cat MIRA_${run_name}_amended_consensus.fasta > nt.fasta
+    elif [[ -f MIRA_${run_name}_failed_amended_consensus.fasta ]]; then
+        cat MIRA_${run_name}_failed_amended_consensus.fasta > nt.fasta
+    else
+        touch nt.fasta  # Create an empty nt.fasta if neither file exists
     fi
-    if [[ ! -f  MIRA_${run_name}_failed_amended_consensus.fasta && -f MIRA_${run_name}_amended_consensus.fasta ]]; then
-    cat MIRA_${run_name}_amended_consensus.fasta > nt.fasta
+    if [[ -f MIRA_${run_name}_failed_amino_acid_consensus.fasta && -f MIRA_${run_name}_amino_acid_consensus.fasta ]]; then
+         MIRA_${run_name}_amino_acid_consensus.fasta MIRA_${run_name}_failed_amino_acid_consensus.fasta > aa.fasta
+    elif [[ -f MIRA_${run_name}_amino_acid_consensus.fasta ]]; then
+        cat MIRA_${run_name}_amino_acid_consensus.fasta > aa.fasta
+    elif [[ -f MIRA_${run_name}_failed_amino_acid_consensus.fasta ]]; then
+        cat MIRA_${run_name}_failed_amino_acid_consensus.fasta > aa.fasta
+    else
+        touch aa.fasta  # Create an empty aa.fasta if neither file exists
     fi
-    if [[ -f  MIRA_${run_name}_failed_amended_consensus.fasta && ! -f MIRA_${run_name}_amended_consensus.fasta ]]; then
-    cat MIRA_${run_name}_failed_amended_consensus.fasta > nt.fasta
-    fi
-    if [[ -f  MIRA_${run_name}_failed_amino_acid_consensus.fasta && -f  MIRA_${run_name}_amino_acid_consensus.fasta ]]; then
-    cat MIRA_${run_name}_amino_acid_consensus.fasta MIRA_${run_name}_amino_acid_consensus.fasta > aa.fasta
-    fi
-    if [[ ! -f  MIRA_${run_name}_failed_amino_acid_consensus.fasta && -f MIRA_${run_name}_amino_acid_consensus.fasta ]]; then
-    cat MIRA_${run_name}_amino_acid_consensus.fasta > aa.fasta
-    fi
-    if [[ -f  MIRA_${run_name}_failed_amino_acid_consensus.fasta && ! -f MIRA_${run_name}_amino_acid_consensus.fasta ]]; then
-    cat MIRA_${run_name}_failed_amino_acid_consensus.fasta > aa.fasta
-    fi
+
     python3 ${projectDir}/bin/parquet_maker.py -f nt.fasta -o ${run_name}_amended_consensus -r ${run_name}
     python3 ${projectDir}/bin/parquet_maker.py -f aa.fasta -o ${run_name}_amino_acid_consensus -r ${run_name}
     python3 ${projectDir}/bin/parquet_maker.py -f ${samplesheet} -o ${run_name}_samplesheet -r ${run_name}

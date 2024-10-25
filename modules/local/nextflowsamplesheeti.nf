@@ -5,6 +5,7 @@ process NEXTFLOWSAMPLESHEETI {
 
     input:
     path samplesheet
+    path fastq_files
     val experiment_type
 
     output:

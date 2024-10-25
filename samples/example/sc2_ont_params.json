@@ -1,0 +1,9 @@
+{
+  "input": "s3://<bucket>/MIRAPipeline/ONT/sc2-run-1/samplesheet.csv",
+  "base": "s3://<bucket>/MIRAPipeline/ONT/sc2-run-1/",
+  "outdir": "/mnt/workflow/pubdir/sc2-run-1/",
+  "runpath": "/mnt/workflow/pubdir/sc2-run-1",
+  "e": "SC2-Spike-Only-ONT",
+  "amd_platform": false,
+  "reformat_tables": true
+}

@@ -1,0 +1,10 @@
+{
+    "input": "s3://<bucket>/MIRAPipeline/ONT/flu-run-1/samplesheet.csv",
+    "base": "s3://<bucket>/MIRAPipeline/ONT/flu-run-1/",
+    "outdir": "/mnt/workflow/pubdir",
+    "runpath": "/mnt/workflow/pubdir",
+    "e": "Flu-ONT",
+    "amd_platform": false,
+    "reformat_tables": true
+  }
+  

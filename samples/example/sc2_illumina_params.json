@@ -1,0 +1,11 @@
+{
+    "input": "s3://<bucket>/MIRAPipeline/Illumina/sc2-illumina-run-1/samplesheet.csv",
+    "base": "s3://<bucket>/MIRAPipeline/Illumina/sc2-illumina-run-1/",
+    "outdir": "/mnt/workflow/pubdir",
+    "runpath": "/mnt/workflow/pubdir",
+    "e": "SC2-Whole-Genome-Illumina",
+    "p": "swift",
+    "amd_platform": false,
+    "reformat_tables": true
+  }
+  

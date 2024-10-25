@@ -8,7 +8,7 @@ process STATICHTML {
     val run_ID_ch
 
     output:
-    path("*"), emit: html
+    path("*.{html,xlsx}"), emit: html
     path 'versions.yml'           , emit: versions
 
     when:
