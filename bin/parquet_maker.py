@@ -97,7 +97,7 @@ def irma_coverage_df(irma_path):
 def irma_alleles_df(irma_path, full=False):
     alleleFiles = glob(irma_path + "/*/tables/*variants.txt")
     df = irmatable2df(alleleFiles)
-    
+    # Trying to maintain the same columns as the output csvs will be used as Athena tables, so the column names should be consistant.
     if not full:
         # Check if "HMM_Position" exists, otherwise create an empty "Reference Position" column
         if "HMM_Position" in df.columns:
