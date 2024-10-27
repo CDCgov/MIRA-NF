@@ -72,7 +72,7 @@ RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY remove_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY remove_fastqc_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
 COPY remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
@@ -90,7 +90,9 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Clean up and remove unwanted files
 RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
-    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor
+    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/examples \
+    && rm -rf /usr/local/FastQC/cisd-jhdf5.jar
 
 ############# Set up working directory ##################
 
@@ -103,5 +105,3 @@ VOLUME ${WORKDIR}
 # Set up working directory in docker
 WORKDIR ${WORKDIR}   
 
-# Allow container to keep running when it starts
-ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]

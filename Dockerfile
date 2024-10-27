@@ -70,7 +70,7 @@ RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY remove_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY remove_mira_nf_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
 COPY remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
@@ -88,7 +88,8 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Clean up and remove unwanted files
 RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
-    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor
+    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/examples
 
 ############# Set up working directory ##################
 
@@ -104,5 +105,3 @@ WORKDIR ${WORKDIR}
 # Export project directory to PATH
 ENV PATH "$PATH:${PROJECT_DIR}"
 
-# Allow container to keep running when it starts
-ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]

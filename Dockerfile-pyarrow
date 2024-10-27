@@ -37,7 +37,8 @@ RUN apk update && apk add --no-cache \
     && pip install --upgrade pip \
     && pip install pipenv cython numpy==1.23.1
 
-ARG ARROW_VERSION=17.0.0
+ARG ARROW_VERSION
+ARG ARROW_VERSION=${ARROW_VERSION:-17.0.0}
 ARG ARROW_SHA256=8379554d89f19f2c8db63620721cabade62541f47a4e706dfb0a401f05a713ef
 ARG ARROW_BUILD_TYPE=release
 
@@ -79,6 +80,3 @@ RUN cd /arrow/cpp \
     && python setup.py build_ext --build-type=$ARROW_BUILD_TYPE --with-parquet \
     && python setup.py install \
     && rm -rf /arrow /tmp/apache-arrow.tar.gz
-
-# Allow container to keep running when it starts
-ENTRYPOINT ["/bin/bash", "-c", "tail -f /dev/null"]
