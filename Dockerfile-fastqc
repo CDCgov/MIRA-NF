@@ -23,7 +23,7 @@ RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
 
 # Install system libraries of general use
 RUN apk update && apk add --no-cache \
-    openjdk21-jre \
+    openjdk21-jre=21.0.5_p11-r0 \
     fontconfig \
     ttf-dejavu \
     bash \
