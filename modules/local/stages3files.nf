@@ -10,7 +10,7 @@ process STAGES3FILES {
     input:
     val(runid)
     val(folder)
-    path(fastq_file)
+    path(fastq_file, stageAs: '?/*')
 
     output:
     path("./${folder}")
