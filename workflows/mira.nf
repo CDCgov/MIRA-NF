@@ -113,10 +113,10 @@ workflow flu_o {
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}fastq_pass/${barcode}/*.fastq.gz"
-            tuple(barcode, sample_id, file(fastq_path))
+            def fastq_path = "${params.runpath}/**/${barcode}/"
+            tuple(barcode, sample_id, fastq_path)
         }
-        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
+        concatenated_fastqs_ch = CONCATFASTQS(fastq_ch)
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
@@ -187,11 +187,12 @@ workflow sc2_spike_o {
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${param.runpath}fastq_pass/${barcode}/*.fastq.gz"
-            tuple(barcode, sample_id, file(fastq_path))
+            def fastq_path = "${params.runpath}/**/${barcode}/"
+            tuple(barcode, sample_id, fastq_path)
         }
-        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
+        concatenated_fastqs_ch = CONCATFASTQS(fastq_ch)
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
+
         // MODULE: Convert the samplesheet to a nextflow format
         NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
 
@@ -261,10 +262,10 @@ workflow sc2_wgs_o {
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}fastq_pass/${barcode}/*.fastq.gz"
-            tuple(barcode, sample_id, file(fastq_path))
+            def fastq_path = "${params.runpath}/**/${barcode}/"
+            tuple(barcode, sample_id, fastq_path)
         }
-        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
+        concatenated_fastqs_ch = CONCATFASTQS(fastq_ch)
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format

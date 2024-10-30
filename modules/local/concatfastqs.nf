@@ -3,7 +3,7 @@ process CONCATFASTQS {
     label 'process_single'
 
     input:
-    tuple val(barcode), val(sample), path(files)
+    tuple val(barcode), val(sample), val(file_path)
 
     output:
     path("${sample}.fastq.gz")
@@ -13,6 +13,6 @@ process CONCATFASTQS {
 
     """
     # Concatenate the provided fastq files explicitly
-    cat ${files.join(' ')} > ${sample}.fastq.gz
+    cat ${file_path}*.fastq* > ${sample}.fastq.gz
     """
 }
