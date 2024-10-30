@@ -1,11 +1,7 @@
 process STAGES3FILES {
-    tag 'stage s3 files to local disk '
     label 'stage_s3_files'
 
-    conda 'conda-forge::python=3.8.3'
-    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/python:3.8.3' :
-        'biocontainers/python:3.8.3'}"
+    container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
     val(runid)
