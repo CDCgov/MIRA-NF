@@ -1,8 +1,7 @@
 process IRMA {
     tag "${sample}"
-    
-    // making the resource lable as a parameter so we can run the same process with different resource labels (for example, 'high' and 'low') at local machine. It's set in conf/omics.configure.
-    label params.irma_resource_label 
+
+    label 'process_high'
 
     container 'cdcgov/irma:bookworm-test5'
 

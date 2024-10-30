@@ -1,13 +1,12 @@
 process CONCATFASTQS {
-    tag "concat all fastq files within barcode folder ${sample}"
+    tag "${sample}"
     label 'process_single'
 
     input:
-    tuple val(barcode), val(sample), path(files)   
-
+    tuple val(barcode), val(sample), path(files)
 
     output:
-    path("${sample}.fastq.gz") 
+    path("${sample}.fastq.gz")
 
     script:
     def args = task.ext.args ?: ''

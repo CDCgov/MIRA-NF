@@ -9,15 +9,18 @@ process STAGES3FILES {
 
     input:
     val(runid)
-    val (folder)
+    val(folder)
     path(fastq_file)
 
     output:
-    path ("./${folder}")
+    path("./${folder}")
 
     script:
     """
     echo "Staging file to ./${folder}"
+    if [ -d -e ./${folder}]; then
+    rm -r ./${folder}
+    fi
     mkdir -p ./${folder}
     cp ${fastq_file} ./${folder}
     """
