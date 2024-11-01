@@ -37,15 +37,17 @@ workflow flu_i {
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
-        // MODULE: Convert the samplesheet to a nextflow
+        // MODULE: Convert the samplesheet to a nextflow 
+        //OMICS & Local PLATFORM: Stageall fastq files
         fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
 
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
-
+        def runid = params.runpath.tokenize('/').last()  
+        sequences_ch = STAGES3FILES(runid, "fastqs", fastq_ch)
+            
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
+        //OMICS & Local PLATFORM: END
 
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
@@ -106,21 +108,33 @@ workflow flu_o {
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
+        /*
         // MODULE: Concat all fastq files by barcode
+        set_up_ch = samplesheet_ch
+            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+        new_ch = set_up_ch.map { item ->
+            [item.barcode, item.sample_id] }
+        CONCATFASTQS(new_ch)
+
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        */
+        // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         // Prepare new_ch with tuples
         set_up_ch = samplesheet_ch
             .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}/**/${barcode}/"
-            tuple(barcode, sample_id, fastq_path)
+            def fastq_path = "${params.runpath}/fastq_pass/${barcode}/*.fastq.gz"
+            tuple(barcode, sample_id, file(fastq_path))
         }
-        concatenated_fastqs_ch = CONCATFASTQS(fastq_ch)
+        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
         NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        // OMICS & Local END
 
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
@@ -176,25 +190,25 @@ workflow flu_o {
 workflow sc2_spike_o {
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
 
+
     if (params.amd_platform == false) {
-        // MODULE: Concat all fastq files by barcode
-        // Prepare new_ch with tuples
+        // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         set_up_ch = samplesheet_ch
             .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}/**/${barcode}/"
-            tuple(barcode, sample_id, fastq_path)
+            // def fastq_path = "${params.runpath}/**/${barcode}/*.fastq.gz"; // it was not working with **, so I changed it to fastq_pass
+            def fastq_path = "${params.runpath}/fastq_pass/${barcode}/*.fastq.gz"
+            tuple(barcode, sample_id, file(fastq_path))
         }
-        concatenated_fastqs_ch = CONCATFASTQS(fastq_ch)
+        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
-
         // MODULE: Convert the samplesheet to a nextflow format
         NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        // OMICS & Local END
 
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
@@ -221,6 +235,7 @@ workflow sc2_spike_o {
         READQC(INPUT_CHECK.out.reads)
         ch_versions = ch_versions.unique().mix(READQC.out.versions)
     }
+   
 
     // SUBWORKFLOW: Process ONT reads for IRMA - find chemistry and subsample
     PREPONTREADS(nf_samplesheet_ch)
@@ -255,22 +270,34 @@ workflow sc2_wgs_o {
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
+        /*
         // MODULE: Concat all fastq files by barcode
+        set_up_ch = samplesheet_ch
+            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+        new_ch = set_up_ch.map { item ->
+            [item.barcode, item.sample_id] }
+        CONCATFASTQS(new_ch)
+
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        */
+        // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         // Prepare new_ch with tuples
         set_up_ch = samplesheet_ch
             .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}/**/${barcode}/"
-            tuple(barcode, sample_id, fastq_path)
+            def fastq_path = "${params.runpath}/fastq_pass/${barcode}/*.fastq.gz"
+            tuple(barcode, sample_id, file(fastq_path))
         }
-        concatenated_fastqs_ch = CONCATFASTQS(fastq_ch)
+        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
         NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
-
+        // OMICS & Local END
+        
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
 
@@ -349,15 +376,16 @@ workflow sc2_wgs_i {
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
-        //Stageall fastq files
+        //OMICS & Local PLATFORM: Stageall fastq files
         fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
 
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
-
+        def runid = params.runpath.tokenize('/').last()  
+        sequences_ch = STAGES3FILES(runid, "fastqs", fastq_ch)
+            
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
+        //OMICS & Local PLATFORM: END
 
         //NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
@@ -437,15 +465,17 @@ workflow rsv_i {
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
+        //OMICS & Local PLATFORM: Stageall fastq files
         fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
 
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
-
+        def runid = params.runpath.tokenize('/').last()  
+        sequences_ch = STAGES3FILES(runid, "fastqs", fastq_ch)
+            
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
-
+        //OMICS & Local PLATFORM: END
+        //NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
 
@@ -505,14 +535,25 @@ workflow rsv_o {
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
+ /*
         // MODULE: Concat all fastq files by barcode
+        set_up_ch = samplesheet_ch
+            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
+        new_ch = set_up_ch.map { item ->
+            [item.barcode, item.sample_id] }
+        CONCATFASTQS(new_ch)
+
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        */
+        // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         // Prepare new_ch with tuples
         set_up_ch = samplesheet_ch
             .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}fastq_pass/${barcode}/*.fastq.gz"
+            def fastq_path = "${params.runpath}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
         concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
@@ -520,6 +561,7 @@ workflow rsv_o {
 
         // MODULE: Convert the samplesheet to a nextflow format
         NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        // OMICS & Local END
 
         //NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)

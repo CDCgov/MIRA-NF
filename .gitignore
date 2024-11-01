@@ -10,3 +10,4 @@ conf/aims-sandbox-omics.config
 conf/ruvos-ds-omics.config
 samples/aims/
 samples/ruvos/
+*.zip

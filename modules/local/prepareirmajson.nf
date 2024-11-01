@@ -10,7 +10,7 @@ process PREPAREIRMAJSON {
     val virus
 
     output:
-    path('*') , emit: dash_json_and_fastqs
+    path('*.{fasta,json}') , emit: dash_json_and_fastqs
     path 'versions.yml'           , emit: versions
 
     when:
