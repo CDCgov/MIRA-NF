@@ -3,7 +3,6 @@ process DAISRIBOSOME {
 
     container 'cdcgov/dais-ribosome:v1.5.5'
     // The container binding for this step has been moved to the module.config and onics.config to allow for different binding based on environment
-   
 
     input:
     path input_fasta
