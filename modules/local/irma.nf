@@ -1,8 +1,8 @@
 process IRMA {
     tag "${sample}"
-    label 'process_high'
 
-    container 'cdcgov/irma:bookworm-test5'
+    label 'process_high'
+    container 'cdcgov/irma:v1.2.1'
 
     input:
     tuple val(sample), path(subsampled_fastq_files), val(irma_custom_0), val(irma_custom_1), val(module)

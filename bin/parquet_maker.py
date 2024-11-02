@@ -94,41 +94,35 @@ def irma_coverage_df(irma_path):
 
     return df
 
-
 def irma_alleles_df(irma_path, full=False):
     alleleFiles = glob(irma_path + "/*/tables/*variants.txt")
     df = irmatable2df(alleleFiles)
+    # Trying to maintain the same columns as the output csvs will be used as Athena tables, so the column names should be consistant.
     if not full:
+        # Check if "HMM_Position" exists, otherwise create an empty "Reference Position" column
         if "HMM_Position" in df.columns:
-            ref_heads = [
-                "Sample",
-                "Reference_Name",
-                "HMM_Position",
-                "Position",
-                "Total",
-                "Consensus_Allele",
-                "Minority_Allele",
-                "Consensus_Count",
-                "Minority_Count",
-                "Minority_Frequency",
-            ]
+            df["Reference Position"] = df["HMM_Position"]
         else:
-            ref_heads = [
-                "Sample",
-                "Reference_Name",
-                "Position",
-                "Total",
-                "Consensus_Allele",
-                "Minority_Allele",
-                "Consensus_Count",
-                "Minority_Count",
-                "Minority_Frequency",
-            ]
+            df["Reference Position"] = pd.NA  # Assign a column with missing values if HMM_Position is not present
+
+        # Define the rest of the columns
+        ref_heads = [
+            "Sample",
+            "Reference_Name",
+            "Reference Position",  # Ensures "Reference Position" is always part of the DataFrame
+            "Position",
+            "Total",
+            "Consensus_Allele",
+            "Minority_Allele",
+            "Consensus_Count",
+            "Minority_Count",
+            "Minority_Frequency",
+        ]
+
         df = df[ref_heads]
         df = df.rename(
             columns={
                 "Reference_Name": "Reference",
-                "HMM_Position": "Reference Position",
                 "Position": "Sample Position",
                 "Total": "Coverage",
                 "Consensus_Allele": "Consensus Allele",

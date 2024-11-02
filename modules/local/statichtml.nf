@@ -4,11 +4,11 @@ process STATICHTML {
     container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
-    path(json_files)
-    val run_ID_ch
+    path (json_files)
+    path (run_ID_ch)
 
     output:
-    path("*"), emit: html
+    path("*.{html,xlsx,fasta}"), emit: reports
     path 'versions.yml'           , emit: versions
 
     when:
