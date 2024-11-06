@@ -189,17 +189,6 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
     ref_covered_df[
         "Reason_b"
     ] = f"Less than {qc_values[qc_plat_vir]['perc_ref_covered']}% of reference covered"
-    if "sc2" in virus and "spike" not in virus:
-        spike_ref_covered_df = irma_summary_df[
-            (
-                irma_summary_df["% Spike Covered"]
-                < qc_values[qc_plat_vir]["perc_ref_spike_covered"]
-            )
-        ][["Sample", "Reference"]]
-        spike_ref_covered_df["Reason_e"] = f"Less than {qc_values[qc_plat_vir]['perc_ref_spike_covered']}% of S gene reference covered"
-        spike_med_cov_df = irma_summary_df[
-        (irma_summary_df["Spike Median Coverage"] < qc_values[qc_plat_vir]["med_spike_cov"])][["Sample", "Reference"]]
-        spike_med_cov_df["Reason_f"] = f"Median coverage of S gene < {qc_values[qc_plat_vir]['med_spike_cov']}"
     med_cov_df = irma_summary_df[
         (irma_summary_df["Median Coverage"] < qc_values[qc_plat_vir]["med_cov"])
     ][["Sample", "Reference"]]
@@ -213,23 +202,43 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
     minor_vars_df[
         "Reason_d"
     ] = f"Count of minor variants at or over 5% > {qc_values[qc_plat_vir]['minor_vars']}"
-    combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
-    combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
-    combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])
     if "sc2" in virus and "spike" not in virus:
-        combined = combined.merge(spike_ref_covered_df, how="outer", on=["Sample", "Reference"])
-        combined = combined.merge(spike_med_cov_df, how="outer", on=["Sample", "Reference"])
-        combined["Reasons"] = (
-        combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d", "Reason_e", "Reason_f"]]
-        .fillna("")
-        .agg("; ".join, axis=1)
-    )
-    else:    
-        combined["Reasons"] = (
-        combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d"]]
-        .fillna("")
-        .agg("; ".join, axis=1)
-    )
+        spike_ref_covered_df = irma_summary_df[
+            (
+                irma_summary_df["% Spike Covered"]
+                < qc_values[qc_plat_vir]["perc_ref_spike_covered"]
+            )
+        ][["Sample", "Reference"]]
+        spike_ref_covered_df["Reason_e"] = f"Less than {qc_values[qc_plat_vir]['perc_ref_spike_covered']}% of S gene reference covered"
+        spike_med_cov_df = irma_summary_df[
+        (irma_summary_df["Spike Median Coverage"] < qc_values[qc_plat_vir]["med_spike_cov"])][["Sample", "Reference"]]
+        spike_med_cov_df["Reason_f"] = f"Median coverage of S gene < {qc_values[qc_plat_vir]['med_spike_cov']}"
+        if ref_covered_df.empty == False or med_cov_df.empty == False or minor_vars_df.empty == False or pre_stop_df.empty == False or spike_ref_covered_df.empty == False or spike_med_cov_df.empty == False:
+            combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(spike_ref_covered_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(spike_med_cov_df, how="outer", on=["Sample", "Reference"])
+            combined["Reasons"] = (
+            combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d", "Reason_e", "Reason_f"]]
+            .fillna("")
+            .agg("; ".join, axis=1)
+            )
+        else:
+            combined = pd.DataFrame(columns=['Sample', 'Reference', 'Protein', 'Reasons'])
+    else:
+        if ref_covered_df.empty == False or med_cov_df.empty == False or minor_vars_df.empty == False or pre_stop_df.empty == False:
+            combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])   
+            combined["Reasons"] = (
+            combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d"]]
+            .fillna("")
+            .agg("; ".join, axis=1)
+            )
+        else:
+            combined = pd.DataFrame(columns=['Sample', 'Reference', 'Protein', 'Reasons'])
+    
     # Add in found sequences
     combined = combined.merge(nt_seqs_df, how="outer", on=["Sample", "Reference"])
     combined["Reasons"] = combined.apply(
@@ -262,6 +271,7 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
         combined = combined.drop(columns="")
     except KeyError:
         pass
+    pd.DataFrame.to_csv(combined, f"combined.csv", sep="\t", index=False, header=True)
     return combined
 
 
