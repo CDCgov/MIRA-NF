@@ -125,6 +125,11 @@
                         "utr",
                         "none"
                     ]
+                },
+                "ecr_registry": {
+                    "type": "string",
+                    "description": "ecr registry for MIRA-NF on omics with standard profile",
+                    "help_text": "This is the ecr registry for running MIRA-NF on omics with standard profile"
                 }
             }
         },
