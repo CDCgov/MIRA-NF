@@ -36,20 +36,27 @@ workflow PREPONTREADS {
         .splitCsv(header: true)
 
     // Subsample
-    new_ch2 = input_ch.map { item ->
-        [sample_ID:item.sample, barcodes:item.barcodes, fastq_file_path:item.fastq_1]
-    }
-    new_ch3 = irma_chemistry_ch.map { item ->
+    if (params.subsample_reads > 0) {
+        new_ch2 = input_ch.map { item ->
+            [sample_ID:item.sample, barcodes:item.barcodes, fastq_file_path:item.fastq_1]
+        }
+        new_ch3 = irma_chemistry_ch.map { item ->
                 [sample_ID:item.sample_ID, subsample:item.subsample]
-    }
-    subsample_ch = new_ch2.combine(new_ch3)
+        }
+        subsample_ch = new_ch2.combine(new_ch3)
                 .filter { it[0].sample_ID == it[1].sample_ID }
                 .map { [it[0].sample_ID, it[0].barcodes, it[0].fastq_file_path, it[1].subsample] }
-    SUBSAMPLESINGLEREADS(subsample_ch)
+        SUBSAMPLESINGLEREADS(subsample_ch)
+
+        subsample_output_ch = SUBSAMPLESINGLEREADS.out.subsampled_fastq
+        subsample_output_ch
+    } else {
+        subsample_output_ch = new_ch
+    }
 
     //// Trim barcodes
     //left trim
-    new_ch4 = SUBSAMPLESINGLEREADS.out.subsampled_fastq.map { item ->
+    new_ch4 = subsample_output_ch.map { item ->
         [sample:item[0], barcode:item[1], subsample_file_path:item[2]]
     }
     set_up_barcode_ch = barcode_ch

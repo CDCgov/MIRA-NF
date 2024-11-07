@@ -1,0 +1,3 @@
+Your Nextflow temporary/cache files will be placed in /scicomp/scratch/xpa3/nextflow/ by default
+Use the command `printenv | grep NXF` to view Nextflow-specific environment variables
+[33mNextflow 24.10.0 is available - Please consider updating your version to it(B[m

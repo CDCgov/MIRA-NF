@@ -1,0 +1,1362 @@
+N E X T F L O W  ~  version 23.10.0
+Launching `/scicomp/home-pure/xpa3/MIRA-NF/main.nf` [amazing_booth] DSL2 - revision: 77418511fe
+WARN: Access to undefined parameter `monochromeLogs` -- Initialise it to a default value eg. `params.monochromeLogs = some_value`
+
+
+------------------------------------------------------
+                                        ,--./,-.
+        ___     __   __   __   ___     /,-._.--~'
+  |\ | |__  __ /  ` /  \ |__) |__         }  {
+  | \| |       \__, \__/ |  \ |___     \`-._,-`-,
+                                        `._,._,'
+  mira-nf/mira v1.0.0
+------------------------------------------------------
+Core Nextflow options
+  runName        : amazing_booth
+  containerEngine: singularity
+  launchDir      : /scicomp/home-pure/xpa3/MIRA-NF
+  workDir        : /scicomp/scratch/xpa3/nextflow/work
+  projectDir     : /scicomp/home-pure/xpa3/MIRA-NF
+  userName       : xpa3
+  profile        : singularity,sge
+  configFiles    : 
+
+Input/output options
+  input          : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_spike_test/samplesheet.csv
+  outdir         : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_spike_test/outputs
+  runpath        : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_spike_test
+  e              : SC2-Spike-Only-ONT
+
+Optional inputs
+  email          : xpa3@cdc.gov
+  process_q      : flu.q
+  subsample_reads: 200000
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+------------------------------------------------------
+If you use mira-nf/mira for your analysis please cite:
+
+* The pipeline
+
+* The nf-core framework
+  https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+  https://github.com/mira-nf/mira/blob/master/CITATIONS.md
+------------------------------------------------------
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CO... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CO... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CO... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (1)
+[e7/1af225] process > MIRA_NF:MIRA:sc2_spike_o:CO... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (2)
+[a9/838c49] process > MIRA_NF:MIRA:sc2_spike_o:CO... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (3)
+[1b/7119ae] process > MIRA_NF:MIRA:sc2_spike_o:CO... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (4)
+[ce/e7f074] process > MIRA_NF:MIRA:sc2_spike_o:CO... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (5)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (5)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:NE... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (6)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (6)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IN... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (7)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (8)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [  0%] 0 of 1
+[fc/a15727] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (9)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [  0%] 0 of 1
+[6b/691c70] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (10)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [  0%] 0 of 1
+[61/7bb509] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (11)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [  0%] 0 of 1
+[88/c9f60d] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (12)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [  0%] 0 of 1
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (12)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (13)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[d8/b13430] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (14)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[fd/fe1d48] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (15)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[e1/733b3c] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (16)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[b8/2f37d2] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (17)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (17)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[b8/2f37d2] process > MIRA_NF:MIRA:sc2_spike_o:PR... [ 80%] 4 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 4
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+
+executor >  sge (17)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+
+executor >  sge (18)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[5c/06d987] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (19)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[8a/9d5ad3] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (20)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a8/d2cb59] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (21)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[6e/c2898f] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (22)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (22)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (22)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (23)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[4d/16a71d] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (24)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[f6/429686] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (25)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[39/afe422] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (26)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[4e/7d80d8] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (27)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (27)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[f6/429686] process > MIRA_NF:MIRA:sc2_spike_o:PR... [ 40%] 2 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (27)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (28)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[fd/41538f] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (29)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[e8/bc57f8] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (30)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[05/84000b] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (31)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[10/5f4798] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (32)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (32)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[10/5f4798] process > MIRA_NF:MIRA:sc2_spike_o:PR... [ 80%] 4 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  [  0%] 0 of 4
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (32)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:IRMA  [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (33)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[04/02d173] process > MIRA_NF:MIRA:sc2_spike_o:IR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (34)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[c0/5d2fde] process > MIRA_NF:MIRA:sc2_spike_o:IR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (35)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[b2/90bcc6] process > MIRA_NF:MIRA:sc2_spike_o:IR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (36)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[8b/47cb1c] process > MIRA_NF:MIRA:sc2_spike_o:IR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (37)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[s2, barcode03, /scicomp/scratch/xpa3/nextflow/work/d8/b1343048d226199bef3e2ca6b9d1ee/s2_subsampled.fastq]
+[s3, barcode05, /scicomp/scratch/xpa3/nextflow/work/fd/fe1d482b37d67a2fded4290efdbd5f/s3_subsampled.fastq]
+[s1, barcode02, /scicomp/scratch/xpa3/nextflow/work/e1/733b3c253c833541f3a4f1a5c3a1d9/s1_subsampled.fastq]
+[s5, barcode28, /scicomp/scratch/xpa3/nextflow/work/b8/2f37d29ffe3e860f572ed0a5c30a08/s5_subsampled.fastq]
+[s4, barcode08, /scicomp/scratch/xpa3/nextflow/work/73/a67d8569fa4f44960b445efae9104d/s4_subsampled.fastq]
+
+executor >  sge (37)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [  0%] 0 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+
+
+
+
+
+executor >  sge (37)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[c0/5d2fde] process > MIRA_NF:MIRA:sc2_spike_o:IR... [ 40%] 2 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+
+
+
+
+
+executor >  sge (38)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[c0/5d2fde] process > MIRA_NF:MIRA:sc2_spike_o:IR... [ 40%] 2 of 5
+[a1/424596] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (39)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[c0/5d2fde] process > MIRA_NF:MIRA:sc2_spike_o:IR... [ 40%] 2 of 5
+[cc/d5482d] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (39)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[cc/d5482d] process > MIRA_NF:MIRA:sc2_spike_o:CH... [ 40%] 2 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (40)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[ab/cf0cf5] process > MIRA_NF:MIRA:sc2_spike_o:CH... [ 40%] 2 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (41)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[14/0b39ea] process > MIRA_NF:MIRA:sc2_spike_o:CH... [ 40%] 2 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (42)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [ 40%] 2 of 5
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (43)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [ 40%] 2 of 5
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (43)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[14/0b39ea] process > MIRA_NF:MIRA:sc2_spike_o:CH... [ 60%] 3 of 5
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (43)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 5 of 5 ✔
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (44)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 5 of 5 ✔
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f5/605268] process > MIRA_NF:MIRA:sc2_spike_o:CH... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (44)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 5 of 5 ✔
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f5/605268] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:DA... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (45)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 5 of 5 ✔
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f5/605268] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f9/ff2db5] process > MIRA_NF:MIRA:sc2_spike_o:DA... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (45)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 5 of 5 ✔
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f5/605268] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f9/ff2db5] process > MIRA_NF:MIRA:sc2_spike_o:DA... [100%] 1 of 1 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (46)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 5 of 5 ✔
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f5/605268] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f9/ff2db5] process > MIRA_NF:MIRA:sc2_spike_o:DA... [100%] 1 of 1 ✔
+[e8/62f8a7] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -
+
+executor >  sge (46)
+[22/e70f76] process > MIRA_NF:MIRA:sc2_spike_o:CO... [100%] 5 of 5 ✔
+[00/dd8417] process > MIRA_NF:MIRA:sc2_spike_o:NE... [100%] 1 of 1 ✔
+[dc/5e2c0e] process > MIRA_NF:MIRA:sc2_spike_o:IN... [100%] 1 of 1 ✔
+[8d/9a84d0] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[73/a67d85] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[a5/6b99d5] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[51/c6bb52] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[30/65a69e] process > MIRA_NF:MIRA:sc2_spike_o:PR... [100%] 5 of 5 ✔
+[1c/098686] process > MIRA_NF:MIRA:sc2_spike_o:IR... [100%] 5 of 5 ✔
+[c1/2c78e1] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 5 of 5 ✔
+[6d/7d3442] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f5/605268] process > MIRA_NF:MIRA:sc2_spike_o:CH... [100%] 1 of 1 ✔
+[f9/ff2db5] process > MIRA_NF:MIRA:sc2_spike_o:DA... [100%] 1 of 1 ✔
+[e8/62f8a7] process > MIRA_NF:MIRA:sc2_spike_o:PR... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_spike_o:PR... -

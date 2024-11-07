@@ -1,0 +1,901 @@
+N E X T F L O W  ~  version 23.10.0
+Launching `/scicomp/home-pure/xpa3/MIRA-NF/main.nf` [clever_swanson] DSL2 - revision: 77418511fe
+WARN: Access to undefined parameter `monochromeLogs` -- Initialise it to a default value eg. `params.monochromeLogs = some_value`
+
+
+------------------------------------------------------
+                                        ,--./,-.
+        ___     __   __   __   ___     /,-._.--~'
+  |\ | |__  __ /  ` /  \ |__) |__         }  {
+  | \| |       \__, \__/ |  \ |___     \`-._,-`-,
+                                        `._,._,'
+  mira-nf/mira v1.0.0
+------------------------------------------------------
+Core Nextflow options
+  runName        : clever_swanson
+  containerEngine: singularity
+  launchDir      : /scicomp/home-pure/xpa3/MIRA-NF
+  workDir        : /scicomp/scratch/xpa3/nextflow/work
+  projectDir     : /scicomp/home-pure/xpa3/MIRA-NF
+  userName       : xpa3
+  profile        : singularity,sge
+  configFiles    : 
+
+Input/output options
+  input          : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/samplesheet.csv
+  outdir         : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs
+  runpath        : /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test
+  e              : SC2-Whole-Genome-ONT
+
+Optional inputs
+  email          : xpa3@cdc.gov
+  process_q      : flu.q
+  reformat_tables: true
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+------------------------------------------------------
+If you use mira-nf/mira for your analysis please cite:
+
+* The pipeline
+
+* The nf-core framework
+  https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+  https://github.com/mira-nf/mira/blob/master/CITATIONS.md
+------------------------------------------------------
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (1)
+[d7/35a79f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (2)
+[9c/870b8e] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (3)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (3)
+[d7/35a79f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [ 33%] 1 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (3)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (4)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+
+executor >  sge (4)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (5)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (6)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[fd/24e8bf] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (7)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[ec/aa5317] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (8)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [  0%] 0 of 1
+[d5/ad9819] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[ec/aa5317] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (9)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [  0%] 0 of 1
+[d5/ad9819] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (10)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [  0%] 0 of 1
+[94/6ee7c3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (11)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [  0%] 0 of 1
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (11)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[ec/aa5317] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [ 66%] 2 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 2
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (11)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (12)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[7a/aea649] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (13)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c1/d92a66] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (14)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+Bypassing FastQC and MultiQC steps
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (14)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[7a/aea649] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [ 33%] 1 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+
+executor >  sge (14)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+
+executor >  sge (15)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[f8/2805df] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (16)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[72/64680f] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (17)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (17)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA    [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (18)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[58/2793c7] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (19)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[d2/cfeb40] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (20)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[s1, barcode19, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s1.fastq.gz]
+[s2, barcode28, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s2.fastq.gz]
+[s3, barcode29, /scicomp/scratch/xpa3/FLU_SC2_SEQUENCING_nextflow/sc2_wgs_ont_test/outputs/fastq_pass/cat_fastqs/s3.fastq.gz]
+
+executor >  sge (20)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [  0%] 0 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+
+
+
+executor >  sge (20)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[58/2793c7] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [ 33%] 1 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+
+
+
+executor >  sge (21)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[58/2793c7] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [ 33%] 1 of 3
+[0d/629684] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (21)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[58/2793c7] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [ 33%] 1 of 3
+[0d/629684] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 1 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (21)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[0d/629684] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [ 33%] 1 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (22)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[30/ea62eb] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [ 33%] 1 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (23)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [ 33%] 1 of 3
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (23)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (24)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[07/3e5e1d] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (24)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[07/3e5e1d] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 1 of 1 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (25)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[07/3e5e1d] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 1 of 1 ✔
+[14/c639b7] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (25)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[07/3e5e1d] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 1 of 1 ✔
+[14/c639b7] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... [100%] 1 of 1 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (26)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[07/3e5e1d] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 1 of 1 ✔
+[14/c639b7] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... [100%] 1 of 1 ✔
+[de/b65281] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (26)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[07/3e5e1d] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 1 of 1 ✔
+[14/c639b7] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... [100%] 1 of 1 ✔
+[de/b65281] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -
+
+executor >  sge (26)
+[3a/fd101f] process > MIRA_NF:MIRA:sc2_wgs_o:CONC... [100%] 3 of 3 ✔
+[a1/a4e355] process > MIRA_NF:MIRA:sc2_wgs_o:NEXT... [100%] 1 of 1 ✔
+[36/20f81f] process > MIRA_NF:MIRA:sc2_wgs_o:INPU... [100%] 1 of 1 ✔
+[e2/913e23] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[c9/6b5d4b] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[9f/b7f97a] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[5b/268de3] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 3 of 3 ✔
+[55/88f24d] process > MIRA_NF:MIRA:sc2_wgs_o:IRMA... [100%] 3 of 3 ✔
+[7c/72f6c5] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 3 of 3 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... -
+[07/3e5e1d] process > MIRA_NF:MIRA:sc2_wgs_o:CHEC... [100%] 1 of 1 ✔
+[14/c639b7] process > MIRA_NF:MIRA:sc2_wgs_o:DAIS... [100%] 1 of 1 ✔
+[de/b65281] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [100%] 1 of 1 ✔
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... [  0%] 0 of 1
+[-        ] process > MIRA_NF:MIRA:sc2_wgs_o:PREP... -

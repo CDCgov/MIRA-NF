@@ -112,7 +112,7 @@
                 },
                 "subsample_reads": {
                     "type": "integer",
-                    "default": 10000000,
+                    "default": 0,
                     "description": "The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000."
                 },
                 "irma_config": {
