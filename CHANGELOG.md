@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Credits
 
 - [Amanda Sullivan](https://github.com/mandysulli)
+- [Reina Chau](https://github.com/rchau88)
+- [Arumugam Rajarethinam](https://github.com/lochanaarumugam)
 
 ### Enhancements
 
@@ -17,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #12](https://github.com/CDCgov/MIRA-NF/pull/12) - Restructure so that the readqc subworkflow only runs when the flag `--read_qc` is set to true. Otherwise FastQC and MultiQC will not run.
 - [PR #13](https://github.com/CDCgov/MIRA-NF/pull/13) - creating and updating docker containers so that they contain no vulnerabilities.
 - [PR #14](https://github.com/CDCgov/MIRA-NF/pull/14) - updating scripts and logs to reflect new changes.
+- [PR #16](https://github.com/CDCgov/MIRA-NF/pull/16) - Continuing to update containers to containers with no vulnerabilities.
+- [PR #17](https://github.com/CDCgov/MIRA-NF/pull/17) - Updating Java versions in containers.
+- [PR #18](https://github.com/CDCgov/MIRA-NF/pull/18) - Merging all changes that allow MIRA-NF to run in both AWS-omics and on HPC's.
 
 ### Parameters
 
