@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #17](https://github.com/CDCgov/MIRA-NF/pull/17) - Updating Java versions in containers.
 - [PR #18](https://github.com/CDCgov/MIRA-NF/pull/18) - Merging all changes that allow MIRA-NF to run in both AWS-omics and on HPC's.
 - [PR #19](https://github.com/CDCgov/MIRA-NF/pull/19) - Altering workflows to skip the subsampling process if a values greater than 0 is not provide using the subsample_reads flag
+- [PR #20](https://github.com/CDCgov/MIRA-NF/pull/20) - Adding the ecr_registry parameter that allows a user to pass their ecr registry for AWS to the workflow.
 
 ### Parameters
 
@@ -30,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | ------------- | ---------------------------- |
 | `--parquet_files` | `--reformat_tables` |
 |                    | `--read_qc` |
+|                    | `--ecr_registry` |
 
 ## v1.1.0 - 2024-09-19
 

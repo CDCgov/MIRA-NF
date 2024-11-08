@@ -129,7 +129,8 @@ Input parameters for the pipeline include:
 - process_q - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - email - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
 - irma_config - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary
-- amd_platform - (optional) this flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
+- amd_platform - (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
+- ecr_registry - (optional) Allows a user to pass their ecr registry for AWS to the workflow.
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -145,7 +146,7 @@ nextflow run ./main.nf \
    --subsample_reads <READ_COUNT> (optional)\
    --reformat_tables true (optional) \
    --irma_config <CONFIG_TYPE> (optional) \
-   --read_qc false (optional)
+   --read_qc false (optional) \
 ```
 
 To run in a high computing cluster you will need to add sge or slurm to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
@@ -165,6 +166,8 @@ nextflow run ./main.nf \
    --email <EMAIL_ADDRESS> (optional) \
    --read_qc false (optional)
 ```
+
+For running MIRA-NF in AWS, example parameter json files for all data types can be found under /samples/examples.
 
 For in house testing:
 
