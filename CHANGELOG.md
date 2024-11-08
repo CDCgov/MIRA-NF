@@ -3,9 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## v1.2.0 - 2024.11.07
-
 
 ### Credits
 
@@ -27,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #19](https://github.com/CDCgov/MIRA-NF/pull/19) - Altering workflows to skip the subsampling process if a values greater than 0 is not provide using the subsample_reads flag
 - [PR #20](https://github.com/CDCgov/MIRA-NF/pull/20) - Adding the ecr_registry parameter that allows a user to pass their ecr registry for AWS to the workflow.
 
-
 ### Parameters
 
 | Old parameter | New parameter                |
@@ -35,7 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | `--parquet_files` | `--reformat_tables` |
 |                    | `--read_qc` |
 |                    | `--ecr_registry` |
-| `--reformat_tables`| `--parquet_files` |
 
 ## v1.1.0 - 2024-09-19
 
