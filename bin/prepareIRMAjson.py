@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy
+import numpy as np
 import json
 from sys import argv, path, exit, executable
 import os.path as op
@@ -7,7 +7,6 @@ from os import makedirs
 import plotly.graph_objects as go
 import plotly.express as px
 import plotly.io as pio
-from dash import html
 import yaml
 import time
 from glob import glob
@@ -17,7 +16,7 @@ import irma2pandas  # type: ignore
 import dais2pandas  # type: ignore
 
 try:
-    irma_path, samplesheet, platform, virus = argv[1], argv[2], argv[3], argv[4]
+    work_path, irma_path, samplesheet, platform, virus = argv[1], argv[2], argv[3], argv[4], argv[5]
 except IndexError:
     exit(
         f"\n\tUSAGE: python {__file__} <path/to/irma/results/> <samplesheet> <ont|illumina> <flu|sc2|sc2-spike|rsv>\n"
@@ -162,7 +161,7 @@ def failedall(combined_df):
 
 def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
     if not qc_values[qc_plat_vir]["allow_stop_codons"]:
-        pre_stop_df = dais_vars_df[dais_vars_df["AA Variants"].str.contains("[0-9]\*")][
+        pre_stop_df = dais_vars_df[dais_vars_df["AA Variants"].str.contains(r"[0-9]\*")][
             ["Sample", "Protein"]
         ]
     else:
@@ -190,17 +189,6 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
     ref_covered_df[
         "Reason_b"
     ] = f"Less than {qc_values[qc_plat_vir]['perc_ref_covered']}% of reference covered"
-    if "sc2" in virus and "spike" not in virus:
-        spike_ref_covered_df = irma_summary_df[
-            (
-                irma_summary_df["% Spike Covered"]
-                < qc_values[qc_plat_vir]["perc_ref_spike_covered"]
-            )
-        ][["Sample", "Reference"]]
-        spike_ref_covered_df["Reason_e"] = f"Less than {qc_values[qc_plat_vir]['perc_ref_spike_covered']}% of S gene reference covered"
-        spike_med_cov_df = irma_summary_df[
-        (irma_summary_df["Spike Median Coverage"] < qc_values[qc_plat_vir]["med_spike_cov"])][["Sample", "Reference"]]
-        spike_med_cov_df["Reason_f"] = f"Median coverage of S gene < {qc_values[qc_plat_vir]['med_spike_cov']}"
     med_cov_df = irma_summary_df[
         (irma_summary_df["Median Coverage"] < qc_values[qc_plat_vir]["med_cov"])
     ][["Sample", "Reference"]]
@@ -214,23 +202,43 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
     minor_vars_df[
         "Reason_d"
     ] = f"Count of minor variants at or over 5% > {qc_values[qc_plat_vir]['minor_vars']}"
-    combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
-    combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
-    combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])
     if "sc2" in virus and "spike" not in virus:
-        combined = combined.merge(spike_ref_covered_df, how="outer", on=["Sample", "Reference"])
-        combined = combined.merge(spike_med_cov_df, how="outer", on=["Sample", "Reference"])
-        combined["Reasons"] = (
-        combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d", "Reason_e", "Reason_f"]]
-        .fillna("")
-        .agg("; ".join, axis=1)
-    )
-    else:    
-        combined["Reasons"] = (
-        combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d"]]
-        .fillna("")
-        .agg("; ".join, axis=1)
-    )
+        spike_ref_covered_df = irma_summary_df[
+            (
+                irma_summary_df["% Spike Covered"]
+                < qc_values[qc_plat_vir]["perc_ref_spike_covered"]
+            )
+        ][["Sample", "Reference"]]
+        spike_ref_covered_df["Reason_e"] = f"Less than {qc_values[qc_plat_vir]['perc_ref_spike_covered']}% of S gene reference covered"
+        spike_med_cov_df = irma_summary_df[
+        (irma_summary_df["Spike Median Coverage"] < qc_values[qc_plat_vir]["med_spike_cov"])][["Sample", "Reference"]]
+        spike_med_cov_df["Reason_f"] = f"Median coverage of S gene < {qc_values[qc_plat_vir]['med_spike_cov']}"
+        if ref_covered_df.empty == False or med_cov_df.empty == False or minor_vars_df.empty == False or pre_stop_df.empty == False or spike_ref_covered_df.empty == False or spike_med_cov_df.empty == False:
+            combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(spike_ref_covered_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(spike_med_cov_df, how="outer", on=["Sample", "Reference"])
+            combined["Reasons"] = (
+            combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d", "Reason_e", "Reason_f"]]
+            .fillna("")
+            .agg("; ".join, axis=1)
+            )
+        else:
+            combined = pd.DataFrame(columns=['Sample', 'Reference', 'Protein', 'Reasons'])
+    else:
+        if ref_covered_df.empty == False or med_cov_df.empty == False or minor_vars_df.empty == False or pre_stop_df.empty == False:
+            combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
+            combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])   
+            combined["Reasons"] = (
+            combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d"]]
+            .fillna("")
+            .agg("; ".join, axis=1)
+            )
+        else:
+            combined = pd.DataFrame(columns=['Sample', 'Reference', 'Protein', 'Reasons'])
+    
     # Add in found sequences
     combined = combined.merge(nt_seqs_df, how="outer", on=["Sample", "Reference"])
     combined["Reasons"] = combined.apply(
@@ -240,7 +248,7 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
     try:
         combined["Reasons"] = (
             combined["Reasons"]
-            .replace("^ \+;|(?<![a-zA_Z0-9]) ;|; \+$", "", regex=True)
+            .replace(r"^ \+;|(?<![a-zA_Z0-9]) ;|; \+$", "", regex=True)
             .str.strip()
             .replace("^; *| *;$", "", regex=True)
         )
@@ -263,6 +271,7 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
         combined = combined.drop(columns="")
     except KeyError:
         pass
+    pd.DataFrame.to_csv(combined, f"combined.csv", sep="\t", index=False, header=True)
     return combined
 
 
@@ -276,7 +285,7 @@ def perc_len(maplen, ref, ref_lens):
 def version_module():
     module = qc_plat_vir
     descript_dict = {}
-    with open("/mira-nf/DESCRIPTION", "r") as infi:
+    with open(f"{work_path}/DESCRIPTION", "r") as infi:
         for line in infi:
             try:
                 descript_dict[line.split(":")[0]] = line.split(":")[1]

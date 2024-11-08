@@ -1,0 +1,118 @@
+
+x-python-image:
+  &python-image
+  python:3.10-alpine
+
+x-python-version:
+  &python-version
+  python3.10
+
+x-pyarrow-image:
+  &pyarrow-image
+  mira-nf:pyarrow-alpine
+
+x-mira-nf-image:
+  &mira-nf-image
+  mira-nf:python3.10-alpine
+
+x-data-volume:
+  &data-volume
+  type: bind
+  source: /home/snu3/Github/FLU_SC2_SEQUENCING
+  target: /data
+
+services:
+  multiqc:
+    container_name: multiqc
+    image: mira-nf:multiqc-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile-multiqc
+      args:
+        python_image: *python-image
+        python_version: *python-version
+        multiqc_version: 1.19
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
+
+  fastqc:
+    container_name: fastqc
+    image: mira-nf:fastqc-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile-fastqc
+      args:
+        python_image: *python-image
+        python_version: *python-version
+        fastqc_version: 0.12.1
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
+
+  bbtools:
+    container_name: bbtools
+    image: mira-nf:bbtools-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile-bbtools
+      args:
+        python_image: *python-image
+        python_version: *python-version
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
+
+  pyarrow: 
+    container_name: pyarrow
+    image: *pyarrow-image
+    build:
+      context: .
+      dockerfile: Dockerfile-pyarrow
+      args:
+        python_image: *python-image
+        ARROW_VERSION: 17.0.0
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
+
+  cutadapt:
+    container_name: cutadapt
+    image: mira-nf:cutadapt-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile-cutadapt
+      args:
+        python_image: *pyarrow-image
+        python_version: *python-version
+        cutadapt_version: 4.4
+    depends_on:
+      - pyarrow
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
+
+  mira-nf: 
+    container_name: mira-nf
+    image: *mira-nf-image
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        python_image: *pyarrow-image
+        python_version: *python-version
+    depends_on:
+      - multiqc
+      - fastqc
+      - bbtools
+      - cutadapt
+      - pyarrow
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null

@@ -1,85 +1,107 @@
+# Create an argument to pull a particular version of an image
+ARG python_image
+ARG python_image=${python_image:-mira-nf:pyarrow-alpine}
 
-# Create a build argument
-ARG BUILD_STAGE
-ARG BUILD_STAGE=${BUILD_STAGE:-prod}
+####################################################################################################
+# BASE IMAGE
+####################################################################################################
+FROM ${python_image} as base
 
-############# Build Stage: Dependencies ##################
+# Create environment variable to get base python version
+ARG python_version
+ENV python_version=${python_version:-python3.10}
 
-# Start from a base image
-FROM --platform=linux/amd64 ubuntu:focal as base
+# Required certs for apk update
+COPY ca.crt /root/ca.crt
 
-# Define a system argument
-ARG DEBIAN_FRONTEND=noninteractive
+# Put certs in /etc/ssl/certs location
+RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
 
 # Install system libraries of general use
-RUN apt-get update --allow-releaseinfo-change && apt-get install --no-install-recommends -y \
-    build-essential \ 
-    iptables \
-    libdevmapper1.02.1 \
-    python3.7\
-    python3-pip \
-    python3-setuptools \
-    python3-dev \
-    dpkg \
-    sudo \
-    wget \
-    curl \
-    dos2unix
-
-############# Build Stage: Development ##################
-
-# Build from the base image for dev
-FROM base as dev
+RUN apk update && apk add --no-cache \
+    bash \
+    vim \
+    tar \
+    dos2unix \ 
+    && pip install --upgrade pip
 
 # Create working directory variable
-ENV WORKDIR=/data
-
-# Create a stage enviroment
-ENV STAGE=dev
-
-############# Build Stage: Production ##################
-
-# Build from the base image for prod
-FROM base as prod
-
-# Create working directory variable
-ENV WORKDIR=/data
-
-# Create a stage enviroment
-ENV STAGE=prod
+ENV PROJECT_DIR=/mira-nf
 
 # Copy all scripts to docker images
-COPY . /mira-nf
+COPY . ${PROJECT_DIR}
 
-############# Build Stage: Final ##################
+############# Install python packages ##################
 
-# Build the final image 
-FROM ${BUILD_STAGE} as final
+# Copy all files to docker images
+COPY requirements.txt ${PROJECT_DIR}/requirements.txt
+
+# Install python requirements
+RUN pip install --no-cache-dir -r ${PROJECT_DIR}/requirements.txt
+
+############# Run nextflow bash script ##################
+
+# Copy all files to docker images
+COPY MIRA_nextflow.sh ${PROJECT_DIR}/MIRA_nextflow.sh
+
+# Convert spyne from Windows style line endings to Unix-like control characters
+RUN dos2unix ${PROJECT_DIR}/MIRA_nextflow.sh
+
+# Allow permission to excute the bash scripts
+RUN chmod a+x ${PROJECT_DIR}/MIRA_nextflow.sh
+
+############# Fix vulnerablities pkgs ##################
+
+# Copy all files to docker images
+COPY fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+
+# Copy all files to docker images
+COPY fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Convert bash script from Windows style line endings to Unix-like control characters
+RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Allow permission to excute the bash script
+RUN chmod a+x ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Execute bash script to wget the file and tar the package
+RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh  
+
+############# Remove vulnerability pkgs ##################
+
+# Copy all files to docker images
+COPY remove_mira_nf_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+
+# Copy all files to docker images
+COPY remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+
+# Convert bash script from Windows style line endings to Unix-like control characters
+RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+
+# Allow permission to excute the bash script
+RUN chmod a+x ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+
+# Execute bash script to wget the file and tar the package
+RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+
+############# Remove the vendor packages ##################
+
+# Clean up and remove unwanted files
+RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/examples
+
+############# Set up working directory ##################
+
+# Create working directory variable
+ENV WORKDIR=/data
 
 # Set up volume directory in docker
 VOLUME ${WORKDIR}
 
 # Set up working directory in docker
-WORKDIR ${WORKDIR}
+WORKDIR ${WORKDIR}    
 
-# Allow permission to read and write files to current working directory
-RUN chmod -R a+rwx ${WORKDIR}
+# Export project directory to PATH
+ENV PATH "$PATH:${PROJECT_DIR}"
 
-############# Install python packages ##################
-
-# Copy all files to docker images
-COPY requirements.txt /mira-nf/requirements.txt
-
-# Install python requirements
-RUN pip3 install --no-cache-dir -r /mira-nf/requirements.txt
-
-############# Run mira-nf ##################
-
-# Allow permission to read and write files to mira-nf directory
-RUN chmod -R a+rwx /mira-nf
-
-# Clean up
-RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
-# Export bash script to path
-ENV PATH "$PATH:/mira-nf"

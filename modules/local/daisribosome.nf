@@ -1,9 +1,8 @@
 process DAISRIBOSOME {
-    tag 'Translating sequences into open reading frames (ORFs) with DAIS-Ribosome'
     label 'process_medium'
 
-    container 'cdcgov/dais-ribosome:v1.5.4'
-    containerOptions '--bind ${launchDir}/tmp:/dais-ribosome/workdir --bind ${launchDir}/tmp:/dais-ribosome/lib/sswsort/workdir/'
+    container 'cdcgov/dais-ribosome:v1.5.5'
+    // The container binding for this step has been moved to the module.config and onics.config to allow for different binding based on environment
 
     input:
     path input_fasta

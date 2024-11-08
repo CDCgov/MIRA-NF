@@ -1,8 +1,8 @@
 process FINDCHEMISTRYO {
-    tag { "finding chemistry parameters for ${sample}" }
+    tag "${sample}"
     label 'process_single'
 
-    container 'cdcgov/mira-nf:latest'
+    container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
     tuple val(sample), val(barcode), path(fastq), path(runid)

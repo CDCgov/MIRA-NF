@@ -14,7 +14,6 @@ lint:
   - assets/email_template.html
   - assets/email_template.txt
   - assets/sendmail_template.txt
-  - .gitignore
   multiqc_config:
   - report_comment
   nextflow_config:

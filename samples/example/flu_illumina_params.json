@@ -1,0 +1,8 @@
+{
+    "input": "s3://<bucket>/MIRAPipeline/Illumina/flu-illumina-run-1/samplesheet.csv",
+    "runpath": "s3://<bucket>/MIRAPipeline/Illumina/flu-illumina-run-1/",
+    "outdir": "/mnt/workflow/pubdir",
+    "e": "Flu-Illumina" ,
+  "ecr_registry": "XXX.dkr.ecr.us-east-1.amazonaws.com"
+  }
+  

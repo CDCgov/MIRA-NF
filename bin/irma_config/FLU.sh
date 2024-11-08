@@ -3,3 +3,6 @@ PARAM_FILE_NAME="FLU"
 PARAM_FILE_AUTHOR="S. Shepard"
 PARAM_FILE_VERSION="1.0"
 PARAM_FILE_DATE="2015-01-29"
+
+# CONSENSUS REFINEMENT & READ SELECTION
+MIN_CONS_SUPPORT=30 #minimum coverage required to call base. If it doesn't meet then laces N

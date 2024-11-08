@@ -105,9 +105,14 @@
                     "default": false,
                     "description": "Skip the nextflow samplesheet creation step for AMD platform"
                 },
+                "read_qc": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Run fastq and multiqc steps. Default: false"
+                },
                 "subsample_reads": {
                     "type": "integer",
-                    "default": 10000000,
+                    "default": 0,
                     "description": "The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000."
                 },
                 "irma_config": {
@@ -120,6 +125,11 @@
                         "utr",
                         "none"
                     ]
+                },
+                "ecr_registry": {
+                    "type": "string",
+                    "description": "ecr registry for MIRA-NF on omics with standard profile",
+                    "help_text": "This is the ecr registry for running MIRA-NF on omics with standard profile"
                 }
             }
         },

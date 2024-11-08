@@ -1,5 +1,5 @@
 process CONFIRMIRMAOUTPUT {
-    tag { "checking irma for ${sample}" }
+    tag "${sample}"
     label 'process_single'
 
     input:

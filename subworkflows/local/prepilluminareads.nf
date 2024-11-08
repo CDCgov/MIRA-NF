@@ -63,29 +63,39 @@ workflow PREPILLUMINAREADS {
         .splitCsv(header: true)
 
     // Subsample
-    new_ch2 = input_ch.map { item ->
-        [sample:item.sample, fastq_1:item.fastq_1, fastq_2:item.fastq_2]
+    if (params.subsample_reads > 0) {
+        new_ch2 = input_ch.map { item ->
+            [sample:item.sample, fastq_1:item.fastq_1, fastq_2:item.fastq_2]
+        }
+        new_ch3 = irma_chemistry_ch.map { item ->
+            [sample: item.sample_ID, subsample:item.subsample]
+        }
+
+        new_ch4 = new_ch2.combine(new_ch3)
+            .filter { it[0].sample == it[1].sample }
+            .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1].subsample] }
+
+        subsample_ch = new_ch4.combine(primers)
+
+        SUBSAMPLEPAIREDREADS(subsample_ch)
+        ch_versions = ch_versions.unique().mix(SUBSAMPLEPAIREDREADS.out.versions)
+
+        subsample_output_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq
+        } else {
+            new_ch2 = input_ch.map { item ->
+                [sample:item.sample, fastq_1:item.fastq_1, fastq_2:item.fastq_2]
+            }
+
+            subsample_output_ch = new_ch2.combine(primers)
+            .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1]] }
     }
-    new_ch3 = irma_chemistry_ch.map { item ->
-        [sample: item.sample_ID, subsample:item.subsample]
-    }
-
-    new_ch4 = new_ch2.combine(new_ch3)
-        .filter { it[0].sample == it[1].sample }
-        .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1].subsample] }
-
-    subsample_ch = new_ch4.combine(primers)
-
-    SUBSAMPLEPAIREDREADS(subsample_ch)
-    ch_versions = ch_versions.unique().mix(SUBSAMPLEPAIREDREADS.out.versions)
 
     //If experiment type is SC2-Whole-Genome-Illumina then samples will go through the primer trimming steps with SC2 primers
-
     //If not they are passed to the irma channel immediately
     if (params.e == 'SC2-Whole-Genome-Illumina') {
         //// Trim primers
         //left trim
-        SC2TRIMPRIMERSLEFT(SUBSAMPLEPAIREDREADS.out.subsampled_fastq)
+        SC2TRIMPRIMERSLEFT(subsample_output_ch)
         ch_versions = ch_versions.mix(SC2TRIMPRIMERSLEFT.out.versions)
         //right trim
         SC2TRIMPRIMERSRIGHT(SC2TRIMPRIMERSLEFT.out.trim_l_fastqs)
@@ -113,7 +123,7 @@ workflow PREPILLUMINAREADS {
     } else if (params.e == 'RSV-Illumina') {
         //// Trim primers
         //left trim
-        RSVTRIMPRIMERSLEFT(SUBSAMPLEPAIREDREADS.out.subsampled_fastq)
+        RSVTRIMPRIMERSLEFT(subsample_output_ch)
         ch_versions = ch_versions.mix(RSVTRIMPRIMERSLEFT.out.versions)
         //right trim
         RSVTRIMPRIMERSRIGHT(RSVTRIMPRIMERSLEFT.out.trim_l_fastqs)
@@ -141,10 +151,10 @@ workflow PREPILLUMINAREADS {
     } else if (params.e == 'Flu-Illumina') {
         //// Make IRMA input channel without trimming primers
         //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
-        read_1_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
+        read_1_ch = subsample_output_ch.map { item ->
             [ item[0], item[1]]
         }
-        read_2_ch = SUBSAMPLEPAIREDREADS.out.subsampled_fastq.map { item ->
+        read_2_ch = subsample_output_ch.map { item ->
             [item[0], item[2]]
         }
         reads_ch = read_1_ch.concat(read_2_ch)

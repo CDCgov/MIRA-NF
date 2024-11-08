@@ -1,14 +1,12 @@
 process NEXTFLOWSAMPLESHEETO {
-    tag 'Generating the samplesheet for nextflow'
     label 'process_single'
 
-    container 'cdcgov/mira-nf:latest'
+    container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
     path samplesheet
     path run_ID
     val experiment_type
-    path('*')
 
     output:
     path 'nextflow_samplesheet.csv', emit: nf_samplesheet
@@ -21,7 +19,8 @@ process NEXTFLOWSAMPLESHEETO {
     def args = task.ext.args ?: ''
 
     """
-    python3 ${projectDir}/bin/create_nextflow_samplesheet_o.py -s "${params.input}" -r "${params.runpath}" -e "${experiment_type}"
+    # AWS Healthomics requires a path to the samplesheet in order to stage the files for the pipeline
+    python3 ${projectDir}/bin/create_nextflow_samplesheet_o.py -s "${samplesheet}" -r "${params.outdir}" -e "${experiment_type}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

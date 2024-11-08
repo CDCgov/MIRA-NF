@@ -5,7 +5,7 @@
 */
 
 include { FASTQC                  } from "${projectDir}/modules/local/fastqc/main"
-include { MULTIQC                 } from "${projectDir}/modules/nf-core/multiqc/main"
+include { MULTIQC                 } from "${projectDir}/modules/local/multiqc/main"
 include { paramsSummaryMap        } from 'plugin/nf-validation'
 include { paramsSummaryMultiqc    } from "${projectDir}/subworkflows/nf-core/utils_nfcore_pipeline"
 include { softwareVersionsToYAML  } from "${projectDir}/subworkflows/nf-core/utils_nfcore_pipeline"

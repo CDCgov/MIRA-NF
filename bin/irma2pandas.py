@@ -203,6 +203,7 @@ def dash_irma_alleles_df(irma_path, full=False):
         df["Minority Frequency"] = df[["Minority Frequency"]].applymap(
             lambda x: float(f"{float(x):.{3}f}")
         )
+        df["Sample"] = df[["Sample"]].astype(str)
     return df
 
 
@@ -258,6 +259,7 @@ def dash_irma_indels_df(irma_path, full=False):
             ]
         ]
     df["Frequency"] = df[["Frequency"]].applymap(lambda x: float(f"{float(x):.{3}f}"))
+    df["Sample"] = df[["Sample"]].astype(str)
     return df
 
 

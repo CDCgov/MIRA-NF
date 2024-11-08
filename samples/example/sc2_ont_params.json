@@ -1,0 +1,7 @@
+{
+  "input": "s3://<bucket>/MIRAPipeline/ONT/sc2-run-1/samplesheet.csv",
+  "runpath": "s3://<bucket>/MIRAPipeline/ONT/sc2-run-1/",
+  "outdir": "/mnt/workflow/pubdir/sc2-run-1/",
+  "e": "SC2-Spike-Only-ONT",
+  "ecr_registry": "XXX.dkr.ecr.us-east-1.amazonaws.com"
+}
