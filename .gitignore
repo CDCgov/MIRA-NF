@@ -13,3 +13,4 @@ samples/ruvos/
 *.zip
 *err
 *out
+*crt
