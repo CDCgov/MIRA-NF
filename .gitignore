@@ -11,3 +11,5 @@ conf/ruvos-ds-omics.config
 samples/aims/
 samples/ruvos/
 *.zip
+*err
+*out
