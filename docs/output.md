@@ -20,6 +20,26 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [statichtml](#static-html) - Create html files, excel files and amended consensus fasta files
 - [parquetmaker`](#parquet-maker) - Excels and amended consensus fasta converted parquet files for importing into a database
 
+## Output Structure
+
+|---outputs
+    |---aggregate_outputs
+        |---multiqc  (when applicable) --> multiqc outputs
+        |---dais-ribosome -> dais inputs and outputs
+        |---dash-json -> json files
+        |---mira-reports -> the aggregated fasta files, html files and excel files
+        |---parquet-reports (when applicable)
+        |---csv-reports (when applicable)
+    |---Sample_ID
+        |---subsampled-reads (when applicable) -> fastqs and log files
+        |---barcode-trimmed-reads (when applicable) -> fastqs and log files
+        |---primer-trimmed-reads (when applicable) -> fastqs and log files
+        |---adapter-trimmed-reads (when applicable) -> fastqs and log files
+        |---IRMA/Sample_ID -> IRMA outputs and log files
+        |---IRMA-negative (when applicable)
+    |---fastqs or fastq_pass -> allows staging of files in the S3
+    |---pipeline_info -> execution reports
+
 ### MultiQC
 
 <details markdown="1">
@@ -250,6 +270,9 @@ The collected results from IRMA and DAIS-Ribosome in json files
 </details>
 
  Html files, excel files and combined amended consensus fasta files are created in this step.
+
+ Explanations of the summary HTML for Illumina data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-illumina.html#mira-cli-ouputs>
+ Explanations of the summary HTML for ONT data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-ont.html>
 
 ### parquetmaker
 
