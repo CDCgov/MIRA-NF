@@ -41,16 +41,16 @@ process PARQUETMAKER {
     cat MIRA_${run_name}_failed_amino_acid_consensus.fasta > aa.fasta
     fi
 
-    python3 ${projectDir}/bin/parquet_maker.py -f nt.fasta -o ${run_name}_amended_consensus -r ${run_name}
-    python3 ${projectDir}/bin/parquet_maker.py -f aa.fasta -o ${run_name}_amino_acid_consensus -r ${run_name}
-    python3 ${projectDir}/bin/parquet_maker.py -f ${samplesheet} -o ${run_name}_samplesheet -r ${run_name}
-    python3 ${projectDir}/bin/parquet_maker.py -f *minorindels.xlsx -o ${run_name}_indels -r ${run_name}
-    python3 ${projectDir}/bin/parquet_maker.py -f *minorvariants.xlsx -o ${run_name}_variants -r ${run_name}
-    python3 ${projectDir}/bin/parquet_maker.py -f *summary.xlsx -o ${run_name}_summary -r ${run_name}
-    python3 ${projectDir}/bin/parquet_maker.py -p ${params.outdir} -r ${run_name}
+    parquet_maker.py -f nt.fasta -o ${run_name}_amended_consensus -r ${run_name}
+    parquet_maker.py -f aa.fasta -o ${run_name}_amino_acid_consensus -r ${run_name}
+    parquet_maker.py -f ${samplesheet} -o ${run_name}_samplesheet -r ${run_name}
+    parquet_maker.py -f *minorindels.xlsx -o ${run_name}_indels -r ${run_name}
+    parquet_maker.py -f *minorvariants.xlsx -o ${run_name}_variants -r ${run_name}
+    parquet_maker.py -f *summary.xlsx -o ${run_name}_summary -r ${run_name}
+    parquet_maker.py -p ${params.outdir} -r ${run_name}
     cat ${params.outdir}/*/IRMA/*/logs/run_info.txt > run_info_setup.txt
     head -n 65 run_info_setup.txt > run_info.txt
-    python3 ${projectDir}/bin/parquet_maker.py -f run_info.txt -o ${run_name}_irma_config -r ${run_name}
+    parquet_maker.py -f run_info.txt -o ${run_name}_irma_config -r ${run_name}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

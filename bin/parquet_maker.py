@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# K. A. Lacek
-# Jan 2024
 
 # Functional for samplesheet, irma summary, alleles, indels
 import pandas as pd
