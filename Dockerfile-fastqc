@@ -19,7 +19,7 @@ ENV fastqc_version=${fastqc_version:-0.12.1}
 COPY ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
-RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
+RUN cat /root/ca.crt >>/etc/ssl/certs/ca-certificates.crt
 
 # Install system libraries of general use
 RUN apk update && apk add --no-cache \
@@ -29,9 +29,9 @@ RUN apk update && apk add --no-cache \
     bash \
     perl \
     unzip \
-    vim  \
-    && pip install --upgrade pip 
-    
+    vim &&
+    pip install --upgrade pip
+
 # Get package version
 ENV FASTQC_PKG="fastqc_v${fastqc_version}.zip"
 
@@ -42,9 +42,9 @@ WORKDIR /usr/local
 ADD http://www.bioinformatics.babraham.ac.uk/projects/fastqc/${FASTQC_PKG} /tmp/
 
 # Download and install FastQC;
-RUN unzip /tmp/${FASTQC_PKG} \
-    && chmod 755 FastQC/fastqc \
-    && rm -rf /tmp/${FASTQC_PKG}
+RUN unzip /tmp/${FASTQC_PKG} &&
+    chmod 755 FastQC/fastqc &&
+    rm -rf /tmp/${FASTQC_PKG}
 
 # Export program to PATH
 ENV PATH "$PATH:/usr/local/FastQC"
@@ -55,10 +55,10 @@ ENV PROJECT_DIR=/fastqc
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+COPY docker_files/fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY docker_files/fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
@@ -67,15 +67,15 @@ RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 RUN chmod a+x ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Execute bash script to wget the file and tar the package
-RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh    
+RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY remove_fastqc_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY docker_files/remove_fastqc_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+COPY docker_files/remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
@@ -89,19 +89,18 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 ############# Remove the vendor packages ##################
 
 # Clean up and remove unwanted files
-RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
-    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
-    && rm -rf /usr/local/lib/${python_version}/site-packages/examples \
-    && rm -rf /usr/local/FastQC/cisd-jhdf5.jar
+RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor &&
+    rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor &&
+    rm -rf /usr/local/lib/${python_version}/site-packages/examples &&
+    rm -rf /usr/local/FastQC/cisd-jhdf5.jar
 
 ############# Set up working directory ##################
 
- # Create working directory variable
+# Create working directory variable
 ENV WORKDIR=/data
 
 # Set up volume directory in docker
 VOLUME ${WORKDIR}
 
 # Set up working directory in docker
-WORKDIR ${WORKDIR}   
-
+WORKDIR ${WORKDIR}

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Referencing https://plotly.com/python/v3/html-reports/#step-2-generate-html-reportas-a-string-and-write-to-file
 
 import os

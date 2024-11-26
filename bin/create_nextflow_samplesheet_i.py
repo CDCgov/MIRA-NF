@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # import yaml
 from os.path import abspath
 from sys import argv, exit

@@ -3,7 +3,6 @@ process NEXTFLOWSAMPLESHEETI {
 
     container 'cdcgov/mira-nf:python3.10-alpine'
 
-
     input:
     path samplesheet
     path fastq_files
@@ -21,7 +20,7 @@ process NEXTFLOWSAMPLESHEETI {
 
     """
     #Create nf samplesheet
-    python3 ${projectDir}/bin/create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${params.outdir}" -e "${experiment_type}"
+    create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${params.outdir}" -e "${experiment_type}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

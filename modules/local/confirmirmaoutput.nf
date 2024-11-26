@@ -3,10 +3,10 @@ process CONFIRMIRMAOUTPUT {
     label 'process_single'
 
     input:
-    tuple val(sample), val(irma_dir)
+    tuple val(sample), path('*')
 
     output:
-    tuple val(sample), val(irma_dir), path("${sample}.irma.decision")
+    tuple val(sample), path("${sample}/"), path("${sample}.irma.decision")
 
     when:
     task.ext.when == null || task.ext.when
@@ -15,8 +15,8 @@ process CONFIRMIRMAOUTPUT {
     def args = task.ext.args ?: ''
 
     """
-    [ -d ${irma_dir}/amended_consensus ] &&
-        [ \"\$(ls -A ${irma_dir}/amended_consensus)\" ] &&
+    [ -d ${sample}/amended_consensus ] &&
+        [ \"\$(ls -A ${sample}/amended_consensus)\" ] &&
          echo passed > ${sample}.irma.decision ||
          echo failed > ${sample}.irma.decision
     """

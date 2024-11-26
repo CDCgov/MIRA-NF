@@ -85,6 +85,7 @@ CONTROL_REP1,<FILE_PATH>/fastqs/AEG588A1_S1_L002_R1_001.fastq.gz,<FILE_PATH>/fas
 TREATMENT_REP1,<FILE_PATH>/fastqs/AEG588A4_S4_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A4_S4_L003_R2_001.fastq.gz,test
 TREATMENT_REP2,<FILE_PATH>/fastqs/AEG588A5_S5_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A5_S5_L003_R2_001.fastq.gz,test
 TREATMENT_REP3,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R2_001.fastq.gz,test
+```
 
 | Column    | Description                                                                                                                                                                            |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
