@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Credits
 
 - [Amanda Sullivan](https://github.com/mandysulli)
+
+### Enhancements
+
+-
+
+### Parameters
+
+| Old parameter | New parameter                |
+| ------------- | ---------------------------- |
+| |  |
+
+## v1.2.0 - 2024.11.07
+
+### Credits
+
+- [Amanda Sullivan](https://github.com/mandysulli)
 - [Reina Chau](https://github.com/rchau88)
 - [Arumugam Rajarethinam](https://github.com/lochanaarumugam)
 

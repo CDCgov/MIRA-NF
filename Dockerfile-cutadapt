@@ -19,15 +19,15 @@ ENV cutadapt_version=${cutadapt_version:-4.4}
 COPY ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
-RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
+RUN cat /root/ca.crt >>/etc/ssl/certs/ca-certificates.crt
 
 # Install system libraries of general use
 RUN apk update && apk add --no-cache \
     openjdk21-jre=21.0.5_p11-r0 \
     bash \
-    vim \
-    && pip install --upgrade pip \
-    && pip install --no-cache-dir cutadapt==${cutadapt_version}
+    vim &&
+    pip install --upgrade pip &&
+    pip install --no-cache-dir cutadapt==${cutadapt_version}
 
 # Set up project directory
 ENV PROJECT_DIR=/cutadapt
@@ -35,10 +35,10 @@ ENV PROJECT_DIR=/cutadapt
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+COPY docker_files/fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY docker_files/fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
@@ -47,15 +47,15 @@ RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 RUN chmod a+x ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Execute bash script to wget the file and tar the package
-RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh    
+RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY remove_cutadapt_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY docker_files/remove_cutadapt_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+COPY docker_files/remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
@@ -69,9 +69,9 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 ############# Remove the vendor packages ##################
 
 # Clean up and remove unwanted files
-RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
-    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
-    && rm -rf /usr/local/lib/${python_version}/site-packages/examples
+RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor &&
+    rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor &&
+    rm -rf /usr/local/lib/${python_version}/site-packages/examples
 
 ############# Set up working directory ##################
 
@@ -82,6 +82,4 @@ ENV WORKDIR=/data
 VOLUME ${WORKDIR}
 
 # Set up working directory in docker
-WORKDIR ${WORKDIR}    
-
-
+WORKDIR ${WORKDIR}
