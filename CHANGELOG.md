@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Enhancements
 
-- [PR #24](https://github.com/CDCgov/MIRA-NF/pull/20) - Cleaning up scripts and updating documents.
+- [PR #24](https://github.com/CDCgov/MIRA-NF/pull/24) - Cleaning up scripts and updating documents.
 
 ### Parameters
 
