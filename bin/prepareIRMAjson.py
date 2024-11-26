@@ -28,7 +28,7 @@ except IndexError:
 
 # Load qc config:
 with open(
-    op.dirname(op.dirname(op.realpath(__file__)))
+    work_path
     + "/bin/irma_config/qc_pass_fail_settings.yaml"
 ) as y:
     qc_values = yaml.safe_load(y)
@@ -492,7 +492,7 @@ def generate_dfs(irma_path):
         if len(glob(f"{irma_path}/dais_results/*seq")) == 0:
             time.sleep(1)
         c += 1
-    dais_vars_df = dais2pandas.compute_dais_variants(f"{irma_path}/aggregate_outputs/dais-ribosome")
+    dais_vars_df = dais2pandas.compute_dais_variants(work_path,f"{irma_path}/aggregate_outputs/dais-ribosome")
     with open(f"./dais_vars.json", "w") as out:
         dais_vars_df.to_json(out, orient="split", double_precision=3)
         print(f"  -> dais_vars_df saved to {out.name}")

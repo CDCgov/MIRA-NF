@@ -18,6 +18,7 @@ workflow PREPAREREPORTS {
     platform = Channel.empty()
     virus = Channel.empty()
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
 
     //creating platform value
     if (params.e == 'Flu-Illumina') {
@@ -54,7 +55,7 @@ workflow PREPAREREPORTS {
     }
 
     //create aggregate reports
-    PREPAREIRMAJSON(dais_outputs_ch, nf_samplesheet_ch, platform, virus)
+    PREPAREIRMAJSON(dais_outputs_ch, irma_dir_ch, nf_samplesheet_ch, platform, virus)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
     //convert aggragate reports (json files) into html files

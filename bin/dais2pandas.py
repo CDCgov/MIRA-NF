@@ -3,8 +3,6 @@ from os.path import dirname, realpath, basename, isfile
 from glob import glob
 from re import findall
 
-repo_path = realpath(dirname(dirname(__file__)))
-
 
 def fasta2dic(fasta, dais_ref_format=False):
     seq_dic = {}
@@ -129,7 +127,7 @@ def seq_df(results_path):
     return dais2df(results_path, seqcols, seqcols_rename, ".seq")
 
 
-def ref_seqs():
+def ref_seqs(repo_path):
     return dais2df(f"{repo_path}/data/references/", seqcols, seqcols_rename, ".seq")
 
 
@@ -146,8 +144,8 @@ def AAvars(refseq, sampseq):
         return ""
 
 
-def compute_dais_variants(results_path, specific_ref=False):
-    refs = ref_seqs()
+def compute_dais_variants(repo_path, results_path, specific_ref=False):
+    refs = ref_seqs(repo_path)
     ref_dic = (
         refs.groupby(["Sample", "Protein"]).agg(lambda x: x.tolist()).to_dict("index")
     )
