@@ -522,17 +522,6 @@ workflow rsv_o {
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
- /*
-        // MODULE: Concat all fastq files by barcode
-        set_up_ch = samplesheet_ch
-            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
-        new_ch = set_up_ch.map { item ->
-            [item.barcode, item.sample_id] }
-        CONCATFASTQS(new_ch)
-
-        // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
-        */
         // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         // Prepare new_ch with tuples
         set_up_ch = samplesheet_ch
