@@ -410,14 +410,12 @@ workflow sc2_wgs_i {
     ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
     // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
-    check_irma_input_ch = IRMA.out.outputs.collect()
-    check_irma_ch = check_irma_input_ch.map { item ->
+    check_irma_ch = IRMA.out.outputs.map { item ->
         def sample = item[0]
         def paths = item[1]
         def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
         return tuple(sample, directory)
     }
-    check_irma_ch.view()
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
