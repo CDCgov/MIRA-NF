@@ -5,6 +5,7 @@ process PREPAREIRMAJSON {
 
     input:
     path dais_outputs
+    path support_file_path
     path irma_dir
     path nf_samplesheet
     val platform
@@ -21,7 +22,7 @@ process PREPAREIRMAJSON {
     def args = task.ext.args ?: ''
 
     """
-    prepareIRMAjson.py ${projectDir} ${irma_dir} ${nf_samplesheet} ${platform} ${virus}
+    prepareIRMAjson.py ${support_file_path} ${irma_dir} ${nf_samplesheet} ${platform} ${virus}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

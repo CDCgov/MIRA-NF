@@ -17,33 +17,60 @@ workflow PREPILLUMINAREADS {
 
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
-    primers = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
-
-    //if primers given,set the file path to them
-    if (params.p) {
-        if (params.p == 'artic3') {
-            primers = Channel.fromPath("${projectDir}/data/primers/articv3.fasta", checkIfExists: true)
-        } else if (params.p == 'atric4') {
-            primers = Channel.fromPath("${projectDir}/data/primers/articv4.fasta", checkIfExists: true)
-        } else if (params.p == 'atric4.1') {
-            primers = Channel.fromPath("${projectDir}/data/primers/articv4.1.fasta", checkIfExists: true)
-        } else if (params.p == 'atric5.3.2') {
-            primers = Channel.fromPath("${projectDir}/data/primers/articv5.3.2.fasta", checkIfExists: true)
-        } else if (params.p == 'qiagen') {
-            primers = Channel.fromPath("${projectDir}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
-        } else if (params.p == 'swift') {
-            primers = Channel.fromPath("${projectDir}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
-        } else if (params.p == 'swift_211206') {
-            primers = Channel.fromPath("${projectDir}/data/primers/swift_211206.fasta", checkIfExists: true)
-        }  else if (params.p == 'varskip') {
-            primers = Channel.fromPath("${projectDir}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
-        }  else if (params.p == 'RSV_CDC_8amplicon_230901') {
-            primers = Channel.fromPath("${projectDir}/data/primers/RSV_CDC_8amplicon_230901.fasta", checkIfExists: true)
+    //If sourcepath flag is given, sourcepath will be used for the file path to the primers
+    if (params.sourcepath == 'none') {
+        primer_path = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
+        primers = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
+        if (params.p) {
+            if (params.p == 'artic3') {
+                primers = Channel.fromPath("${projectDir}/data/primers/articv3.fasta", checkIfExists: true)
+            } else if (params.p == 'atric4') {
+                primers = Channel.fromPath("${projectDir}/data/primers/articv4.fasta", checkIfExists: true)
+            } else if (params.p == 'atric4.1') {
+                primers = Channel.fromPath("${projectDir}/data/primers/articv4.1.fasta", checkIfExists: true)
+            } else if (params.p == 'atric5.3.2') {
+                primers = Channel.fromPath("${projectDir}/data/primers/articv5.3.2.fasta", checkIfExists: true)
+            } else if (params.p == 'qiagen') {
+                primers = Channel.fromPath("${projectDir}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
+            } else if (params.p == 'swift') {
+                primers = Channel.fromPath("${projectDir}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
+            } else if (params.p == 'swift_211206') {
+                primers = Channel.fromPath("${projectDir}/data/primers/swift_211206.fasta", checkIfExists: true)
+            }  else if (params.p == 'varskip') {
+                primers = Channel.fromPath("${projectDir}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
+            }  else if (params.p == 'RSV_CDC_8amplicon_230901') {
+                primers = Channel.fromPath("${projectDir}/data/primers/RSV_CDC_8amplicon_230901.fasta", checkIfExists: true)
+            }
+        }
+    } else {
+        primer_path = Channel.fromPath("${params.sourcepath}/data/primers/", checkIfExists: true)
+        primers = Channel.fromPath("${params.sourcepath}/data/primers/", checkIfExists: true)
+        if (params.p) {
+            if (params.p == 'artic3') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/articv3.fasta", checkIfExists: true)
+            } else if (params.p == 'atric4') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/articv4.fasta", checkIfExists: true)
+            } else if (params.p == 'atric4.1') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/articv4.1.fasta", checkIfExists: true)
+            } else if (params.p == 'atric5.3.2') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/articv5.3.2.fasta", checkIfExists: true)
+            } else if (params.p == 'qiagen') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
+            } else if (params.p == 'swift') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
+            } else if (params.p == 'swift_211206') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/swift_211206.fasta", checkIfExists: true)
+            }  else if (params.p == 'varskip') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
+            }  else if (params.p == 'RSV_CDC_8amplicon_230901') {
+                primers = Channel.fromPath("${params.sourcepath}/data/primers/RSV_CDC_8amplicon_230901.fasta", checkIfExists: true)
+            }
         }
     }
 
+    //if primers given,set the file path to them
     if (params.custom_primers) {
         primers = Channel.fromPath("${params.custom_primers}", checkIfExists: true)
     }

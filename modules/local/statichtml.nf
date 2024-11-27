@@ -4,6 +4,7 @@ process STATICHTML {
     container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
+    path(support_file_path)
     path(json_files)
     path(run_ID_ch)
 
@@ -19,7 +20,7 @@ process STATICHTML {
 
     """
     touch ${json_files}
-    static_report.py -d ./ -r ${run_ID_ch} -l ${projectDir}
+    static_report.py -d ./ -r ${run_ID_ch} -l ${support_file_path}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

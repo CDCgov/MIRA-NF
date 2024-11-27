@@ -16,9 +16,16 @@ workflow PREPONTREADS {
 
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
-    barcode_ch = Channel.fromPath("${projectDir}/data/primers/ont_barcodes.csv", checkIfExists: true)
+    //If sourcepath flag is given, sourcepath will be used for barcode path
+    if (params.sourcepath == 'none') {
+        barcode_ch = Channel.fromPath("${projectDir}/data/primers/ont_barcodes.csv", checkIfExists: true)
+    } else {
+        barcode_ch = Channel.fromPath("${params.sourcepath}/data/primers/ont_barcodes.csv", checkIfExists: true)
+    }
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
+
+    barcode_ch.view()
 
     // Find chemistry
     input_ch = nf_samplesheet

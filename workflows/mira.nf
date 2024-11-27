@@ -410,12 +410,14 @@ workflow sc2_wgs_i {
     ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
     // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
-    check_irma_ch = IRMA.out.outputs.map { item ->
+    check_irma_input_ch = IRMA.out.outputs.collect()
+    check_irma_ch = check_irma_input_ch.map { item ->
         def sample = item[0]
         def paths = item[1]
         def directory = paths.find { it.endsWith(sample) && !it.endsWith('.log') }
         return tuple(sample, directory)
     }
+    check_irma_ch.view()
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
@@ -522,17 +524,6 @@ workflow rsv_o {
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
- /*
-        // MODULE: Concat all fastq files by barcode
-        set_up_ch = samplesheet_ch
-            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
-        new_ch = set_up_ch.map { item ->
-            [item.barcode, item.sample_id] }
-        CONCATFASTQS(new_ch)
-
-        // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
-        */
         // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         // Prepare new_ch with tuples
         set_up_ch = samplesheet_ch

@@ -19,6 +19,12 @@ workflow PREPAREREPORTS {
     virus = Channel.empty()
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
+    if (params.sourcepath == 'none') {
+        support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
+    } else {
+        support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
+    }
 
     //creating platform value
     if (params.e == 'Flu-Illumina') {
@@ -55,11 +61,11 @@ workflow PREPAREREPORTS {
     }
 
     //create aggregate reports
-    PREPAREIRMAJSON(dais_outputs_ch, irma_dir_ch, nf_samplesheet_ch, platform, virus)
+    PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
     //convert aggragate reports (json files) into html files
-    STATICHTML(PREPAREIRMAJSON.out.dash_json_and_fastqs, run_ID_ch)
+    STATICHTML(support_file_path, PREPAREIRMAJSON.out.dash_json_and_fastqs, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
     //Parquet amker converts the report tables into csv files and parquet files
