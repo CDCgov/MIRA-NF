@@ -2,7 +2,7 @@ process CREATEDAISINPUT {
     label 'process_single'
 
     input:
-    val irma_out
+    path irma_out
 
     output:
     path('DAIS_ribosome_input.fasta')

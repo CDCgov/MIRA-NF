@@ -35,7 +35,7 @@ except:
 
 if exp_type == "Flu-ONT":
     irma_custom_0 = ""
-    irma_custom_1 = f"--external-config {config_path_flu_minion}"
+    irma_custom_1 = f"{config_path_flu_minion}"
     subsample = read_count
 elif exp_type == "Flu-ONT" and len(contents[1]) == 0:
     irma_custom_0 = ""
@@ -43,7 +43,7 @@ elif exp_type == "Flu-ONT" and len(contents[1]) == 0:
     subsample = "0"
 elif exp_type == "SC2-Spike-Only-ONT":
     irma_custom_0 = ""
-    irma_custom_1 = f"--external-config {config_path_sc_spike}"
+    irma_custom_1 = f"{config_path_sc_spike}"
     subsample = read_count
 elif exp_type == "SC2-Spike-Only-ONT" and len(contents[1]) == 0:
     irma_custom_0 = ""
@@ -51,7 +51,7 @@ elif exp_type == "SC2-Spike-Only-ONT" and len(contents[1]) == 0:
     subsample = "0"
 elif exp_type == "SC2-Whole-Genome-ONT":
     irma_custom_0 = ""
-    irma_custom_1 = f"--external-config {config_path_sc_wgs}"
+    irma_custom_1 = f"{config_path_sc_wgs}"
     subsample = read_count
 elif exp_type == "SC2-Whole-Genome-ONT" and len(contents[1]) == 0:
     irma_custom_0 = ""
@@ -59,7 +59,7 @@ elif exp_type == "SC2-Whole-Genome-ONT" and len(contents[1]) == 0:
     subsample = "0"
 elif exp_type == "RSV-ONT":
     irma_custom_0 = ""
-    irma_custom_1 = f"--external-config {config_path_rsv}"
+    irma_custom_1 = f"{config_path_rsv}"
     subsample = read_count
 elif exp_type == "RSV-ONT" and  len(contents[1]) == 0:
     irma_custom_0 = ""
