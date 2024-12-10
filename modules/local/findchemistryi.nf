@@ -5,9 +5,10 @@ process FINDCHEMISTRYI {
     container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
-    tuple val(sample), path(fastq), path(runid)
+    tuple val(sample), path(fastq)
     val read_counts
     val irma_config
+    path(custom_irma_config)
 
     output:
     path "${sample}_chemistry.csv", emit: sample_chem_csv
@@ -20,7 +21,7 @@ process FINDCHEMISTRYI {
     def args = task.ext.args ?: ''
 
     """
-    find_chemistry_i.py -s "${sample}" -q "${fastq}" -r "${runid}" -e "${params.e}" -p "${projectDir}" -c "${read_counts}" -i ${irma_config}
+    find_chemistry_i.py -s "${sample}" -q "${fastq}" -e "${params.e}" -p "${projectDir}" -c "${read_counts}" -i ${irma_config} -g ${custom_irma_config}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

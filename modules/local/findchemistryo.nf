@@ -7,6 +7,8 @@ process FINDCHEMISTRYO {
     input:
     tuple val(sample), val(barcode), path(fastq), path(runid)
     val read_counts
+    val irma_config
+    path(custom_irma_config)
 
     output:
     path "${sample}_chemistry.csv", emit: sample_chem_csv
@@ -19,7 +21,7 @@ process FINDCHEMISTRYO {
     def args = task.ext.args ?: ''
 
     """
-    find_chemistry_o.py -s "${sample}" -q "${fastq}" -r "${runid}" -e "${params.e}" -p "${projectDir}" -c "${read_counts}"
+    find_chemistry_o.py -s "${sample}" -q "${fastq}" -r "${runid}" -e "${params.e}" -p "${projectDir}" -c "${read_counts}" -i ${irma_config} -g ${custom_irma_config}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

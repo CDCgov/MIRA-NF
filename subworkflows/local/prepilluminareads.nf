@@ -75,19 +75,30 @@ workflow PREPILLUMINAREADS {
         primers = Channel.fromPath("${params.custom_primers}", checkIfExists: true)
     }
 
+    //if custom irma congif used use custom in irma_config params
+    //This will be used in the find_chemisrty module
+    if (params.custom_irma_config != 'none') {
+        params.irma_config = 'custom'
+    }
+
     // Find chemistry
     input_ch = nf_samplesheet
         .splitCsv(header: true)
-    new_ch = input_ch.map { item ->
+    find_chemistry_ch = input_ch.map { item ->
         [item.sample, item.fastq_1]
     }
-    find_chemistry_ch = new_ch.combine(run_ID_ch)
-    FINDCHEMISTRYI(find_chemistry_ch, params.subsample_reads, params.irma_config)
+    FINDCHEMISTRYI(find_chemistry_ch, params.subsample_reads, params.irma_config, params.custom_irma_config)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRYI.out.versions)
 
     // Create the irma chemistry channel
     irma_chemistry_ch = FINDCHEMISTRYI.out.sample_chem_csv
         .splitCsv(header: true)
+        .filter { it.size() > 0 }
+
+    sample_empty_fastq_ch = FINDCHEMISTRYI.out.sample_chem_csv
+        .splitCsv(header: true)
+        .filter { it.size() == 0 }
+        .view()
 
     // Subsample
     if (params.subsample_reads > 0) {

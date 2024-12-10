@@ -25,7 +25,11 @@ workflow PREPONTREADS {
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
 
-    barcode_ch.view()
+    //if custom irma congif used use custom in irma_config params
+    //This will be used in the find_chemisrty module
+    if (params.custom_irma_config != 'none') {
+        params.irma_config = 'custom'
+    }
 
     // Find chemistry
     input_ch = nf_samplesheet
@@ -35,7 +39,7 @@ workflow PREPONTREADS {
     }
 
     find_chemistry_ch = new_ch.combine(run_ID_ch)
-    FINDCHEMISTRYO(find_chemistry_ch, params.subsample_reads)
+    FINDCHEMISTRYO(find_chemistry_ch, params.subsample_reads, params.irma_config, params.custom_irma_config)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRYO.out.versions)
 
     // Create the irma chemistry channel
