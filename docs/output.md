@@ -22,6 +22,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 ## Output Structure
 
+```bash
 |---outputs
     |---aggregate_outputs
         |---multiqc  (when applicable) --> multiqc outputs
@@ -39,6 +40,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
         |---IRMA-negative (when applicable)
     |---fastqs or fastq_pass -> allows staging of files in the S3
     |---pipeline_info -> execution reports
+```
 
 ### MultiQC
 
