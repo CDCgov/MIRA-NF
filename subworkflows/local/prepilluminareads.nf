@@ -77,8 +77,10 @@ workflow PREPILLUMINAREADS {
 
     //if custom irma congif used use custom in irma_config params
     //This will be used in the find_chemisrty module
-    if (params.custom_irma_config != 'none') {
-        params.irma_config = 'custom'
+    if (params.custom_irma_config == '/none/') {
+        irma_config_ch = params.irma_config
+    } else {
+        irma_config_ch = 'custom'
     }
 
     // Find chemistry
@@ -87,7 +89,7 @@ workflow PREPILLUMINAREADS {
     find_chemistry_ch = input_ch.map { item ->
         [item.sample, item.fastq_1]
     }
-    FINDCHEMISTRYI(find_chemistry_ch, params.subsample_reads, params.irma_config, params.custom_irma_config)
+    FINDCHEMISTRYI(find_chemistry_ch, params.subsample_reads, irma_config_ch, params.custom_irma_config)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRYI.out.versions)
 
     // Create the irma chemistry channel

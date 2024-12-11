@@ -10,6 +10,7 @@ process PREPAREIRMAJSON {
     path nf_samplesheet
     val platform
     val virus
+    val irma_config_type
 
     output:
     path('*.{fasta,json}') , emit: dash_json_and_fastqs
@@ -22,7 +23,7 @@ process PREPAREIRMAJSON {
     def args = task.ext.args ?: ''
 
     """
-    prepareIRMAjson.py ${support_file_path} ${irma_dir} ${nf_samplesheet} ${platform} ${virus}
+    prepareIRMAjson.py ${support_file_path} ${irma_dir} ${nf_samplesheet} ${platform} ${virus} ${irma_config_type}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

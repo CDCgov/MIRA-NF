@@ -27,8 +27,10 @@ workflow PREPONTREADS {
 
     //if custom irma congif used use custom in irma_config params
     //This will be used in the find_chemisrty module
-    if (params.custom_irma_config != 'none') {
-        params.irma_config = 'custom'
+    if (params.custom_irma_config == '/none/') {
+        irma_config_ch = params.irma_config
+    } else {
+        irma_config_ch = 'custom'
     }
 
     // Find chemistry
@@ -39,7 +41,7 @@ workflow PREPONTREADS {
     }
 
     find_chemistry_ch = new_ch.combine(run_ID_ch)
-    FINDCHEMISTRYO(find_chemistry_ch, params.subsample_reads, params.irma_config, params.custom_irma_config)
+    FINDCHEMISTRYO(find_chemistry_ch, params.subsample_reads, irma_config_ch, params.custom_irma_config)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRYO.out.versions)
 
     // Create the irma chemistry channel

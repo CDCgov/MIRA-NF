@@ -18,10 +18,10 @@ import irma2pandas  # type: ignore
 import dais2pandas  # type: ignore
 
 try:
-    work_path, irma_path, samplesheet, platform, virus = argv[1], argv[2], argv[3], argv[4], argv[5]
+    work_path, irma_path, samplesheet, platform, virus, irma_config = argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]
 except IndexError:
     exit(
-        f"\n\tUSAGE: python {__file__} <path/to/irma/results/> <samplesheet> <ont|illumina> <flu|sc2|sc2-spike|rsv>\n"
+        f"\n\tUSAGE: python {__file__} <path/to/workdir/> <path/to/irma/results/> <samplesheet> <ont|illumina> <flu|sc2|sc2-spike|rsv> <irma_config_type>\n"
         f"\n\t\t*Inside path/to/irma/results should be the individual samples-irma-dir results\n"
         f"\n\tYou entered:\n\t{executable} {' '.join(argv)}\n\n"
     )
@@ -293,7 +293,7 @@ def version_module():
                 descript_dict[line.split(":")[0]] = line.split(":")[1]
             except:
                 continue
-    modulestring = f"MIRA-NF-v{descript_dict['Version'].strip()} {module}"
+    modulestring = f"MIRA-NF-v{descript_dict['Version'].strip()} {module} {irma_config}"
     return modulestring
 
 

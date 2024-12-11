@@ -60,8 +60,21 @@ workflow PREPAREREPORTS {
         virus = 'rsv'
     }
 
+    //if custom irma congif used use custom in irma_config params
+    //This will be used in the find_chemisrty module
+    if (params.custom_irma_config == '/none/') {
+        if (params.irma_config == 'none') {
+            irma_config_type_ch = 'default-config'
+        } else {
+            irma_config_type_ch = params.irma_config + '-config'
+        }
+    } else {
+        irma_config_type_ch = 'custom-config'
+    }
+    print irma_config_type_ch
+
     //create aggregate reports
-    PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus)
+    PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus, irma_config_type_ch)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
     //convert aggragate reports (json files) into html files

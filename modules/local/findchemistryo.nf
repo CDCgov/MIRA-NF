@@ -8,7 +8,7 @@ process FINDCHEMISTRYO {
     tuple val(sample), val(barcode), path(fastq), path(runid)
     val read_counts
     val irma_config
-    path(custom_irma_config)
+    val custom_irma_config
 
     output:
     path "${sample}_chemistry.csv", emit: sample_chem_csv
