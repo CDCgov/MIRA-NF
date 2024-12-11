@@ -71,7 +71,6 @@ workflow PREPAREREPORTS {
     } else {
         irma_config_type_ch = 'custom-config'
     }
-    print irma_config_type_ch
 
     //create aggregate reports
     PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus, irma_config_type_ch)

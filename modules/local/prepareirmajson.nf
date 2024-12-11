@@ -23,6 +23,7 @@ process PREPAREIRMAJSON {
     def args = task.ext.args ?: ''
 
     """
+    cp ${support_file_path}/bin/irma_config/qc_pass_fail_settings.yaml ${irma_dir}/pipeline_info/qc_pass_fail_settings.yaml
     prepareIRMAjson.py ${support_file_path} ${irma_dir} ${nf_samplesheet} ${platform} ${virus} ${irma_config_type}
 
     cat <<-END_VERSIONS > versions.yml
