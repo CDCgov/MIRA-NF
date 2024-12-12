@@ -132,6 +132,12 @@
                         "none"
                     ]
                 },
+                "custom_irma_config": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "The filepath to where the custom external config is located",
+                    "fa_icon": "fas fa-folder-open"
+                },
                 "ecr_registry": {
                     "type": "string",
                     "description": "ecr registry for MIRA-NF on omics with standard profile",

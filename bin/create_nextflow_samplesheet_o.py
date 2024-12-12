@@ -8,6 +8,9 @@ from glob import glob
 import subprocess
 import os
 import argparse
+import time
+
+time.sleep(60)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-s", "--samplesheet", help="Samplesheet with sample names")

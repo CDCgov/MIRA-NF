@@ -13,13 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [PR #24](https://github.com/CDCgov/MIRA-NF/pull/24) - Cleaning up scripts and updating documents.
 - [PR #25](https://github.com/CDCgov/MIRA-NF/pull/25) - If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one can not place the entire repo in their working directory.
-- [PR #26](https://github.com/CDCgov/MIRA-NF/pull/26) - Updating scripts so that irma_config files are compatible with AWS batch.
+- [PR #27](https://github.com/CDCgov/MIRA-NF/pull/27) - Updating scripts so that irma_config files are compatible with AWS batch.
+- [PR #28](https://github.com/CDCgov/MIRA-NF/pull/28) - Adding a custom_irma_config flag that allows user to pass a custom irma config to be passed to the pipeline for IRMA assembly.
 
 ### Parameters
 
 | Old parameter | New parameter                |
 | ------------- | ---------------------------- |
 | | `--sourcepath` |
+| | `--irma_custom_config` |
 
 ## v1.2.0 - 2024.11.07
 
