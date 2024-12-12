@@ -30,6 +30,13 @@ include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 //outdir is the run direcotry
 
 workflow flu_i {
+    //Error handling to prevent incorrect flags being used
+    if (params.p != null && params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
+        println 'Please remove flags --p or --custom_primers to continue.'
+        workflow.exit
+    }
+
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
@@ -101,6 +108,13 @@ workflow flu_i {
 }
 
 workflow flu_o {
+    //Error handling to prevent incorrect flags being used
+    if (params.p != null && params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
+        println 'Please remove flags --p or --custom_primers to continue.'
+        workflow.exit
+    }
+
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
@@ -177,6 +191,12 @@ workflow flu_o {
 }
 
 workflow sc2_spike_o {
+    //Error handling to prevent incorrect flags being used
+    if (params.p != null && params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
+        println 'Please remove flags --p or --custom_primers to continue.'
+        workflow.exit
+    }
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
@@ -250,6 +270,13 @@ workflow sc2_spike_o {
 }
 
 workflow sc2_wgs_o {
+    //Error handling to prevent incorrect flags being used
+    if (params.p != null && params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
+        println 'Please remove flags --p or --custom_primers to continue.'
+        workflow.exit
+    }
+
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
@@ -257,17 +284,6 @@ workflow sc2_wgs_o {
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
-        /*
-        // MODULE: Concat all fastq files by barcode
-        set_up_ch = samplesheet_ch
-            .splitCsv(header: ['barcode', 'sample_id', 'sample_type'], skip: 1)
-        new_ch = set_up_ch.map { item ->
-            [item.barcode, item.sample_id] }
-        CONCATFASTQS(new_ch)
-
-        // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
-        */
         // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         // Prepare new_ch with tuples
         set_up_ch = samplesheet_ch
@@ -515,6 +531,12 @@ workflow rsv_i {
 }
 
 workflow rsv_o {
+    //Error handling to prevent incorrect flags being used
+    if (params.p != null && params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
+        println 'Please remove flags --p or --custom_primers to continue.'
+        workflow.exit
+    }
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
