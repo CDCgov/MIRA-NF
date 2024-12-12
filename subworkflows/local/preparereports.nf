@@ -20,7 +20,7 @@ workflow PREPAREREPORTS {
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
-    if (params.sourcepath == 'none') {
+    if (params.sourcepath == null) {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
     } else {
         support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
@@ -62,7 +62,7 @@ workflow PREPAREREPORTS {
 
     //if custom irma congif used use custom in irma_config params
     //This will be used in the find_chemisrty module
-    if (params.custom_irma_config == '/none/') {
+    if (params.custom_irma_config == null) {
         if (params.irma_config == 'none') {
             irma_config_type_ch = 'default-config'
         } else {
@@ -72,9 +72,9 @@ workflow PREPAREREPORTS {
         irma_config_type_ch = 'custom-config'
     }
     //getting path to qc_pass_fail_settings.yml
-    if (params.custom_qc_settings == '/none/' && params.sourcepath == 'none') {
+    if (params.custom_qc_settings == null && params.sourcepath == null) {
         qc_path_ch = "${projectDir}/bin/irma_config/qc_pass_fail_settings.yaml"
-    } else if (params.custom_qc_settings == '/none/' && params.sourcepath != 'none') {
+    } else if (params.custom_qc_settings == null && params.sourcepath != null) {
         qc_path_ch = "${params.sourcepath}/bin/irma_config/qc_pass_fail_settings.yaml"
         } else {
             qc_path_ch = params.custom_qc_settings

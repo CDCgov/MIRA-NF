@@ -31,9 +31,26 @@ include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 
 workflow flu_i {
     //Error handling to prevent incorrect flags being used
+    //irma config handling
+    if (params.irma_config != null && params.custom_irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'Please provide either the --irma_config or --custom_irma_config flag.'
+        println 'They cannot be used together.'
+        workflow.exit
+    }
+    //primer error handling
+    if (params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
+        println 'Please remove --custom_primers to continue.'
+        workflow.exit
+    } else if (params.p != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
+        println 'Please remove --p to continue.'
+        workflow.exit
+    }
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
-        println 'Please remove flags --p or --custom_primers to continue.'
+        println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
 
@@ -109,9 +126,31 @@ workflow flu_i {
 
 workflow flu_o {
     //Error handling to prevent incorrect flags being used
+    //irma config handling
+    if (params.irma_config != null && params.custom_irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'Please provide only the --custom_irma_config flag.'
+        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    if (params.irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    //primer error handling
+    if (params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
+        println 'Please remove --custom_primers to continue.'
+        workflow.exit
+    } else if (params.p != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
+        println 'Please remove --p to continue.'
+        workflow.exit
+    }
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
-        println 'Please remove flags --p or --custom_primers to continue.'
+        println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
 
@@ -192,9 +231,31 @@ workflow flu_o {
 
 workflow sc2_spike_o {
     //Error handling to prevent incorrect flags being used
+    //irma config handling
+    if (params.irma_config != null && params.custom_irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'Please provide only the --custom_irma_config flag.'
+        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    if (params.irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    //primer error handling
+    if (params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
+        println 'Please remove --custom_primers to continue.'
+        workflow.exit
+    } else if (params.p != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
+        println 'Please remove --p to continue.'
+        workflow.exit
+    }
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
-        println 'Please remove flags --p or --custom_primers to continue.'
+        println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
     experiment_type_ch = Channel.value(params.e)
@@ -271,9 +332,31 @@ workflow sc2_spike_o {
 
 workflow sc2_wgs_o {
     //Error handling to prevent incorrect flags being used
+    //irma config handling
+    if (params.irma_config != null && params.custom_irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'Please provide only the --custom_irma_config flag.'
+        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    if (params.irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    //primer error handling
+    if (params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
+        println 'Please remove --custom_primers to continue.'
+        workflow.exit
+    } else if (params.p != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
+        println 'Please remove --p to continue.'
+        workflow.exit
+    }
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
-        println 'Please remove flags --p or --custom_primers to continue.'
+        println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
 
@@ -353,6 +436,20 @@ workflow sc2_wgs_o {
 }
 
 workflow sc2_wgs_i {
+    //Error handling to prevent incorrect flags being used
+    //irma config handling
+    if (params.irma_config != null && params.custom_irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'Please provide only the --custom_irma_config flag.'
+        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    if (params.irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    //primer error handling
     //checking that primer parameter chas been provided before proceding through workflow - aborts pipeline if none are given
     if (params.p == null && params.custom_primers == null) {
         println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
@@ -443,6 +540,20 @@ workflow sc2_wgs_i {
 }
 
 workflow rsv_i {
+    //Error handling to prevent incorrect flags being used
+    //irma config handling
+    if (params.irma_config != null && params.custom_irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'Please provide only the --custom_irma_config flag.'
+        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    if (params.irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    //primer error handling
     if (params.p == null && params.custom_primers == null) {
         println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
@@ -532,9 +643,31 @@ workflow rsv_i {
 
 workflow rsv_o {
     //Error handling to prevent incorrect flags being used
+    //irma config handling
+    if (params.irma_config != null && params.custom_irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'Please provide only the --custom_irma_config flag.'
+        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    if (params.irma_config != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        workflow.exit
+    }
+    //primer error handling
+        if (params.custom_primers != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
+        println 'Please remove --custom_primers to continue.'
+        workflow.exit
+    } else if (params.p != null) {
+        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
+        println 'Please remove --p to continue.'
+        workflow.exit
+    }
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
-        println 'Please remove flags --p or --custom_primers to continue.'
+        println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
     // Initializing parameters
