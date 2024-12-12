@@ -32,9 +32,9 @@ include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 workflow flu_i {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
-        println 'Please provide either the --irma_config or --custom_irma_config flag.'
+        println 'Please provide either the --irma_module or --custom_irma_config flag.'
         println 'They cannot be used together.'
         workflow.exit
     }
@@ -127,15 +127,15 @@ workflow flu_i {
 workflow flu_o {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -232,15 +232,15 @@ workflow flu_o {
 workflow sc2_spike_o {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -333,15 +333,15 @@ workflow sc2_spike_o {
 workflow sc2_wgs_o {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -438,15 +438,15 @@ workflow sc2_wgs_o {
 workflow sc2_wgs_i {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -542,15 +542,15 @@ workflow sc2_wgs_i {
 workflow rsv_i {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -644,15 +644,15 @@ workflow rsv_i {
 workflow rsv_o {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling

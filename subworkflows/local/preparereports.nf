@@ -60,13 +60,12 @@ workflow PREPAREREPORTS {
         virus = 'rsv'
     }
 
-    //if custom irma congif used use custom in irma_config params
-    //This will be used in the find_chemisrty module
+    //getting config type for the MIRA summary file
     if (params.custom_irma_config == null) {
-        if (params.irma_config == 'none') {
+        if (params.irma_module == 'none') {
             irma_config_type_ch = 'default-config'
         } else {
-            irma_config_type_ch = params.irma_config + '-config'
+            irma_config_type_ch = params.irma_module + '-config'
         }
     } else {
         irma_config_type_ch = 'custom-config'
