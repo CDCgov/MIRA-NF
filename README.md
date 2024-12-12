@@ -103,15 +103,15 @@ Oxford Nanopore set up should be set up as follows:
 Third, pull the mira-nf work flow from github using:
 
 ```bash
-git clone https://github.com/cdcent/mira-nf.git
-cd mira-nf
+git clone https://github.com/CDCgov/MIRA-NF.git
+cd MIRA-NF
 ```
 
 **using dev branch temporary
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input parameters for the pipeline include
+# Input Parameters for MIRA-NF
 
 - `profile` - singularity,docker,local,sge,slurm \ You can use docker or singularity. Use local for running on local computer.
 - `input` - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
