@@ -71,9 +71,19 @@ workflow PREPAREREPORTS {
     } else {
         irma_config_type_ch = 'custom-config'
     }
+    //getting path to qc_pass_fail_settings.yml
+    if (params.custom_qc_settings == '/none/' && params.sourcepath == 'none') {
+        qc_path_ch = "${projectDir}/bin/irma_config/qc_pass_fail_settings.yaml"
+    } else if (params.custom_qc_settings == '/none/' && params.sourcepath != 'none') {
+        qc_path_ch = "${params.sourcepath}/bin/irma_config/qc_pass_fail_settings.yaml"
+        } else {
+            qc_path_ch = params.custom_qc_settings
+    }
+
+    println qc_path_ch
 
     //create aggregate reports
-    PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus, irma_config_type_ch)
+    PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus, irma_config_type_ch, qc_path_ch)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
     //convert aggragate reports (json files) into html files
