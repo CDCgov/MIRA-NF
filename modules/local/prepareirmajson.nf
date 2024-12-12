@@ -11,6 +11,7 @@ process PREPAREIRMAJSON {
     val platform
     val virus
     val irma_config_type
+    path qc_path_ch
 
     output:
     path('*.{fasta,json}') , emit: dash_json_and_fastqs
@@ -23,7 +24,7 @@ process PREPAREIRMAJSON {
     def args = task.ext.args ?: ''
 
     """
-    cp ${support_file_path}/bin/irma_config/qc_pass_fail_settings.yaml ${irma_dir}/pipeline_info/qc_pass_fail_settings.yaml
+    cp ${qc_path_ch} ${irma_dir}/pipeline_info/qc_pass_fail_settings.yaml
     prepareIRMAjson.py ${support_file_path} ${irma_dir} ${nf_samplesheet} ${platform} ${virus} ${irma_config_type}
 
     cat <<-END_VERSIONS > versions.yml

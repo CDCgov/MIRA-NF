@@ -17,7 +17,7 @@ workflow PREPONTREADS {
     main:
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     //If sourcepath flag is given, sourcepath will be used for barcode path
-    if (params.sourcepath == 'none') {
+    if (params.sourcepath == null) {
         barcode_ch = Channel.fromPath("${projectDir}/data/primers/ont_barcodes.csv", checkIfExists: true)
     } else {
         barcode_ch = Channel.fromPath("${params.sourcepath}/data/primers/ont_barcodes.csv", checkIfExists: true)
@@ -27,10 +27,12 @@ workflow PREPONTREADS {
 
     //if custom irma congif used use custom in irma_config params
     //This will be used in the find_chemisrty module
-    if (params.custom_irma_config == '/none/') {
+    if (params.custom_irma_config == null) {
         irma_config_ch = params.irma_config
+        custom_irma_config_ch = '/none/'
     } else {
         irma_config_ch = 'custom'
+        custom_irma_config_ch = params.custom_irma_config
     }
 
     // Find chemistry
@@ -41,7 +43,7 @@ workflow PREPONTREADS {
     }
 
     find_chemistry_ch = new_ch.combine(run_ID_ch)
-    FINDCHEMISTRYO(find_chemistry_ch, params.subsample_reads, irma_config_ch, params.custom_irma_config)
+    FINDCHEMISTRYO(find_chemistry_ch, params.subsample_reads, irma_config_ch, custom_irma_config_ch)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRYO.out.versions)
 
     // Create the irma chemistry channel

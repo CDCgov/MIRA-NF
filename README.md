@@ -103,15 +103,15 @@ Oxford Nanopore set up should be set up as follows:
 Third, pull the mira-nf work flow from github using:
 
 ```bash
-git clone https://github.com/cdcent/mira-nf.git
-cd mira-nf
+git clone https://github.com/CDCgov/MIRA-NF.git
+cd MIRA-NF
 ```
 
 **using dev branch temporary
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input parameters for the pipeline include
+# Input Parameters for MIRA-NF
 
 - `profile` - singularity,docker,local,sge,slurm \ You can use docker or singularity. Use local for running on local computer.
 - `input` - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
@@ -129,7 +129,8 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 - `process_q` - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - `email` - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
 - `irma_config` - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive, secondary or utr
-- `custom_irma_config` - (optional) Provide a custom IRMA config file to be used with IRMA assembly.
+- `custom_irma_config` - (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.
+- `custom_qc_settings` - (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.
 - `amd_platform` - (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
 - `ecr_registry` - (optional) Allows a user to pass their ecr registry for AWS to the workflow.
 - `sourcepath` - (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one can not place the entire repo in their working directory.
@@ -176,7 +177,7 @@ For in house testing:
 ```bash
 qsub MIRA_nextflow.sh \
    -d <FILE_PATH_TO_MIRA-NF_DIR> \
-   -f singularity,hpc \
+   -f singularity,sge \
    -i <RUN_PATH>/samplesheet.csv \
    -o <OUTDIR> \
    -r <RUN_PATH> \

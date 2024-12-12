@@ -135,8 +135,12 @@
                 "custom_irma_config": {
                     "type": "string",
                     "format": "file-path",
-                    "description": "The filepath to where the custom external config is located",
-                    "fa_icon": "fas fa-folder-open"
+                    "description": "The filepath to where the custom external config is located"
+                },
+                "custom_qc_settings": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "The filepath to where the custom qc pass/fail settings yaml is located"
                 },
                 "ecr_registry": {
                     "type": "string",

@@ -20,7 +20,7 @@ workflow PREPILLUMINAREADS {
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
     //If sourcepath flag is given, sourcepath will be used for the file path to the primers
-    if (params.sourcepath == 'none') {
+    if (params.sourcepath == null) {
         primer_path = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
         primers = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
         if (params.p) {
@@ -77,10 +77,12 @@ workflow PREPILLUMINAREADS {
 
     //if custom irma congif used use custom in irma_config params
     //This will be used in the find_chemisrty module
-    if (params.custom_irma_config == '/none/') {
+    if (params.custom_irma_config == null) {
         irma_config_ch = params.irma_config
+        custom_irma_config_ch = '/none/'
     } else {
         irma_config_ch = 'custom'
+        custom_irma_config_ch = params.custom_irma_config
     }
 
     // Find chemistry
@@ -89,7 +91,7 @@ workflow PREPILLUMINAREADS {
     find_chemistry_ch = input_ch.map { item ->
         [item.sample, item.fastq_1]
     }
-    FINDCHEMISTRYI(find_chemistry_ch, params.subsample_reads, irma_config_ch, params.custom_irma_config)
+    FINDCHEMISTRYI(find_chemistry_ch, params.subsample_reads, irma_config_ch, custom_irma_config_ch)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRYI.out.versions)
 
     // Create the irma chemistry channel
