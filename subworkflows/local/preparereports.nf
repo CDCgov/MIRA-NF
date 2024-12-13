@@ -3,7 +3,7 @@
     IMPORT LOCAL MODULES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-
+include { CHECKMIRAVERSION   } from '../../modules/local/checkmiraversion'
 include { PREPAREIRMAJSON   } from '../../modules/local/prepareirmajson'
 include { STATICHTML        } from '../../modules/local/statichtml'
 include { PARQUETMAKER      } from '../../modules/local/parquetmaker'
@@ -25,6 +25,10 @@ workflow PREPAREREPORTS {
     } else {
         support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
     }
+
+    //check mira version
+    CHECKMIRAVERSION(support_file_path)
+    mira_version_ch = CHECKMIRAVERSION.out.view()
 
     //creating platform value
     if (params.e == 'Flu-Illumina') {
@@ -101,4 +105,5 @@ workflow PREPAREREPORTS {
 
     emit:
     collated_versions = versions_path_ch                     // channel: [ versions.yml ]
+    mira_version_ch                                 // channel:specifies if MIRA-NF version is up to date
 }

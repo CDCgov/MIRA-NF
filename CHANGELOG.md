@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #29](https://github.com/CDCgov/MIRA-NF/pull/29) - Adding a custom_irma_config flag that allows user to pass a custom irma config to be passed to the pipeline for IRMA assembly.
 - [PR #30](https://github.com/CDCgov/MIRA-NF/pull/30) - Adding a qc_settings flag that allows user to pass a custom qc pass/fail yaml to be passed to the pipeline to specify desired qc standards. Added Error handling.
 - [PR #31](https://github.com/CDCgov/MIRA-NF/pull/31) - renamed --irma_config flag to --irma_module and updated documentation.
+- [PR #32](https://github.com/CDCgov/MIRA-NF/pull/32) - added checkmiraversion.nf and checkmiraversion.py to check if users local version of MIRA-NF is up to date. Prints in stdout and email.
 
 ### Parameters
 
