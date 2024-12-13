@@ -32,9 +32,9 @@ include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 workflow flu_i {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
-        println 'Please provide either the --irma_config or --custom_irma_config flag.'
+        println 'Please provide either the --irma_module or --custom_irma_config flag.'
         println 'They cannot be used together.'
         workflow.exit
     }
@@ -122,20 +122,27 @@ workflow flu_i {
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+
+    //setting up to put MIRA-NF version checking in email
+    PREPAREREPORTS.out.mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
 }
 
 workflow flu_o {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -227,20 +234,27 @@ workflow flu_o {
 
     //SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+
+    //setting up to put MIRA-NF version checking in email
+    PREPAREREPORTS.out.mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
 }
 
 workflow sc2_spike_o {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -328,20 +342,27 @@ workflow sc2_spike_o {
 
     //Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+
+    //setting up to put MIRA-NF version checking in email
+    PREPAREREPORTS.out.mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
 }
 
 workflow sc2_wgs_o {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -433,20 +454,27 @@ workflow sc2_wgs_o {
 
     //SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+
+    //setting up to put MIRA-NF version checking in email
+    PREPAREREPORTS.out.mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
 }
 
 workflow sc2_wgs_i {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -537,20 +565,27 @@ workflow sc2_wgs_i {
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+
+    //setting up to put MIRA-NF version checking in email
+    PREPAREREPORTS.out.mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
 }
 
 workflow rsv_i {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
@@ -639,23 +674,30 @@ workflow rsv_i {
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+
+    //setting up to put MIRA-NF version checking in email
+    PREPAREREPORTS.out.mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
 }
 
 workflow rsv_o {
     //Error handling to prevent incorrect flags being used
     //irma config handling
-    if (params.irma_config != null && params.custom_irma_config != null) {
+    if (params.irma_module != null && params.custom_irma_config != null) {
         println 'ERROR!!: Abosrting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
-        println 'Currently, the --irma_config flag is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    if (params.irma_config != null) {
+    if (params.irma_module != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
-        println 'Currently, the --irma_config is only compatible with the Flu-Illumina experiment type.'
+        println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    //primer error handling
+        //primer error handling
         if (params.custom_primers != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove --custom_primers to continue.'
@@ -664,7 +706,7 @@ workflow rsv_o {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove --p to continue.'
         workflow.exit
-    }
+        }
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
@@ -744,6 +786,13 @@ workflow rsv_o {
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+
+    //setting up to put MIRA-NF version checking in email
+    PREPAREREPORTS.out.mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
 }
 // MAIN WORKFLOW
 // Decides which experiment type workflow to run based on experiemtn parameter given
@@ -773,6 +822,8 @@ workflow MIRA {
 if (params.email) {
     workflow.onComplete {
         if (workflow.success == true) {
+            def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
+            def fileContent = new File(versionPath).text
             def path = "${params.runpath}"
             def folder_name = new File(path)
             def basename = folder_name.name
@@ -788,6 +839,7 @@ if (params.email) {
                 workDir     : ${workflow.workDir}
                 outDir      : ${params.outdir}
                 exit status : ${workflow.exitStatus}
+                ${fileContent}
                 """
                 .stripIndent()
 

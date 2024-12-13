@@ -8,16 +8,17 @@
 
 MIRA performs these steps for genome assembly and curation:
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
+1. Read QC (optional) ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
-3. Subsampling to faster analysis (optional) ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
-4. Trimming and Quality Filtering ([`bbduk`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
-5. Adapter removal ([`cutadapt`](https://github.com/marcelm/cutadapt/))
-6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
-7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
-8. Collect results from IRMA and DAIS-Ribosome in json files
-9. Create html, excel files and amended consensus fasta files
-10. Reformat tables into parquet files and csv files
+3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
+4. Subsampling to faster analysis (optional) ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
+5. Trimming and Quality Filtering ([`bbduk`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
+6. Adapter removal ([`cutadapt`](https://github.com/marcelm/cutadapt/))
+7. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
+8. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
+9. Collect results from IRMA and DAIS-Ribosome in json files
+10. Create html, excel files and amended consensus fasta files
+11. Reformat tables into parquet files and csv files
 
 MIRA is able to analyze 7 data types:
 
@@ -57,6 +58,13 @@ Each row represents a sample.
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Sample ID`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`).                                       |
 | `Sample Type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                         |
+
+**Important things to note about samplesheet:**
+
+- Sample names within the "Sample ID" column need to be unique.
+- Be sure that sample names are not nested within another sample name (i.e. having sample_1 and sample_1_1)
+- Be sure that there are no empty lines at the end of the samplesheet.
+- For Illumina samples be sure that you have read 1 and read 2 for all samples in samplesheet.
 
 ONT data should be set up as follows:
 
@@ -161,9 +169,9 @@ Inputs for the pipeline include:
 - `subsample_reads` - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.
 - `process_q` - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
 - `email` - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
-- `irma_config` - (optional) Call flu-sensitive, flu-secondary or flu-utr irma config instead of the built in flu configs. Defaults set to not use these configs. options: sensitive or secondary.
+- `irma_module` - (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built in flu configs. Default is set to not use these module and they can only be invoked for Flu-Illumina experiment type. options: sensitive, secondary or utr
 - `custom_irma_config` - (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.
-- `custom_qc_settings` - (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.
+- `custom_qc_settings` - (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.
 - `amd_platform` - (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
 - `ecr_registry` - (optional) Allows a user to pass their ecr registry for AWS to the workflow.
 - `sourcepath` - (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one can not place the entire repo in their working directory.
@@ -181,8 +189,6 @@ nextflow run ./main.nf \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --subsample_reads <READ_COUNT> (optional) \
    --reformat_tables true (optional) \
-   --irma_config <CONFIG_TYPE> (optional) \
-   --amd_platform false (optional) \ 
    --read_qc false (optional)
 ```
 
@@ -199,9 +205,7 @@ nextflow run ./main.nf \
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
    -- reformat_tables true (optional) \
-   --irma_config <CONFIG_TYPE> (optional) \
    --email <EMAIL_ADDRESS> (optional)
-   --amd_platform false (optional)
    --read_qc false (optional)
 ```
 
@@ -229,7 +233,7 @@ Do not use `-c <file>` to specify parameters as this will result in errors. Cust
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run mira/nf -profile docker -params-file params.yaml
+nextflow run ./main/nf -profile docker -params-file params.yaml
 ```
 
 with `params.yaml` containing:
@@ -257,7 +261,8 @@ You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-c
 When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline:
 
 ```bash
-nextflow pull mira/nf
+git clone https://github.com/CDCgov/MIRA-NF.git
+cd MIRA-NF
 ```
 
 ### Reproducibility
@@ -315,6 +320,8 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A configuration profile that enables the pipeline to be executed on an HPC or cloud platform with Simple Linux Utility for Resource Management (SLURM) job scheduling system.
 - `local`
   - A configuration profile that enables the pipeline to run smoothly on a local machine.
+- `standard`
+  - A configuration profile that has been configured to run within AWS.
 
 ### `-resume`
 
