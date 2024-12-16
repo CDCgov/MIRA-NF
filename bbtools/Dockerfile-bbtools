@@ -12,7 +12,7 @@ ARG python_version
 ENV python_version=${python_version:-python3.10}
 
 # Required certs for apk update
-COPY ../ca.crt /root/ca.crt
+COPY ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
 RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
@@ -23,8 +23,8 @@ RUN apk update && apk add --no-cache \
     bash \
     vim \
     tar \
-    dos2unix &&
-    pip install --upgrade pip
+    dos2unix \
+    && pip install --upgrade pip
 
 # Set up project directory
 ENV PROJECT_DIR=/bbtools
@@ -32,10 +32,10 @@ ENV PROJECT_DIR=/bbtools
 ############# Install bbtools ##################
 
 # Copy all files to docker images
-COPY * ${PROJECT_DIR}
+COPY ${PROJECT_DIR} ${PROJECT_DIR}
 
 # Copy all files to docker images
-COPY install_bbtools.sh ${PROJECT_DIR}/install_bbtools.sh
+COPY ${PROJECT_DIR}/install_bbtools.sh ${PROJECT_DIR}/install_bbtools.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/install_bbtools.sh
@@ -49,10 +49,10 @@ RUN bash ${PROJECT_DIR}/install_bbtools.sh
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY fixed_bbtools_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+COPY ${PROJECT_DIR}/fixed_bbtools_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY fixed_bbtools_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY ${PROJECT_DIR}/fixed_bbtools_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
@@ -66,10 +66,10 @@ RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY remove_bbtools_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY ${PROJECT_DIR}/remove_bbtools_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY remove_bbtools_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+COPY ${PROJECT_DIR}/remove_bbtools_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
@@ -83,9 +83,9 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 ############# Remove the vendor packages ##################
 
 # Clean up and remove unwanted files
-RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor &&
-    rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor &&
-    rm -rf /usr/local/lib/${python_version}/site-packages/examples
+RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/examples
 
 ############# Set up working directory ##################
 

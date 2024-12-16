@@ -26,8 +26,8 @@ services:
     container_name: multiqc
     image: mira-nf:multiqc-alpine
     build:
-      context: multiqc
-      dockerfile: Dockerfile-multiqc
+      context: .
+      dockerfile: multiqc/Dockerfile-multiqc
       args:
         python_image: *python-image
         python_version: *python-version
@@ -41,8 +41,8 @@ services:
     container_name: fastqc
     image: mira-nf:fastqc-alpine
     build:
-      context: fastqc
-      dockerfile: Dockerfile-fastqc
+      context: .
+      dockerfile: fastqc/Dockerfile-fastqc
       args:
         python_image: *python-image
         python_version: *python-version
@@ -56,8 +56,8 @@ services:
     container_name: bbtools
     image: mira-nf:bbtools-alpine
     build:
-      context: bbtools
-      dockerfile: Dockerfile-bbtools
+      context: .
+      dockerfile: bbtools/Dockerfile-bbtools
       args:
         python_image: *python-image
         python_version: *python-version
@@ -70,8 +70,8 @@ services:
     container_name: pyarrow
     image: *pyarrow-image
     build:
-      context: pyarrow
-      dockerfile: Dockerfile-pyarrow
+      context: .
+      dockerfile: pyarrow/Dockerfile-pyarrow
       args:
         python_image: *python-image
         ARROW_VERSION: 17.0.0
@@ -84,8 +84,8 @@ services:
     container_name: cutadapt
     image: mira-nf:cutadapt-alpine
     build:
-      context: cutadapt
-      dockerfile: Dockerfile-cutadapt
+      context: .
+      dockerfile: cutadapt/Dockerfile-cutadapt
       args:
         python_image: *pyarrow-image
         python_version: *python-version

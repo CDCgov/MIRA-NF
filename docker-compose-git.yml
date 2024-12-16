@@ -13,7 +13,7 @@ x-pyarrow-image:
 
 x-mira-nf-image:
   &mira-nf-image
-  cdcgov/mira-nf:python3.10-alpine
+  mira-nf:python3.10-alpine
 
 x-data-volume:
   &data-volume

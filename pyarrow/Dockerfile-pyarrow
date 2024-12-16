@@ -8,7 +8,7 @@ ARG python_image=${python_image:-python:3.10-alpine}
 FROM ${python_image} AS base
 
 # Required certs for apk update
-COPY ../ca.crt /root/ca.crt
+COPY ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
 RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
@@ -32,8 +32,8 @@ RUN apk update && apk add --no-cache \
     lz4-dev \
     libgcc \
     ninja \
-    bash \
     git \
+    bash \
     && pip install --upgrade pip \
     && pip install pipenv cython numpy==1.23.1
 

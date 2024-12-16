@@ -19,11 +19,6 @@
 *docker
 *images
 *inst
-*bbtools
-*cutadapt
-*fastqc
-*multiqc
-*pyarrow
 
 # ignore specific files
 change_log.txt
