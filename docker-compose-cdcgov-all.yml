@@ -1,18 +1,18 @@
 x-multiqc-image:
   &multiqc-image
-  cdcgov/mira-nf:multiqc-alpine
+  cdcgov/multiqc:v1.19-alpine
 
 x-fastqc-image:
   &fastqc-image
-  cdcgov/mira-nf:fastqc-alpine
+  cdcgov/fastqc:v0.12.1-alpine
 
 x-bbtools-image:
   &bbtools-image
-  cdcgov/mira-nf:bbtools-alpine
+  cdcgov/bbtools:v39.01-alpine
 
 x-cutadapt-image:
   &cutadapt-image
-  cdcgov/mira-nf:cutadapt-alpine
+  cdcgov/cutadapt:v4.4-alpine
 
 x-mira-nf-image:
   &mira-nf-image
