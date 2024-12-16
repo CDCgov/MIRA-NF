@@ -17,7 +17,7 @@ process CHECKMIRAVERSION {
 
     """
     wget -O DESCRIPTION https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/master/DESCRIPTION
-    python ${projectDir}/bin/checkmiraversion.py -g ./DESCRIPTION -l ${description_file_path}
+    checkmiraversion.py -g ./DESCRIPTION -l ${description_file_path}
 
     """
 }
