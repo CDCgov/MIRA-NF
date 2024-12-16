@@ -16,7 +16,7 @@ ARG fastqc_version
 ENV fastqc_version=${fastqc_version:-0.12.1}
 
 # Copy required certs for apk update
-COPY ca.crt /root/ca.crt
+COPY ../ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
 RUN cat /root/ca.crt >>/etc/ssl/certs/ca-certificates.crt
@@ -55,10 +55,10 @@ ENV PROJECT_DIR=/fastqc
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+COPY fixed_fastqc_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY fixed_fastqc_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
@@ -72,10 +72,10 @@ RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/remove_fastqc_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY remove_fastqc_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY docker_files/remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+COPY remove_fastqc_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh

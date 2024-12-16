@@ -11,48 +11,34 @@ FROM ${python_image} as base
 ARG python_version
 ENV python_version=${python_version:-python3.10}
 
+# Create environment variable to get specific version of fastqc
+ARG multiqc_version
+ENV multiqc_version=${multiqc_version:-1.19}
+
 # Required certs for apk update
-COPY ca.crt /root/ca.crt
+COPY ../ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
-RUN cat /root/ca.crt >>/etc/ssl/certs/ca-certificates.crt
+RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
 
 # Install system libraries of general use
 RUN apk update && apk add --no-cache \
     openjdk21-jre=21.0.5_p11-r0 \
     bash \
-    vim \
-    tar \
-    dos2unix &&
-    pip install --upgrade pip
+    vim &&
+    pip install --upgrade pip &&
+    pip install --no-cache-dir multiqc==${multiqc_version}
 
 # Set up project directory
-ENV PROJECT_DIR=/bbtools
-
-############# Install bbtools ##################
-
-# Copy all files to docker images
-COPY docker_files/bbtools/* ${PROJECT_DIR}/
-
-# Copy all files to docker images
-COPY docker_files/bbtools/install_bbtools.sh ${PROJECT_DIR}/install_bbtools.sh
-
-# Convert bash script from Windows style line endings to Unix-like control characters
-RUN dos2unix ${PROJECT_DIR}/install_bbtools.sh
-
-# Allow permission to excute the bash script
-RUN chmod a+x ${PROJECT_DIR}/install_bbtools.sh
-
-# Execute bash script to wget the file and tar the package
-RUN bash ${PROJECT_DIR}/install_bbtools.sh
+ENV PROJECT_DIR=/multiqc
 
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/docker_files/fixed_vulnerability_pkgs.txt
+COPY fixed_multiqc_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY fixed_multiqc_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
@@ -66,10 +52,10 @@ RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/remove_bbtools_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY remove_multiqc_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY docker_files/remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+COPY remove_multiqc_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
@@ -97,6 +83,3 @@ VOLUME ${WORKDIR}
 
 # Set up working directory in docker
 WORKDIR ${WORKDIR}
-
-# Export project directory to PATH
-ENV PATH "$PATH:${PROJECT_DIR}/bbmap"

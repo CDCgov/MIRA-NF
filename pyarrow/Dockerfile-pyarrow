@@ -8,7 +8,7 @@ ARG python_image=${python_image:-python:3.10-alpine}
 FROM ${python_image} AS base
 
 # Required certs for apk update
-COPY ca.crt /root/ca.crt
+COPY ../ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
 RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt

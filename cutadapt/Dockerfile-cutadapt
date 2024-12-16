@@ -16,7 +16,7 @@ ARG cutadapt_version
 ENV cutadapt_version=${cutadapt_version:-4.4}
 
 # Required certs for apk update
-COPY ca.crt /root/ca.crt
+COPY ../ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
 RUN cat /root/ca.crt >>/etc/ssl/certs/ca-certificates.crt
@@ -35,10 +35,10 @@ ENV PROJECT_DIR=/cutadapt
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+COPY fixed_cutadapt_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY fixed_cutadapt_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
@@ -52,10 +52,10 @@ RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/remove_cutadapt_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY remove_cutadapt_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY docker_files/remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+COPY remove_cutadapt_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
