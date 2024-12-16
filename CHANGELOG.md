@@ -20,7 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #31](https://github.com/CDCgov/MIRA-NF/pull/31) - renamed --irma_config flag to --irma_module and updated documentation. Added checkmiraversion.nf and checkmiraversion.py to check if users local version of MIRA-NF is up to date. Prints in stdout and email.
 - [PR #33](https://github.com/CDCgov/MIRA-NF/pull/33) - Scipts and container cdcgov/mira-nf:python3.10-alpine are updated to contain new changes.
 
-
 ### Parameters
 
 | Old parameter | New parameter                |
