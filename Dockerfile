@@ -53,13 +53,13 @@ RUN chmod a+x ${PROJECT_DIR}/MIRA_nextflow.sh
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/docker_files/fixed_vulnerability_pkgs.txt
+COPY docker_files/fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/docker_files/fixed_vulnerability_pkgs.sh
+COPY docker_files/fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
-RUN dos2unix ${PROJECT_DIR}/docker_files/fixed_vulnerability_pkgs.sh
+RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Allow permission to excute the bash script
 RUN chmod a+x ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
@@ -70,7 +70,7 @@ RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/remove_mira_nf_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY docker_files/remove_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
 COPY docker_files/remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
@@ -89,7 +89,12 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 # Clean up and remove unwanted files
 RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
     && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
-    && rm -rf /usr/local/lib/${python_version}/site-packages/examples
+    && rm -rf /usr/local/lib/${python_version}/site-packages/examples \
+    && rm -rf ${PROJECT_DIR}/bbtools \
+    && rm -rf ${PROJECT_DIR}/cutadapt \
+    && rm -rf ${PROJECT_DIR}/fastqc \
+    && rm -rf ${PROJECT_DIR}/multiqc \
+    && rm -rf ${PROJECT_DIR}/pyarrow 
 
 ############# Set up working directory ##################
 

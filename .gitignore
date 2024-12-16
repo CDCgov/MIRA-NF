@@ -11,6 +11,6 @@ conf/ruvos-ds-omics.config
 samples/aims/
 samples/ruvos/
 *.zip
+*.crt
 *err
 *out
-*crt

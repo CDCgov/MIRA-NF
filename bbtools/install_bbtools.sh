@@ -41,7 +41,7 @@ then
 		i=$(($i+1))
 	done
 	
-	# return message to keep the process going
+	# Return message to keep the process going
 	echo "Done"
 
 fi

@@ -12,10 +12,10 @@ ARG python_version
 ENV python_version=${python_version:-python3.10}
 
 # Create environment variable to get specific version of fastqc
-ARG cutadapt_version
-ENV cutadapt_version=${cutadapt_version:-4.4}
+ARG fastqc_version
+ENV fastqc_version=${fastqc_version:-0.12.1}
 
-# Required certs for apk update
+# Copy required certs for apk update
 COPY ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
@@ -24,21 +24,41 @@ RUN cat /root/ca.crt >>/etc/ssl/certs/ca-certificates.crt
 # Install system libraries of general use
 RUN apk update && apk add --no-cache \
     openjdk21-jre=21.0.5_p11-r0 \
+    fontconfig \
+    ttf-dejavu \
     bash \
-    vim &&
-    pip install --upgrade pip &&
-    pip install --no-cache-dir cutadapt==${cutadapt_version}
+    perl \
+    unzip \
+    vim \
+    && pip install --upgrade pip
+
+# Get package version
+ENV FASTQC_PKG="fastqc_v${fastqc_version}.zip"
+
+# Set up a working directory to install the package
+WORKDIR /usr/local
+
+# Download package file to tmp directory
+ADD http://www.bioinformatics.babraham.ac.uk/projects/fastqc/${FASTQC_PKG} /tmp/
+
+# Download and install FastQC;
+RUN unzip /tmp/${FASTQC_PKG} \
+    && chmod 755 FastQC/fastqc \
+    && rm -rf /tmp/${FASTQC_PKG}
+
+# Export program to PATH
+ENV PATH "$PATH:/usr/local/FastQC"
 
 # Set up project directory
-ENV PROJECT_DIR=/cutadapt
+ENV PROJECT_DIR=/fastqc
 
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+COPY ${PROJECT_DIR}/fixed_fastqc_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY docker_files/fixed_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY ${PROJECT_DIR}/fixed_fastqc_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
@@ -52,10 +72,10 @@ RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 ############# Remove vulnerability pkgs ##################
 
 # Copy all files to docker images
-COPY docker_files/remove_cutadapt_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
+COPY ${PROJECT_DIR}/remove_fastqc_vulnerability_pkgs.txt ${PROJECT_DIR}/remove_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY docker_files/remove_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
+COPY ${PROJECT_DIR}/remove_fastqc_vulnerability_pkgs.sh ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
@@ -69,9 +89,10 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 ############# Remove the vendor packages ##################
 
 # Clean up and remove unwanted files
-RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor &&
-    rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor &&
-    rm -rf /usr/local/lib/${python_version}/site-packages/examples
+RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
+    && rm -rf /usr/local/lib/${python_version}/site-packages/examples \
+    && rm -rf /usr/local/FastQC/cisd-jhdf5.jar
 
 ############# Set up working directory ##################
 
