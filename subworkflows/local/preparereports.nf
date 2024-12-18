@@ -91,9 +91,27 @@ workflow PREPAREREPORTS {
     STATICHTML(support_file_path, PREPAREIRMAJSON.out.dash_json_and_fastqs, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
-    //Parquet amker converts the report tables into csv files and parquet files
+    //Parquet maker converts the report tables into csv files and parquet files
+
     if (params.reformat_tables == true) {
-        PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, params.input)
+        //Get instrument type for parquetmaker
+        if (params.e == 'Flu-Illumina') {
+            instrment_ch = 'illumina'
+        } else if (params.e == 'Flu-ONT') {
+            instrment_ch = 'ont'
+        } else if (params.e == 'SC2-Spike-Only-ONT') {
+            instrment_ch = 'ont'
+        } else if (params.e == 'SC2-Whole-Genome-ONT') {
+            instrment_ch = 'ont'
+        } else if (params.e == 'SC2-Whole-Genome-Illumina') {
+            instrment_ch = 'illumina'
+        } else if (params.e == 'RSV-Illumina') {
+            instrment_ch = 'illumina'
+        } else if (params.e == 'RSV-ONT') {
+            instrment_ch = 'ont'
+        }
+
+        PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, params.input, instrment_ch)
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
         versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
