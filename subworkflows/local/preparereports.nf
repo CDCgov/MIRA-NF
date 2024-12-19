@@ -19,6 +19,7 @@ workflow PREPAREREPORTS {
     virus = Channel.empty()
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    input_ch = Channel.fromPath(params.input, checkIfExists: true)
     //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
     if (params.sourcepath == null) {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
@@ -91,9 +92,27 @@ workflow PREPAREREPORTS {
     STATICHTML(support_file_path, PREPAREIRMAJSON.out.dash_json_and_fastqs, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
-    //Parquet amker converts the report tables into csv files and parquet files
+    //Parquet maker converts the report tables into csv files and parquet files
+
     if (params.reformat_tables == true) {
-        PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, params.input)
+        //Get instrument type for parquetmaker
+        if (params.e == 'Flu-Illumina') {
+            instrment_ch = 'illumina'
+        } else if (params.e == 'Flu-ONT') {
+            instrment_ch = 'ont'
+        } else if (params.e == 'SC2-Spike-Only-ONT') {
+            instrment_ch = 'ont'
+        } else if (params.e == 'SC2-Whole-Genome-ONT') {
+            instrment_ch = 'ont'
+        } else if (params.e == 'SC2-Whole-Genome-Illumina') {
+            instrment_ch = 'illumina'
+        } else if (params.e == 'RSV-Illumina') {
+            instrment_ch = 'illumina'
+        } else if (params.e == 'RSV-ONT') {
+            instrment_ch = 'ont'
+        }
+
+        PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, input_ch, instrment_ch, irma_dir_ch)
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
         versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
