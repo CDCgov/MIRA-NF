@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #29](https://github.com/CDCgov/MIRA-NF/pull/29) - Adding a custom_irma_config flag that allows user to pass a custom irma config to be passed to the pipeline for IRMA assembly.
 - [PR #30](https://github.com/CDCgov/MIRA-NF/pull/30) - Adding a qc_settings flag that allows user to pass a custom qc pass/fail yaml to be passed to the pipeline to specify desired qc standards. Added Error handling.
 
+### `Fixed`
+
+- [PR #36](https://github.com/CDCgov/MIRA-NF/pull/36) - Hot fix of paths broken by updated code
+
 ### `Dependencies`
 
 - [PR #33](https://github.com/CDCgov/MIRA-NF/pull/33) - Scipts and container cdcgov/mira-nf:python3.10-alpine are updated to contain new changes.
