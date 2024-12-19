@@ -49,8 +49,8 @@ process PARQUETMAKER {
     parquet_maker.py -f *minorindels.xlsx -o ${run_name}_indels -r ${run_name} -i ${instrument}
     parquet_maker.py -f *minorvariants.xlsx -o ${run_name}_variants -r ${run_name} -i ${instrument}
     parquet_maker.py -f *summary.xlsx -o ${run_name}_summary -r ${run_name} -i ${instrument}
-    parquet_maker.py -p ${params.outdir} -r ${run_name} -i ${instrument}
-    cat ${params.outdir}/*/IRMA/*/logs/run_info.txt > run_info_setup.txt
+    parquet_maker.py -p ${outdir} -r ${run_name} -i ${instrument}
+    cat ${outdir}/*/IRMA/*/logs/run_info.txt > run_info_setup.txt
     head -n 65 run_info_setup.txt > run_info.txt
     parquet_maker.py -f run_info.txt -o ${run_name}_irma_config -r ${run_name} -i ${instrument}
 
