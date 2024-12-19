@@ -5,9 +5,10 @@ process PARQUETMAKER {
 
     input:
     path(html_outputs)
-    val run_path
+    path run_path
     path samplesheet
     val instrument
+    path outdir
 
     output:
     path('*.{parq,csv}'), emit: summary_parq

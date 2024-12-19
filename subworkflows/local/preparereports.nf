@@ -19,6 +19,7 @@ workflow PREPAREREPORTS {
     virus = Channel.empty()
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
+    input_ch = Channel.fromPath(params.input, checkIfExists: true)
     //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
     if (params.sourcepath == null) {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
@@ -111,7 +112,7 @@ workflow PREPAREREPORTS {
             instrment_ch = 'ont'
         }
 
-        PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, params.input, instrment_ch)
+        PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, input_ch, instrment_ch, irma_dir_ch)
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
         versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
