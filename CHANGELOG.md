@@ -3,6 +3,26 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.3.1 - 2024.01.08
+
+### Credits
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+
+### Enhancements
+
+### `Added`
+
+### `Fixed`
+
+- [PR #39](https://github.com/CDCgov/MIRA-NF/pull/39) - Hot fix csv file format
+
+### `Dependencies`
+
+### `Deprecated`
+
+### Parameter Changes
+
 ## v1.3.0 - 2024.12.09
 
 ### Credits
@@ -25,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 - [PR #36](https://github.com/CDCgov/MIRA-NF/pull/36) - Hot fix of paths broken by updated code
-- [PR #38](https://github.com/CDCgov/MIRA-NF/pull/38) - Hot fix csv file format
+- [PR #39](https://github.com/CDCgov/MIRA-NF/pull/39) - Hot fix csv file format
 
 ### `Dependencies`
 
