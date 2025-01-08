@@ -144,11 +144,11 @@ def irma_alleles_df(irma_path, full=False):
 
 # file I/O
 def parquetify(table, outfi):
-    pd.DataFrame.to_csv(table, f"{outfi}.csv", sep="\t", index=False, header=True)
+    pd.DataFrame.to_csv(table, f"{outfi}.csv", sep=",", index=False, header=True)
     chunksize = 100_000
     # modified from https://stackoverflow.com/questions/26124417/how-to-convert-a-csv-file-to-parquet
     csv_stream = pd.read_csv(
-        f"{outfi}.csv", sep="\t", chunksize=chunksize, low_memory=False
+        f"{outfi}.csv", sep=",", chunksize=chunksize, low_memory=False
     )
     for i, chunk in enumerate(csv_stream):
         print("Chunk", i)

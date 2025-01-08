@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 - [PR #36](https://github.com/CDCgov/MIRA-NF/pull/36) - Hot fix of paths broken by updated code
+- [PR #38](https://github.com/CDCgov/MIRA-NF/pull/38) - Hot fix csv file format
 
 ### `Dependencies`
 
