@@ -7,6 +7,7 @@ include { CHECKMIRAVERSION   } from '../../modules/local/checkmiraversion'
 include { PREPAREIRMAJSON   } from '../../modules/local/prepareirmajson'
 include { STATICHTML        } from '../../modules/local/statichtml'
 include { PARQUETMAKER      } from '../../modules/local/parquetmaker'
+include { ADDFLUSUBTYPE      } from '../../modules/local/addflusubtype'
 
 workflow PREPAREREPORTS {
     take:
@@ -114,6 +115,11 @@ workflow PREPAREREPORTS {
 
         PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, input_ch, instrment_ch, irma_dir_ch)
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
+
+        if (params.e == 'Flu-Illumina' || params.e == 'Flu-ONT') {
+            ADDFLUSUBTYPE(irma_dir_ch, run_ID_ch, PARQUETMAKER.out.aavars, PARQUETMAKER.out.input_summary)
+            ch_versions = ch_versions.mix(ADDFLUSUBTYPE.out.versions)
+        }
 
         versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
     } else if (params.reformat_tables == false) {

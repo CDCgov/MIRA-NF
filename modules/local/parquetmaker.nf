@@ -12,7 +12,9 @@ process PARQUETMAKER {
 
     output:
     path('*.{parq,csv}'), emit: summary_parq
-    path 'versions.yml' , emit: versions
+    path 'versions.yml', emit: versions
+    path 'aavars.xlsx', emit: aavars
+    path 'input_summary.txt', emit: input_summary
 
     when:
     task.ext.when == null || task.ext.when
@@ -53,6 +55,9 @@ process PARQUETMAKER {
     cat ${outdir}/*/IRMA/*/logs/run_info.txt > run_info_setup.txt
     head -n 65 run_info_setup.txt > run_info.txt
     parquet_maker.py -f run_info.txt -o ${run_name}_irma_config -r ${run_name} -i ${instrument}
+
+    cp MIRA_${run_name}_aavars.xlsx ./aavars.xlsx
+    cp ${run_name}_summary.csv ./input_summary.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
