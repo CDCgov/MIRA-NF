@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
-- [PR #42](https://github.com/CDCgov/MIRA-NF/pull/42) - Fixing how the base base is extracted from the run path for naming parquet and cav files. Will now work with "." in the run name.
+- [PR #43](https://github.com/CDCgov/MIRA-NF/pull/43) - Fixing how the base base is extracted from the run path for naming parquet and cav files. Will now work with "." in the run name.
 
 ### `Dependencies`
 
