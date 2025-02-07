@@ -3,6 +3,24 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.4.1
+
+### Credits
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+
+### Enhancements
+
+### `Added`
+
+### `Fixed`
+
+- [PR #42](https://github.com/CDCgov/MIRA-NF/pull/42) - Fixing how the base base is extracted from the run path for naming parquet and cav files. Will now work with "." in the run name.
+
+### `Dependencies`
+
+### `Deprecated`
+
 ## v1.4.0 - 2025.01.23
 
 ### Credits
