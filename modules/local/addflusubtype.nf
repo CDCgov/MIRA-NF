@@ -18,7 +18,7 @@ process ADDFLUSUBTYPE {
 
     script:
     def args = task.ext.args ?: ''
-    def run_name = run_path.getBaseName()
+    def run_name = run_path.getName()
 
     """
     extract_subtypes.py ${irma_dir} ${aavars} ${input_summary} ${run_name}_summary.csv
