@@ -3,6 +3,25 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.4.2
+
+### Credits
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Kristine Lacek](https://github.com/kristinelacek)
+
+### Enhancements
+
+### `Added`
+
+### `Fixed`
+
+### `Dependencies`
+
+- [PR #45](https://github.com/CDCgov/MIRA-NF/pull/45) - Updated DAIS ribosome references to include translated A/Astrakhan N8 reference for compatibility with DAIS ribosome 1.1.5.
+
+### `Deprecated`
+
 ## v1.4.1
 
 ### Credits
