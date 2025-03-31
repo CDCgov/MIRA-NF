@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
-- [PR #47](https://github.com/CDCgov/MIRA-NF/pull/47) - fixed the docker profile in the nextflow.config.
+- [PR #48](https://github.com/CDCgov/MIRA-NF/pull/48) - fixed the docker profile in the nextflow.config.
 
 ### `Dependencies`
 
