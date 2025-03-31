@@ -303,7 +303,7 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - Includes links to test data so only the profile (singularity or docker) parameter is needed.
   - will make a directory named "testing_config".
 - `docker`
-  - A generic configuration profile to be used with [Docker](https://docker.com/)
+  - A generic configuration profile to be used with [Docker](https://docker.com/). Must have docker running for this profile to work.
 - `singularity`
   - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/)
 - `podman`
