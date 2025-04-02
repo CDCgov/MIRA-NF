@@ -2,7 +2,7 @@ process SUBSAMPLESINGLEREADS {
     tag "${sample}"
     label 'process_medium'
 
-    container 'cdcgov/mira-nf:bbtools-alpine'
+    container 'cdcgov/bbtools:v39.01-alpine'
 
     input:
     tuple val(sample), val(barcode), path(fastq_files), val(target)

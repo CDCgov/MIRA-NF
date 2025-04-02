@@ -1,7 +1,7 @@
 Package: mira-nf
 Type: Package
 Title: Nextflow Pipeline for Influenza, SARS-COV-2 and RSV Assembly and Curation
-Version: 1.4.3
+Version: 1.5.0
 Date: 2025-03-31
 Authors@R: 
   c(person(given="Ben", family="Rambo-Martin", role=c("led", "aut"), 

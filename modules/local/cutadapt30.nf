@@ -2,7 +2,7 @@ process CUTADAPT30 {
     tag "${sample}"
     label 'process_low'
 
-    container 'cdcgov/mira-nf:cutadapt-alpine'
+    container 'cdcgov/cutadapt:v4.4-alpine'
 
     input:
     tuple val(sample), val(barcode), path(trim_lr_file_path)

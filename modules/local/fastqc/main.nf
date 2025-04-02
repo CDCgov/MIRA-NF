@@ -3,7 +3,7 @@ process FASTQC {
     label 'process_medium'
 
     conda "${moduleDir}/environment.yml"
-    container 'cdcgov/mira-nf:fastqc-alpine'
+    container 'cdcgov/fastqc:v0.12.1-alpine'
 
     input:
     tuple val(meta), path(reads)
