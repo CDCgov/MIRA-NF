@@ -2,7 +2,7 @@ process SUBSAMPLEPAIREDREADS {
     tag "${sample}"
     label 'process_medium'
 
-    container 'cdcgov/mira-nf:bbtools-alpine'
+    container 'cdcgov/bbtools:v39.01-alpine'
 
     input:
     tuple val(sample), path(R1), path(R2), val(target), path(primers)

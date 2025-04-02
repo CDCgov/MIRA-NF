@@ -2,7 +2,7 @@ process RSVTRIMPRIMERSLEFT {
     tag "${sample}"
     label 'process_medium'
 
-    container 'cdcgov/mira-nf:bbtools-alpine'
+    container 'cdcgov/bbtools:v39.01-alpine'
 
     input:
     tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers)
