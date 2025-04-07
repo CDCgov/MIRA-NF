@@ -1,0 +1,55 @@
+# Create an argument to pull a particular version of an image
+ARG python_image
+ARG python_image=${python_image:-python:3.10-alpine}
+
+####################################################################################################
+# BASE IMAGE
+####################################################################################################
+FROM ${python_image} AS base
+
+# Create environment variable to get specific version of fastqc
+ARG python_version
+ENV python_version=${python_version:-python3.10}
+
+# Required certs for apk update
+COPY ca.crt /root/ca.crt
+
+# Put certs in /etc/ssl/certs location
+RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
+
+# Install system libraries of general use
+RUN apk update && apk add --no-cache \
+    openjdk21-jre \
+    bash \
+    vim \
+    tar \
+    curl \
+    dos2unix \
+    && pip install --upgrade pip
+
+# Set up project directory
+ENV PROJECT_DIR=/blast
+
+############# Install blast ##################
+# Copy all files to docker images
+COPY ${PROJECT_DIR} ${PROJECT_DIR}
+
+#Pull blast from the internet
+RUN curl -L https://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-2.16.0+-x64-linux.tar.gz --cacert /root/ca.crt -o ${PROJECT_DIR}/ncbi-blast-2.16.0+-x64-linux.tar.gz
+
+#Install BLAST
+RUN tar -zxvpf ${PROJECT_DIR}/ncbi-blast-2.16.0+-x64-linux.tar.gz -C ${PROJECT_DIR}
+
+############# Set up working directory ##################
+
+# Create working directory variable
+ENV WORKDIR=/data
+
+# Set up volume directory in docker
+VOLUME ${WORKDIR}
+
+# Set up working directory in docker
+WORKDIR ${WORKDIR}
+
+# Export project directory to PATH
+ENV PATH "$PATH:${PROJECT_DIR}/ncbi-blast-2.16.0+/bin"
