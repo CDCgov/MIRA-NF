@@ -20,7 +20,13 @@ RUN cat /root/ca.crt >> /etc/ssl/certs/ca-certificates.crt
 # Install system libraries of general use
 RUN apk update && apk add --no-cache \
     openjdk21-jre \
+    libgomp \
+    libc6-compat \
+    gcc \
+    gcompat \
+    wget \
     bash \
+    nano \
     vim \
     tar \
     curl \
@@ -35,10 +41,29 @@ ENV PROJECT_DIR=/blast
 COPY ${PROJECT_DIR} ${PROJECT_DIR}
 
 #Pull blast from the internet
-RUN curl -L https://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-2.16.0+-x64-linux.tar.gz --cacert /root/ca.crt -o ${PROJECT_DIR}/ncbi-blast-2.16.0+-x64-linux.tar.gz
+RUN curl -L https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz --cacert /root/ca.crt -o ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz
 
 #Install BLAST
-RUN tar -zxvpf ${PROJECT_DIR}/ncbi-blast-2.16.0+-x64-linux.tar.gz -C ${PROJECT_DIR}
+RUN chmod a+x ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz
+RUN tar -zxvpf ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz -C ${PROJECT_DIR} \
+    && rm ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz
+
+############# Fix vulnerablities pkgs ##################
+
+# Copy all files to docker images
+COPY ${PROJECT_DIR}/fixed_blast_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+
+# Copy all files to docker images
+COPY ${PROJECT_DIR}/fixed_blast_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Convert bash script from Windows style line endings to Unix-like control characters
+RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Allow permission to excute the bash script
+RUN chmod a+x ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+
+# Execute bash script to wget the file and tar the package
+RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 ############# Set up working directory ##################
 
@@ -52,4 +77,4 @@ VOLUME ${WORKDIR}
 WORKDIR ${WORKDIR}
 
 # Export project directory to PATH
-ENV PATH "$PATH:${PROJECT_DIR}/ncbi-blast-2.16.0+/bin"
+ENV PATH="$PATH:${PROJECT_DIR}/ncbi-blast-2.12.0+/bin"
