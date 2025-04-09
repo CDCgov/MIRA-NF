@@ -48,6 +48,13 @@ RUN chmod a+x ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz
 RUN tar -zxvpf ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz -C ${PROJECT_DIR} \
     && rm ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz
 
+############# Unpack Flu DB ##################
+COPY ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz ./blast-starsbioeditLAIVsw.tar.gz
+
+RUN chmod a+x ./blast-starsbioeditLAIVsw.tar.gz
+RUN tar -zxvpf ./blast-starsbioeditLAIVsw.tar.gz -C . \
+    && rm ./blast-starsbioeditLAIVsw.tar.gz
+
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
