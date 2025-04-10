@@ -38,7 +38,7 @@ ENV PROJECT_DIR=/blast
 
 ############# Install blast ##################
 # Copy all files to docker images
-COPY ${PROJECT_DIR} ${PROJECT_DIR}
+COPY . ${PROJECT_DIR}
 
 #Pull blast from the internet
 RUN curl -L https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz --cacert /root/ca.crt -o ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz
@@ -49,19 +49,17 @@ RUN tar -zxvpf ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz -C ${PROJECT_D
     && rm ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz
 
 ############# Unpack Flu DB ##################
-COPY ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz ./blast-starsbioeditLAIVsw.tar.gz
-
-RUN chmod a+x ./blast-starsbioeditLAIVsw.tar.gz
-RUN tar -zxvpf ./blast-starsbioeditLAIVsw.tar.gz -C . \
-    && rm ./blast-starsbioeditLAIVsw.tar.gz
+RUN chmod a+x ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz
+RUN tar -zxvpf ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz -C ${PROJECT_DIR} \
+    && rm ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz
 
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY ${PROJECT_DIR}/fixed_blast_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+COPY fixed_blast_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY ${PROJECT_DIR}/fixed_blast_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY fixed_blast_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
