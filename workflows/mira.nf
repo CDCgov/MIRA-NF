@@ -17,6 +17,8 @@ include { PREPILLUMINAREADS    } from '../subworkflows/local/prepilluminareads'
 include { PREPONTREADS         } from '../subworkflows/local/prepontreads'
 include { IRMA                 } from '../modules/local/irma'
 include { CHECKIRMA            } from '../subworkflows/local/checkirma'
+include { CREATEBLASTNINPUT    } from '../modules/local/createblastninput'
+include { BLASTN               } from '../modules/local/blastn'
 include { DAISRIBOSOME         } from '../modules/local/daisribosome'
 include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 
@@ -116,8 +118,15 @@ workflow flu_i {
     }
     CHECKIRMA(check_irma_ch)
 
+    //extract PB2 segment for BLASTN
+    CREATEBLASTNINPUT(check_irma_ch)
+
+    // MODULE: Run BLASTN
+    BLASTN(CREATEBLASTNINPUT.out)
+    ch_versions = ch_versions.unique().mix(BLASTN.out.versions)
+
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
@@ -228,8 +237,15 @@ workflow flu_o {
     }
     CHECKIRMA(check_irma_ch)
 
+    //extract PB2 segment for BLASTN
+    CREATEBLASTNINPUT(check_irma_ch)
+
+    // MODULE: Run BLASTN
+    BLASTN(CREATEBLASTNINPUT.out)
+    ch_versions = ch_versions.unique().mix(BLASTN.out.versions)
+
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //SUBWORKFLOW: Create reports
@@ -337,7 +353,7 @@ workflow sc2_spike_o {
     CHECKIRMA(check_irma_ch)
 
     //Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //Create reports
@@ -449,7 +465,7 @@ workflow sc2_wgs_o {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //SUBWORKFLOW: Create reports
@@ -560,7 +576,7 @@ workflow sc2_wgs_i {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
@@ -669,7 +685,7 @@ workflow rsv_i {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
@@ -781,7 +797,7 @@ workflow rsv_o {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
