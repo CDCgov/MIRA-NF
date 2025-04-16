@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
-- [PR #50](https://github.com/CDCgov/MIRA-NF/pull/52) - Added BLASTN module and container to Flu-Illumina and Flu-ONT modules. BLAST used to determine if strain is a known positive control or LAIV.
+- [PR #52](https://github.com/CDCgov/MIRA-NF/pull/52) - Added BLASTN module and container to Flu-Illumina and Flu-ONT modules. BLAST used to determine if strain is a known positive control or LAIV.
 
 ### `Fixed`
 
