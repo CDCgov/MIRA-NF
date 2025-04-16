@@ -19,6 +19,11 @@ workflow PREPAREREPORTS {
     platform = Channel.empty()
     virus = Channel.empty()
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    //Get run name
+    def path = "${params.runpath}"
+    def folder_name = new File(path)
+    def run_name = folder_name.name
+    //Get irma directory
     irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     input_ch = Channel.fromPath(params.input, checkIfExists: true)
     //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
@@ -113,11 +118,11 @@ workflow PREPAREREPORTS {
             instrment_ch = 'ont'
         }
 
-        PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, input_ch, instrment_ch, irma_dir_ch)
+        PARQUETMAKER(STATICHTML.out.reports, run_name, input_ch, instrment_ch, irma_dir_ch)
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
         if (params.e == 'Flu-Illumina' || params.e == 'Flu-ONT') {
-            ADDFLUSUBTYPE(irma_dir_ch, run_ID_ch, PARQUETMAKER.out.aavars, PARQUETMAKER.out.input_summary)
+            ADDFLUSUBTYPE(irma_dir_ch, run_name, PARQUETMAKER.out.aavars, PARQUETMAKER.out.input_summary)
             ch_versions = ch_versions.mix(ADDFLUSUBTYPE.out.versions)
         }
 
