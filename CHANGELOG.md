@@ -3,6 +3,25 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.6.0
+
+### Credits
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Reina Chau](https://github.com/rchau88)
+
+### Enhancements
+
+### `Added`
+
+- [PR #50](https://github.com/CDCgov/MIRA-NF/pull/52) - Added BLASTN module and container to Flu-Illumina and Flu-ONT modules. BLAST used to determine if strain is a known positive control or LAIV.
+
+### `Fixed`
+
+### `Dependencies`
+
+### `Deprecated`
+
 ## v1.5.0 - 2025.04.02
 
 ### Credits
