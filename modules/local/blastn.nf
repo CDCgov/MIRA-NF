@@ -2,7 +2,7 @@ process BLASTN {
     tag "${sample}"
 
     label 'process_low'
-    container 'mandyhsulli-blast_demo-latest'
+    container 'cdcgov/blast:v2.13.0-alpine'
 
     input:
     tuple val(sample), path(input_fasta)
