@@ -1,22 +1,12 @@
+x-python-image: &python-image python:3.10-alpine
 
-x-python-image:
-  &python-image
-  python:3.10-alpine
+x-python-version: &python-version python3.10
 
-x-python-version:
-  &python-version
-  python3.10
+x-pyarrow-image: &pyarrow-image mira-nf:pyarrow-alpine
 
-x-pyarrow-image:
-  &pyarrow-image
-  mira-nf:pyarrow-alpine
+x-mira-nf-image: &mira-nf-image mira-nf:python3.10-alpine
 
-x-mira-nf-image:
-  &mira-nf-image
-  mira-nf:python3.10-alpine
-
-x-data-volume:
-  &data-volume
+x-data-volume: &data-volume
   type: bind
   source: /home/snu3/Github/FLU_SC2_SEQUENCING
   target: /data
@@ -66,7 +56,21 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-  pyarrow: 
+  blast:
+    container_name: blast
+    image: mira-nf:blast-alpine
+    build:
+      context: .
+      dockerfile: blast/Dockerfile-blast
+      args:
+        python_image: *python-image
+        python_version: *python-version
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
+
+  pyarrow:
     container_name: pyarrow
     image: *pyarrow-image
     build:
@@ -97,7 +101,7 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-  mira-nf: 
+  mira-nf:
     container_name: mira-nf
     image: *mira-nf-image
     build:
@@ -110,6 +114,7 @@ services:
       - multiqc
       - fastqc
       - bbtools
+      - blast
       - cutadapt
       - pyarrow
     restart: always
