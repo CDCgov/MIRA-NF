@@ -8,7 +8,7 @@ x-mira-nf-image: &mira-nf-image mira-nf:python3.10-alpine
 
 x-data-volume: &data-volume
   type: bind
-  source: /home/snu3/Github/FLU_SC2_SEQUENCING
+  source: /home/xpa3/FLU_SC2_SEQUENCING
   target: /data
 
 services:

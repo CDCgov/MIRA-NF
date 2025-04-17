@@ -49,6 +49,8 @@ RUN tar -zxvpf ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz -C ${PROJECT_D
     && rm ${PROJECT_DIR}/ncbi-blast-2.12.0+-x64-linux.tar.gz
 
 ############# Unpack Flu DB ##################
+COPY ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz ${PROJECT_DIR}
+
 RUN chmod a+x ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz
 RUN tar -zxvpf ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz -C ${PROJECT_DIR} \
     && rm ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz
@@ -56,10 +58,10 @@ RUN tar -zxvpf ${PROJECT_DIR}/blast-starsbioeditLAIVsw.tar.gz -C ${PROJECT_DIR} 
 ############# Fix vulnerablities pkgs ##################
 
 # Copy all files to docker images
-COPY fixed_blast_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
+COPY ${PROJECT_DIR}/fixed_blast_vulnerability_pkgs.txt ${PROJECT_DIR}/fixed_vulnerability_pkgs.txt
 
 # Copy all files to docker images
-COPY fixed_blast_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
+COPY ${PROJECT_DIR}/fixed_blast_vulnerability_pkgs.sh ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Convert bash script from Windows style line endings to Unix-like control characters
 RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
