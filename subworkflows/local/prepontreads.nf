@@ -70,6 +70,7 @@ workflow PREPONTREADS {
     }
 
     //// Trim barcodes
+    /*
     //left trim
     new_ch4 = subsample_output_ch.map { item ->
         [sample:item[0], barcode:item[1], subsample_file_path:item[2]]
@@ -108,6 +109,31 @@ workflow PREPONTREADS {
     irma_ch = new_ch7.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
         .map { [it[0].sample_ID, it[0].cutadapt_fastq_path, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+    }
+    */
+
+    //// Trim Barcodes
+    new_ch4 = subsample_output_ch.map { item ->
+        [sample:item[0], barcode:item[1], subsample_file_path:item[2]]
+    }
+    set_up_barcode_ch = barcode_ch
+        .splitCsv(header: true)
+    bc_ch = set_up_barcode_ch.map { item ->
+        [barcode:item.barcode, seq_f:item.seq_f, seq_rc:item.seq_rc] }
+    trim_ch = new_ch4.combine(bc_ch)
+        .filter { it[0].barcode == it[1].barcode }
+        .map { [it[0].sample, it[0].barcode, it[0].subsample_file_path, it[1].seq_f] }
+    TRIMBARCODES(trim_ch)
+    ch_versions = ch_versions.unique().mix(TRIMBARCODES.out.versions)
+
+    // Create IRMA channel
+    new_ch5 = TRIMBARCODES.out.cutadapt_fastq.map { item ->
+        [sample_ID: item[0], barcode:item[1], cutadapt_fastq_path:item[2]]
+    }
+    irma_ch = new_ch5.combine(irma_chemistry_ch)
+        .filter { it[0].sample_ID == it[1].sample_ID }
+        .map { [it[0].sample_ID, it[0].cutadapt_fastq_path, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+    }
 
     //creating dais module input
     if (params.e == 'Flu-ONT') {
