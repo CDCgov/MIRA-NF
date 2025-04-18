@@ -30,6 +30,10 @@
 
  > Shepard, S.S., Meno, S., Bahl, J. et al. Viral deep sequencing needs an adaptive approach: IRMA, the iterative refinement meta-assembler. BMC Genomics 17, 708 (2016). <https://doi.org/10.1186/s12864-016-3030-6>
 
+- [IRMA-core](https://github.com/CDCgov/irma-core)
+
+ > Shepard, S.S., Chettleburgh, W., Wiley, S. IRMA-core: a tool for IRMA and to assist the sequencing of virus genomes. (2025)
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)

@@ -3,15 +3,6 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.6.1
-
-### Credits 
-- [Sam Wiley](https://github.com/samcwiley)
-
-### Fixed 
-
-- [PR #56](https://github.com/CDCgov/MIRA-NF/pull/56) - Minor spelling corrections, including a fix for parsing user-provided input for `artic` primers files in `prepilluminareads.nf`
-
 ## v1.6.0
 
 ### Credits
@@ -19,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Reina Chau](https://github.com/rchau88)
 - [Kristine Lacek](https://github.com/kristinelacek)
+- [Sam Wiley](https://github.com/samcwiley)
 
 ### Enhancements
 
@@ -30,8 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 - [PR #53](https://github.com/CDCgov/MIRA-NF/pull/53) - Fix error thrown when output directory and input directory have the same name. Address (issues #53)
+- [PR #56](https://github.com/CDCgov/MIRA-NF/pull/56) - Minor spelling corrections, including a fix for parsing user-provided input for `artic` primers files in `prepilluminareads.nf`
 
 ### `Dependencies`
+
+- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) - Added IRMA-core's standalone `trimmer` module for handling barcode and hard trimming for prepping ONT reads. 
 
 ### `Deprecated`
 
