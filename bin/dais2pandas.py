@@ -63,8 +63,8 @@ delcols_rename = {
     "Del_AA_end": "Del End AA Position",
     "Del_AA_len": "Del AA Length",
     "In_frame": "In Frame",
-    "Del_CDS_start": "Del Start CDS Posistion",
-    "Del_CDS_end": "Del End CDS Posistion",
+    "Del_CDS_start": "Del Start CDS Position",
+    "Del_CDS_end": "Del End CDS Position",
 }
 seqcols = [
     "ID",
