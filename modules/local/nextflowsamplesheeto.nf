@@ -5,7 +5,7 @@ process NEXTFLOWSAMPLESHEETO {
 
     input:
     path samplesheet
-    path run_ID
+    path output_path
     val experiment_type
 
     output:
@@ -20,7 +20,7 @@ process NEXTFLOWSAMPLESHEETO {
 
     """
     # AWS Healthomics requires a path to the samplesheet in order to stage the files for the pipeline
-    create_nextflow_samplesheet_o.py -s "${samplesheet}" -r "${params.outdir}" -e "${experiment_type}"
+    create_nextflow_samplesheet_o.py -s "${samplesheet}" -r "${output_path}" -e "${experiment_type}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

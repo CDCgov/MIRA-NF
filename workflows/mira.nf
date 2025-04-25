@@ -8,7 +8,7 @@
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
 include { STAGES3FILES        } from '../modules/local/stages3files'
-include { CONCATFASTQS         } from '../modules/local/concatfastqs'
+// include { CONCATFASTQS         } from '../modules/local/concatfastqs'
 include { NEXTFLOWSAMPLESHEETI } from '../modules/local/nextflowsamplesheeti'
 include { NEXTFLOWSAMPLESHEETO } from '../modules/local/nextflowsamplesheeto'
 include { INPUT_CHECK          } from '../subworkflows/local/input_check'
@@ -197,11 +197,11 @@ workflow flu_o {
             def fastq_path = "${runpath_path}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
-        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
-        collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
+        //concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
+        //collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, output_path, experiment_type_ch)
         // OMICS & Local END
 
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
@@ -319,10 +319,10 @@ workflow sc2_spike_o {
             def fastq_path = "${runpath_path}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
-        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
-        collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
+        //concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
+        //collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, output_path, experiment_type_ch)
         // OMICS & Local END
 
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
@@ -435,11 +435,11 @@ workflow sc2_wgs_o {
             def fastq_path = "${runpath_path}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
-        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
-        collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
+        //concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
+        //collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, output_path, experiment_type_ch)
         // OMICS & Local END
 
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
@@ -782,11 +782,11 @@ workflow rsv_o {
             def fastq_path = "${runpath_path}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
-        concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
-        collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
+        //concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
+        //collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEETO(samplesheet_ch, output_path, experiment_type_ch)
         // OMICS & Local END
 
         // NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
