@@ -56,9 +56,14 @@ workflow flu_i {
         workflow.exit
     }
 
-    // Initializing parameters
-    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    // Normalize paths to absolute paths
+    def input_path = file(params.input).toAbsolutePath()
+    def runpath_path = file(params.runpath).toAbsolutePath()
+    def output_path = file(params.outdir).toAbsolutePath()
+
+    // Initialize channels
+    samplesheet_ch = Channel.fromPath(input_path, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(runpath_path, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -66,10 +71,10 @@ workflow flu_i {
         // MODULE: Convert the samplesheet to a nextflow
         // OMICS & Local PLATFORM: Stage all fastq files
         fastq_ch = Channel
-                .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
+                .fromPath("${runpath_path}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
 
-        def runid = params.runpath.tokenize('/').last()
+        def runid = runpath_path.tokenize('/').last()
         sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
@@ -135,7 +140,7 @@ workflow flu_i {
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
+            storeDir:"${output_path}/pipeline_info",
             keepHeader: false
         )
 }
@@ -170,9 +175,14 @@ workflow flu_o {
         workflow.exit
     }
 
-    // Initializing parameters
-    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    // Normalize paths to absolute paths
+    def input_path = file(params.input).toAbsolutePath()
+    def runpath_path = file(params.runpath).toAbsolutePath()
+    def output_path = file(params.outdir).toAbsolutePath()
+
+    // Initializing channels
+    samplesheet_ch = Channel.fromPath(input_path, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(runpath_path, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -184,7 +194,7 @@ workflow flu_o {
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}/fastq_pass/${barcode}/*.fastq.gz"
+            def fastq_path = "${runpath_path}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
         concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
@@ -254,7 +264,7 @@ workflow flu_o {
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
+            storeDir:"${output_path}/pipeline_info",
             keepHeader: false
         )
 }
@@ -288,9 +298,15 @@ workflow sc2_spike_o {
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
+
+    // Normalize paths to absolute paths
+    def input_path = file(params.input).toAbsolutePath()
+    def runpath_path = file(params.runpath).toAbsolutePath()
+    def output_path = file(params.outdir).toAbsolutePath()
+
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
-    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    samplesheet_ch = Channel.fromPath(input_path, checkIfExists: true)
 
     if (params.amd_platform == false) {
         // OMICS & Local PLATFORM: START Concat all fastq files by barcode
@@ -300,7 +316,7 @@ workflow sc2_spike_o {
             def barcode = item.barcode
             def sample_id = item.sample_id
             // def fastq_path = "${params.runpath}/**/${barcode}/*.fastq.gz"; // it was not working with **, so I changed it to fastq_pass
-            def fastq_path = "${params.runpath}/fastq_pass/${barcode}/*.fastq.gz"
+            def fastq_path = "${runpath_path}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
         concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
@@ -362,7 +378,7 @@ workflow sc2_spike_o {
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
+            storeDir:"${output_path}/pipeline_info",
             keepHeader: false
         )
 }
@@ -397,9 +413,14 @@ workflow sc2_wgs_o {
         workflow.exit
     }
 
-    // Initializing parameters
-    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    // Normalize paths to absolute paths
+    def input_path = file(params.input).toAbsolutePath()
+    def runpath_path = file(params.runpath).toAbsolutePath()
+    def output_path = file(params.outdir).toAbsolutePath()
+
+    // Initializing channels
+    samplesheet_ch = Channel.fromPath(input_path, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(runpath_path, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -411,7 +432,7 @@ workflow sc2_wgs_o {
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}/fastq_pass/${barcode}/*.fastq.gz"
+            def fastq_path = "${runpath_path}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
         concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
@@ -474,7 +495,7 @@ workflow sc2_wgs_o {
     //setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
+            storeDir:"${output_path}/pipeline_info",
             keepHeader: false
         )
 }
@@ -512,9 +533,14 @@ workflow sc2_wgs_i {
         params.p = null
     }
 
+    // Normalize paths to absolute paths
+    def input_path = file(params.input).toAbsolutePath()
+    def runpath_path = file(params.runpath).toAbsolutePath()
+    def output_path = file(params.outdir).toAbsolutePath()
+
     //Initializing parameters
-    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    samplesheet_ch = Channel.fromPath(input_path, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(runpath_path, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -522,10 +548,10 @@ workflow sc2_wgs_i {
         // MODULE: Convert the samplesheet to a nextflow format
         // OMICS & Local PLATFORM: Stage all fastq files
         fastq_ch = Channel
-                .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
+                .fromPath("${runpath_path}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
 
-        def runid = params.runpath.tokenize('/').last()
+        def runid = runpath_path.tokenize('/').last()
         sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
@@ -585,7 +611,7 @@ workflow sc2_wgs_i {
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
+            storeDir:"${output_path}/pipeline_info",
             keepHeader: false
         )
 }
@@ -622,9 +648,14 @@ workflow rsv_i {
         params.p = null
     }
 
+    // Normalize paths to absolute paths
+    def input_path = file(params.input).toAbsolutePath()
+    def runpath_path = file(params.runpath).toAbsolutePath()
+    def output_path = file(params.outdir).toAbsolutePath()
+
     // Initializing parameters
-    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    samplesheet_ch = Channel.fromPath(input_path, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(runpath_path, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -632,10 +663,10 @@ workflow rsv_i {
         // MODULE: Convert the samplesheet to a nextflow format
         // OMICS & Local PLATFORM: Stage all fastq files
         fastq_ch = Channel
-                .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
+                .fromPath("${runpath_path}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
 
-        def runid = params.runpath.tokenize('/').last()
+        def runid = runpath_path.tokenize('/').last()
         sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
@@ -694,7 +725,7 @@ workflow rsv_i {
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
+            storeDir:"${output_path}/pipeline_info",
             keepHeader: false
         )
 }
@@ -728,9 +759,15 @@ workflow rsv_o {
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
+
+    // Normalize paths to absolute paths
+    def input_path = file(params.input).toAbsolutePath()
+    def runpath_path = file(params.runpath).toAbsolutePath()
+    def output_path = file(params.outdir).toAbsolutePath()
+
     // Initializing parameters
-    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    samplesheet_ch = Channel.fromPath(input_path, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(runpath_path, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -742,7 +779,7 @@ workflow rsv_o {
         fastq_ch = set_up_ch.map { item ->
             def barcode = item.barcode
             def sample_id = item.sample_id
-            def fastq_path = "${params.runpath}/fastq_pass/${barcode}/*.fastq.gz"
+            def fastq_path = "${runpath_path}/fastq_pass/${barcode}/*.fastq.gz"
             tuple(barcode, sample_id, file(fastq_path))
         }
         concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
@@ -806,7 +843,7 @@ workflow rsv_o {
     //setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
+            storeDir:"${output_path}/pipeline_info",
             keepHeader: false
         )
 }
@@ -838,22 +875,25 @@ workflow MIRA {
 if (params.email) {
     workflow.onComplete {
         if (workflow.success == true) {
-            def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
+            def input_path = file(params.input).toAbsolutePath()
+            def runpath_path = file(params.runpath).toAbsolutePath()
+            def output_path = file(params.outdir).toAbsolutePath()
+            def versionPath = "${output_path}/pipeline_info/mira_version_check.txt"
             def fileContent = new File(versionPath).text
-            def path = "${params.runpath}"
+            def path = "${runpath_path}"
             def folder_name = new File(path)
             def basename = folder_name.name
-            def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta')
+            def ac_file = new File("${output_path}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta')
             if (ac_file.exists()) {
                 /* groovylint-disable-next-line LineLength */
-                def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta']
+                def final_files = ["${output_path}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx', "${output_path}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta']
                 def msg = """
                 Pipeline execution summary
                 Completed at: ${workflow.complete}
                 Duration    : ${workflow.duration}
                 Success     : ${workflow.success}
                 workDir     : ${workflow.workDir}
-                outDir      : ${params.outdir}
+                outDir      : ${output_path}
                 exit status : ${workflow.exitStatus}
                 ${fileContent}
                 """
@@ -861,14 +901,14 @@ if (params.email) {
 
                     sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
             } else {
-                def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx']
+                def final_files = ["${output_path}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx']
                 def msg = """
                 Pipeline execution summary
                 Completed at: ${workflow.complete}
                 Duration    : ${workflow.duration}
                 Success     : ${workflow.success}
                 workDir     : ${workflow.workDir}
-                outDir      : ${params.outdir}
+                outDir      : ${output_path}
                 exit status : ${workflow.exitStatus}
                 No amended consensus was created!
                 """
@@ -883,7 +923,7 @@ if (params.email) {
        Duration    : ${workflow.duration}
        Success     : ${workflow.success}
        workDir     : ${workflow.workDir}
-       outDir      : ${params.outdir}
+       outDir      : ${output_path}
        exit status : ${workflow.exitStatus}
        """
        .stripIndent()
