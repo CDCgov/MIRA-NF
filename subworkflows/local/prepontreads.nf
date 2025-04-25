@@ -25,8 +25,8 @@ workflow PREPONTREADS {
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
 
-    //if custom irma congif used, use custom in irma_module params
-    //This will be used in the find_chemisrty module
+    //if custom irma config used, use custom in irma_module params
+    //This will be used in the find_chemistry module
     if (params.custom_irma_config == null) {
         irma_module_ch = params.irma_module
         custom_irma_config_ch = '/none/'
