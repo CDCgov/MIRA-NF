@@ -18,12 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Reina Chau](https://github.com/rchau88)
+- [Kristine Lacek](https://github.com/kristinelacek)
 
 ### Enhancements
 
 ### `Added`
 
 - [PR #52](https://github.com/CDCgov/MIRA-NF/pull/52) - Added BLASTN module and container to Flu-Illumina and Flu-ONT modules. BLAST used to determine if strain is a known positive control or LAIV.
+- [PR #55](https://github.com/CDCgov/MIRA-NF/pull/55) - Added new references (N4, N5 and N6) got DAIS-ribosome and update container.
 
 ### `Fixed`
 
