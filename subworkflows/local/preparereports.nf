@@ -94,7 +94,7 @@ workflow PREPAREREPORTS {
     PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus, irma_config_type_ch, qc_path_ch)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
-    //convert aggragate reports (json files) into html files
+    //convert aggregate reports (json files) into html files
     STATICHTML(support_file_path, PREPAREIRMAJSON.out.dash_json_and_fastqs, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
@@ -103,22 +103,22 @@ workflow PREPAREREPORTS {
     if (params.reformat_tables == true) {
         //Get instrument type for parquetmaker
         if (params.e == 'Flu-Illumina') {
-            instrment_ch = 'illumina'
+            instrument_ch = 'illumina'
         } else if (params.e == 'Flu-ONT') {
-            instrment_ch = 'ont'
+            instrument_ch = 'ont'
         } else if (params.e == 'SC2-Spike-Only-ONT') {
-            instrment_ch = 'ont'
+            instrument_ch = 'ont'
         } else if (params.e == 'SC2-Whole-Genome-ONT') {
-            instrment_ch = 'ont'
+            instrument_ch = 'ont'
         } else if (params.e == 'SC2-Whole-Genome-Illumina') {
-            instrment_ch = 'illumina'
+            instrument_ch = 'illumina'
         } else if (params.e == 'RSV-Illumina') {
-            instrment_ch = 'illumina'
+            instrument_ch = 'illumina'
         } else if (params.e == 'RSV-ONT') {
-            instrment_ch = 'ont'
+            instrument_ch = 'ont'
         }
 
-        PARQUETMAKER(STATICHTML.out.reports, run_name, input_ch, instrment_ch, irma_dir_ch)
+        PARQUETMAKER(STATICHTML.out.reports, run_name, input_ch, instrument_ch, irma_dir_ch)
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
         if (params.e == 'Flu-Illumina' || params.e == 'Flu-ONT') {

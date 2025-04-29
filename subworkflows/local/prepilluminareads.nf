@@ -26,11 +26,11 @@ workflow PREPILLUMINAREADS {
         if (params.p) {
             if (params.p == 'artic3') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv3.fasta", checkIfExists: true)
-            } else if (params.p == 'atric4') {
+            } else if (params.p == 'artic4') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv4.fasta", checkIfExists: true)
-            } else if (params.p == 'atric4.1') {
+            } else if (params.p == 'artic4.1') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv4.1.fasta", checkIfExists: true)
-            } else if (params.p == 'atric5.3.2') {
+            } else if (params.p == 'artic5.3.2') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv5.3.2.fasta", checkIfExists: true)
             } else if (params.p == 'qiagen') {
                 primers = Channel.fromPath("${projectDir}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
@@ -50,11 +50,11 @@ workflow PREPILLUMINAREADS {
         if (params.p) {
             if (params.p == 'artic3') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv3.fasta", checkIfExists: true)
-            } else if (params.p == 'atric4') {
+            } else if (params.p == 'artic4') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv4.fasta", checkIfExists: true)
-            } else if (params.p == 'atric4.1') {
+            } else if (params.p == 'artic4.1') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv4.1.fasta", checkIfExists: true)
-            } else if (params.p == 'atric5.3.2') {
+            } else if (params.p == 'artic5.3.2') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv5.3.2.fasta", checkIfExists: true)
             } else if (params.p == 'qiagen') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
@@ -70,13 +70,13 @@ workflow PREPILLUMINAREADS {
         }
     }
 
-    //if primers given,set the file path to them
+    // if primers given, set the file path to them
     if (params.custom_primers) {
         primers = Channel.fromPath("${params.custom_primers}", checkIfExists: true)
     }
 
-    //if custom irma congif used, use custom in irma_module params
-    //This will be used in the find_chemisrty module
+    //if custom irma config used, use custom in irma_module params
+    //This will be used in the find_chemistry module
     if (params.custom_irma_config == null) {
         irma_module_ch = params.irma_module
         custom_irma_config_ch = '/none/'
@@ -132,8 +132,8 @@ workflow PREPILLUMINAREADS {
             .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1]] }
     }
 
-    //If experiment type is SC2-Whole-Genome-Illumina then samples will go through the primer trimming steps with SC2 primers
-    //If not they are passed to the irma channel immediately
+    // If experiment type is SC2-Whole-Genome-Illumina then samples will go through the primer trimming steps with SC2 primers
+    // If not they are passed to the irma channel immediately
     if (params.e == 'SC2-Whole-Genome-Illumina') {
         //// Trim primers
         //left trim
@@ -144,7 +144,7 @@ workflow PREPILLUMINAREADS {
         ch_versions = ch_versions.mix(SC2TRIMPRIMERSRIGHT.out.versions)
 
         //// Make IRMA input channel without trimming primers
-        //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
+        // restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
         read_1_ch = SC2TRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
             [ item[0], item[1]]
         }
@@ -164,15 +164,15 @@ workflow PREPILLUMINAREADS {
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
     } else if (params.e == 'RSV-Illumina') {
         //// Trim primers
-        //left trim
+        // left trim
         RSVTRIMPRIMERSLEFT(subsample_output_ch)
         ch_versions = ch_versions.mix(RSVTRIMPRIMERSLEFT.out.versions)
-        //right trim
+        // right trim
         RSVTRIMPRIMERSRIGHT(RSVTRIMPRIMERSLEFT.out.trim_l_fastqs)
         ch_versions = ch_versions.mix(RSVTRIMPRIMERSRIGHT.out.versions)
 
         //// Make IRMA input channel without trimming primers
-        //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
+        // restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
         read_1_ch = RSVTRIMPRIMERSRIGHT.out.trim_lr_fastqs.map { item ->
             [ item[0], item[1]]
         }
@@ -186,13 +186,13 @@ workflow PREPILLUMINAREADS {
         }
         .set { final_combined_reads_ch }
 
-        //combining chemistry info with read info
+        // combining chemistry info with read info
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
     } else if (params.e == 'Flu-Illumina') {
         //// Make IRMA input channel without trimming primers
-        //restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
+        // restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
         read_1_ch = subsample_output_ch.map { item ->
             [ item[0], item[1]]
         }
@@ -206,13 +206,13 @@ workflow PREPILLUMINAREADS {
         }
         .set { final_combined_reads_ch }
 
-        //combining chemistry info with read info
+        // combining chemistry info with read info
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
     }
 
-    //creating dais module input
+    // creating dais module input
     if (params.e == 'Flu-Illumina') {
         dais_module = 'INFLUENZA'
     } else if (params.e == 'SC2-Whole-Genome-Illumina') {
