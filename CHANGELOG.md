@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.6.1
+
+### Credits 
+- [Sam Wiley](https://github.com/samcwiley)
+
+### Fixed 
+
+- [PR #56](https://github.com/CDCgov/MIRA-NF/pull/56) - Minor spelling corrections, including a fix for parsing user-provided input for `artic` primers files in `prepilluminareads.nf`
+
 ## v1.6.0
 
 ### Credits
