@@ -2,7 +2,7 @@ process TRIMBARCODES {
     tag "${sample}"
     label 'process_medium'
 
-    container 'ghcr.io/cdcgov/irma-core:v0.4.2'
+    container 'ghcr.io/cdcgov/irma-core:v0.4.3'
 
     input:
     tuple val(sample), val(barcode), path(subsample_file_path), val(seq)
@@ -21,7 +21,7 @@ process TRIMBARCODES {
 
     """
     irma-core trimmer  \\
-        ${subsample_file_path} \\
+        <(zcat ${subsample_file_path}) \\
 	    -o ${sample}_trimmed.fastq \\
 	    --barcode-trim ${seq} \\
 	    --b-end b \\
