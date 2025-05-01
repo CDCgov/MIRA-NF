@@ -18,12 +18,14 @@ process BLASTN {
     def args = task.ext.args ?: ''
 
     """
+    cp ${launchDir}/blast/blast-starsbioeditLAIVsw.tar.gz ./
+    tar -zxvpf blast-starsbioeditLAIVsw.tar.gz
     if [[ ! -s ${input_fasta} ]]; then
     touch blast_empty.txt
     fi
     if [[ -s ${input_fasta} ]]; then
     blastn \\
-        -db /blast/blast-starsbioeditLAIVsw/starsbioeditLAIVsw \\
+        -db ./blast-starsbioeditLAIVsw/starsbioeditLAIVsw \\
         -query ${input_fasta} \\
         -out blast_${sample}.txt
         fi
