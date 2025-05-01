@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
+- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) - Added IRMA-core's standalone `trimmer` module for handling barcode and hard trimming for prepping ONT reads. 
+
 ### `Deprecated`
 
 ## v1.5.0 - 2025.04.02

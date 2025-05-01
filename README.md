@@ -25,7 +25,7 @@ MIRA performs these steps for genome assembly and curation:
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
 3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
 4. Subsampling to faster analysis (optional) ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
-5. Trimming and Quality Filtering ([`bbduk`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
+5. Trimming and Quality Filtering ([`bbduk`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/) and [`IRMA-core`](https://github.com/CDCgov/irma-core)) 
 6. Adapter removal ([`cutadapt`](https://github.com/marcelm/cutadapt/))
 7. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 8. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
@@ -205,7 +205,7 @@ qsub MIRA_nextflow.sh \
 
 ## Credits
 
-mira-nf/mira is developed and maintained by Ben Rambo-Martin, Kristine Lacek, Reina Chau, and Amanda Sullivan.
+mira-nf/mira is developed and maintained by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan, and Sam Wiley.
 
 ## Citations
 
