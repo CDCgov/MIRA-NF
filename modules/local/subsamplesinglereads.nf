@@ -8,7 +8,7 @@ process SUBSAMPLESINGLEREADS {
     tuple val(sample), val(barcode), path(fastq_files), val(target)
 
     output:
-    tuple val(sample), val(barcode), path('*_subsampled.fastq.gz'), emit: subsampled_fastq
+    tuple val(sample), val(barcode), path('*_subsampled.fastq'), emit: subsampled_fastq
     path '*.reformat.stdout.log', emit: subsample_log_out
     path '*.reformat.stderr.log', emit: subsample_log_err
     path 'versions.yml'           , emit: versions
@@ -28,8 +28,6 @@ process SUBSAMPLESINGLEREADS {
         tossbrokenreads \\
         1> ${sample}.${barcode}.reformat.stdout.log \\
         2> ${sample}.${barcode}.reformat.stderr.log
-
-    gzip ${sample}_subsampled.fastq
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
