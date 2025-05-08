@@ -1,11 +1,8 @@
-process SC2TRIMPRIMERS {
+process RSVTRIMPRIMERS {
     tag "${sample}"
     label 'process_medium'
 
     container 'ghcr.io/cdcgov/irma-core:v0.4.3'
-
-    publishDir "${params.outdir}/IRMA", pattern: '*.fastq', mode: 'copy'
-    publishDir "${params.outdir}/logs", pattern: '*.log', mode: 'copy'
 
     input:
     tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers)
@@ -32,8 +29,8 @@ process SC2TRIMPRIMERS {
 	    --p-end B \\
 	    --polyg-trim 10 \\
 	    --p-fuzzy \\
-	    --p-kmer-length 17 \\
-	    --p-restrict 30 \\
+	    --p-kmer-length 19 \\
+	    --p-restrict 35 \\
         1> ${sample}.primertrim.stdout.log \\
         2> ${sample}.primertrim.stderr.log
 
@@ -50,7 +47,7 @@ process SC2TRIMPRIMERS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        sc2trimprimers_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+        rsvtrimprimers_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

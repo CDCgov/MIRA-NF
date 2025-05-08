@@ -84,22 +84,6 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-  cutadapt:
-    container_name: cutadapt
-    image: mira-nf:cutadapt-alpine
-    build:
-      context: .
-      dockerfile: cutadapt/Dockerfile-cutadapt
-      args:
-        python_image: *pyarrow-image
-        python_version: *python-version
-        cutadapt_version: 4.4
-    depends_on:
-      - pyarrow
-    restart: always
-    volumes:
-      - *data-volume
-    command: tail -f /dev/null
 
   mira-nf:
     container_name: mira-nf
@@ -115,7 +99,6 @@ services:
       - fastqc
       - bbtools
       - blast
-      - cutadapt
       - pyarrow
     restart: always
     volumes:
