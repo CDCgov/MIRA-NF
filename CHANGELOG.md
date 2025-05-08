@@ -26,9 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) and [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Added IRMA-core's standalone `trimmer` module for handling barcode and hard trimming for prepping ONT and SC2 Illumina reads, replacing BBDuk.
+- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) and [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Added IRMA-core's standalone `trimmer` module for handling barcode, primer, and hard trimming for prepping ONT and Illumina reads, replacing BBDuk.
 
 ### `Deprecated`
+
+- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed `cutadapt` for hard trimming reads.
+- [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Removed BBDuk for handling barcode and primer trimming of reads.
 
 ## v1.5.0 - 2025.04.02
 
