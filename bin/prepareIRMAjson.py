@@ -492,7 +492,7 @@ def generate_dfs(irma_path):
         if len(glob(f"{irma_path}/dais_results/*seq")) == 0:
             time.sleep(1)
         c += 1
-    if virus != "flu""
+    if virus != "flu":
         dais_vars_df = dais2pandas.compute_dais_variants(work_path,f"{irma_path}/aggregate_outputs/dais-ribosome")
     else:
         dais_vars_df = dais2pandas.compute_cvv_dais_variants(work_path,f"{irma_path}/aggregate_outputs/dais-ribosome")

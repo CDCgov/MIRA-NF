@@ -161,7 +161,7 @@ def seq_df(results_path):
 def ref_seqs(repo_path):
     return dais2df(f"{repo_path}/data/references/", seqcols, seqcols_rename, ".seq")
 
-def cvv_seqs():
+def cvv_seqs(repo_path):
     return dais2df(f"{repo_path}/data/references/", seqcols, cvvseqcols_rename, ".seq")
 
 def flu_seq_df(results_path):
@@ -213,8 +213,8 @@ def compute_dais_variants(repo_path, results_path, specific_ref=False):
     seqs = seqs.sort_values(by=["Protein","Sample","AA Variant Count"]).drop_duplicates(subset=["Sample", "Protein"], keep="first")
     return seqs
 
-def compute_cvv_dais_variants(results_path, specific_ref=False):
-    refs = cvv_seqs()
+def compute_cvv_dais_variants(repo_path, results_path, specific_ref=False):
+    refs = cvv_seqs(repo_path)
     seqs = flu_seq_df(results_path)
     joindf = seqs.merge(refs, on=["Coordspace","Protein"], how='inner')
     seqs = joindf
