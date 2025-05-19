@@ -96,6 +96,34 @@ seqcols_rename = {
     "CDS_nt_coordinates": "Sample NT Positions",
 }
 
+fluseqcols_rename = {
+    "ID": "Sample",
+    "Ref_ID": "Coordspace",
+    "Protein": "Protein",
+    "AA_seq": "AA Sequence",
+    "AA_aln": "Aligned AA Sequence",
+    "Insertion": "Insertion",
+    "Shift_Insert": "Insertion Shifts Frame",
+    "CDS_seq": "CDS Sequence",
+    "CDS_aln": "Aligned CDS Sequence",
+    "Query_nt_coordinates": "Reference NT Positions",
+    "CDS_nt_coordinates": "Sample NT Positions",
+}
+
+cvvseqcols_rename = {
+    "ID": "CVV",
+    "Ref_ID": "Coordspace",
+    "Protein": "Protein",
+    "AA_seq": "CVV AA Sequence",
+    "AA_aln": "CVV Aligned AA Sequence",
+    "Insertion": "CVV Insertion",
+    "Shift_Insert": "CVV Insertion Shifts Frame",
+    "CDS_seq": "CVV CDS Sequence",
+    "CDS_aln": "CVV Aligned CDS Sequence",
+    "Query_nt_coordinates": "Coordspace Reference NT Positions",
+    "CDS_nt_coordinates": "CVV Sample NT Positions",
+}
+
 
 def dais2df(results_path, colnames, col_renames, dais_suffix, full=False):
     files = glob(f"{results_path}/*{dais_suffix}")
@@ -111,7 +139,10 @@ def dais2df(results_path, colnames, col_renames, dais_suffix, full=False):
         df = df[select_cols]
         df = df.rename(columns=col_renames)
     df = df[df["Protein"] != "\\N"]
-    df = df[df["Sample NT Positions"] != "\\N"]
+    try:
+        df = df[df["Sample NT Positions"] != "\\N"]
+    except:
+        df = df[df["CVV Sample NT Positions"] != "\\N"]
     return df
 
 
@@ -129,6 +160,12 @@ def seq_df(results_path):
 
 def ref_seqs(repo_path):
     return dais2df(f"{repo_path}/data/references/", seqcols, seqcols_rename, ".seq")
+
+def cvv_seqs(repo_path):
+    return dais2df(f"{repo_path}/data/references/", seqcols, cvvseqcols_rename, ".seq")
+
+def flu_seq_df(results_path):
+    return dais2df(results_path, seqcols, fluseqcols_rename, ".seq")
 
 
 def AAvars(refseq, sampseq):
@@ -174,4 +211,23 @@ def compute_dais_variants(repo_path, results_path, specific_ref=False):
     seqs = seqs[["Sample", "Reference", "Protein", "AA Variant Count", "AA Variants"]]
     seqs["Sample"] = seqs[["Sample"]].astype(str)
     seqs = seqs.sort_values(by=["Protein","Sample","AA Variant Count"]).drop_duplicates(subset=["Sample", "Protein"], keep="first")
+    return seqs
+
+def compute_cvv_dais_variants(repo_path, results_path, specific_ref=False):
+    refs = cvv_seqs(repo_path)
+    seqs = flu_seq_df(results_path)
+    joindf = seqs.merge(refs, on=["Coordspace","Protein"], how='inner')
+    seqs = joindf
+    if not specific_ref:
+        seqs["AA Variants"] = seqs.apply(
+            lambda x: AAvars(x["CVV Aligned AA Sequence"],
+               x["Aligned AA Sequence"],
+            ),
+            axis=1,
+        )
+
+    seqs["AA Variant Count"] = seqs["AA Variants"].map(lambda x: len(x.split(",")) if x != '' else 0)
+    seqs = seqs[["Sample", "CVV", "Protein", "AA Variant Count", "AA Variants"]]
+    seqs = seqs.sort_values(by=["Protein","Sample","AA Variant Count"]).drop_duplicates(subset=["Sample", "Protein"], keep="first")
+    seqs = seqs.rename(columns={"CVV":"Reference"})
     return seqs
