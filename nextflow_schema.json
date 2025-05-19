@@ -85,6 +85,16 @@
                     "format": "file-path",
                     "description": "The primer schema used for SARS-CoV-2 Illumina data as a file path to the fasta file containing custom primers used for SARS-CoV-2 Illumina Data"
                 },
+                "primer_kmer_len": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": ""
+                },
+                "primer_restrict_window": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "The primer schema used for SARS-CoV-2 Illumina data as a file path to the fasta file containing custom primers used for SARS-CoV-2 Illumina Data"
+                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",

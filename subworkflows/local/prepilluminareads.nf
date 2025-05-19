@@ -24,22 +24,40 @@ workflow PREPILLUMINAREADS {
         if (params.p) {
             if (params.p == 'artic3') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv3.fasta", checkIfExists: true)
+                primer_kmer_len = "21"
+                primer_restrict_window = "40" 
             } else if (params.p == 'artic4') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv4.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40" 
             } else if (params.p == 'artic4.1') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv4.1.fasta", checkIfExists: true)
+                primer_kmer_len = "20"
+                primer_restrict_window = "40" 
             } else if (params.p == 'artic5.3.2') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv5.3.2.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40" 
             } else if (params.p == 'qiagen') {
                 primers = Channel.fromPath("${projectDir}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40" 
             } else if (params.p == 'swift') {
                 primers = Channel.fromPath("${projectDir}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
+                primer_kmer_len = "17"
+                primer_restrict_window = "40" 
             } else if (params.p == 'swift_211206') {
                 primers = Channel.fromPath("${projectDir}/data/primers/swift_211206.fasta", checkIfExists: true)
+                primer_kmer_len = "17"
+                primer_restrict_window = "40" 
             }  else if (params.p == 'varskip') {
                 primers = Channel.fromPath("${projectDir}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40" 
             }  else if (params.p == 'RSV_CDC_8amplicon_230901') {
                 primers = Channel.fromPath("${projectDir}/data/primers/RSV_CDC_8amplicon_230901.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40" 
             }
         }
     } else {
@@ -48,22 +66,40 @@ workflow PREPILLUMINAREADS {
         if (params.p) {
             if (params.p == 'artic3') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv3.fasta", checkIfExists: true)
+                primer_kmer_len = "21"
+                primer_restrict_window = "40" 
             } else if (params.p == 'artic4') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv4.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40" 
             } else if (params.p == 'artic4.1') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv4.1.fasta", checkIfExists: true)
+                primer_kmer_len = "20"
+                primer_restrict_window = "40" 
             } else if (params.p == 'artic5.3.2') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv5.3.2.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40"
             } else if (params.p == 'qiagen') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
+                primer_kmer_len = "17"
+                primer_restrict_window = "40" 
             } else if (params.p == 'swift') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
+                primer_kmer_len = "17"
+                primer_restrict_window = "40" 
             } else if (params.p == 'swift_211206') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/swift_211206.fasta", checkIfExists: true)
+                primer_kmer_len = "17"
+                primer_restrict_window = "40" 
             }  else if (params.p == 'varskip') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40" 
             }  else if (params.p == 'RSV_CDC_8amplicon_230901') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/RSV_CDC_8amplicon_230901.fasta", checkIfExists: true)
+                primer_kmer_len = "19"
+                primer_restrict_window = "40" 
             }
         }
     }
