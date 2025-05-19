@@ -56,20 +56,6 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-  blast:
-    container_name: blast
-    image: mira-nf:blast-alpine
-    build:
-      context: .
-      dockerfile: blast/Dockerfile-blast
-      args:
-        python_image: *python-image
-        python_version: *python-version
-    restart: always
-    volumes:
-      - *data-volume
-    command: tail -f /dev/null
-
   pyarrow:
     container_name: pyarrow
     image: *pyarrow-image
@@ -114,7 +100,6 @@ services:
       - multiqc
       - fastqc
       - bbtools
-      - blast
       - cutadapt
       - pyarrow
     restart: always

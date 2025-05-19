@@ -4,8 +4,6 @@ x-fastqc-image: &fastqc-image cdcgov/fastqc:v0.12.1-alpine
 
 x-bbtools-image: &bbtools-image cdcgov/bbtools:v39.01-alpine
 
-x-blast-image: &blast-image cdcgov/blast:v2.13.0-alpine
-
 x-cutadapt-image: &cutadapt-image cdcgov/cutadapt:v4.4-alpine
 
 x-mira-nf-image: &mira-nf-image cdcgov/mira-nf:python3.10-alpine
@@ -39,13 +37,6 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-  blast:
-    container_name: blast
-    image: *blast-image
-    volumes:
-      - *data-volume
-    command: tail -f /dev/null
-
   cutadapt:
     container_name: cutadapt
     image: *cutadapt-image
@@ -61,7 +52,6 @@ services:
       - multiqc
       - fastqc
       - bbtools
-      - blast
       - cutadapt
     restart: always
     volumes:
