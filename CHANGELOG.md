@@ -87,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Dependencies`
 
 - [PR #45](https://github.com/CDCgov/MIRA-NF/pull/45) - Updated DAIS ribosome references to include translated A/Astrakhan N8 reference for compatibility with DAIS ribosome 1.1.5.
+- [PR #62](https://github.com/CDCgov/MIRA-NF/pull/45) - Updated DAIS ribosome references to be CVVs for more up to date comparisons.
 
 ### `Deprecated`
 
