@@ -64,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 - [PR #49](https://github.com/CDCgov/MIRA-NF/pull/49) - fixed binding to dais ribosome containers with docker profile.
+- [PR #62](https://github.com/CDCgov/MIRA-NF/pull/62) - fixed empty dataframe handling in prepareIRMAjson.py.
 
 ### `Dependencies`
 
