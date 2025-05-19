@@ -21,7 +21,7 @@ process TRIMBARCODES {
 
     """
     irma-core trimmer  \\
-        <(zcat ${subsample_file_path}) \\
+        ${subsample_file_path} \\
 	    -o ${sample}_trimmed.fastq \\
 	    --barcode-trim ${seq} \\
 	    --b-end b \\
