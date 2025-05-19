@@ -26,30 +26,30 @@ include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//input is the sample sheet
-//outdir is the run direcotry
+// input is the sample sheet
+// outdir is the run directory
 
 workflow flu_i {
-    //Error handling to prevent incorrect flags being used
-    //irma config handling
+    // Error handling to prevent incorrect flags being used
+    // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
-        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'ERROR!!: Aborting pipeline due to conflicting flags'
         println 'Please provide either the --irma_module or --custom_irma_config flag.'
         println 'They cannot be used together.'
         workflow.exit
     }
-    //primer error handling
+    // primer error handling
     if (params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
         println 'Please remove --custom_primers to continue.'
         workflow.exit
     } else if (params.p != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
         println 'Please remove --p to continue.'
         workflow.exit
     }
     if (params.p != null && params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
@@ -62,7 +62,7 @@ workflow flu_i {
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow
-        //OMICS & Local PLATFORM: Stageall fastq files
+        // OMICS & Local PLATFORM: Stage all fastq files
         fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
@@ -71,7 +71,7 @@ workflow flu_i {
         sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
-        //OMICS & Local PLATFORM: END
+        // OMICS & Local PLATFORM: END
 
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
@@ -90,7 +90,7 @@ workflow flu_i {
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
 
-    //Run or pass READQC subworkflow based on read_qc parameter
+    // Run or pass READQC subworkflow based on read_qc parameter
     if (params.read_qc == false) {
         println 'Bypassing FastQC and MultiQC steps'
     } else if (params.read_qc == true) {
@@ -117,13 +117,13 @@ workflow flu_i {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
-    //setting up to put MIRA-NF version checking in email
+    // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
             storeDir:"${params.outdir}/pipeline_info",
@@ -132,31 +132,31 @@ workflow flu_i {
 }
 
 workflow flu_o {
-    //Error handling to prevent incorrect flags being used
-    //irma config handling
+    // Error handling to prevent incorrect flags being used
+    // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
-        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'ERROR!!: Aborting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
         println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     if (params.irma_module != 'none') {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    //primer error handling
+    // primer error handling
     if (params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
         println 'Please remove --custom_primers to continue.'
         workflow.exit
     } else if (params.p != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
         println 'Please remove --p to continue.'
         workflow.exit
     }
     if (params.p != null && params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
@@ -202,7 +202,7 @@ workflow flu_o {
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
 
-    //Run or pass READQC subworkflow based on read_qc parameter
+    // Run or pass READQC subworkflow based on read_qc parameter
     if (params.read_qc == false) {
         println 'Bypassing FastQC and MultiQC steps'
     } else if (params.read_qc == true) {
@@ -229,13 +229,13 @@ workflow flu_o {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
-    //SUBWORKFLOW: Create reports
+    // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
-    //setting up to put MIRA-NF version checking in email
+    // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
             storeDir:"${params.outdir}/pipeline_info",
@@ -244,31 +244,31 @@ workflow flu_o {
 }
 
 workflow sc2_spike_o {
-    //Error handling to prevent incorrect flags being used
-    //irma config handling
+    // Error handling to prevent incorrect flags being used
+    // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
-        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'ERROR!!: Aborting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
         println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     if (params.irma_module != 'none') {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
     if (params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
         println 'Please remove --custom_primers to continue.'
         workflow.exit
     } else if (params.p != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
         println 'Please remove --p to continue.'
         workflow.exit
     }
     if (params.p != null && params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. SC2-Whole-Genome-ONT experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
@@ -327,7 +327,7 @@ workflow sc2_spike_o {
     IRMA(PREPONTREADS.out.irma_ch)
     ch_versions = ch_versions.unique().mix(IRMA.out.versions)
 
-    //SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
+    // SUBWORKFLOW: Check IRMA outputs and prepare passed and failed samples
     check_irma_ch = IRMA.out.outputs.map { item ->
         def sample = item[0]
         def paths = item[1]
@@ -336,14 +336,14 @@ workflow sc2_spike_o {
     }
     CHECKIRMA(check_irma_ch)
 
-    //Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    // Run Dais Ribosome
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
-    //Create reports
+    // Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
-    //setting up to put MIRA-NF version checking in email
+    // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
             storeDir:"${params.outdir}/pipeline_info",
@@ -352,31 +352,31 @@ workflow sc2_spike_o {
 }
 
 workflow sc2_wgs_o {
-    //Error handling to prevent incorrect flags being used
-    //irma config handling
+    // Error handling to prevent incorrect flags being used
+    // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
-        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'ERROR!!: Aborting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
         println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     if (params.irma_module != 'none') {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     //primer error handling
     if (params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
         println 'Please remove --custom_primers to continue.'
         workflow.exit
     } else if (params.p != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
         println 'Please remove --p to continue.'
         workflow.exit
     }
     if (params.p != null && params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
@@ -449,7 +449,7 @@ workflow sc2_wgs_o {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //SUBWORKFLOW: Create reports
@@ -467,20 +467,20 @@ workflow sc2_wgs_i {
     //Error handling to prevent incorrect flags being used
     //irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
-        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'ERROR!!: Aborting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
         println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     if (params.irma_module != 'none') {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    //primer error handling
-    //checking that primer parameter chas been provided before proceding through workflow - aborts pipeline if none are given
+    // primer error handling
+    // checking that primer parameter has been provided before proceeding through workflow - aborts pipeline if none are given
     if (params.p == null && params.custom_primers == null) {
-        println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
+        println 'ERROR!!: Aborting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
     } else if (params.p == 'RSV_CDC_8amplicon_230901') {
@@ -504,7 +504,7 @@ workflow sc2_wgs_i {
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
-        //OMICS & Local PLATFORM: Stageall fastq files
+        // OMICS & Local PLATFORM: Stage all fastq files
         fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
@@ -513,9 +513,9 @@ workflow sc2_wgs_i {
         sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
-        //OMICS & Local PLATFORM: END
+        // OMICS & Local PLATFORM: END
 
-        //NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
+        // NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
 
@@ -524,7 +524,7 @@ workflow sc2_wgs_i {
         INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
-        //save samplesheet as the nf sample
+        // save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
@@ -533,7 +533,7 @@ workflow sc2_wgs_i {
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
 
-    //Run or pass READQC subworkflow based on read_qc parameter
+    // Run or pass READQC subworkflow based on read_qc parameter
     if (params.read_qc == false) {
         println 'Bypassing FastQC and MultiQC steps'
     } else if (params.read_qc == true) {
@@ -560,13 +560,13 @@ workflow sc2_wgs_i {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
-    //setting up to put MIRA-NF version checking in email
+    // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
             storeDir:"${params.outdir}/pipeline_info",
@@ -575,22 +575,22 @@ workflow sc2_wgs_i {
 }
 
 workflow rsv_i {
-    //Error handling to prevent incorrect flags being used
-    //irma config handling
+    // Error handling to prevent incorrect flags being used
+    // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
-        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'ERROR!!: Aborting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
         println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     if (params.irma_module != 'none') {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-    //primer error handling
+    // primer error handling
     if (params.p == null && params.custom_primers == null) {
-        println 'ERROR!!: Abosrting pipeline due to missing primer input for trimming'
+        println 'ERROR!!: Aborting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
     } else if (params.custom_primers != null) {
@@ -606,7 +606,7 @@ workflow rsv_i {
         params.p = null
     }
 
-    //Initializing parameters
+    // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
@@ -614,7 +614,7 @@ workflow rsv_i {
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
-        //OMICS & Local PLATFORM: Stageall fastq files
+        // OMICS & Local PLATFORM: Stage all fastq files
         fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
@@ -623,8 +623,8 @@ workflow rsv_i {
         sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
-        //OMICS & Local PLATFORM: END
-        //NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
+        // OMICS & Local PLATFORM: END
+        // NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
 
@@ -633,7 +633,7 @@ workflow rsv_i {
         INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
-        //save samplesheet as the nf sample
+        // save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
@@ -642,7 +642,7 @@ workflow rsv_i {
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     }
 
-    //Run or pass READQC subworkflow based on read_qc parameter
+    // Run or pass READQC subworkflow based on read_qc parameter
     if (params.read_qc == false) {
         println 'Bypassing FastQC and MultiQC steps'
     } else if (params.read_qc == true) {
@@ -669,13 +669,13 @@ workflow rsv_i {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPILLUMINAREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
-    //setting up to put MIRA-NF version checking in email
+    // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
             name: 'mira_version_check.txt',
             storeDir:"${params.outdir}/pipeline_info",
@@ -684,31 +684,31 @@ workflow rsv_i {
 }
 
 workflow rsv_o {
-    //Error handling to prevent incorrect flags being used
-    //irma config handling
+    // Error handling to prevent incorrect flags being used
+    // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
-        println 'ERROR!!: Abosrting pipeline due to conflicting flags'
+        println 'ERROR!!: Aborting pipeline due to conflicting flags'
         println 'Please provide only the --custom_irma_config flag.'
         println 'Currently, the --irma_module flag is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
     if (params.irma_module != 'none') {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-        //primer error handling
+        // primer error handling
         if (params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove --custom_primers to continue.'
         workflow.exit
     } else if (params.p != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove --p to continue.'
         workflow.exit
         }
     if (params.p != null && params.custom_primers != null) {
-        println 'ERROR!!: Abosrting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
@@ -736,7 +736,7 @@ workflow rsv_o {
         NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
         // OMICS & Local END
 
-        //NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        // NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
 
@@ -745,7 +745,7 @@ workflow rsv_o {
         INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
-        //save samplesheet as the nf sample
+        // save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
@@ -781,7 +781,7 @@ workflow rsv_o {
     CHECKIRMA(check_irma_ch)
 
     // MODULE: Run Dais Ribosome
-    DAISRIBOSOME(CHECKIRMA.out, PREPONTREADS.out.dais_module)
+    DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     // SUBWORKFLOW: Create reports
@@ -795,7 +795,7 @@ workflow rsv_o {
         )
 }
 // MAIN WORKFLOW
-// Decides which experiment type workflow to run based on experiemtn parameter given
+// Decides which experiment type workflow to run based on experiment parameter given
 workflow MIRA {
     if (params.e == 'Flu-Illumina') {
         flu_i()

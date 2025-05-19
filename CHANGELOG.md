@@ -3,6 +3,35 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.6.0
+
+### Credits
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Reina Chau](https://github.com/rchau88)
+- [Kristine Lacek](https://github.com/kristinelacek)
+- [Sam Wiley](https://github.com/samcwiley)
+
+### Enhancements
+
+### `Added`
+
+- [PR #55](https://github.com/CDCgov/MIRA-NF/pull/55) - Added new references (N4, N5 and N6) got DAIS-ribosome and update container.
+
+### `Fixed`
+
+- [PR #53](https://github.com/CDCgov/MIRA-NF/pull/53) - Fix error thrown when output directory and input directory have the same name. Address (issues #53)
+- [PR #56](https://github.com/CDCgov/MIRA-NF/pull/56) - Minor spelling corrections, including a fix for parsing user-provided input for `artic` primers files in `prepilluminareads.nf`
+
+### `Dependencies`
+
+- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) and [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Added IRMA-core's standalone `trimmer` module for handling barcode, primer, and hard trimming for prepping ONT and Illumina reads, replacing BBDuk.
+
+### `Deprecated`
+
+- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed `cutadapt` for hard trimming reads.
+- [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Removed BBDuk for handling barcode and primer trimming of reads.
+
 ## v1.5.0 - 2025.04.02
 
 ### Credits
