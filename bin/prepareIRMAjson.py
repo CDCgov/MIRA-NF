@@ -215,7 +215,7 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
         spike_med_cov_df = irma_summary_df[
         (irma_summary_df["Spike Median Coverage"] < qc_values[qc_plat_vir]["med_spike_cov"])][["Sample", "Reference"]]
         spike_med_cov_df["Reason_f"] = f"Median coverage of S gene < {qc_values[qc_plat_vir]['med_spike_cov']}"
-        if ref_covered_df.empty == False or med_cov_df.empty == False or minor_vars_df.empty == False or pre_stop_df.empty == False or spike_ref_covered_df.empty == False or spike_med_cov_df.empty == False:
+        if not ref_covered_df.empty or not med_cov_df.empty or not minor_vars_df.empty or not pre_stop_df.empty or not spike_ref_covered_df.empty or not spike_med_cov_df.empty:
             combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
             combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
             combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])
@@ -229,10 +229,10 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
         else:
             combined = pd.DataFrame(columns=['Sample', 'Reference', 'Protein', 'Reasons'])
     else:
-        if ref_covered_df.empty == False or med_cov_df.empty == False or minor_vars_df.empty == False or pre_stop_df.empty == False:
+        if not ref_covered_df.empty or not med_cov_df.empty or not minor_vars_df.empty or not pre_stop_df.empty:
             combined = ref_covered_df.merge(med_cov_df, how="outer", on=["Sample", "Reference"])
             combined = combined.merge(minor_vars_df, how="outer", on=["Sample", "Reference"])
-            combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])   
+            combined = combined.merge(pre_stop_df, how="outer", on=["Sample", "Reference"])
             combined["Reasons"] = (
             combined[["Reason_a", "Reason_b", "Reason_c", "Reason_d"]]
             .fillna("")
@@ -240,7 +240,7 @@ def pass_fail_qc_df(irma_summary_df, dais_vars_df, nt_seqs_df):
             )
         else:
             combined = pd.DataFrame(columns=['Sample', 'Reference', 'Protein', 'Reasons'])
-    
+
     # Add in found sequences
     combined = combined.merge(nt_seqs_df, how="outer", on=["Sample", "Reference"])
     combined["Reasons"] = combined.apply(
