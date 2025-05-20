@@ -70,13 +70,17 @@ workflow flu_i {
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow
-        // OMICS & Local PLATFORM: Stage all fastq files
-        fastq_ch = Channel
+        // Stage fastq files based on profile
+        if (params.restage == true){
+            fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+            def runid = params.runpath.tokenize('/').last()
+            sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+        } else if (params.restage == false ){
+            sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
+            
+        }
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END
@@ -532,13 +536,16 @@ workflow sc2_wgs_i {
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
-        // OMICS & Local PLATFORM: Stage all fastq files
-        fastq_ch = Channel
+        // Stage fastq files based on profile
+        if (params.restage == true){
+            fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+            def runid = params.runpath.tokenize('/').last()
+            sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+        } else if (params.restage == false ){
+            sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
+        }
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END
@@ -662,13 +669,16 @@ workflow rsv_i {
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
-        // OMICS & Local PLATFORM: Stage all fastq files
-        fastq_ch = Channel
+        // Stage fastq files based on profile
+        if (params.restage == true){
+            fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+            def runid = params.runpath.tokenize('/').last()
+            sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+        } else if (params.restage == false ){
+            sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
+        }
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END

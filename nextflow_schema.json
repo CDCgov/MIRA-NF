@@ -239,6 +239,13 @@
                     "pattern": "^(\\d+\\.?\\s*(s|m|h|d|day)\\s*)+$",
                     "hidden": true,
                     "help_text": "Use to set an upper-limit for the time requirement for each process. Should be a string in the format integer-unit e.g. `--max_time '2.h'`"
+                },
+                "restage": {
+                    "type": "boolean",
+                    "description": "Used to decide when the fastq files are restaged in the out directory.",
+                    "default": "false",
+                    "hidden": true,
+                    "help_text": "Copies the fastq files of Illumina runs into the out directory. Only on for Standard (for AWS) by default."
                 }
             }
         },
