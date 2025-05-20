@@ -39,12 +39,20 @@ workflow flu_i {
         workflow.exit
     }
     // primer error handling
-    if (params.custom_primers != null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
-        println 'Please remove --custom_primers to continue.'
+    if (params.custom_primers != null && params.primer_kmer_len == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit
+    } else if (params.custom_primers != null && params.primer_restrict_window == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit
+    } else if (params.custom_primers != null && params.primer_kmer_len == null && params.primer_restrict_window == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
         workflow.exit
     } else if (params.p != null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not have default primer trimming.'
         println 'Please remove --p to continue.'
         workflow.exit
     }
@@ -483,16 +491,36 @@ workflow sc2_wgs_i {
         println 'ERROR!!: Aborting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
-    } else if (params.p == 'RSV_CDC_8amplicon_230901') {
+    } 
+    if (params.custom_primers != null && params.primer_kmer_len == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit
+    } 
+    if (params.custom_primers != null && params.primer_restrict_window == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit
+    }
+    if (params.custom_primers != null && params.primer_kmer_len == null && params.primer_restrict_window == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit
+    }
+    if (params.p == 'RSV_CDC_8amplicon_230901') {
         println 'ERROR!!: The primer selection provided is not compatible with SARS-CoV-2'
         println 'Please select the one of the SARS-CoV-2 primer sets or provide a custom primer set'
         workflow.exit
-    } else if (params.custom_primers != null) {
-        println 'Using custom primers for trimming'
-    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4') {
+    }
+    if (params.custom_primers == null && params.p != null) {
         println "using ${params.p} primers for trimming"
-    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' && params.custom_primers != null) {
-        println 'using custom primers for trimming'
+    }
+    if (params.custom_primers != null && params.p == null) {
+        println 'Using custom primers for trimming'
+    }
+    if (params.p != null && params.custom_primers != null) {
+        println 'Both the primer flag and the custom_primer flag have been provided.'
+        println 'Using custom primers will be used for trimming'
         params.p = null
     }
 
@@ -593,18 +621,38 @@ workflow rsv_i {
         println 'ERROR!!: Aborting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
-    } else if (params.custom_primers != null) {
-        println 'Using custom primers for trimming'
-    } else if (params.p == 'RSV_CDC_8amplicon_230901') {
-        println "using ${params.p} primers for trimming"
-    }else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4') {
-        println 'ERROR!!: The primer selection provided is not compatible with RSV'
-        println 'Please select the RSV_CDC_8amplicon_230901 primer set or provide a custom primer set'
-        workflow.exit
-    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' || 'RSV_CDC_8amplicon_230901' && params.custom_primers != null) {
-        println 'using custom primers for trimming'
-        params.p = null
     }
+    if (params.custom_primers != null && params.primer_kmer_len == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit
+    } 
+    if (params.custom_primers != null && params.primer_restrict_window == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit
+    }
+    if (params.custom_primers != null && params.primer_kmer_len == null && params.primer_restrict_window == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit
+    } 
+    if (params.custom_primers != null && params.p == null) {
+        println 'Using custom primers for trimming'
+    }
+    if (params.p == 'RSV_CDC_8amplicon_230901') {
+        println "using ${params.p} primers for trimming"
+    }
+    if (params.p != null && (params.p == "varskip" || params.p == "swift_211206" || params.p == "swift" || params.p == 'qiagen' || params.p == 'atric5.3.2' || params.p == 'atric4.1' || params.p == 'atric4')) {
+        println "ERROR!!: The primer selection ${params.p} provided is not compatible with RSV"
+        println 'Please select the RSV_CDC_8amplicon_230901 primer set or provide a custom primer set'
+        workflow.exit()
+    }
+    if ((params.p == 'varskip' || params.p == 'swift_211206' || params.p == 'swift' || params.p == 'qiagen' || params.p == 'atric5.3.2' || params.p == 'atric4.1' || params.p == 'atric4' || params.p == 'RSV_CDC_8amplicon_230901') && params.custom_primers != null) {
+        println 'Both the primer flag and the custom_primer flag have been provided.'
+        println 'Using custom primers will be used for trimming'
+        params.p = null
+}
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)

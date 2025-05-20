@@ -6,8 +6,9 @@
 
 include { FINDCHEMISTRYI       } from '../../modules/local/findchemistryi'
 include { SUBSAMPLEPAIREDREADS } from '../../modules/local/subsamplepairedreads'
+include { FLUTRIMPRIMERS       } from '../../modules/local/flutrimprimers'
 include { SC2TRIMPRIMERS       } from '../../modules/local/sc2trimprimers'
-include { RSVTRIMPRIMERS   } from '../../modules/local/rsvtrimprimers'
+include { RSVTRIMPRIMERS       } from '../../modules/local/rsvtrimprimers'
 
 workflow PREPILLUMINAREADS {
     take:
@@ -138,7 +139,6 @@ workflow PREPILLUMINAREADS {
     sample_empty_fastq_ch = FINDCHEMISTRYI.out.sample_chem_csv
         .splitCsv(header: true)
         .filter { it.size() == 0 }
-        .view()
 
     // Subsample
     if (params.subsample_reads > 0) {
@@ -154,7 +154,6 @@ workflow PREPILLUMINAREADS {
             .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1].subsample] }
 
         subsample_ch = new_ch4.combine(primers).combine(primer_kmer_len).combine(primer_restrict_window)
-        subsample_ch.view()
 
         SUBSAMPLEPAIREDREADS(subsample_ch)
         ch_versions = ch_versions.unique().mix(SUBSAMPLEPAIREDREADS.out.versions)
@@ -168,12 +167,7 @@ workflow PREPILLUMINAREADS {
             new_ch3 = new_ch2.combine(primers)
             .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1]] }
 
-            new_ch4 = new_ch3.combine(primer_kmer_len).combine(primer_restrict_window)
-            subsample_ch.view()
-    }
-
-    if (params.e == 'Flu-Illumina' & params.custom_primers != null) {
-        println("testing")
+            subsample_output_ch = new_ch3.combine(primer_kmer_len).combine(primer_restrict_window)
     }
 
     // If experiment type is SC2-Whole-Genome-Illumina then samples will go through the primer trimming steps with SC2 primers
@@ -227,7 +221,31 @@ workflow PREPILLUMINAREADS {
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
         .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
-    } else if (params.e == 'Flu-Illumina') {
+    } else if (params.e == 'Flu-Illumina' && params.custom_primers != null) {
+        //// Trim reads with custom flu primers
+        FLUTRIMPRIMERS(subsample_output_ch)
+        ch_versions = ch_versions.mix(FLUTRIMPRIMERS.out.versions)
+
+        // restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
+        read_1_ch = FLUTRIMPRIMERS.out.trim_fastqs.map { item ->
+            [ item[0], item[1]]
+        }
+        read_2_ch = FLUTRIMPRIMERS.out.trim_fastqs.map { item ->
+            [item[0], item[2]]
+        }
+        reads_ch = read_1_ch.concat(read_2_ch)
+        reads_combined_ch = reads_ch.groupTuple(by: 0)
+        reads_combined_ch.map { item ->
+            [ sample_ID: item[0], subsampled_fastq_files: item[1]]
+        }
+        .set { final_combined_reads_ch }
+
+        // combining chemistry info with read info
+        irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
+        .filter { it[0].sample_ID == it[1].sample_ID
+         }
+        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+    } else if (params.e == 'Flu-Illumina' && params.custom_primers == null) {
         //// Make IRMA input channel without trimming primers
         // restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
         read_1_ch = subsample_output_ch.map { item ->
