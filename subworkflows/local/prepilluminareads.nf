@@ -17,6 +17,8 @@ workflow PREPILLUMINAREADS {
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
+    primer_kmer_len = Channel.value(params.primer_kmer_len)
+    primer_restrict_window = Channel.value(params.primer_restrict_window)
     //If sourcepath flag is given, sourcepath will be used for the file path to the primers
     if (params.sourcepath == null) {
         primer_path = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
@@ -24,40 +26,40 @@ workflow PREPILLUMINAREADS {
         if (params.p) {
             if (params.p == 'artic3') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv3.fasta", checkIfExists: true)
-                primer_kmer_len = "21"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of('21')
+                primer_restrict_window = Channel.of(40) 
             } else if (params.p == 'artic4') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv4.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of(19)
+                primer_restrict_window = Channel.of(40)
             } else if (params.p == 'artic4.1') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv4.1.fasta", checkIfExists: true)
-                primer_kmer_len = "20"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of(20)
+                primer_restrict_window = Channel.of(40)
             } else if (params.p == 'artic5.3.2') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv5.3.2.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of(19)
+                primer_restrict_window = Channel.of(40) 
             } else if (params.p == 'qiagen') {
                 primers = Channel.fromPath("${projectDir}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of(19)
+                primer_restrict_window = Channel.of(40)
             } else if (params.p == 'swift') {
                 primers = Channel.fromPath("${projectDir}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
-                primer_kmer_len = "17"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of(17)
+                primer_restrict_window = Channel.of(40)
             } else if (params.p == 'swift_211206') {
                 primers = Channel.fromPath("${projectDir}/data/primers/swift_211206.fasta", checkIfExists: true)
-                primer_kmer_len = "17"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of(17)
+                primer_restrict_window = Channel.of(40) 
             }  else if (params.p == 'varskip') {
                 primers = Channel.fromPath("${projectDir}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of(19)
+                primer_restrict_window = Channel.of(40)
             }  else if (params.p == 'RSV_CDC_8amplicon_230901') {
                 primers = Channel.fromPath("${projectDir}/data/primers/RSV_CDC_8amplicon_230901.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40" 
+                primer_kmer_len = Channel.of(19)
+                primer_restrict_window = Channel.of(40)
             }
         }
     } else {
@@ -66,40 +68,40 @@ workflow PREPILLUMINAREADS {
         if (params.p) {
             if (params.p == 'artic3') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv3.fasta", checkIfExists: true)
-                primer_kmer_len = "21"
-                primer_restrict_window = "40" 
+                primer_kmer_len = '21'
+                primer_restrict_window = '40'
             } else if (params.p == 'artic4') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv4.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40" 
+                primer_kmer_len = '19'
+                primer_restrict_window = '40'
             } else if (params.p == 'artic4.1') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv4.1.fasta", checkIfExists: true)
-                primer_kmer_len = "20"
-                primer_restrict_window = "40" 
+                primer_kmer_len = '20'
+                primer_restrict_window = '40'
             } else if (params.p == 'artic5.3.2') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/articv5.3.2.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40"
+                primer_kmer_len = '19'
+                primer_restrict_window = '40' 
             } else if (params.p == 'qiagen') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
-                primer_kmer_len = "17"
-                primer_restrict_window = "40" 
+                primer_kmer_len = '17'
+                primer_restrict_window = '40' 
             } else if (params.p == 'swift') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
-                primer_kmer_len = "17"
-                primer_restrict_window = "40" 
+                primer_kmer_len = '17'
+                primer_restrict_window = '40' 
             } else if (params.p == 'swift_211206') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/swift_211206.fasta", checkIfExists: true)
-                primer_kmer_len = "17"
-                primer_restrict_window = "40" 
+                primer_kmer_len = '17'
+                primer_restrict_window = '40' 
             }  else if (params.p == 'varskip') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/neb_vss1a.primer.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40" 
+                primer_kmer_len = '19'
+                primer_restrict_window = '40' 
             }  else if (params.p == 'RSV_CDC_8amplicon_230901') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/RSV_CDC_8amplicon_230901.fasta", checkIfExists: true)
-                primer_kmer_len = "19"
-                primer_restrict_window = "40" 
+                primer_kmer_len = '19'
+                primer_restrict_window = '40' 
             }
         }
     }
@@ -151,7 +153,8 @@ workflow PREPILLUMINAREADS {
             .filter { it[0].sample == it[1].sample }
             .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1].subsample] }
 
-        subsample_ch = new_ch4.combine(primers)
+        subsample_ch = new_ch4.combine(primers).combine(primer_kmer_len).combine(primer_restrict_window)
+        subsample_ch.view()
 
         SUBSAMPLEPAIREDREADS(subsample_ch)
         ch_versions = ch_versions.unique().mix(SUBSAMPLEPAIREDREADS.out.versions)
@@ -162,8 +165,15 @@ workflow PREPILLUMINAREADS {
                 [sample:item.sample, fastq_1:item.fastq_1, fastq_2:item.fastq_2]
             }
 
-            subsample_output_ch = new_ch2.combine(primers)
+            new_ch3 = new_ch2.combine(primers)
             .map { [it[0].sample, it[0].fastq_1, it[0].fastq_2, it[1]] }
+
+            new_ch4 = new_ch3.combine(primer_kmer_len).combine(primer_restrict_window)
+            subsample_ch.view()
+    }
+
+    if (params.e == 'Flu-Illumina' & params.custom_primers != null) {
+        println("testing")
     }
 
     // If experiment type is SC2-Whole-Genome-Illumina then samples will go through the primer trimming steps with SC2 primers
