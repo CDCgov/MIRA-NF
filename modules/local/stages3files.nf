@@ -9,7 +9,7 @@ process STAGES3FILES {
     path(fastq_file, stageAs: '?/*')
 
     output:
-    path("./${folder}")
+    val("${folder}")
 
     script:
     """
