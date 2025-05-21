@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 - [PR #55](https://github.com/CDCgov/MIRA-NF/pull/55) - Added new references (N4, N5 and N6) got DAIS-ribosome and update container.
-- [PR #64](https://github.com/CDCgov/MIRA-NF/pull/64) - Added the ability to do custom primer trimming with the Flu-Illumina module
+- [PR #66](https://github.com/CDCgov/MIRA-NF/pull/64) - Added the ability to do custom primer trimming with the Flu-Illumina module
 
 ### `Fixed`
 
@@ -26,13 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54), [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) and [PR #64](https://github.com/CDCgov/MIRA-NF/pull/64)- Added IRMA-core's standalone `trimmer` module for handling barcode, primer, and hard trimming for prepping ONT and Illumina reads, replacing BBDuk and cutadapt.
+- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54), [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) and [PR #66](https://github.com/CDCgov/MIRA-NF/pull/64)- Added IRMA-core's standalone `trimmer` module for handling barcode, primer, and hard trimming for prepping ONT and Illumina reads, replacing BBDuk and cutadapt
 
 ### `Deprecated`
 
 - [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed `cutadapt` for hard trimming reads.
 - [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Removed BBDuk for handling barcode and primer trimming of reads.
-- [PR #64](https://github.com/CDCgov/MIRA-NF/pull/64) - Only performing the staging of Illumina fastq files for the standard (AWS) profile. It was removed for all other profiles.
+- [PR #66](https://github.com/CDCgov/MIRA-NF/pull/64) - Only performing the staging of Illumina fastq files for the standard (AWS) profile. It was removed for all other profiles.
 
 ## v1.5.0 - 2025.04.02
 
