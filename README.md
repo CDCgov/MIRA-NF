@@ -120,13 +120,15 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 # Input Parameters for MIRA-NF
 
-- `profile` - singularity,docker,local,sge,slurm \ You can use docker or singularity. Use local for running on local computer.
-- `input` - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
-- `outdir` - The file path to where you would like the output directory to write the files. The full file path is required.
-- `runpath` - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.
-- `e` - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT.
+| Flag       | Description                                                                                                           |
+|------------|-----------------------------------------------------------------------------------------------------------------------|
+| `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
+| `input`    | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                         |
+| `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
+| `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
+| `e`        | Experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT. |
 
-*all commands listed below can not be included in run command and the defaults will be used*
+### *all commands listed below can not be included in run command and the defaults will be used*
 
 | Flag                  | Description                                                                                                                                                                                                                       |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
