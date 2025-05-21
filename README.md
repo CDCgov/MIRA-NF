@@ -128,7 +128,7 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 | `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
 | `e`        | Experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT. |
 
-### *all commands listed below can not be included in run command and the defaults will be used*
+### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
 
 | Flag                  | Description                                                                                                                                                                                                                       |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
