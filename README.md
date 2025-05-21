@@ -32,15 +32,14 @@ MIRA performs these steps for genome assembly and curation:
 9. Create html, excel files and amended consensus fasta files
 10. Reformat tables into parquet files and csv files
 
-MIRA is able to analyze 7 data types:
+#### MIRA is able to analyze 7 data types:
 
-1. Flu-Illumina - Flu whole genome data created with an illumina machine
-2. Flu-ONT - Flu whole genome data created with an OxFord Nanopore machine
-3. SC2-Whole-Genome-Illumina - SARS-CoV-2 whole genome data created with an illumina machine
-4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord Nanopore machine
-5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord Nanopore machine
-6. RSV-Illumina - RSV whole genome data created with an illumina machine
-7. RSV-ONT - RSV whole genome data created with an OxFord Nanopore machine
+|                | Illumina | ONT | 
+|----------------|--------------|---------|
+| Influenza            |   🥳         | 🥳       |
+| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 | 
+| SARS-CoV-2 :: Spike-only            |            |    🥳   |
+| RSV            |       🥳       |     🥳    |  
 
 ![MIRA-NF workflows with default settings](docs/images/mira_nf_workflow_img_v4.png)
 *MIRA-NF workflows with default settings*
