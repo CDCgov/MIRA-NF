@@ -178,8 +178,6 @@ workflow PREPILLUMINAREADS {
             subsample_output_ch = new_ch3.combine(primer_kmer_len).combine(primer_restrict_window)
     }
 
-    subsample_output_ch.view()
-
     // If experiment type is SC2-Whole-Genome-Illumina then samples will go through the primer trimming steps with SC2 primers
     // If not they are passed to the irma channel immediately
     if (params.e == 'SC2-Whole-Genome-Illumina') {
