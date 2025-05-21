@@ -43,6 +43,7 @@ MIRA is able to analyze 7 data types:
 7. RSV-ONT - RSV whole genome data created with an OxFord Nanopore machine
 
 ![MIRA-NF workflows with default settings](docs/images/mira_nf_workflow_img_v4.png)
+*MIRA-NF workflows with default settings*
 
 ## Usage
 
@@ -113,8 +114,6 @@ Third, pull the mira-nf work flow from github using:
 git clone https://github.com/CDCgov/MIRA-NF.git
 cd MIRA-NF
 ```
-
-**using dev branch temporary
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
