@@ -42,7 +42,7 @@ MIRA is able to analyze 7 data types:
 6. RSV-Illumina - RSV whole genome data created with an illumina machine
 7. RSV-ONT - RSV whole genome data created with an OxFord Nanopore machine
 
-![Alt text](docs/images/mira_nf_workflow_img_v3.png)
+![MIRA-NF workflows with default settings](docs/images/mira_nf_workflow_img_v4.png)
 
 ## Usage
 
