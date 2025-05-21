@@ -5,7 +5,7 @@ process RSVTRIMPRIMERS {
     container 'ghcr.io/cdcgov/irma-core:v0.4.3'
 
     input:
-    tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers)
+    tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers), val(primer_kmer_len), val(primer_restrict_window)
 
     output:
     tuple val(sample), path('*ptrim_R1.fastq'), path('*ptrim_R2.fastq'), emit: trim_fastqs
@@ -29,8 +29,8 @@ process RSVTRIMPRIMERS {
 	    --p-end B \\
 	    --polyg-trim 10 \\
 	    --p-fuzzy \\
-	    --p-kmer-length 19 \\
-	    --p-restrict 35 \\
+	    --p-kmer-length ${primer_kmer_len} \\
+	    --p-restrict ${primer_restrict_window} \\
         1> ${sample}.primertrim.stdout.log \\
         2> ${sample}.primertrim.stderr.log
 
