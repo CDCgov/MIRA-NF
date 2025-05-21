@@ -3,37 +3,6 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.6.0
-
-### Credits
-
-- [Amanda Sullivan](https://github.com/mandysulli)
-- [Sam Wiley](https://github.com/samcwiley)
-- [Kristine Lacek](https://github.com/kristinelacek)
-- [Reina Chau](https://github.com/rchau88)
-
-### Enhancements
-
-### `Added`
-
-- [PR #55](https://github.com/CDCgov/MIRA-NF/pull/55) - Added new references (N4, N5 and N6) got DAIS-ribosome and update container.
-- [PR #64](https://github.com/CDCgov/MIRA-NF/pull/64) - Added the ability to do custom primer trimming with the Flu-Illumina module
-
-### `Fixed`
-
-- [PR #53](https://github.com/CDCgov/MIRA-NF/pull/53) - Fix error thrown when output directory and input directory have the same name. Address (issues #53)
-- [PR #56](https://github.com/CDCgov/MIRA-NF/pull/56) - Minor spelling corrections, including a fix for parsing user-provided input for `artic` primers files in `prepilluminareads.nf`
-
-### `Dependencies`
-
-- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54), [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) and [PR #64](https://github.com/CDCgov/MIRA-NF/pull/64)- Added IRMA-core's standalone `trimmer` module for handling barcode, primer, and hard trimming for prepping ONT and Illumina reads, replacing BBDuk and cutadapt.
-
-### `Deprecated`
-
-- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed `cutadapt` for hard trimming reads.
-- [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Removed BBDuk for handling barcode and primer trimming of reads.
-- [PR #64](https://github.com/CDCgov/MIRA-NF/pull/64) - Only performing the staging of Illumina fastq files for the standard (AWS) profile. It was removed for all other profiles.
-
 ## v1.5.0 - 2025.04.02
 
 ### Credits
@@ -66,7 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 - [PR #49](https://github.com/CDCgov/MIRA-NF/pull/49) - fixed binding to dais ribosome containers with docker profile.
-- [PR #62](https://github.com/CDCgov/MIRA-NF/pull/62) - fixed empty dataframe handling in prepareIRMAjson.py.
 
 ### `Dependencies`
 
@@ -90,7 +58,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Dependencies`
 
 - [PR #45](https://github.com/CDCgov/MIRA-NF/pull/45) - Updated DAIS ribosome references to include translated A/Astrakhan N8 reference for compatibility with DAIS ribosome 1.1.5.
-- [PR #62](https://github.com/CDCgov/MIRA-NF/pull/45) - Updated DAIS ribosome references to be CVVs for more up to date comparisons.
 
 ### `Deprecated`
 

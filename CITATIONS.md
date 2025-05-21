@@ -20,13 +20,15 @@
 
 - [bbtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/)
 
+- [bbduk](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/)
+
+- [cutadapt](https://journal.embnet.org/index.php/embnetjournal/article/view/200)
+
+ > Martin, Marcel. Cutadapt removes adapter sequences from high-throughput sequencing reads. EMBnet.journal, [S.l.], v. 17, n. 1, p. pp. 10-12, may 2011. ISSN 2226-6089. Date accessed: 19 july 2024. doi:<https://doi.org/10.14806/ej.17.1.200>.
+
 - [IRMA](https://wonder.cdc.gov/amd/flu/irma/)
 
  > Shepard, S.S., Meno, S., Bahl, J. et al. Viral deep sequencing needs an adaptive approach: IRMA, the iterative refinement meta-assembler. BMC Genomics 17, 708 (2016). <https://doi.org/10.1186/s12864-016-3030-6>
-
-- [IRMA-core](https://github.com/CDCgov/irma-core)
-
- > Shepard, S.S., Chettleburgh, W., Wiley, S. IRMA-core: a tool for IRMA and to assist the sequencing of virus genomes. (2025)
 
 ## Software packaging/containerisation tools
 

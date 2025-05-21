@@ -5,7 +5,7 @@ process NEXTFLOWSAMPLESHEETI {
 
     input:
     path samplesheet
-    val fastq_files
+    path fastq_files
     val experiment_type
 
     output:
@@ -20,7 +20,7 @@ process NEXTFLOWSAMPLESHEETI {
 
     """
     #Create nf samplesheet
-    create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${fastq_files}" -e "${experiment_type}"
+    create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${params.outdir}" -e "${experiment_type}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

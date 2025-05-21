@@ -1,18 +1,25 @@
-x-multiqc-image: &multiqc-image cdcgov/multiqc:v1.19-alpine
+x-multiqc-image:
+  &multiqc-image
+  cdcgov/multiqc:v1.19-alpine
 
-x-fastqc-image: &fastqc-image cdcgov/fastqc:v0.12.1-alpine
+x-fastqc-image:
+  &fastqc-image
+  cdcgov/fastqc:v0.12.1-alpine
 
-x-bbtools-image: &bbtools-image cdcgov/bbtools:v39.01-alpine
+x-bbtools-image:
+  &bbtools-image
+  cdcgov/bbtools:v39.01-alpine
 
-<<<<<<< HEAD
-x-cutadapt-image: &cutadapt-image cdcgov/cutadapt:v4.4-alpine
-=======
-x-blast-image: &blast-image cdcgov/blast:v2.13.0-alpine
->>>>>>> d949d5791b1cbe27098a7af04a9979030b20cdce
+x-cutadapt-image:
+  &cutadapt-image
+  cdcgov/cutadapt:v4.4-alpine
 
-x-mira-nf-image: &mira-nf-image cdcgov/mira-nf:python3.10-alpine
+x-mira-nf-image:
+  &mira-nf-image
+  cdcgov/mira-nf:python3.10-alpine
 
-x-data-volume: &data-volume
+x-data-volume:
+  &data-volume
   type: bind
   source: /home/snu3/Github/FLU_SC2_SEQUENCING
   target: /data
@@ -41,32 +48,22 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-<<<<<<< HEAD
   cutadapt:
     container_name: cutadapt
     image: *cutadapt-image
     restart: always
-=======
-  blast:
-    container_name: blast
-    image: *blast-image
->>>>>>> d949d5791b1cbe27098a7af04a9979030b20cdce
     volumes:
       - *data-volume
     command: tail -f /dev/null
 
-  mira-nf:
+  mira-nf: 
     container_name: mira-nf
     image: *mira-nf-image
     depends_on:
       - multiqc
       - fastqc
       - bbtools
-<<<<<<< HEAD
       - cutadapt
-=======
-      - blast
->>>>>>> d949d5791b1cbe27098a7af04a9979030b20cdce
     restart: always
     volumes:
       - *data-volume

@@ -19,11 +19,6 @@ workflow PREPAREREPORTS {
     platform = Channel.empty()
     virus = Channel.empty()
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
-    //Get run name
-    def path = "${params.runpath}"
-    def folder_name = new File(path)
-    def run_name = folder_name.name
-    //Get irma directory
     irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     input_ch = Channel.fromPath(params.input, checkIfExists: true)
     //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
@@ -94,7 +89,7 @@ workflow PREPAREREPORTS {
     PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus, irma_config_type_ch, qc_path_ch)
     ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
 
-    //convert aggregate reports (json files) into html files
+    //convert aggragate reports (json files) into html files
     STATICHTML(support_file_path, PREPAREIRMAJSON.out.dash_json_and_fastqs, run_ID_ch)
     ch_versions = ch_versions.mix(STATICHTML.out.versions)
 
@@ -103,26 +98,26 @@ workflow PREPAREREPORTS {
     if (params.reformat_tables == true) {
         //Get instrument type for parquetmaker
         if (params.e == 'Flu-Illumina') {
-            instrument_ch = 'illumina'
+            instrment_ch = 'illumina'
         } else if (params.e == 'Flu-ONT') {
-            instrument_ch = 'ont'
+            instrment_ch = 'ont'
         } else if (params.e == 'SC2-Spike-Only-ONT') {
-            instrument_ch = 'ont'
+            instrment_ch = 'ont'
         } else if (params.e == 'SC2-Whole-Genome-ONT') {
-            instrument_ch = 'ont'
+            instrment_ch = 'ont'
         } else if (params.e == 'SC2-Whole-Genome-Illumina') {
-            instrument_ch = 'illumina'
+            instrment_ch = 'illumina'
         } else if (params.e == 'RSV-Illumina') {
-            instrument_ch = 'illumina'
+            instrment_ch = 'illumina'
         } else if (params.e == 'RSV-ONT') {
-            instrument_ch = 'ont'
+            instrment_ch = 'ont'
         }
 
-        PARQUETMAKER(STATICHTML.out.reports, run_name, input_ch, instrument_ch, irma_dir_ch)
+        PARQUETMAKER(STATICHTML.out.reports, run_ID_ch, input_ch, instrment_ch, irma_dir_ch)
         ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
 
         if (params.e == 'Flu-Illumina' || params.e == 'Flu-ONT') {
-            ADDFLUSUBTYPE(irma_dir_ch, run_name, PARQUETMAKER.out.aavars, PARQUETMAKER.out.input_summary)
+            ADDFLUSUBTYPE(irma_dir_ch, run_ID_ch, PARQUETMAKER.out.aavars, PARQUETMAKER.out.input_summary)
             ch_versions = ch_versions.mix(ADDFLUSUBTYPE.out.versions)
         }
 

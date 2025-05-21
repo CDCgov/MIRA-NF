@@ -1,14 +1,24 @@
-x-python-image: &python-image python:3.10-alpine
 
-x-python-version: &python-version python3.10
+x-python-image:
+  &python-image
+  python:3.10-alpine
 
-x-pyarrow-image: &pyarrow-image mira-nf:pyarrow-alpine
+x-python-version:
+  &python-version
+  python3.10
 
-x-mira-nf-image: &mira-nf-image mira-nf:python3.10-alpine
+x-pyarrow-image:
+  &pyarrow-image
+  mira-nf:pyarrow-alpine
 
-x-data-volume: &data-volume
+x-mira-nf-image:
+  &mira-nf-image
+  mira-nf:python3.10-alpine
+
+x-data-volume:
+  &data-volume
   type: bind
-  source: /home/xpa3/FLU_SC2_SEQUENCING
+  source: /home/snu3/Github/FLU_SC2_SEQUENCING
   target: /data
 
 services:
@@ -56,7 +66,7 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-  pyarrow:
+  pyarrow: 
     container_name: pyarrow
     image: *pyarrow-image
     build:
@@ -70,8 +80,24 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
+  cutadapt:
+    container_name: cutadapt
+    image: mira-nf:cutadapt-alpine
+    build:
+      context: .
+      dockerfile: cutadapt/Dockerfile-cutadapt
+      args:
+        python_image: *pyarrow-image
+        python_version: *python-version
+        cutadapt_version: 4.4
+    depends_on:
+      - pyarrow
+    restart: always
+    volumes:
+      - *data-volume
+    command: tail -f /dev/null
 
-  mira-nf:
+  mira-nf: 
     container_name: mira-nf
     image: *mira-nf-image
     build:
@@ -84,11 +110,7 @@ services:
       - multiqc
       - fastqc
       - bbtools
-<<<<<<< HEAD
       - cutadapt
-=======
-      - blast
->>>>>>> d949d5791b1cbe27098a7af04a9979030b20cdce
       - pyarrow
     restart: always
     volumes:

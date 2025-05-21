@@ -11,9 +11,7 @@ Authors@R:
     person(given="Reina", family="Chau", role=c("aut"), 
            email="snu3@cdc.gov", comment=c(ORCID="0000-0003-3012-1404")),
     person(given="Amanda", family="Sullivan", role=c("aut","cre"), 
-           email="xpa3@cdc.gov", comment=c(ORCID="0000-0003-2007-4210")),
-    person(given="Sam", family="Wiley", role=c("aut"),
-           email="dzw2@cdc.gov", comment=c(ORCID="0009-0003-3079-5174"))           
+           email="xpa3@cdc.gov", comment=c(ORCID="0000-0003-2007-4210"))
   )
 Description: mira-nf
 RoxygenNote: 7.2.3

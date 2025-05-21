@@ -25,12 +25,13 @@ MIRA performs these steps for genome assembly and curation:
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
 3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
 4. Subsampling to faster analysis (optional) ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
-5. Trimming ([`IRMA-core`](https://github.com/CDCgov/irma-core)) 
-6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
-7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
-8. Collect results from IRMA and DAIS-Ribosome in json files
-9. Create html, excel files and amended consensus fasta files
-10. Reformat tables into parquet files and csv files
+5. Trimming and Quality Filtering ([`bbduk`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
+6. Adapter removal ([`cutadapt`](https://github.com/marcelm/cutadapt/))
+7. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
+8. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
+9. Collect results from IRMA and DAIS-Ribosome in json files
+10. Create html, excel files and amended consensus fasta files
+11. Reformat tables into parquet files and csv files
 
 MIRA is able to analyze 7 data types:
 
@@ -204,7 +205,7 @@ qsub MIRA_nextflow.sh \
 
 ## Credits
 
-mira-nf/mira is developed and maintained by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan, and Sam Wiley.
+mira-nf/mira is developed and maintained by Ben Rambo-Martin, Kristine Lacek, Reina Chau, and Amanda Sullivan.
 
 ## Citations
 

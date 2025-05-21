@@ -14,17 +14,17 @@ workflow CHECKIRMA {
 
     main:
 
-    // IRMA checkpoint
+    //IRMA checkpoint
     CONFIRMIRMAOUTPUT(check_irma_ch)
 
     // Filter samples to passed and failed
     passedSamples = CONFIRMIRMAOUTPUT.out.filter { it[2].text.trim() == 'passed' }.map { it[1] }
     failedSamples = CONFIRMIRMAOUTPUT.out.filter { it[2].text.trim() == 'failed' }.map { it[0] }
 
-    // moving failed to IRMA_negative folder
+    //moving failed to IRMA_negative folder
     PASSFAILED(failedSamples)
 
-    // concat files for dais input and print file to working directory for troubleshooting
+    //concat files for daisinput and print file to working directory for troubleshooting
     dais_ch = CREATEDAISINPUT(passedSamples.collect())
 
     emit:
