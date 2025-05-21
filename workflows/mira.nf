@@ -39,26 +39,20 @@ workflow flu_i {
         workflow.exit
     }
     // primer error handling
-    if (params.custom_primers != null && params.primer_kmer_len == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+    if (params.custom_primers != null && (params.primer_kmer_len == null || params.primer_restrict_window == null)) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
-    } else if (params.custom_primers != null && params.primer_restrict_window == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
-        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
-    } else if (params.custom_primers != null && params.primer_kmer_len == null && params.primer_restrict_window == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
-        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
-    } else if (params.p != null) {
+        workflow.exit()
+    }
+
+    if (params.p != null && params.custom_primers == null) {
         println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not have default primer trimming.'
         println 'Please remove --p to continue.'
         workflow.exit
     }
     if (params.p != null && params.custom_primers != null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
-        println 'Please remove flags --p and --custom_primers to continue.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not have built in primer sets.'
+        println 'Please remove flags --p to continue.'
         workflow.exit
     }
 
@@ -496,20 +490,10 @@ workflow sc2_wgs_i {
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
     } 
-    if (params.custom_primers != null && params.primer_kmer_len == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+    if (params.custom_primers != null && (params.primer_kmer_len == null || params.primer_restrict_window == null)) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
-    } 
-    if (params.custom_primers != null && params.primer_restrict_window == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
-        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
-    }
-    if (params.custom_primers != null && params.primer_kmer_len == null && params.primer_restrict_window == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
-        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
+        workflow.exit()
     }
     if (params.p == 'RSV_CDC_8amplicon_230901') {
         println 'ERROR!!: The primer selection provided is not compatible with SARS-CoV-2'
@@ -629,21 +613,11 @@ workflow rsv_i {
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
     }
-    if (params.custom_primers != null && params.primer_kmer_len == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
+    if (params.custom_primers != null && (params.primer_kmer_len == null || params.primer_restrict_window == null)) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
         println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
-    } 
-    if (params.custom_primers != null && params.primer_restrict_window == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
-        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
+        workflow.exit()
     }
-    if (params.custom_primers != null && params.primer_kmer_len == null && params.primer_restrict_window == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. '
-        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
-        workflow.exit
-    } 
     if (params.custom_primers != null && params.p == null) {
         println 'Using custom primers for trimming'
     }

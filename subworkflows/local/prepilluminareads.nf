@@ -18,8 +18,16 @@ workflow PREPILLUMINAREADS {
     run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
-    primer_kmer_len = Channel.value(params.primer_kmer_len)
+    if (params.primer_kmer_len == null) {
+        primer_kmer_len = Channel.of('14')
+    } else {
+        primer_kmer_len = Channel.value(params.primer_kmer_len)
+    }
+    if (params.primer_kmer_len == null) {
+        primer_kmer_len = Channel.of('40')
+    } else {
     primer_restrict_window = Channel.value(params.primer_restrict_window)
+    }
     //If sourcepath flag is given, sourcepath will be used for the file path to the primers
     if (params.sourcepath == null) {
         primer_path = Channel.fromPath("${projectDir}/data/primers/", checkIfExists: true)
@@ -169,6 +177,8 @@ workflow PREPILLUMINAREADS {
 
             subsample_output_ch = new_ch3.combine(primer_kmer_len).combine(primer_restrict_window)
     }
+
+    subsample_output_ch.view()
 
     // If experiment type is SC2-Whole-Genome-Illumina then samples will go through the primer trimming steps with SC2 primers
     // If not they are passed to the irma channel immediately
