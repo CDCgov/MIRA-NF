@@ -23,7 +23,7 @@ workflow PREPILLUMINAREADS {
     } else {
         primer_kmer_len = Channel.value(params.primer_kmer_len)
     }
-    if (params.primer_kmer_len == null) {
+    if (params.primer_restrict_window == null) {
         primer_kmer_len = Channel.of('40')
     } else {
     primer_restrict_window = Channel.value(params.primer_restrict_window)
