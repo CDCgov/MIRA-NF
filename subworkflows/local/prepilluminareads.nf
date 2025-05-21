@@ -24,9 +24,9 @@ workflow PREPILLUMINAREADS {
         primer_kmer_len = Channel.value(params.primer_kmer_len)
     }
     if (params.primer_restrict_window == null) {
-        primer_kmer_len = Channel.of('40')
+        primer_restrict_window = Channel.of('40')
     } else {
-    primer_restrict_window = Channel.value(params.primer_restrict_window)
+        primer_restrict_window = Channel.value(params.primer_restrict_window)
     }
     //If sourcepath flag is given, sourcepath will be used for the file path to the primers
     if (params.sourcepath == null) {
