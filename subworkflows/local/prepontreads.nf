@@ -6,9 +6,7 @@
 
 include { FINDCHEMISTRYO       } from '../../modules/local/findchemistryo'
 include { SUBSAMPLESINGLEREADS } from '../../modules/local/subsamplesinglereads'
-include { TRIMLEFT             } from '../../modules/local/trimleft'
-include { TRIMRIGHT            } from '../../modules/local/trimright'
-include { CUTADAPT30           } from '../../modules/local/cutadapt30'
+include { TRIMBARCODES         } from '../../modules/local/trimbarcodes'
 
 workflow PREPONTREADS {
     take:
@@ -25,8 +23,8 @@ workflow PREPONTREADS {
     dais_module = Channel.empty()
     ch_versions = Channel.empty()
 
-    //if custom irma congif used, use custom in irma_module params
-    //This will be used in the find_chemisrty module
+    //if custom irma config used, use custom in irma_module params
+    //This will be used in the find_chemistry module
     if (params.custom_irma_config == null) {
         irma_module_ch = params.irma_module
         custom_irma_config_ch = '/none/'
@@ -69,45 +67,27 @@ workflow PREPONTREADS {
         subsample_output_ch = new_ch
     }
 
-    //// Trim barcodes
-    //left trim
+    //// Trim Barcodes
     new_ch4 = subsample_output_ch.map { item ->
         [sample:item[0], barcode:item[1], subsample_file_path:item[2]]
     }
     set_up_barcode_ch = barcode_ch
         .splitCsv(header: true)
     bc_ch = set_up_barcode_ch.map { item ->
-        [barcode:item.barcode, seq_f:item.seq_f, seq_rc:item.seq_rc] }
-    trim_ch_l = new_ch4.combine(bc_ch)
+        [barcode:item.barcode, seq:item.seq_f] }
+    trim_ch = new_ch4.combine(bc_ch)
         .filter { it[0].barcode == it[1].barcode }
-        .map { [it[0].sample, it[0].barcode, it[0].subsample_file_path, it[1].seq_f] }
-    TRIMLEFT(trim_ch_l)
-    ch_versions = ch_versions.unique().mix(TRIMLEFT.out.versions)
-
-    //right trim
-    new_ch5 = TRIMLEFT.out.trim_l_fastq.map { item ->
-        [sample:item[0], barcode:item[1], trim_l_file_path:item[2]]
-    }
-    trim_ch_r = new_ch5.combine(bc_ch)
-        .filter { it[0].barcode == it[1].barcode }
-        .map { [it[0].sample, it[0].barcode, it[0].trim_l_file_path, it[1].seq_rc] }
-    TRIMRIGHT(trim_ch_r)
-    ch_versions = ch_versions.unique().mix(TRIMRIGHT.out.versions)
-
-    //cutadapt
-    new_ch6 = TRIMRIGHT.out.trim_r_fastq.map { item ->
-        [sample:item[0], barcode:item[1], trim_lr_file_path:item[2]]
-    }
-    CUTADAPT30(new_ch6)
-    ch_versions = ch_versions.unique().mix(CUTADAPT30.out.versions)
+        .map { [it[0].sample, it[0].barcode, it[0].subsample_file_path, it[1].seq] }
+    TRIMBARCODES(trim_ch)
+    ch_versions = ch_versions.unique().mix(TRIMBARCODES.out.versions)
 
     // Create IRMA channel
-    new_ch7 = CUTADAPT30.out.cutadapt_fastq.map { item ->
-        [sample_ID: item[0], barcode:item[1], cutadapt_fastq_path:item[2]]
+    new_ch5 = TRIMBARCODES.out.bartrim_fastq.map { item ->
+        [sample_ID: item[0], barcode:item[1], bartrim_fastq_path:item[2]]
     }
-    irma_ch = new_ch7.combine(irma_chemistry_ch)
+    irma_ch = new_ch5.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
-        .map { [it[0].sample_ID, it[0].cutadapt_fastq_path, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+        .map { [it[0].sample_ID, it[0].bartrim_fastq_path, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
 
     //creating dais module input
     if (params.e == 'Flu-ONT') {

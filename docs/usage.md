@@ -12,13 +12,12 @@ MIRA performs these steps for genome assembly and curation:
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
 3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
 4. Subsampling to faster analysis (optional) ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
-5. Trimming and Quality Filtering ([`bbduk`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/))
-6. Adapter removal ([`cutadapt`](https://github.com/marcelm/cutadapt/))
-7. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
-8. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
-9. Collect results from IRMA and DAIS-Ribosome in json files
-10. Create html, excel files and amended consensus fasta files
-11. Reformat tables into parquet files and csv files
+5. Trimming and dapter removal ([`IRMA-core`](https://github.com/CDCgov/irma-core))
+6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
+7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
+8. Collect results from IRMA and DAIS-Ribosome in json files
+9. Create html, excel files and amended consensus fasta files
+10. Reformat tables into parquet files and csv files
 
 MIRA is able to analyze 7 data types:
 
@@ -152,29 +151,35 @@ Oxford Nanopore set up should be set up as follows:
 
 ## Running the pipeline
 
-Inputs for the pipeline include:
+# Input Parameters for MIRA-NF
 
-- `profile` - singularity,docker,local,sge,slurm \ You can use docker or singularity. Use local for running on local computer.
-- `input` - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
-- `outdir` - The file path to where you would like the output directory to write the files. The full file path is required.
-- `runpath` - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.
-- `e` - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT.
+| Flag       | Description                                                                                                           |
+|------------|-----------------------------------------------------------------------------------------------------------------------|
+| `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
+| `input`    | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                         |
+| `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
+| `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
+| `e`        | Experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT. |
 
-*all commands listed below can not be included in run command and the defaults will be used*
+### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
 
-- `p` - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided**
-- `custom_primers` - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **Trimming will only work with custom primers that are greater than 15bp**
-- `read_qc` - (optional) Run FastQC and MultiQC. Default: false.
-- `reformat_tables` - (optional) flag to reformat report tables into parquet files and csv files (boolean). Default set to false.
-- `subsample_reads` - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.
-- `process_q` - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
-- `email` - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
-- `irma_module` - (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built in flu configs. Default is set to not use these module and they can only be invoked for Flu-Illumina experiment type. options: sensitive, secondary or utr
-- `custom_irma_config` - (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.
-- `custom_qc_settings` - (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.
-- `amd_platform` - (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
-- `ecr_registry` - (optional) Allows a user to pass their ecr registry for AWS to the workflow.
-- `sourcepath` - (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one can not place the entire repo in their working directory.
+| Flag                  | Description                                                                                                                                                                                                                       |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `p`                   | Provide a built-in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided** |
+| `custom_primers`      | Provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **primer_kmer_len and primer_restrict_window flags must also be used with this flag**                      |
+| `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |
+| `primer_restrict_window` | The N number of bases provided by this flag will restrict them primer searching to the leftmost and rightmost N bases.                                                                                                           |
+| `read_qc`             | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                |
+| `reformat_tables`     | (optional) Flag to reformat report tables into parquet files and csv files (boolean). Default set to false.                                                                                                                        |
+| `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
+| `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
+| `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
+| `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
+| `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |
+| `custom_qc_settings`  | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                     |
+| `amd_platform`        | (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false |
+| `ecr_registry`        | (optional) Allows a user to pass their ecr registry for AWS to the workflow.                                                                                                                                                      |
+| `sourcepath`          | (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one cannot place the entire repo in their working directory. |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -185,11 +190,13 @@ nextflow run ./main.nf \
    --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SCHEMA> (optional) \
+   --p <PRIMER_SCHEMA> \ (optional)
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
-   --subsample_reads <READ_COUNT> (optional) \
-   --reformat_tables true (optional) \
-   --read_qc false (optional)
+   --primer_kmer_len <KMER_LEN> \ (used with custom primers flag)
+   --primer_restrict_window <RESTRICT_WIN> \ (used with custom primers flag)
+   --subsample_reads <READ_COUNT> \ (optional)
+   --reformat_tables true \ (optional)
+   --read_qc false \ (optional)
 ```
 
 To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
@@ -197,16 +204,18 @@ To run in a high computing cluster you will need to add hpc to the profile and p
 ```bash
 nextflow run ./main.nf \
    -profile singularity,hpc \
-   --input <RUN_PATH>/samplesheet.csv \
-   --outdir <RUN_PATH> \
+      --input <RUN_PATH>/samplesheet.csv \
+   --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
-   --p <PRIMER_SCHEMA> (optional) \
+   --p <PRIMER_SCHEMA> \ (optional)
    --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
-   --process_q <QUEUE_NAME> \
-   -- reformat_tables true (optional) \
-   --email <EMAIL_ADDRESS> (optional)
-   --read_qc false (optional)
+   --primer_kmer_len <KMER_LEN> \ (used with custom primers flag)
+   --primer_restrict_window <RESTRICT_WIN> \ (used with custom primers flag)
+   --subsample_reads <READ_COUNT> \ (optional)
+   --reformat_tables true \ (optional)
+   --read_qc false \ (optional)
+   --email <EMAIL_ADDRESS> \ (optional)
 ```
 
 Both of these will launch the pipeline with the `singularity` configuration profile. See below for more information about profiles.
@@ -245,6 +254,8 @@ runpath: '/RUN_PATH/'
 e: 'experiment_type'
 p: 'primer_schema' (optional)
 custom_primer: '/FILE_PATH/custom_primer.fasta'
+primer_kmer_len: 'kmer_len' (used with custom primers flag)
+primer_restrict_window: 'restrict_window' (used with custom primers flag)
 subsample_reads: 'read_counts' (optional)
 reformat_tables: true (optional)
 irma_config: 'config_type' (optional)

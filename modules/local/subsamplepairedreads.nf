@@ -5,10 +5,10 @@ process SUBSAMPLEPAIREDREADS {
     container 'cdcgov/bbtools:v39.01-alpine'
 
     input:
-    tuple val(sample), path(R1), path(R2), val(target), path(primers)
+    tuple val(sample), path(R1), path(R2), val(target), path(primers), val(primer_kmer_len), val(primer_restrict_window)
 
     output:
-    tuple val(sample), path('*_subsampled_R1.fastq'), path('*_subsampled_R2.fastq'), path(primers), emit: subsampled_fastq
+    tuple val(sample), path('*_subsampled_R1.fastq'), path('*_subsampled_R2.fastq'), path(primers), val(primer_kmer_len), val(primer_restrict_window), emit: subsampled_fastq
     path '*.reformat.stdout.log', emit: subsample_log_out
     path '*.reformat.stderr.log', emit: subsample_log_err
     path 'versions.yml'           , emit: versions

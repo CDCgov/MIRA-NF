@@ -10,14 +10,14 @@
 #$ -V
 
 usage() {
-	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_amplicon_library> <optional: -a reformat_tables> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -k read_qc> <optional: -n > " 1>&2
+	echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira-cli> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_primers> <optional: -t kmer_for_custom_primers> <optional: -u restrict_window_for_custom_primers> <optional: -a reformat_tables> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -k read_qc> <optional: -n > " 1>&2
 	exit 1
 }
 
 # Experiment type options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 # Primer Schema options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
 
-while getopts 'd:i:o:r:e:p:g:f:a:c:q:m:b:k:na' OPTION; do
+while getopts 'd:i:o:r:e:p:g:t:u:f:a:c:q:m:b:k:na' OPTION; do
 	case "$OPTION" in
 	d) DIRNAME="$OPTARG" ;;
 	i) INPUT="$OPTARG" ;;
@@ -26,6 +26,8 @@ while getopts 'd:i:o:r:e:p:g:f:a:c:q:m:b:k:na' OPTION; do
 	e) EXPERIMENT_TYPE="$OPTARG" ;;
 	p) PRIMER_SCHEMA="$OPTARG" ;;
 	g) CUSTOM_PRIMERS="$OPTARG" ;;
+	t) KMER_LEN="$OPTARG" ;;
+	u) RESTRICT_WIN="$OPTARG" ;;
 	f) APPLICATION="$OPTARG" ;;
 	a) REFORMAT="$OPTARG" ;;
 	c) READ_COUNTS="$OPTARG" ;;
@@ -85,6 +87,18 @@ else
 	OPTIONALARGS7="--read_qc $READS_QC"
 fi
 
+if [[ -z "${KMER_LEN}" ]]; then
+	OPTIONALARGS8=""
+else
+	OPTIONALARGS8="--primer_kmer_len $KMER_LEN"
+fi
+
+if [[ -z "${RESTRICT_WIN}" ]]; then
+	OPTIONALARGS9=""
+else
+	OPTIONALARGS9="--primer_restrict_window $RESTRICT_WIN"
+fi
+
 # Archive previous run using the summary.xlsx file sent in email
 if [ -d "$1/dash-json/" ] && [ -n "${TAR}" ]; then
 	tar --remove-files -czf ${RUNPATH}/previous_run_$(date -d @$(stat -c %Y ${RUNPATH}/dash-json/) "+%Y%b%d-%H%M%S").tar.gz ${RUNPATH}/*html ${RUNPATH}/*fasta ${RUNPATH}/*txt ${RUNPATH}/*xlsx ${RUNPATH}/IRMA ${RUNPATH}/dash-json
@@ -105,4 +119,6 @@ nextflow run "$DIRNAME"/MIRA-NF/main.nf \
 	$OPTIONALARGS4 \
 	$OPTIONALARGS5 \
 	$OPTIONALARGS6 \
-	$OPTIONALARGS7
+	$OPTIONALARGS7 \
+	$OPTIONALARGS8 \
+	$OPTIONALARGS9

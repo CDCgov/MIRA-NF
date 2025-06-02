@@ -5,7 +5,7 @@ process PARQUETMAKER {
 
     input:
     path(html_outputs)
-    path run_path
+    val run_name
     path samplesheet
     val instrument
     path outdir
@@ -21,7 +21,6 @@ process PARQUETMAKER {
 
     script:
     def args = task.ext.args ?: ''
-    def run_name = run_path.getName()
 
     """
     ## This logic is very specific to the MIRA pipeline and should not be changed.
