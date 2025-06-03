@@ -2,7 +2,7 @@ process RSVTRIMPRIMERS {
     tag "${sample}"
     label 'process_medium'
 
-    container 'ghcr.io/cdcgov/irma-core:v0.4.3'
+    container 'ghcr.io/cdcgov/irma-core:v0.5.1'
 
     input:
     tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers), val(primer_kmer_len), val(primer_restrict_window)
