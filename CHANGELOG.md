@@ -3,6 +3,26 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.6.1 - 06.04.2025
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
+- [Ben Rambo-Martin](https://github.com/nbx0)
+
+### Enhancements
+
+### `Added`
+
+-[PR #70](https://github.com/CDCgov/MIRA-NF/pull/70) - adding docker version tracking
+
+### `Fixed`
+
+-[PR #72](https://github.com/CDCgov/MIRA-NF/pull/72) - fix a polyg trimming bug
+
+### `Dependencies`
+
+### `Deprecated`
+
 ## v1.6.0 - 05.21.2025
 
 ### Credits
