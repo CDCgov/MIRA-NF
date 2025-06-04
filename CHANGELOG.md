@@ -17,9 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
--[PR #72](https://github.com/CDCgov/MIRA-NF/pull/72) - fix a polyg trimming bug
+-[PR #72](https://github.com/CDCgov/MIRA-NF/pull/72) - fix a polyg trimming bug in irma-core trimmer
 
 ### `Dependencies`
+
+-[PR #73](https://github.com/CDCgov/MIRA-NF/pull/73) - updating the IRMA container to v1.3.0
 
 ### `Deprecated`
 
