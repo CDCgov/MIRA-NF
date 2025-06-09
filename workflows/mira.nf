@@ -826,6 +826,10 @@ workflow rsv_o {
             keepHeader: false
         )
 }
+
+workflow variants_of_int {
+
+}
 // MAIN WORKFLOW
 // Decides which experiment type workflow to run based on experiment parameter given
 workflow MIRA {
@@ -843,6 +847,8 @@ workflow MIRA {
         rsv_i()
     } else if (params.e == 'RSV-ONT') {
         rsv_o()
+    } else if (params.e == 'Variants-Of-Interest') {
+       variants_of_int()
     }
 }
 /*
