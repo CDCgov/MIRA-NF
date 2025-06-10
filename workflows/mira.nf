@@ -18,6 +18,7 @@ include { PREPONTREADS         } from '../subworkflows/local/prepontreads'
 include { IRMA                 } from '../modules/local/irma'
 include { CHECKIRMA            } from '../subworkflows/local/checkirma'
 include { DAISRIBOSOME         } from '../modules/local/daisribosome'
+include { VARIANTSOFINT        } from '../modules/local/variantsofint'
 include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 
 /*
@@ -125,6 +126,11 @@ workflow flu_i {
     // MODULE: Run Dais Ribosome
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //MODULE: Run Variants of Interest
+    ref_table_ch = Channel.fromPath("${projectDir}/assets/ref_table.txt", checkIfExists: true)
+    variant_of_int_table_ch = Channel.fromPath("${projectDir}/assets/muts_of_int_table.txt", checkIfExists: true)
+    VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
