@@ -57,6 +57,19 @@ workflow flu_i {
         workflow.exit
     }
 
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+
+        if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
@@ -172,6 +185,19 @@ workflow flu_o {
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-ONT experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
+        workflow.exit
+    }
+
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+
+        if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
         workflow.exit
     }
 
@@ -293,6 +319,21 @@ workflow sc2_spike_o {
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
+
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+
+        if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+
+    //Inializing parameters
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
@@ -406,6 +447,19 @@ workflow sc2_wgs_o {
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Aborting pipeline due to incorrect inputs. SC2-Spike-Only-ONT experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
+        workflow.exit
+    }
+
+        //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+
+        if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
         workflow.exit
     }
 
@@ -541,6 +595,20 @@ workflow sc2_wgs_i {
         params.p = null
     }
 
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+
+        if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+
+
     //Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
@@ -669,7 +737,20 @@ workflow rsv_i {
         println 'Both the primer flag and the custom_primer flag have been provided.'
         println 'Using custom primers will be used for trimming'
         params.p = null
-}
+    }
+
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+
+        if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
@@ -787,6 +868,20 @@ workflow rsv_o {
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
+
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+
+        if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
@@ -878,6 +973,19 @@ workflow rsv_o {
 }
 
 workflow find_variants_of_int {
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+
+        if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+
 
 }
 // MAIN WORKFLOW
