@@ -974,18 +974,37 @@ workflow rsv_o {
 
 workflow find_variants_of_int {
     //error handling for variants_of_interest flag
+    if (params.variants_of_interest == null && params.reference_seq_table == null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest and the reference_seq_table flags be specificied.'
+        workflow.exit
+    }
+
     if (params.variants_of_interest != null && params.reference_seq_table == null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'ERROR!!: This workflow requires the variants_of_interest and the reference_seq_table flags be specificied.'
         println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
         workflow.exit
     }
 
-        if (params.variants_of_interest == null && params.reference_seq_table != null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+    if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest and the reference_seq_table flags be specificied.'
         println 'Please provide a table of variants with the variants_of_interest flag'
         workflow.exit
     }
 
+    // Initializing parameters
+    dais_input_ch = Channel.fromPath(params.input, checkIfExists: true)
+    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+    variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+    ch_versions = Channel.empty()
+    dais_module = 'INFLUENZA'
+
+        // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(dais_input_ch, dais_module)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //MODULE: Run Variants of Interest
+    VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
 
 }
 // MAIN WORKFLOW
