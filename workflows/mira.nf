@@ -1037,15 +1037,46 @@ workflow MIRA {
 if (params.email) {
     workflow.onComplete {
         if (workflow.success == true) {
-            def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
-            def fileContent = new File(versionPath).text
-            def path = "${params.runpath}"
-            def folder_name = new File(path)
-            def basename = folder_name.name
-            def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta')
-            if (ac_file.exists()) {
-                /* groovylint-disable-next-line LineLength */
-                def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta']
+            if (params.e != 'Find-Variants-Of-Interest'){
+                def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
+                def fileContent = new File(versionPath).text
+                def path = "${params.runpath}"
+                def folder_name = new File(path)
+                def basename = folder_name.name
+                def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta')
+                if (ac_file.exists()) {
+                    /* groovylint-disable-next-line LineLength */
+                    def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta']
+                    def msg = """
+                    Pipeline execution summary
+                    Completed at: ${workflow.complete}
+                    Duration    : ${workflow.duration}
+                    Success     : ${workflow.success}
+                    workDir     : ${workflow.workDir}
+                    outDir      : ${params.outdir}
+                    exit status : ${workflow.exitStatus}
+                    ${fileContent}
+                    """
+                    .stripIndent()
+
+                        sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+                } else {
+                    def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx']
+                    def msg = """
+                    Pipeline execution summary
+                    Completed at: ${workflow.complete}
+                    Duration    : ${workflow.duration}
+                    Success     : ${workflow.success}
+                    workDir     : ${workflow.workDir}
+                    outDir      : ${params.outdir}
+                    exit status : ${workflow.exitStatus}
+                    No amended consensus was created!
+                    """
+                    .stripIndent()
+
+                        sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+                }
+            } else if (params.e == 'Find-Variants-Of-Interest') {
                 def msg = """
                 Pipeline execution summary
                 Completed at: ${workflow.complete}
@@ -1054,26 +1085,12 @@ if (params.email) {
                 workDir     : ${workflow.workDir}
                 outDir      : ${params.outdir}
                 exit status : ${workflow.exitStatus}
-                ${fileContent}
+                Variants of interest workflow has run successfully
                 """
                 .stripIndent()
 
                     sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
-            } else {
-                def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx']
-                def msg = """
-                Pipeline execution summary
-                Completed at: ${workflow.complete}
-                Duration    : ${workflow.duration}
-                Success     : ${workflow.success}
-                workDir     : ${workflow.workDir}
-                outDir      : ${params.outdir}
-                exit status : ${workflow.exitStatus}
-                No amended consensus was created!
-                """
-                .stripIndent()
-
-                    sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+                
             }
         } else if (workflow.success == false) {
             def msg = """
