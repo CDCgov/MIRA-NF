@@ -128,10 +128,12 @@ workflow flu_i {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //MODULE: Run Variants of Interest
-    ref_table_ch = Channel.fromPath("${projectDir}/assets/ref_table.txt", checkIfExists: true)
-    variant_of_int_table_ch = Channel.fromPath("${projectDir}/assets/muts_of_int_table.txt", checkIfExists: true)
-    VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
-
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+    
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -244,6 +246,13 @@ workflow flu_o {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -351,6 +360,13 @@ workflow sc2_spike_o {
     // Run Dais Ribosome
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
 
     // Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
@@ -463,6 +479,13 @@ workflow sc2_wgs_o {
     // MODULE: Run Dais Ribosome
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
 
     //SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
@@ -588,6 +611,13 @@ workflow sc2_wgs_i {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -710,6 +740,13 @@ workflow rsv_i {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -822,6 +859,13 @@ workflow rsv_o {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -833,7 +877,7 @@ workflow rsv_o {
         )
 }
 
-workflow variants_of_int {
+workflow find_variants_of_int {
 
 }
 // MAIN WORKFLOW
@@ -853,8 +897,8 @@ workflow MIRA {
         rsv_i()
     } else if (params.e == 'RSV-ONT') {
         rsv_o()
-    } else if (params.e == 'Variants-Of-Interest') {
-       variants_of_int()
+    } else if (params.e == 'Find-Variants-Of-Interest') {
+       find_variants_of_int()
     }
 }
 /*

@@ -135,6 +135,7 @@
                     "type": "string",
                     "default": "none",
                     "description": "Call flu-sensitive or flu-secondary irma module",
+                    "help_text": "",
                     "enum": [
                         "sensitive",
                         "secondary",
@@ -145,17 +146,29 @@
                 "custom_irma_config": {
                     "type": "string",
                     "format": "file-path",
-                    "description": "The filepath to where the custom external config is located"
+                    "description": "The filepath to where the custom external config is located",
+                    "help_text": ""
                 },
                 "custom_qc_settings": {
                     "type": "string",
                     "format": "file-path",
-                    "description": "The filepath to where the custom qc pass/fail settings yaml is located"
+                    "description": "The filepath to where the custom qc pass/fail settings yaml is located",
+                    "help_text": ""
                 },
                 "ecr_registry": {
                     "type": "string",
                     "description": "ecr registry for MIRA-NF on omics with standard profile",
                     "help_text": "This is the ecr registry for running MIRA-NF on omics with standard profile"
+                },
+                "variants_of_interest": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": ""
+                },
+                "reference_seq_table": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": ""
                 }
             }
         },
