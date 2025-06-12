@@ -22,8 +22,7 @@
                     "format": "file-path",
                     "exists": true,
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
-                    "fa_icon": "fas fa-file-csv"
+                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row."
                 },
                 "outdir": {
                     "type": "string",
@@ -168,6 +167,15 @@
                     "type": "string",
                     "format": "file-path",
                     "description": ""
+                },
+                "dais_module": {
+                    "type": "string",
+                    "description": "",
+                    "enum": [
+                        "influenza",
+                        "betacoronavirus",
+                        "rsv"
+                    ]
                 }
             }
         },
