@@ -35,7 +35,7 @@ workflow PREPILLUMINAREADS {
         if (params.p) {
             if (params.p == 'artic3') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv3.fasta", checkIfExists: true)
-                primer_kmer_len = Channel.of('21')
+                primer_kmer_len = Channel.of(21)
                 primer_restrict_window = Channel.of(40) 
             } else if (params.p == 'artic4') {
                 primers = Channel.fromPath("${projectDir}/data/primers/articv4.fasta", checkIfExists: true)
@@ -93,7 +93,7 @@ workflow PREPILLUMINAREADS {
                 primer_restrict_window = '40' 
             } else if (params.p == 'qiagen') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/QIAseqDIRECTSARSCoV2primersfinal.fasta", checkIfExists: true)
-                primer_kmer_len = '17'
+                primer_kmer_len = '19'
                 primer_restrict_window = '40' 
             } else if (params.p == 'swift') {
                 primers = Channel.fromPath("${params.sourcepath}/data/primers/SNAP_v2_amplicon_panel.fasta", checkIfExists: true)
