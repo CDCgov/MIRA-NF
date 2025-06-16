@@ -15,7 +15,7 @@ Administrators for this service reserve the right to moderate all information us
 
 The material embodied in this software is provided to you "as-is" and without warranty of any kind, express, implied or otherwise, including without limitation, any warranty of fitness for a particular purpose. In no event shall the Centers for Disease Control and Prevention (CDC) or the United States (U.S.) government be liable to you or anyone else for any direct, special, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including without limitation, loss of profit, loss of use, savings or revenue, or the claims of third parties, whether or not CDC or the U.S. government has been advised of the possibility of such loss, however caused and on any theory of liability, arising out of or in connection with the possession, use or performance of this software.
 
-## Introduction
+# Introduction to Full Analysis Workflows
 
 **mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
@@ -34,15 +34,15 @@ MIRA performs these steps for genome assembly and curation:
 
 #### MIRA is able to analyze 7 data types:
 
-|                | Illumina | ONT | 
+|                | Illumina | ONT |
 |----------------|--------------|---------|
 | Influenza            |   🥳         | 🥳       |
-| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 | 
+| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 |
 | SARS-CoV-2 :: Spike-only            |            |    🥳   |
-| RSV            |       🥳       |     🥳    |  
+| RSV            |       🥳       |     🥳    |
 
-![MIRA-NF workflows with default settings](docs/images/mira_nf_workflow_img_v4.png)
-*MIRA-NF workflows with default settings*
+![MIRA-NF workflows with default settings](docs/images/mira_nf_workflow_img_v5.png)
+*MIRA-NF workflows*
 
 ## Usage
 
@@ -116,7 +116,7 @@ cd MIRA-NF
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input Parameters for MIRA-NF
+# Input Parameters for MIRA Full Analysis Workflows
 
 | Flag       | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -202,9 +202,11 @@ qsub MIRA_nextflow.sh \
 
 ```
 
-> [!WARNING]
-> Please provide pipeline parameters via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+Note that pipeline parameters can be provided via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***; see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+
+# MIRA Toolchain Workflows
+
+- [find_variatns_of_interest](docd/find_variants_of_interest_docs/)
 
 ## Credits
 
