@@ -206,7 +206,7 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 
 # MIRA Toolchain Workflows
 
-- [find_variatns_of_interest](docd/find_variants_of_interest_docs/)
+- [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
 
 ## Credits
 
