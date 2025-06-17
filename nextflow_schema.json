@@ -154,16 +154,16 @@
                 "variants_of_interest": {
                     "type": "string",
                     "format": "file-path",
-                    "description": ""
+                    "description": "The variants of interest table to be used with find_variants_of_interest"
                 },
                 "reference_seq_table": {
                     "type": "string",
                     "format": "file-path",
-                    "description": ""
+                    "description": "The reference sequence table to be used with find_variants_of_interest"
                 },
                 "dais_module": {
                     "type": "string",
-                    "description": "",
+                    "description": "The dais_module that will be used by DAIS-ribosome. Options: influenza, betacoronavirus, rsv",
                     "enum": [
                         "influenza",
                         "betacoronavirus",

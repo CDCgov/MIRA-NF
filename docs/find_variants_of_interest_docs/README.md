@@ -20,7 +20,7 @@ EPI_ISL_140	A/Hong Kong/1073/99	A / H9N2		a591bc9ad3a54f705940ad8483684cfc278c74
 ```
 
 ### The known variants of interest table input should be structured like this:
-The variants of interest table should be structured as seen below. The file must be tab delimited.
+The variants of interest table should be structured as seen below. These should be variants you would be interested in if they were present within your samples. The file must be tab delimited.
 
 ```
 protein position    mutation_of_int phenotypic_consensus
