@@ -116,7 +116,7 @@ cd MIRA-NF
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input Parameters for MIRA Full Analysis Workflows
+# Input Parameters for MIRA Workflows
 
 | Flag       | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -167,7 +167,7 @@ To run in a high computing cluster you will need to add sge or slurm to the prof
 nextflow run ./main.nf \
    -profile singularity,sge \
    --input <RUN_PATH>/samplesheet.csv \
-   --outdir <RUN_PATH> \
+   --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
