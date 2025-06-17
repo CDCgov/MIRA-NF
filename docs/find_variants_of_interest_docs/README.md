@@ -1,3 +1,6 @@
 # MIRA's Find Variants of Interest Tool
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
+**find_variants_of_int** is a workflow that runs (or reruns) DAIS-ribosome and the find_variants_of_interest module. The worklow requires
+
+![find_variants_of_int workflow](docs/images/find_variants_of_interst_workflow_img.png)
+*find_variants_of_int workflow*
