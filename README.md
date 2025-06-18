@@ -204,7 +204,7 @@ qsub MIRA_nextflow.sh \
 
 Note that pipeline parameters can be provided via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***; see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
-# MIRA Toolchain Workflows
+# MIRA Utility Workflows
 
 - [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
 

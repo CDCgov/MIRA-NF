@@ -267,7 +267,7 @@ read_qc: false (optional)
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).
 
-### To See MIRA Toolchain Workflows
+### To See MIRA Utility Workflows
 
 - [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
 
