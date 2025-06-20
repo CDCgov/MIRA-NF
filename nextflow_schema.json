@@ -13,7 +13,6 @@
             "required": [
                 "input",
                 "outdir",
-                "runpath",
                 "e"
             ],
             "properties": {
