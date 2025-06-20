@@ -2,6 +2,32 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## v2.0.0 -
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+
+### Enhancements
+
+### `Added`
+
+-[PR #76](https://github.com/CDCgov/MIRA-NF/pull/76) - added both the find_variants_of_interest module that can be run as a part of analysis and the find_variants_of_interest workflow that run the the workflow described [here](docs/find_variants_of_interest_docs/).
+
+### `Fixed`
+
+
+### `Dependencies`
+
+
+### `Deprecated`
+
+### Parameter Changes
+
+| Old parameter | New parameter                |
+| ------------- | ---------------------------- |
+| | `--variants_of_interest` |
+| | `--reference_seq_table` |
+| | `--dais_module` |
+
 
 ## v1.6.1 - 06.04.2025
 
