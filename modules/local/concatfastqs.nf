@@ -6,7 +6,7 @@ process CONCATFASTQS {
     tuple val(barcode), val(sample), path(file_path)
 
     output:
-    path("${sample}.fastq.gz")
+    path("${sample}_nf_combined.fastq.gz")
 
     script:
     def args = task.ext.args ?: ''
