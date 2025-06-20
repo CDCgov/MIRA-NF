@@ -13,6 +13,6 @@ process CONCATFASTQS {
 
     """
     # Concatenate the provided fastq files explicitly
-    cat ${file_path}  > ${sample}.fastq.gz
+    cat ${file_path}  > ${sample}_nf_combined.fastq.gz
     """
 }
