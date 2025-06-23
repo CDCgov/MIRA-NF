@@ -33,7 +33,7 @@ include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 workflow flu_i {
     // Error handling to prevent incorrect flags being used
     //check for runpath
-    if (params.runpath != null) {
+    if (params.runpath == null) {
     println 'ERROR!!: Aborting pipeline due missing runpath flags'
     println 'Please provide the file path to the run folder using the runpath flag'
     }
@@ -79,7 +79,6 @@ workflow flu_i {
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -217,7 +216,6 @@ workflow flu_o {
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -493,7 +491,6 @@ workflow sc2_wgs_o {
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -646,7 +643,6 @@ workflow sc2_wgs_i {
 
     //Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -797,7 +793,6 @@ workflow rsv_i {
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -935,7 +930,6 @@ workflow rsv_o {
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -957,7 +951,7 @@ workflow rsv_o {
         NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
         // OMICS & Local END
 
-        // NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        // NEXTFLOWSAMPLESHEETO(samplesheet_ch, experiment_type_ch, CONCATFASTQS.out)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
 
@@ -1050,7 +1044,6 @@ workflow find_variants_of_int {
 
     // Initializing parameters
     dais_input_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
     variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
     ch_versions = Channel.empty()
