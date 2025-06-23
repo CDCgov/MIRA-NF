@@ -13,7 +13,6 @@
             "required": [
                 "input",
                 "outdir",
-                "runpath",
                 "e"
             ],
             "properties": {
@@ -21,12 +20,7 @@
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
-                    "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
-                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
-                    "fa_icon": "fas fa-file-csv"
-                },
+                    "description": "Path to comma-separated file containing information about the samples in the experiment."                },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
@@ -51,7 +45,8 @@
                         "SC2-Whole-Genome-ONT",
                         "SC2-Whole-Genome-Illumina",
                         "RSV-Illumina",
-                        "RSV-ONT"
+                        "RSV-ONT",
+                        "Find-Variants-Of-Interest"
                     ]
                 },
                 "multiqc_title": {
@@ -98,8 +93,7 @@
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",
-                    "fa_icon": "fas fa-envelope",
-                    "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits."
+                    "fa_icon": "fas fa-envelope"
                 },
                 "process_q": {
                     "type": "string",
@@ -154,8 +148,26 @@
                 },
                 "ecr_registry": {
                     "type": "string",
-                    "description": "ecr registry for MIRA-NF on omics with standard profile",
-                    "help_text": "This is the ecr registry for running MIRA-NF on omics with standard profile"
+                    "description": "ecr registry for MIRA-NF on omics with standard profile"
+                },
+                "variants_of_interest": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "The variants of interest table to be used with find_variants_of_interest"
+                },
+                "reference_seq_table": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "The reference sequence table to be used with find_variants_of_interest"
+                },
+                "dais_module": {
+                    "type": "string",
+                    "description": "The dais_module that will be used by DAIS-ribosome. Options: influenza, betacoronavirus, rsv",
+                    "enum": [
+                        "influenza",
+                        "betacoronavirus",
+                        "rsv"
+                    ]
                 }
             }
         },

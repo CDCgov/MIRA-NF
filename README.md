@@ -15,7 +15,7 @@ Administrators for this service reserve the right to moderate all information us
 
 The material embodied in this software is provided to you "as-is" and without warranty of any kind, express, implied or otherwise, including without limitation, any warranty of fitness for a particular purpose. In no event shall the Centers for Disease Control and Prevention (CDC) or the United States (U.S.) government be liable to you or anyone else for any direct, special, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including without limitation, loss of profit, loss of use, savings or revenue, or the claims of third parties, whether or not CDC or the U.S. government has been advised of the possibility of such loss, however caused and on any theory of liability, arising out of or in connection with the possession, use or performance of this software.
 
-## Introduction
+# Introduction to Full Analysis Workflows
 
 **mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
@@ -34,15 +34,15 @@ MIRA performs these steps for genome assembly and curation:
 
 #### MIRA is able to analyze 7 data types:
 
-|                | Illumina | ONT | 
+|                | Illumina | ONT |
 |----------------|--------------|---------|
 | Influenza            |   🥳         | 🥳       |
-| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 | 
+| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 |
 | SARS-CoV-2 :: Spike-only            |            |    🥳   |
-| RSV            |       🥳       |     🥳    |  
+| RSV            |       🥳       |     🥳    |
 
-![MIRA-NF workflows with default settings](docs/images/mira_nf_workflow_img_v4.png)
-*MIRA-NF workflows with default settings*
+![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v5.png)
+*MIRA-NF workflows*
 
 ## Usage
 
@@ -116,7 +116,7 @@ cd MIRA-NF
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input Parameters for MIRA-NF
+# Input Parameters for MIRA Workflows
 
 | Flag       | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -145,6 +145,8 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 | `amd_platform`        | (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false |
 | `ecr_registry`        | (optional) Allows a user to pass their ecr registry for AWS to the workflow.                                                                                                                                                      |
 | `sourcepath`          | (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one cannot place the entire repo in their working directory. |
+| `variants_of_interest`  | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
+| `reference_seq_table`        | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the  `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.  |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -167,7 +169,7 @@ To run in a high computing cluster you will need to add sge or slurm to the prof
 nextflow run ./main.nf \
    -profile singularity,sge \
    --input <RUN_PATH>/samplesheet.csv \
-   --outdir <RUN_PATH> \
+   --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
@@ -202,9 +204,11 @@ qsub MIRA_nextflow.sh \
 
 ```
 
-> [!WARNING]
-> Please provide pipeline parameters via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+Note that pipeline parameters can be provided via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***; see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+
+# MIRA Utility Workflows
+
+- [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
 
 ## Credits
 
