@@ -1,4 +1,4 @@
-# mira-nf/mira: Output
+# cdcgov/mira-nf: Output
 
 ## Introduction
 

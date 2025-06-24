@@ -1,4 +1,4 @@
-# mira-nf/mira: Citations
+# cdcgov/mira: Citations
 
 ## [nf-core](https://pubmed.ncbi.nlm.nih.gov/32055031/)
 

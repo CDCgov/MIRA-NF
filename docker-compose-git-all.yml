@@ -85,11 +85,6 @@ services:
       - multiqc
       - fastqc
       - bbtools
-<<<<<<< HEAD
-      - cutadapt
-=======
-      - blast
->>>>>>> d949d5791b1cbe27098a7af04a9979030b20cdce
       - pyarrow
     restart: always
     volumes:

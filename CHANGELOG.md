@@ -1,7 +1,56 @@
-# mira-nf/mira: Changelog
+# cdcgov/mira: Changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## v2.0.0 -
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+
+### Enhancements
+
+### `Added`
+
+-[PR #76](https://github.com/CDCgov/MIRA-NF/pull/76) - added both the find_variants_of_interest module that can be run as a part of analysis and the find_variants_of_interest workflow that run the the workflow described [here](docs/find_variants_of_interest_docs/).
+
+### `Fixed`
+
+-[PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
+
+### `Dependencies`
+
+
+### `Deprecated`
+
+### Parameter Changes
+
+| Old parameter | New parameter                |
+| ------------- | ---------------------------- |
+| | `--variants_of_interest` |
+| | `--reference_seq_table` |
+| | `--dais_module` |
+
+
+## v1.6.1 - 06.04.2025
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
+- [Ben Rambo-Martin](https://github.com/nbx0)
+
+### Enhancements
+
+### `Added`
+
+-[PR #70](https://github.com/CDCgov/MIRA-NF/pull/70) - adding docker version tracking
+
+### `Fixed`
+
+-[PR #72](https://github.com/CDCgov/MIRA-NF/pull/72) - fix a polyg trimming bug in irma-core trimmer
+
+### `Dependencies`
+
+-[PR #73](https://github.com/CDCgov/MIRA-NF/pull/73) - updating the IRMA container to v1.3.0
+
+### `Deprecated`
 
 ## v1.6.0 - 05.21.2025
 
