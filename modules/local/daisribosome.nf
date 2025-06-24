@@ -9,7 +9,8 @@ process DAISRIBOSOME {
     val dais_module
 
     output:
-    path('*') , emit: dais_outputs
+    path('*.{seq,gen,ins,del}') , emit: dais_outputs
+    path('*.seq') , emit: dais_seq_output
     path 'versions.yml' , emit: versions
 
     script:
@@ -21,6 +22,6 @@ process DAISRIBOSOME {
     dais_out="${base_name%_input*}"
     ribosome --module !{dais_module} !{input_fasta} ${dais_out}.seq ${dais_out}.ins ${dais_out}.del ${dais_out}.gen
 
-    echo "daisribosome: cdcgov/dais-ribosome:v1.3.2" > versions.yml
+    echo "daisribosome: cdcgov/dais-ribosome:v1.6.1" > versions.yml
     '''
 }
