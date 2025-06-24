@@ -53,8 +53,8 @@ dfd = df.to_dict("index")
 data = "sample,fastq_1,fastq_2,sample_type\n"
 for d in dfd.values():
     id = d["Sample ID"]
-    R1_fastq = glob(f"{runpath}/fastqs/{id}*R1*fastq*", recursive=True)[0]
-    R2_fastq = glob(f"{runpath}/fastqs/{id}*R2*fastq*", recursive=True)[0]
+    R1_fastq = glob(f"{runpath}/{id}*R1*fastq*", recursive=True)[0]
+    R2_fastq = glob(f"{runpath}/{id}*R2*fastq*", recursive=True)[0]
     sample_type = d["Sample Type"]
     if len(R1_fastq) < 1 or len(R2_fastq) < 1:
         print(f"Fastq pair not found for sample {id}")

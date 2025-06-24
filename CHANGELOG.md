@@ -1,23 +1,73 @@
-# mira-nf/mira: Changelog
+# cdcgov/mira: Changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## v1.6.0
-
-### Credits
+## v2.0.0 -
 
 - [Amanda Sullivan](https://github.com/mandysulli)
-- [Reina Chau](https://github.com/rchau88)
-- [Kristine Lacek](https://github.com/kristinelacek)
-- [Sam Wiley](https://github.com/samcwiley)
 
 ### Enhancements
 
 ### `Added`
 
-- [PR #52](https://github.com/CDCgov/MIRA-NF/pull/52) - Added BLASTN module and container to Flu-Illumina and Flu-ONT modules. BLAST used to determine if strain is a known positive control or LAIV.
+-[PR #76](https://github.com/CDCgov/MIRA-NF/pull/76) - added both the find_variants_of_interest module that can be run as a part of analysis and the find_variants_of_interest workflow that run the the workflow described [here](docs/find_variants_of_interest_docs/).
+
+### `Fixed`
+
+-[PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
+
+### `Dependencies`
+
+
+### `Deprecated`
+
+### Parameter Changes
+
+| Old parameter | New parameter                |
+| ------------- | ---------------------------- |
+| | `--variants_of_interest` |
+| | `--reference_seq_table` |
+| | `--dais_module` |
+
+
+## v1.6.1 - 06.04.2025
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
+- [Ben Rambo-Martin](https://github.com/nbx0)
+
+### Enhancements
+
+### `Added`
+
+-[PR #70](https://github.com/CDCgov/MIRA-NF/pull/70) - adding docker version tracking
+
+### `Fixed`
+
+-[PR #72](https://github.com/CDCgov/MIRA-NF/pull/72) - fix a polyg trimming bug in irma-core trimmer
+
+### `Dependencies`
+
+-[PR #73](https://github.com/CDCgov/MIRA-NF/pull/73) - updating the IRMA container to v1.3.0
+
+### `Deprecated`
+
+## v1.6.0 - 05.21.2025
+
+### Credits
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
+- [Kristine Lacek](https://github.com/kristinelacek)
+- [Reina Chau](https://github.com/rchau88)
+- [Ben Rambo-Martin](https://github.com/nbx0)
+
+### Enhancements
+
+### `Added`
+
 - [PR #55](https://github.com/CDCgov/MIRA-NF/pull/55) - Added new references (N4, N5 and N6) got DAIS-ribosome and update container.
+- [PR #66](https://github.com/CDCgov/MIRA-NF/pull/64) - Added the ability to do custom primer trimming with the Flu-Illumina module
 
 ### `Fixed`
 
@@ -26,12 +76,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) and [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Added IRMA-core's standalone `trimmer` module for handling barcode, primer, and hard trimming for prepping ONT and Illumina reads, replacing BBDuk.
+- [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54), [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) and [PR #66](https://github.com/CDCgov/MIRA-NF/pull/64)- Added IRMA-core's standalone `trimmer` module for handling barcode, primer, and hard trimming for prepping ONT and Illumina reads, replacing BBDuk and cutadapt
 
 ### `Deprecated`
 
 - [PR #54](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed `cutadapt` for hard trimming reads.
 - [PR #59](https://github.com/CDCgov/MIRA-NF/pull/59) - Removed BBDuk for handling barcode and primer trimming of reads.
+- [PR #66](https://github.com/CDCgov/MIRA-NF/pull/64) - Only performing the staging of Illumina fastq files for the standard (AWS) profile. It was removed for all other profiles.
 
 ## v1.5.0 - 2025.04.02
 
@@ -65,6 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 - [PR #49](https://github.com/CDCgov/MIRA-NF/pull/49) - fixed binding to dais ribosome containers with docker profile.
+- [PR #62](https://github.com/CDCgov/MIRA-NF/pull/62) - fixed empty dataframe handling in prepareIRMAjson.py.
 
 ### `Dependencies`
 
@@ -88,6 +140,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Dependencies`
 
 - [PR #45](https://github.com/CDCgov/MIRA-NF/pull/45) - Updated DAIS ribosome references to include translated A/Astrakhan N8 reference for compatibility with DAIS ribosome 1.1.5.
+- [PR #62](https://github.com/CDCgov/MIRA-NF/pull/45) - Updated DAIS ribosome references to be CVVs for more up to date comparisons.
 
 ### `Deprecated`
 

@@ -17,9 +17,8 @@ include { PREPILLUMINAREADS    } from '../subworkflows/local/prepilluminareads'
 include { PREPONTREADS         } from '../subworkflows/local/prepontreads'
 include { IRMA                 } from '../modules/local/irma'
 include { CHECKIRMA            } from '../subworkflows/local/checkirma'
-include { CREATEBLASTNINPUT    } from '../modules/local/createblastninput'
-include { BLASTN               } from '../modules/local/blastn'
 include { DAISRIBOSOME         } from '../modules/local/daisribosome'
+include { VARIANTSOFINT        } from '../modules/local/variantsofint'
 include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 
 /*
@@ -33,6 +32,11 @@ include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 
 workflow flu_i {
     // Error handling to prevent incorrect flags being used
+    //check for runpath
+    if (params.runpath == null) {
+    println 'ERROR!!: Aborting pipeline due missing runpath flags'
+    println 'Please provide the file path to the run folder using the runpath flag'
+    }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
         println 'ERROR!!: Aborting pipeline due to conflicting flags'
@@ -41,36 +45,56 @@ workflow flu_i {
         workflow.exit
     }
     // primer error handling
-    if (params.custom_primers != null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
-        println 'Please remove --custom_primers to continue.'
-        workflow.exit
-    } else if (params.p != null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
+    if (params.custom_primers != null && (params.primer_kmer_len == null || params.primer_restrict_window == null)) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit()
+    }
+
+    if (params.p != null && params.custom_primers == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not have default primer trimming.'
         println 'Please remove --p to continue.'
         workflow.exit
     }
     if (params.p != null && params.custom_primers != null) {
-        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not need primers.'
-        println 'Please remove flags --p and --custom_primers to continue.'
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. Flu-Illumina experiment type does not have built in primer sets.'
+        println 'Please remove flags --p to continue.'
+        workflow.exit
+    }
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+    if (params.dais_module != null) {
+        println 'ERROR!!: The dais_module flag only needs to be specificied with the find-variants-of-interest workflow.'
         workflow.exit
     }
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow
-        // OMICS & Local PLATFORM: Stage all fastq files
-        fastq_ch = Channel
+        // Stage fastq files based on profile
+        if (params.restage == true){
+            fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
+            def runid = params.runpath.tokenize('/').last()
+            sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+        } else if (params.restage == false ){
+            sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
 
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+        }
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END
@@ -118,16 +142,16 @@ workflow flu_i {
     }
     CHECKIRMA(check_irma_ch)
 
-    //extract PB2 segment for BLASTN
-    CREATEBLASTNINPUT(check_irma_ch)
-
-    // MODULE: Run BLASTN
-    BLASTN(CREATEBLASTNINPUT.out)
-    ch_versions = ch_versions.unique().mix(BLASTN.out.versions)
-
     // MODULE: Run Dais Ribosome
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
@@ -142,6 +166,11 @@ workflow flu_i {
 
 workflow flu_o {
     // Error handling to prevent incorrect flags being used
+    //check for runpath
+    if (params.runpath != null) {
+    println 'ERROR!!: Aborting pipeline due missing runpath flags'
+    println 'Please provide the file path to the run folder using the runpath flag'
+    }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
         println 'ERROR!!: Aborting pipeline due to conflicting flags'
@@ -169,10 +198,24 @@ workflow flu_o {
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+    if (params.dais_module != null) {
+        println 'ERROR!!: The dais_module flag only needs to be specificied with the find-variants-of-interest workflow.'
+        workflow.exit
+    }
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -237,16 +280,16 @@ workflow flu_o {
     }
     CHECKIRMA(check_irma_ch)
 
-    //extract PB2 segment for BLASTN
-    CREATEBLASTNINPUT(check_irma_ch)
-
-    // MODULE: Run BLASTN
-    BLASTN(CREATEBLASTNINPUT.out)
-    ch_versions = ch_versions.unique().mix(BLASTN.out.versions)
-
     // MODULE: Run Dais Ribosome
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
@@ -261,6 +304,11 @@ workflow flu_o {
 
 workflow sc2_spike_o {
     // Error handling to prevent incorrect flags being used
+    //check for runpath
+    if (params.runpath != null) {
+    println 'ERROR!!: Aborting pipeline due missing runpath flags'
+    println 'Please provide the file path to the run folder using the runpath flag'
+    }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
         println 'ERROR!!: Aborting pipeline due to conflicting flags'
@@ -288,6 +336,23 @@ workflow sc2_spike_o {
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+    if (params.dais_module != null) {
+        println 'ERROR!!: The dais_module flag only needs to be specificied with the find-variants-of-interest workflow.'
+        workflow.exit
+    }
+
+    //Inializing parameters
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
@@ -356,6 +421,13 @@ workflow sc2_spike_o {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     // Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -369,6 +441,11 @@ workflow sc2_spike_o {
 
 workflow sc2_wgs_o {
     // Error handling to prevent incorrect flags being used
+    //check for runpath
+    if (params.runpath != null) {
+    println 'ERROR!!: Aborting pipeline due missing runpath flags'
+    println 'Please provide the file path to the run folder using the runpath flag'
+    }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
         println 'ERROR!!: Aborting pipeline due to conflicting flags'
@@ -396,10 +473,24 @@ workflow sc2_wgs_o {
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+    if (params.dais_module != null) {
+        println 'ERROR!!: The dais_module flag only needs to be specificied with the find-variants-of-interest workflow.'
+        workflow.exit
+    }
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -468,6 +559,13 @@ workflow sc2_wgs_o {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     //SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -481,6 +579,11 @@ workflow sc2_wgs_o {
 
 workflow sc2_wgs_i {
     //Error handling to prevent incorrect flags being used
+    //check for runpath
+    if (params.runpath != null) {
+    println 'ERROR!!: Aborting pipeline due missing runpath flags'
+    println 'Please provide the file path to the run folder using the runpath flag'
+    }
     //irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
         println 'ERROR!!: Aborting pipeline due to conflicting flags'
@@ -499,34 +602,62 @@ workflow sc2_wgs_i {
         println 'ERROR!!: Aborting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
-    } else if (params.p == 'RSV_CDC_8amplicon_230901') {
+    }
+    if (params.custom_primers != null && (params.primer_kmer_len == null || params.primer_restrict_window == null)) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit()
+    }
+    if (params.p == 'RSV_CDC_8amplicon_230901') {
         println 'ERROR!!: The primer selection provided is not compatible with SARS-CoV-2'
         println 'Please select the one of the SARS-CoV-2 primer sets or provide a custom primer set'
         workflow.exit
-    } else if (params.custom_primers != null) {
-        println 'Using custom primers for trimming'
-    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4') {
+    }
+    if (params.custom_primers == null && params.p != null) {
         println "using ${params.p} primers for trimming"
-    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' && params.custom_primers != null) {
-        println 'using custom primers for trimming'
+    }
+    if (params.custom_primers != null && params.p == null) {
+        println 'Using custom primers for trimming'
+    }
+    if (params.p != null && params.custom_primers != null) {
+        println 'Both the primer flag and the custom_primer flag have been provided.'
+        println 'Using custom primers will be used for trimming'
         params.p = null
     }
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+        if (params.dais_module != null) {
+        println 'ERROR!!: The dais_module flag only needs to be specificied with the find-variants-of-interest workflow.'
+        workflow.exit
+    }
+
 
     //Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
-        // OMICS & Local PLATFORM: Stage all fastq files
-        fastq_ch = Channel
+        // Stage fastq files based on profile
+        if (params.restage == true){
+            fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+            def runid = params.runpath.tokenize('/').last()
+            sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+        } else if (params.restage == false ){
+            sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
+        }
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END
@@ -579,6 +710,13 @@ workflow sc2_wgs_i {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -592,6 +730,11 @@ workflow sc2_wgs_i {
 
 workflow rsv_i {
     // Error handling to prevent incorrect flags being used
+    //check for runpath
+    if (params.runpath != null) {
+    println 'ERROR!!: Aborting pipeline due missing runpath flags'
+    println 'Please provide the file path to the run folder using the runpath flag'
+    }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
         println 'ERROR!!: Aborting pipeline due to conflicting flags'
@@ -609,34 +752,62 @@ workflow rsv_i {
         println 'ERROR!!: Aborting pipeline due to missing primer input for trimming'
         println 'Please provide primers using either --p or --custom_primers'
         workflow.exit
-    } else if (params.custom_primers != null) {
+    }
+    if (params.custom_primers != null && (params.primer_kmer_len == null || params.primer_restrict_window == null)) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs.'
+        println 'custom_primers flag requires primer_kmer_len and primer_restrict_window flags be specified as well.'
+        workflow.exit()
+    }
+    if (params.custom_primers != null && params.p == null) {
         println 'Using custom primers for trimming'
-    } else if (params.p == 'RSV_CDC_8amplicon_230901') {
+    }
+    if (params.p == 'RSV_CDC_8amplicon_230901') {
         println "using ${params.p} primers for trimming"
-    }else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4') {
-        println 'ERROR!!: The primer selection provided is not compatible with RSV'
+    }
+    if (params.p != null && (params.p == "varskip" || params.p == "swift_211206" || params.p == "swift" || params.p == 'qiagen' || params.p == 'atric5.3.2' || params.p == 'atric4.1' || params.p == 'atric4')) {
+        println "ERROR!!: The primer selection ${params.p} provided is not compatible with RSV"
         println 'Please select the RSV_CDC_8amplicon_230901 primer set or provide a custom primer set'
-        workflow.exit
-    } else if (params.p == 'varskip' || 'swift_211206' || 'swift' || 'qiagen' || 'atric5.3.2' || 'atric4.1' || 'atric4' || 'RSV_CDC_8amplicon_230901' && params.custom_primers != null) {
-        println 'using custom primers for trimming'
+        workflow.exit()
+    }
+    if ((params.p == 'varskip' || params.p == 'swift_211206' || params.p == 'swift' || params.p == 'qiagen' || params.p == 'atric5.3.2' || params.p == 'atric4.1' || params.p == 'atric4' || params.p == 'RSV_CDC_8amplicon_230901') && params.custom_primers != null) {
+        println 'Both the primer flag and the custom_primer flag have been provided.'
+        println 'Using custom primers will be used for trimming'
         params.p = null
+    }
+
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+    if (params.dais_module != null) {
+        println 'ERROR!!: The dais_module flag only needs to be specificied with the find-variants-of-interest workflow.'
+        workflow.exit
     }
 
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
-        // OMICS & Local PLATFORM: Stage all fastq files
-        fastq_ch = Channel
+        // Stage fastq files based on profile
+        if (params.restage == true){
+            fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-
-        def runid = params.runpath.tokenize('/').last()
-        sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+            def runid = params.runpath.tokenize('/').last()
+            sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
+        } else if (params.restage == false ){
+            sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
+        }
 
         NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END
@@ -688,6 +859,13 @@ workflow rsv_i {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPILLUMINAREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -701,6 +879,11 @@ workflow rsv_i {
 
 workflow rsv_o {
     // Error handling to prevent incorrect flags being used
+    //check for runpath
+    if (params.runpath != null) {
+    println 'ERROR!!: Aborting pipeline due missing runpath flags'
+    println 'Please provide the file path to the run folder using the runpath flag'
+    }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
         println 'ERROR!!: Aborting pipeline due to conflicting flags'
@@ -713,8 +896,8 @@ workflow rsv_o {
         println 'Currently, the --irma_module is only compatible with the Flu-Illumina experiment type.'
         workflow.exit
     }
-        // primer error handling
-        if (params.custom_primers != null) {
+    // primer error handling
+    if (params.custom_primers != null) {
         println 'ERROR!!: Aborting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove --custom_primers to continue.'
         workflow.exit
@@ -722,15 +905,31 @@ workflow rsv_o {
         println 'ERROR!!: Aborting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove --p to continue.'
         workflow.exit
-        }
+    }
     if (params.p != null && params.custom_primers != null) {
         println 'ERROR!!: Aborting pipeline due to incorrect inputs. RSV-ONT experiment type does not need primers.'
         println 'Please remove flags --p and --custom_primers to continue.'
         workflow.exit
     }
+
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest != null && params.reference_seq_table == null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The variants_of_interest flag requires that a table of reference seqeunces be provided.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null) {
+        println 'ERROR!!: Aborting pipeline due to incorrect inputs. The reference_seq_table flag is only used when the variants_of_interest is used.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+    if (params.dais_module != null) {
+        println 'ERROR!!: The dais_module flag only needs to be specificied with the find-variants-of-interest workflow.'
+        workflow.exit
+    }
+
     // Initializing parameters
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
 
@@ -752,7 +951,7 @@ workflow rsv_o {
         NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
         // OMICS & Local END
 
-        // NEXTFLOWSAMPLESHEETO(samplesheet_ch, run_ID_ch, experiment_type_ch, CONCATFASTQS.out)
+        // NEXTFLOWSAMPLESHEETO(samplesheet_ch, experiment_type_ch, CONCATFASTQS.out)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
 
@@ -800,6 +999,13 @@ workflow rsv_o {
     DAISRIBOSOME(CHECKIRMA.out.dais_ch, PREPONTREADS.out.dais_module)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
+    //MODULE: Run Variants of Interest
+    if(params.variants_of_interest){
+        ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+        variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+        VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    }
+
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
 
@@ -809,6 +1015,47 @@ workflow rsv_o {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
+}
+
+workflow find_variants_of_int {
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest == null && params.reference_seq_table == null && params.dais_module == null ||
+    params.variants_of_interest != null && params.reference_seq_table == null && params.dais_module == null ||
+    params.variants_of_interest == null && params.reference_seq_table != null && params.dais_module == null ||
+    params.variants_of_interest == null && params.reference_seq_table == null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+        workflow.exit
+    }
+    if (params.variants_of_interest != null && params.reference_seq_table == null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest != null && params.reference_seq_table != null && params.dais_module == null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+        println 'Please provide the dais module needed (influenze,betacoronavirus or rsv) with the dais_module flag'
+        workflow.exit
+    }
+
+    // Initializing parameters
+    dais_input_ch = Channel.fromPath(params.input, checkIfExists: true)
+    ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+    variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+    ch_versions = Channel.empty()
+    dais_module_ch = Channel.value(params.dais_module)
+
+        // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(dais_input_ch, dais_module_ch)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //MODULE: Run Variants of Interest
+    VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+
 }
 // MAIN WORKFLOW
 // Decides which experiment type workflow to run based on experiment parameter given
@@ -827,6 +1074,8 @@ workflow MIRA {
         rsv_i()
     } else if (params.e == 'RSV-ONT') {
         rsv_o()
+    } else if (params.e == 'Find-Variants-Of-Interest') {
+       find_variants_of_int()
     }
 }
 /*
@@ -838,15 +1087,46 @@ workflow MIRA {
 if (params.email) {
     workflow.onComplete {
         if (workflow.success == true) {
-            def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
-            def fileContent = new File(versionPath).text
-            def path = "${params.runpath}"
-            def folder_name = new File(path)
-            def basename = folder_name.name
-            def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta')
-            if (ac_file.exists()) {
-                /* groovylint-disable-next-line LineLength */
-                def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta']
+            if (params.e != 'Find-Variants-Of-Interest'){
+                def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
+                def fileContent = new File(versionPath).text
+                def path = "${params.runpath}"
+                def folder_name = new File(path)
+                def basename = folder_name.name
+                def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta')
+                if (ac_file.exists()) {
+                    /* groovylint-disable-next-line LineLength */
+                    def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta']
+                    def msg = """
+                    Pipeline execution summary
+                    Completed at: ${workflow.complete}
+                    Duration    : ${workflow.duration}
+                    Success     : ${workflow.success}
+                    workDir     : ${workflow.workDir}
+                    outDir      : ${params.outdir}
+                    exit status : ${workflow.exitStatus}
+                    ${fileContent}
+                    """
+                    .stripIndent()
+
+                        sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+                } else {
+                    def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx']
+                    def msg = """
+                    Pipeline execution summary
+                    Completed at: ${workflow.complete}
+                    Duration    : ${workflow.duration}
+                    Success     : ${workflow.success}
+                    workDir     : ${workflow.workDir}
+                    outDir      : ${params.outdir}
+                    exit status : ${workflow.exitStatus}
+                    No amended consensus was created!
+                    """
+                    .stripIndent()
+
+                        sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+                }
+            } else if (params.e == 'Find-Variants-Of-Interest') {
                 def msg = """
                 Pipeline execution summary
                 Completed at: ${workflow.complete}
@@ -855,26 +1135,12 @@ if (params.email) {
                 workDir     : ${workflow.workDir}
                 outDir      : ${params.outdir}
                 exit status : ${workflow.exitStatus}
-                ${fileContent}
+                Variants of interest workflow has run successfully
                 """
                 .stripIndent()
 
                     sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
-            } else {
-                def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx']
-                def msg = """
-                Pipeline execution summary
-                Completed at: ${workflow.complete}
-                Duration    : ${workflow.duration}
-                Success     : ${workflow.success}
-                workDir     : ${workflow.workDir}
-                outDir      : ${params.outdir}
-                exit status : ${workflow.exitStatus}
-                No amended consensus was created!
-                """
-                .stripIndent()
 
-                    sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
             }
         } else if (workflow.success == false) {
             def msg = """

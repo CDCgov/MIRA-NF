@@ -3,7 +3,7 @@
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira-nf/mira)
+[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/cdcgov/mira-nf)
 
 # <img src="assets/mira-logo-midjourney_20230526_rmbkgnd.png" align="left" width="190" /> MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation
 
@@ -15,34 +15,34 @@ Administrators for this service reserve the right to moderate all information us
 
 The material embodied in this software is provided to you "as-is" and without warranty of any kind, express, implied or otherwise, including without limitation, any warranty of fitness for a particular purpose. In no event shall the Centers for Disease Control and Prevention (CDC) or the United States (U.S.) government be liable to you or anyone else for any direct, special, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including without limitation, loss of profit, loss of use, savings or revenue, or the claims of third parties, whether or not CDC or the U.S. government has been advised of the possibility of such loss, however caused and on any theory of liability, arising out of or in connection with the possession, use or performance of this software.
 
-## Introduction
+# Introduction to Full Analysis Workflows
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
+**cdcgov/mira-nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. cdcgov/mira-nf can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
-MIRA performs these steps for genome assembly and curation:
+MIRA-NF performs these steps for genome assembly and curation:
 
 1. Read QC (optional) ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
 3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
 4. Subsampling to faster analysis (optional) ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
-5. Trimming ([`IRMA-core`](https://github.com/CDCgov/irma-core)) 
+5. Trimming ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
 8. Collect results from IRMA and DAIS-Ribosome in json files
 9. Create html, excel files and amended consensus fasta files
 10. Reformat tables into parquet files and csv files
 
-MIRA is able to analyze 7 data types:
+#### MIRA-NF is able to analyze 7 data types:
 
-1. Flu-Illumina - Flu whole genome data created with an illumina machine
-2. Flu-ONT - Flu whole genome data created with an OxFord Nanopore machine
-3. SC2-Whole-Genome-Illumina - SARS-CoV-2 whole genome data created with an illumina machine
-4. SC2-Whole-Genome-ONT - SARS-CoV-2 whole genome data created with an OxFord Nanopore machine
-5. SC2-Spike-Only-ONT - SARS-CoV-2 spike protein data created with an OxFord Nanopore machine
-6. RSV-Illumina - RSV whole genome data created with an illumina machine
-7. RSV-ONT - RSV whole genome data created with an OxFord Nanopore machine
+|                | Illumina | ONT |
+|----------------|--------------|---------|
+| Influenza            |   🥳         | 🥳       |
+| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 |
+| SARS-CoV-2 :: Spike-only            |            |    🥳   |
+| RSV            |       🥳       |     🥳    |
 
-![Alt text](docs/images/mira_nf_workflow_img_v3.png)
+![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v5.png)
+*MIRA-NF workflows*
 
 ## Usage
 
@@ -57,7 +57,7 @@ Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-r
 - Tiny test data from ONT Influenza genome and SARS-CoV-2-spike - 40Mb [Download](https://centersfordiseasecontrol.sharefile.com/d-s839d7319e9b04e2baba07b4d328f02c2).
 - Full test data set - the data set from above + full genomes of Influenza and SARS-CoV-2 from Illumina MiSeqs 1 Gb [Download](<https://centersfordiseasecontrol.sharefile.com/d-s3c52c0b25c2243078f506d60bd787c62>).
 
-To run this pipeline with the MIRA setup:
+To run this pipeline with the MIRA-NF setup:
 
 First, prepare a samplesheet with your input data that looks as follows:
 
@@ -114,33 +114,39 @@ git clone https://github.com/CDCgov/MIRA-NF.git
 cd MIRA-NF
 ```
 
-**using dev branch temporary
-
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input Parameters for MIRA-NF
+# Input Parameters for -NF Workflows
 
-- `profile` - singularity,docker,local,sge,slurm \ You can use docker or singularity. Use local for running on local computer.
-- `input` - <RUN_PATH>/samplesheet.csv with the format described above. The full file path is required.
-- `outdir` - The file path to where you would like the output directory to write the files. The full file path is required.
-- `runpath` - The <RUN_PATH> where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.
-- `e` - experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT.
+| Flag       | Description                                                                                                           |
+|------------|-----------------------------------------------------------------------------------------------------------------------|
+| `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
+| `input`    | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                         |
+| `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
+| `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
+| `e`        | Experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT. |
 
-*all commands listed below can not be included in run command and the defaults will be used*
+### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
 
-- `p` - provide a built in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided**
-- `custom_primers` - provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **Trimming will only work with custom primers that are greater than 15bp**
-- `read_qc` - (optional) Run FastQC and MultiQC. Default: false.
-- `reformat_tables` - (optional) flag to reformat report tables into parquet files and csv files (boolean). Default set to false.
-- `subsample_reads` - (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.
-- `process_q` - (required for hpc profile)  provide the name of the processing queue that will submit to the queue.
-- `email` - (optional) provide an email if you would like to receive an email with the irma summary upon completion.
-- `irma_module` - (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built in flu configs. Default is set to not use these module and they can only be invoked for Flu-Illumina experiment type. options: sensitive, secondary or utr
-- `custom_irma_config` - (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.
-- `custom_qc_settings` - (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.
-- `amd_platform` - (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false
-- `ecr_registry` - (optional) Allows a user to pass their ecr registry for AWS to the workflow.
-- `sourcepath` - (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one can not place the entire repo in their working directory.
+| Flag                  | Description                                                                                                                                                                                                                       |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `p`                   | Provide a built-in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided** |
+| `custom_primers`      | Provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **primer_kmer_len and primer_restrict_window flags must also be used with this flag**                      |
+| `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |
+| `primer_restrict_window` | The N number of bases provided by this flag will restrict them primer searching to the leftmost and rightmost N bases.                                                                                                           |
+| `read_qc`             | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                |
+| `reformat_tables`     | (optional) Flag to reformat report tables into parquet files and csv files (boolean). Default set to false.                                                                                                                        |
+| `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
+| `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
+| `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
+| `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
+| `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |
+| `custom_qc_settings`  | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                     |
+| `amd_platform`        | (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false |
+| `ecr_registry`        | (optional) Allows a user to pass their ecr registry for AWS to the workflow.                                                                                                                                                      |
+| `sourcepath`          | (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one cannot place the entire repo in their working directory. |
+| `variants_of_interest`  | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA-nf workflow. Here the user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
+| `reference_seq_table`        | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA-NF workflow. Here the user should provide the  `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.  |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -152,7 +158,6 @@ nextflow run ./main.nf \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
-   --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --subsample_reads <READ_COUNT> (optional)\
    --reformat_tables true (optional) \
    --read_qc false (optional) \
@@ -164,11 +169,10 @@ To run in a high computing cluster you will need to add sge or slurm to the prof
 nextflow run ./main.nf \
    -profile singularity,sge \
    --input <RUN_PATH>/samplesheet.csv \
-   --outdir <RUN_PATH> \
+   --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
-   --custom_primers <CUSTOM_PRIMERS> <FILE_PATH>/custom_primer.fasta (optional) \
    --process_q <QUEUE_NAME> \
    --reformat_tables true (optional) \
    --email <EMAIL_ADDRESS> (optional) \
@@ -187,8 +191,10 @@ qsub MIRA_nextflow.sh \
    -o <OUTDIR> \
    -r <RUN_PATH> \
    -e <EXPERIMENT_TYPE> \
-   -p <PRIMER_SCHEMA> \ (optional)
-   -g <FILE_PATH>/custom_primer.fasta \ (optional)
+   -p <PRIMER_SCHEMA> \ (optional- cannot use with custom_primers flag)
+   -g <FILE_PATH>/custom_primer.fasta \ (optional - cannot use with p flag)
+   -t <PRIMER_KMER_LEN> \ (used with custom primers flag)
+   -u <PRIMER_RESTRICT_WINDOW> \ (used with custom primers flag)
    -q <QUEUE_NAME> \
    -a <REFORMAT_TABLES> \ (optional)
    -c <SUBSAMPLED_READ_COUNTS> \ (optional)
@@ -198,13 +204,15 @@ qsub MIRA_nextflow.sh \
 
 ```
 
-> [!WARNING]
-> Please provide pipeline parameters via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+Note that pipeline parameters can be provided via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***; see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+
+# MIRA-NF Utility Workflows
+
+- [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
 
 ## Credits
 
-mira-nf/mira is developed and maintained by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan, and Sam Wiley.
+cdcgov/mira-nf is developed and maintained by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan, and Sam Wiley.
 
 ## Citations
 

@@ -1,4 +1,4 @@
-process RSVTRIMPRIMERS {
+process FLUTRIMPRIMERS {
     tag "${sample}"
     label 'process_medium'
 
@@ -47,7 +47,7 @@ process RSVTRIMPRIMERS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        rsvtrimprimers_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+        flutrimprimers_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }
