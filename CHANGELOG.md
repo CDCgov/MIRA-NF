@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
+-[PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
 
 ### `Dependencies`
 
