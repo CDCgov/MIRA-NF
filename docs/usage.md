@@ -4,7 +4,7 @@
 
 ## Introduction
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
+**cdcgov/mira-nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. cdcgov/mira-nf can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
