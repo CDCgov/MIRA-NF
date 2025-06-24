@@ -96,7 +96,6 @@
                 },
                 "reformat_tables": {
                     "type": "boolean",
-                    "default": false,
                     "description": "When set to true, this flag creates parquet files. Default: false"
                 },
                 "amd_platform": {
@@ -112,7 +111,6 @@
                 },
                 "read_qc": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Run fastq and multiqc steps. Default: false"
                 },
                 "subsample_reads": {
@@ -148,7 +146,6 @@
                 "restage": {
                     "type": "boolean",
                     "description": "Used to decide when the fastq files are restaged in the out directory.",
-                    "default": "false",
                     "hidden": true,
                     "help_text": "Copies the fastq files of Illumina runs into the out directory. Only on for Standard (for AWS) by default."
                 },
