@@ -9,7 +9,7 @@ process DAISRIBOSOME {
     val dais_module
 
     output:
-    path('*') , emit: dais_outputs
+    path('*.{seq,gen,ins,del}') , emit: dais_outputs
     path('*.seq') , emit: dais_seq_output
     path 'versions.yml' , emit: versions
 
