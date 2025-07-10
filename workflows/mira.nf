@@ -36,6 +36,7 @@ workflow flu_i {
     if (params.runpath == null) {
     println 'ERROR!!: Aborting pipeline due missing runpath flags'
     println 'Please provide the file path to the run folder using the runpath flag'
+    workflow.exit
     }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
@@ -167,9 +168,10 @@ workflow flu_i {
 workflow flu_o {
     // Error handling to prevent incorrect flags being used
     //check for runpath
-    if (params.runpath != null) {
+    if (params.runpath == null) {
     println 'ERROR!!: Aborting pipeline due missing runpath flags'
     println 'Please provide the file path to the run folder using the runpath flag'
+    workflow.exit
     }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
@@ -305,9 +307,10 @@ workflow flu_o {
 workflow sc2_spike_o {
     // Error handling to prevent incorrect flags being used
     //check for runpath
-    if (params.runpath != null) {
+    if (params.runpath == null) {
     println 'ERROR!!: Aborting pipeline due missing runpath flags'
     println 'Please provide the file path to the run folder using the runpath flag'
+    workflow.exit
     }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
@@ -442,9 +445,10 @@ workflow sc2_spike_o {
 workflow sc2_wgs_o {
     // Error handling to prevent incorrect flags being used
     //check for runpath
-    if (params.runpath != null) {
+    if (params.runpath == null) {
     println 'ERROR!!: Aborting pipeline due missing runpath flags'
     println 'Please provide the file path to the run folder using the runpath flag'
+    workflow.exit
     }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
@@ -580,9 +584,10 @@ workflow sc2_wgs_o {
 workflow sc2_wgs_i {
     //Error handling to prevent incorrect flags being used
     //check for runpath
-    if (params.runpath != null) {
+    if (params.runpath == null) {
     println 'ERROR!!: Aborting pipeline due missing runpath flags'
     println 'Please provide the file path to the run folder using the runpath flag'
+    workflow.exit
     }
     //irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
@@ -731,9 +736,10 @@ workflow sc2_wgs_i {
 workflow rsv_i {
     // Error handling to prevent incorrect flags being used
     //check for runpath
-    if (params.runpath != null) {
+    if (params.runpath == null) {
     println 'ERROR!!: Aborting pipeline due missing runpath flags'
     println 'Please provide the file path to the run folder using the runpath flag'
+    workflow.exit
     }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
@@ -880,9 +886,10 @@ workflow rsv_i {
 workflow rsv_o {
     // Error handling to prevent incorrect flags being used
     //check for runpath
-    if (params.runpath != null) {
+    if (params.runpath == null) {
     println 'ERROR!!: Aborting pipeline due missing runpath flags'
     println 'Please provide the file path to the run folder using the runpath flag'
+    workflow.exit
     }
     // irma config handling
     if (params.irma_module != 'none' && params.custom_irma_config != null) {
