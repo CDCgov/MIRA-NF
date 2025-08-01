@@ -34,7 +34,7 @@ workflow PREPAREREPORTS {
     }
 
     //check mira version
-    if (params.amd_platform){
+    if (params.check_version == false){
         println("MIRA version not checked")
         mira_version_ch = "MIRA version not checked"
     } else {

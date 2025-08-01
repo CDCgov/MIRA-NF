@@ -167,6 +167,10 @@
                         "betacoronavirus",
                         "rsv"
                     ]
+                },
+                "check_version": {
+                    "type": "boolean",
+                    "description": "Check if user is running most up to date version of MIRA-NF"
                 }
             }
         },
