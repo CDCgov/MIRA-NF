@@ -5,12 +5,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v2.0.0 -
 
 - [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
 
 ### Enhancements
 
 ### `Added`
 
 -[PR #76](https://github.com/CDCgov/MIRA-NF/pull/76) - added both the find_variants_of_interest module that can be run as a part of analysis and the find_variants_of_interest workflow that run the the workflow described [here](docs/find_variants_of_interest_docs/).
+-[PR #82](https://github.com/CDCgov/MIRA-NF/pull/82) - added a `check_version` flag that can be set to false so that MIRA-NF can be run with docker without internet. Default is set to true.
 
 ### `Fixed`
 
@@ -28,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | | `--variants_of_interest` |
 | | `--reference_seq_table` |
 | | `--dais_module` |
+| | `--check_version` |
 
 
 ## v1.6.1 - 06.04.2025
