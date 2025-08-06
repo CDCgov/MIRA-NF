@@ -1045,7 +1045,7 @@ workflow find_variants_of_int {
     }
     if (params.variants_of_interest != null && params.reference_seq_table != null && params.dais_module == null) {
         println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
-        println 'Please provide the dais module needed (influenze,betacoronavirus or rsv) with the dais_module flag'
+        println 'Please provide the dais module needed (influenza,betacoronavirus or rsv) with the dais_module flag'
         workflow.exit
     }
 
@@ -1054,7 +1054,8 @@ workflow find_variants_of_int {
     ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
     variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
     ch_versions = Channel.empty()
-    dais_module_ch = Channel.value(params.dais_module)
+    dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
+    dais_module_ch.view()
 
         // MODULE: Run Dais Ribosome
     DAISRIBOSOME(dais_input_ch, dais_module_ch)
