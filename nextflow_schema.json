@@ -163,9 +163,9 @@
                     "type": "string",
                     "description": "The dais_module that will be used by DAIS-ribosome. Options: influenza, betacoronavirus, rsv",
                     "enum": [
-                        "influenza",
-                        "betacoronavirus",
-                        "rsv"
+                        "INFLUENZA",
+                        "BETACORONAVIRUS",
+                        "RSV"
                     ]
                 },
                 "check_version": {

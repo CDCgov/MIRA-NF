@@ -41,7 +41,7 @@ B	HA	121	N	inference description
 | `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
 | `variants_of_interest`  | The `<FILE_PATH>/variants_of_interest.txt` with the format described above. The full file path is required. |
 | `reference_seq_table`        | The `<FILE_PATH>/reference_table.txt` with the format described above. The full file path is required.  |
-| `dais_module`        | The dais_module that will be used by DAIS-ribosome. Options: INFLUENZA, BETACORONAVIRYS, RSV |
+| `dais_module`        | The dais_module that will be used by DAIS-ribosome. Options: INFLUENZA, BETACORONAVIRUS, RSV |
 
 ### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
 
