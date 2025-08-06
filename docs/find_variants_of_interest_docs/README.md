@@ -23,11 +23,13 @@ EPI_ISL_140	A/Hong Kong/1073/99	A / H9N2		a591bc9ad3a54f705940ad8483684cfc278c74
 The variants of interest table should be structured as seen below. These should be variants you would be interested in if they were present within your samples. The file must be tab delimited.
 
 ```
-protein position    mutation_of_int phenotypic_consensus
-HA	7	H	 inference description
-HA	8	Q	 inference description
-HA	94	N	inference description
-HA	121	N	inference description
+subtype	protein position    mutation_of_int phenotypic_consensus
+A / H1N1	HA	7	H	 inference description
+A / H1N1	HA	8	Q	 inference description
+A / H1N1	HA	94	N	inference description
+A / H1N1	HA	121	N	inference description
+B	HA	94	N	inference description
+B	HA	121	N	inference description
 ```
 
 # Input Parameters for din_variants_of_interest Workflow
