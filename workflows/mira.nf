@@ -1065,6 +1065,48 @@ workflow find_variants_of_int {
     VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
 
 }
+
+workflow find_positions_of_int {
+    //error handling for variants_of_interest flag
+    if (params.variants_of_interest == null && params.reference_seq_table == null && params.dais_module == null ||
+    params.variants_of_interest != null && params.reference_seq_table == null && params.dais_module == null ||
+    params.variants_of_interest == null && params.reference_seq_table != null && params.dais_module == null ||
+    params.variants_of_interest == null && params.reference_seq_table == null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+        workflow.exit
+    }
+    if (params.variants_of_interest != null && params.reference_seq_table == null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+        println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest == null && params.reference_seq_table != null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+        println 'Please provide a table of variants with the variants_of_interest flag'
+        workflow.exit
+    }
+    if (params.variants_of_interest != null && params.reference_seq_table != null && params.dais_module == null) {
+        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+        println 'Please provide the dais module needed (influenza,betacoronavirus or rsv) with the dais_module flag'
+        workflow.exit
+    }
+
+    // Initializing parameters
+    dais_input_ch = Channel.fromPath(params.input, checkIfExists: true)
+    ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
+    variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+    ch_versions = Channel.empty()
+    dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
+    dais_module_ch.view()
+
+        // MODULE: Run Dais Ribosome
+    DAISRIBOSOME(dais_input_ch, dais_module_ch)
+    ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
+
+    //MODULE: Run Positions of Interest
+
+
+}
 // MAIN WORKFLOW
 // Decides which experiment type workflow to run based on experiment parameter given
 workflow MIRA {
@@ -1084,6 +1126,8 @@ workflow MIRA {
         rsv_o()
     } else if (params.e == 'Find-Variants-Of-Interest') {
        find_variants_of_int()
+    } else if (params.e == 'Find-Positions-Of-Interest') {
+       find_positions_of_int()
     }
 }
 /*
