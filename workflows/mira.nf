@@ -19,6 +19,7 @@ include { IRMA                 } from '../modules/local/irma'
 include { CHECKIRMA            } from '../subworkflows/local/checkirma'
 include { DAISRIBOSOME         } from '../modules/local/daisribosome'
 include { VARIANTSOFINT        } from '../modules/local/variantsofint'
+include { POSITIONSOFINT        } from '../modules/local/positionsofint'
 include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 
 /*
@@ -1104,7 +1105,7 @@ workflow find_positions_of_int {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //MODULE: Run Positions of Interest
-
+    POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_interest_ch)
 
 }
 // MAIN WORKFLOW
