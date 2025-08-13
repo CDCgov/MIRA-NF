@@ -19,8 +19,9 @@ include { IRMA                 } from '../modules/local/irma'
 include { CHECKIRMA            } from '../subworkflows/local/checkirma'
 include { DAISRIBOSOME         } from '../modules/local/daisribosome'
 include { VARIANTSOFINT        } from '../modules/local/variantsofint'
-include { POSITIONSOFINT        } from '../modules/local/positionsofint'
+include { POSITIONSOFINT       } from '../modules/local/positionsofint'
 include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
+include { CHECKMIRAVERSION     } from '../modules/local/checkmiraversion'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1058,7 +1059,7 @@ workflow find_variants_of_int {
     dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
     dais_module_ch.view()
 
-        // MODULE: Run Dais Ribosome
+    // MODULE: Run Dais Ribosome
     DAISRIBOSOME(dais_input_ch, dais_module_ch)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
@@ -1100,7 +1101,7 @@ workflow find_positions_of_int {
     dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
     dais_module_ch.view()
 
-        // MODULE: Run Dais Ribosome
+    // MODULE: Run Dais Ribosome
     DAISRIBOSOME(dais_input_ch, dais_module_ch)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
@@ -1140,7 +1141,7 @@ workflow MIRA {
 if (params.email) {
     workflow.onComplete {
         if (workflow.success == true) {
-            if (params.e != 'Find-Variants-Of-Interest'){
+            if (params.e != 'Find-Variants-Of-Interest' || 'Find-Positions-Of-Interest'){
                 def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
                 def fileContent = new File(versionPath).text
                 def path = "${params.runpath}"
