@@ -1067,26 +1067,26 @@ workflow find_variants_of_int {
 }
 
 workflow find_positions_of_int {
-    //error handling for variants_of_interest flag
-    if (params.variants_of_interest == null && params.reference_seq_table == null && params.dais_module == null ||
-    params.variants_of_interest != null && params.reference_seq_table == null && params.dais_module == null ||
-    params.variants_of_interest == null && params.reference_seq_table != null && params.dais_module == null ||
-    params.variants_of_interest == null && params.reference_seq_table == null && params.dais_module != null) {
-        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+    //error handling for positions_of_interest flag
+    if (params.positions_of_interest == null && params.reference_seq_table == null && params.dais_module == null ||
+    params.positions_of_interest != null && params.reference_seq_table == null && params.dais_module == null ||
+    params.positions_of_interest == null && params.reference_seq_table != null && params.dais_module == null ||
+    params.positions_of_interest == null && params.reference_seq_table == null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the positions_of_interest, reference_seq_table and dais_module flags be specificied.'
         workflow.exit
     }
-    if (params.variants_of_interest != null && params.reference_seq_table == null && params.dais_module != null) {
-        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+    if (params.positions_of_interest != null && params.reference_seq_table == null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the positions_of_interest, reference_seq_table and dais_module flags be specificied.'
         println 'Please provide a table of reference seqeunces with the reference_seq_table flag'
         workflow.exit
     }
-    if (params.variants_of_interest == null && params.reference_seq_table != null && params.dais_module != null) {
-        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
-        println 'Please provide a table of variants with the variants_of_interest flag'
+    if (params.positions_of_interest == null && params.reference_seq_table != null && params.dais_module != null) {
+        println 'ERROR!!: This workflow requires the positions_of_interest, reference_seq_table and dais_module flags be specificied.'
+        println 'Please provide a table of variants with the positions_of_interest flag'
         workflow.exit
     }
-    if (params.variants_of_interest != null && params.reference_seq_table != null && params.dais_module == null) {
-        println 'ERROR!!: This workflow requires the variants_of_interest, reference_seq_table and dais_module flags be specificied.'
+    if (params.positions_of_interest != null && params.reference_seq_table != null && params.dais_module == null) {
+        println 'ERROR!!: This workflow requires the positions_of_interest, reference_seq_table and dais_module flags be specificied.'
         println 'Please provide the dais module needed (influenza,betacoronavirus or rsv) with the dais_module flag'
         workflow.exit
     }
@@ -1094,7 +1094,7 @@ workflow find_positions_of_int {
     // Initializing parameters
     dais_input_ch = Channel.fromPath(params.input, checkIfExists: true)
     ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
-    variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
+    positions_of_interest_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
     ch_versions = Channel.empty()
     dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
     dais_module_ch.view()

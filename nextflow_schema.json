@@ -46,7 +46,8 @@
                         "SC2-Whole-Genome-Illumina",
                         "RSV-Illumina",
                         "RSV-ONT",
-                        "Find-Variants-Of-Interest"
+                        "Find-Variants-Of-Interest",
+                        "Find-Positions-Of-Interest"
                     ]
                 }
             }
@@ -152,7 +153,12 @@
                 "variants_of_interest": {
                     "type": "string",
                     "format": "file-path",
-                    "description": "The variants of interest table to be used with find_variants_of_interest"
+                    "description": "The variants of interest table to be used with variants_of_interest module"
+                },
+                "positions_of_interest": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "The positions of interest table to be used with positions_of_interest module"
                 },
                 "reference_seq_table": {
                     "type": "string",
