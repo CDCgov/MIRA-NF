@@ -1058,8 +1058,29 @@ workflow find_variants_of_int {
     ch_versions = Channel.empty()
     dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
     dais_module_ch.view()
+    //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
+    if (params.sourcepath == null) {
+        support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
+    } else {
+        support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
+    }
 
-    // MODULE: Run Dais Ribosome
+    //MODULE: Check mira version
+    if (params.check_version == false){
+        println("MIRA version not checked")
+        mira_version_ch = "MIRA version not checked"
+    } else {
+        CHECKMIRAVERSION(support_file_path)
+        mira_version_ch = CHECKMIRAVERSION.out.view()
+    }
+    //Setting up to put MIRA-NF version checking in email
+    CHECKMIRAVERSION.out.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
+
+    //MODULE: Run Dais Ribosome
     DAISRIBOSOME(dais_input_ch, dais_module_ch)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
@@ -1100,8 +1121,30 @@ workflow find_positions_of_int {
     ch_versions = Channel.empty()
     dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
     dais_module_ch.view()
+    //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
+    if (params.sourcepath == null) {
+        support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
+    } else {
+        support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
+    }
 
-    // MODULE: Run Dais Ribosome
+    //MODULE: Check mira version
+    if (params.check_version == false){
+        println("MIRA version not checked")
+        mira_version_ch = "MIRA version not checked"
+    } else {
+        CHECKMIRAVERSION(support_file_path)
+        mira_version_ch = CHECKMIRAVERSION.out.view()
+    }
+    //Setting up to put MIRA-NF version checking in email
+    CHECKMIRAVERSION.out.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
+
+
+    //MODULE: Run Dais Ribosome
     DAISRIBOSOME(dais_input_ch, dais_module_ch)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
@@ -1141,61 +1184,85 @@ workflow MIRA {
 if (params.email) {
     workflow.onComplete {
         if (workflow.success == true) {
-            if (params.e != 'Find-Variants-Of-Interest' || 'Find-Positions-Of-Interest'){
-                def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
-                def fileContent = new File(versionPath).text
-                def path = "${params.runpath}"
-                def folder_name = new File(path)
-                def basename = folder_name.name
-                def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta')
-                if (ac_file.exists()) {
-                    /* groovylint-disable-next-line LineLength */
-                    def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx', "${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_amended_consensus.fasta']
-                    def msg = """
-                    Pipeline execution summary
-                    Completed at: ${workflow.complete}
-                    Duration    : ${workflow.duration}
-                    Success     : ${workflow.success}
-                    workDir     : ${workflow.workDir}
-                    outDir      : ${params.outdir}
-                    exit status : ${workflow.exitStatus}
-                    ${fileContent}
-                    """
-                    .stripIndent()
+            if (params.e != 'Find-Variants-Of-Interest' && params.e != 'Find-Positions-Of-Interest') {
+    def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
+    def fileContent = new File(versionPath).exists() ? new File(versionPath).text : "Version file not found."
+    def path = "${params.runpath}"
+    def folder_name = new File(path)
+    def basename = folder_name.name
+    def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta")
 
-                        sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
-                } else {
-                    def final_files = ["${params.outdir}/aggregate_outputs/mira-reports/MIRA_" + basename + '_summary.xlsx']
-                    def msg = """
-                    Pipeline execution summary
-                    Completed at: ${workflow.complete}
-                    Duration    : ${workflow.duration}
-                    Success     : ${workflow.success}
-                    workDir     : ${workflow.workDir}
-                    outDir      : ${params.outdir}
-                    exit status : ${workflow.exitStatus}
-                    No amended consensus was created!
-                    """
-                    .stripIndent()
+    if (ac_file.exists()) {
+        def final_files = [
+            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_summary.xlsx",
+            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta"
+        ]
+        def msg = """
+        Pipeline execution summary
+        Completed at: ${workflow.complete}
+        Duration    : ${workflow.duration}
+        Success     : ${workflow.success}
+        workDir     : ${workflow.workDir}
+        outDir      : ${params.outdir}
+        exit status : ${workflow.exitStatus}
+        ${fileContent}
+        """
+        .stripIndent()
 
-                        sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
-                }
-            } else if (params.e == 'Find-Variants-Of-Interest') {
-                def msg = """
-                Pipeline execution summary
-                Completed at: ${workflow.complete}
-                Duration    : ${workflow.duration}
-                Success     : ${workflow.success}
-                workDir     : ${workflow.workDir}
-                outDir      : ${params.outdir}
-                exit status : ${workflow.exitStatus}
-                Variants of interest workflow has run successfully
-                """
-                .stripIndent()
+        sendMail(
+            to: params.email,
+            from: 'mira-nf@mail.biotech.cdc.gov',
+            subject: 'MIRA-NF pipeline execution',
+            body: msg,
+            attach: final_files
+        )
+    } else {
+        def final_files = [
+            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_summary.xlsx"
+        ]
+        def msg = """
+        Pipeline execution summary
+        Completed at: ${workflow.complete}
+        Duration    : ${workflow.duration}
+        Success     : ${workflow.success}
+        workDir     : ${workflow.workDir}
+        outDir      : ${params.outdir}
+        exit status : ${workflow.exitStatus}
+        No amended consensus was created!
+        """
+        .stripIndent()
 
-                    sendMail(to: params.email, from:'mira-nf@mail.biotech.cdc.gov', subject: 'MIRA-NF pipeline execution', body:msg, attach:final_files)
+        sendMail(
+            to: params.email,
+            from: 'mira-nf@mail.biotech.cdc.gov',
+            subject: 'MIRA-NF pipeline execution',
+            body: msg,
+            attach: final_files
+        )
+    }
+} else if (params.e == 'Find-Variants-Of-Interest' || params.e == 'Find-Positions-Of-Interest') {
+    def versionPath = "${params.outdir}/pipeline_info/mira_version_check.txt"
+    def fileContent = new File(versionPath).exists() ? new File(versionPath).text : "Version file not found."
+    def msg = """
+    Pipeline execution summary
+    Completed at: ${workflow.complete}
+    Duration    : ${workflow.duration}
+    Success     : ${workflow.success}
+    workDir     : ${workflow.workDir}
+    outDir      : ${params.outdir}
+    exit status : ${workflow.exitStatus}
+    ${fileContent}
+    Variants of interest workflow has run successfully.
+    """
+    .stripIndent()
 
-            }
+    sendMail(
+        to: params.email,
+        from: 'mira-nf@mail.biotech.cdc.gov',
+        subject: 'MIRA-NF pipeline execution',
+        body: msg
+    )
+}
         } else if (workflow.success == false) {
             def msg = """
        Pipeline execution summary
