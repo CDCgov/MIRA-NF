@@ -1,11 +1,11 @@
-# MIRA's Find Variants of Interest Tool
+# MIRA's Find Positions of Interest Tool
 
-The **find_variants_of_int** workflow is a handy tool that runs (or reruns) DAIS-ribosome and the find_variants_of_interest module. The module will return codon differences and amino acid differences  at the postions of interest that the user provides.
+The **find_positions_of_int** workflow is a handy tool that runs (or reruns) DAIS-ribosome and the find_posotions_of_interest module. The module will return the codon and amino acid information at the postions of interest that the user provide.
 
-To get started, you'll need to provide the DAIS-ribosome input, a reference table, and a variants of interest table. Once it's done, you'll get a CSV file that lists all the positions in your input sequences that match the variants you're interested in from the variants of interest table you provided. Check out the info below for more details about how it works.
+To get started, you'll need to provide the DAIS-ribosome input, a reference table, and a positions of interest table. Once it's done, you'll get a CSV file that lists all the positions in your input sequences that match the positions you're interested in from the positions of interest table you provided. Check out the info below for more details about how it works.
 
-![find_variants_of_int workflow](../../docs/images/find_variants_of_interst_workflow_img.png)
-*find_variants_of_int workflow*
+![find_positions_of_int workflow](../../docs/images/find_variants_of_interst_workflow_img.png)
+*find_positions_of_int workflow*
 
 ### The DAIS-ribosome input
 
@@ -21,8 +21,8 @@ EPI_ISL_140	A/Hong Kong/1073/99	A / H9N2		a591bc9ad3a54f705940ad8483684cfc278c74
 
 ```
 
-### The known variants of interest table input should be structured like this:
-The variants of interest table should be structured as seen below. These should be variants you would be interested in if they were present within your samples. The file must be tab delimited.
+### The known positions of interest table input should be structured like this:
+The positions of interest table should be structured as seen below. These should be positions you would be interested in if they were present within your samples. The file must be tab delimited.
 
 ```
 subtype	protein position    mutation_of_int phenotypic_consensus
@@ -34,14 +34,14 @@ B	HA	94	N	inference description
 B	HA	121	N	inference description
 ```
 
-# Input Parameters for din_variants_of_interest Workflow
+# Input Parameters for din_positions_of_interest Workflow
 
  Flag       | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
 | `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
 | `input`    | `<FILE_PATH>/DAIS_ribosome_input.fasta` with the format described above. The full file path is required.                         |
 | `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
-| `variants_of_interest`  | The `<FILE_PATH>/variants_of_interest.txt` with the format described above. The full file path is required. |
+| `positions_of_interest`  | The `<FILE_PATH>/positions_of_interest.txt` with the format described above. The full file path is required. |
 | `reference_seq_table`        | The `<FILE_PATH>/reference_table.txt` with the format described above. The full file path is required.  |
 | `dais_module`        | The dais_module that will be used by DAIS-ribosome. Options: INFLUENZA, BETACORONAVIRUS, RSV |
 
@@ -60,8 +60,8 @@ nextflow run ./main.nf \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
-   --e Find-Variants-Of-Interest \
-   --variants_of_interest <filepath>/muts_of_int_table.txt \
+   --e Find-Positions-Of-Interest \
+   --positions_of_interest <filepath>/muts_of_int_table.txt \
    --reference_seq_table <filepath>/ref_table.txt \
    --dais_module <DAIS_MODULE> \
    --process_q <QUEUE_NAME> \
@@ -70,8 +70,17 @@ nextflow run ./main.nf \
 ```
 
 ## Output Layout
+
 ```
 sample, reference_strain,gisaid_accession,ctype,dais_reference,protein,sample_codon,reference_codon,aa_mutation,phenotypic_consequence
+s3_6,A/California/07/2009,EPI_ISL_227813,A_NA_N1,CALI07,NA,GAA,GAA,E:119:E,
+s3_6,A/California/07/2009,EPI_ISL_227813,A_NA_N1,CALI07,NA,GGC,GGC,G:197:G,
+s3_6,A/California/07/2009,EPI_ISL_227813,A_NA_N1,CALI07,NA,ATA,ATA,I:223:I,
+s3_6,A/California/07/2009,EPI_ISL_227813,A_NA_N1,CALI07,NA,CAC,CAC,H:275:H,
+s3_6,A/California/07/2009,EPI_ISL_227813,A_NA_N1,CALI07,NA,TGC,TGC,C:292:C,
+s3_6,A/California/07/2009,EPI_ISL_227813,A_NA_N1,CALI07,NA,GAT,GAT,D:294:D,
+s1_6,A/Hong Kong/4801/2014,EPI_ISL_233740,A_NA_N2,HK4801,NA,GAA,GAA,E:119:E,
+s1_3,A/California/07/2009,EPI_ISL_227813,A_PA,HK4801,PA,ATA,ATA,I:38:I,
 s3_3,A/California/07/2009,EPI_ISL_227813,A_PA,HK4801,PA,ATA,ATT,I:38:I,
 s4_3,A/California/07/2009,EPI_ISL_227813,A_PA,HK4801,PA,ATA,NNN,I:38:X,amino acid information missing
 ```
