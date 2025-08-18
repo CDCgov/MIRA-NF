@@ -164,8 +164,8 @@ workflow flu_i {
     //MODULE: Run Positions of Interest
     if(params.positions_of_interest){
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
-        position_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
-        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, position_of_int_table_ch)
+        positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
+        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
     }
 
     // SUBWORKFLOW: Create reports
@@ -315,8 +315,8 @@ workflow flu_o {
     //MODULE: Run Positions of Interest
     if(params.positions_of_interest){
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
-        position_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
-        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, position_of_int_table_ch)
+        positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
+        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
     }
 
     // SUBWORKFLOW: Create reports
@@ -465,8 +465,8 @@ workflow sc2_spike_o {
     //MODULE: Run Positions of Interest
     if(params.positions_of_interest){
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
-        position_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
-        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, position_of_int_table_ch)
+        positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
+        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
     }
 
     // Create reports
@@ -616,8 +616,8 @@ workflow sc2_wgs_o {
     //MODULE: Run Positions of Interest
     if(params.positions_of_interest){
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
-        position_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
-        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, position_of_int_table_ch)
+        positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
+        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
     }
 
     //SUBWORKFLOW: Create reports
@@ -780,8 +780,8 @@ workflow sc2_wgs_i {
     //MODULE: Run Positions of Interest
     if(params.positions_of_interest){
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
-        position_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
-        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, position_of_int_table_ch)
+        positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
+        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
     }
 
     // SUBWORKFLOW: Create reports
@@ -941,8 +941,8 @@ workflow rsv_i {
     //MODULE: Run Positions of Interest
     if(params.positions_of_interest){
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
-        position_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
-        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, position_of_int_table_ch)
+        positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
+        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
     }
 
     // SUBWORKFLOW: Create reports
@@ -1094,8 +1094,8 @@ workflow rsv_o {
     //MODULE: Run Positions of Interest
     if(params.positions_of_interest){
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
-        position_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
-        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, position_of_int_table_ch)
+        positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
+        POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
     }
 
     // SUBWORKFLOW: Create reports
@@ -1133,7 +1133,7 @@ workflow find_variants_of_int {
         println 'Please provide the dais module needed (influenza,betacoronavirus or rsv) with the dais_module flag'
         workflow.exit
     }
-    if (params.position_of_int != null) {
+    if (params.positions_of_int != null) {
         println 'ERROR!!: Please run the Find-Positions-Of-Interest workflow if you would like to used the positions_of_interest flag.'
         workflow.exit
     }
@@ -1144,7 +1144,6 @@ workflow find_variants_of_int {
     variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
     ch_versions = Channel.empty()
     dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
-    dais_module_ch.view()
     //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
     if (params.sourcepath == null) {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
@@ -1200,7 +1199,7 @@ workflow find_positions_of_int {
         println 'Please provide the dais module needed (influenza,betacoronavirus or rsv) with the dais_module flag'
         workflow.exit
     }
-    if (params.position_of_int != null) {
+    if (params.positions_of_int != null) {
         println 'ERROR!!: Please run the Find-Variants-Of-Interest workflow if you would like to used the variantsS_of_interest flag.'
         workflow.exit
     }
@@ -1211,7 +1210,6 @@ workflow find_positions_of_int {
     positions_of_interest_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
     ch_versions = Channel.empty()
     dais_module_ch = Channel.value(params.dais_module).map { it.toUpperCase() }
-    dais_module_ch.view()
     //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
     if (params.sourcepath == null) {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
