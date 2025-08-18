@@ -1133,7 +1133,7 @@ workflow find_variants_of_int {
         println 'Please provide the dais module needed (influenza,betacoronavirus or rsv) with the dais_module flag'
         workflow.exit
     }
-    if (params.positions_of_int != null) {
+    if (params.positions_of_interest != null) {
         println 'ERROR!!: Please run the Find-Positions-Of-Interest workflow if you would like to used the positions_of_interest flag.'
         workflow.exit
     }
@@ -1199,7 +1199,7 @@ workflow find_positions_of_int {
         println 'Please provide the dais module needed (influenza,betacoronavirus or rsv) with the dais_module flag'
         workflow.exit
     }
-    if (params.positions_of_int != null) {
+    if (params.variants_of_interest != null) {
         println 'ERROR!!: Please run the Find-Variants-Of-Interest workflow if you would like to used the variantsS_of_interest flag.'
         workflow.exit
     }
