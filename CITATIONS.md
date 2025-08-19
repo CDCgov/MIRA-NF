@@ -1,5 +1,6 @@
 # To cite MIRA-NF
 
+```
 citEntry(
   entry    = "manual",
   title    = "MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation",
@@ -11,6 +12,7 @@ citEntry(
   "Sullivan, A. H., Lacek, K., Chau, R. & Rambo-Martin, B. MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation."
   )
 )
+```
 
 # cdcgov/MIRA-NF: Citations
 
