@@ -2,8 +2,6 @@ x-multiqc-image: &multiqc-image cdcgov/multiqc:v1.19-alpine
 
 x-fastqc-image: &fastqc-image cdcgov/fastqc:v0.12.1-alpine
 
-x-bbtools-image: &bbtools-image cdcgov/bbtools:v39.01-alpine
-
 x-mira-nf-image: &mira-nf-image cdcgov/mira-nf:python3.10-alpine
 
 x-data-volume: &data-volume
@@ -28,20 +26,12 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-  bbtools:
-    container_name: bbtools
-    image: *bbtools-image
-    volumes:
-      - *data-volume
-    command: tail -f /dev/null
-
   mira-nf:
     container_name: mira-nf
     image: *mira-nf-image
     depends_on:
       - multiqc
       - fastqc
-      - bbtools
     restart: always
     volumes:
       - *data-volume

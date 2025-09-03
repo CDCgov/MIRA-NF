@@ -2,6 +2,20 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## v2.0.1 -
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
+
+### Dependencies
+
+- [PR #84](https://github.com/CDCgov/MIRA-NF/pull/84) - Added IRMA-core's standalone `sampler` module for subsampling single and paired-read `.fastq` files, replacing BBTools' `reformat.sh`.
+
+### Deprecated
+
+- [PR #84](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed BBTools `reformat.sh` for subsampling.
+
 ## v2.0.0 -
 
 - [Amanda Sullivan](https://github.com/mandysulli)
