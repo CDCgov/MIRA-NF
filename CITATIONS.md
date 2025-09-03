@@ -4,7 +4,7 @@
 citEntry(
   entry    = "manual",
   title    = "MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation",
-  author   = "Amanda Sullivan, Kristine Lacek, Reina Chau, Ben Rambo-Martin",
+  author   = "Amanda Sullivan, Kristine Lacek, Reina Chau, Sam Wiley and Ben Rambo-Martin",
   institution = "Centers for Disease Control and Prevention",
   address  = "1600 Clifton Road NE, Building 21, 8th Floor, Atlanta, Georgia 30333",
   year     = "2024",

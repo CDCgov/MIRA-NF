@@ -214,7 +214,7 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 
 ## Credits
 
-cdcgov/mira-nf is developed and maintained by Amanda Sullivan (maintainer), Kristine Lacek, Reina Chau, Sam Wiley and , Ben Rambo-Martin (lead).
+cdcgov/mira-nf is developed and maintained by Amanda Sullivan (maintainer), Kristine Lacek, Reina Chau, Sam Wiley and Ben Rambo-Martin (lead).
 
 ## Citations
 
