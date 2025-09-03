@@ -2,10 +2,10 @@ process SUBSAMPLESINGLEREADS {
     tag "${sample}"
     label 'process_medium'
 
-    container 'cdcgov/bbtools:v39.01-alpine'
+    container 'ghcr.io/cdcgov/irma-core:v0.5.1'
 
     input:
-    tuple val(sample), val(barcode), path(fastq_files), val(target)
+    tuple val(sample), val(barcode), path(fastq_file), val(target)
 
     output:
     tuple val(sample), val(barcode), path('*_subsampled.fastq'), emit: subsampled_fastq
@@ -20,18 +20,16 @@ process SUBSAMPLESINGLEREADS {
     def args = task.ext.args ?: ''
 
     """
-    reformat.sh \\
-        in=${fastq_files} \\
-        out=${sample}_subsampled.fastq \\
-        samplereadstarget=${target} \\
-        qin=33 \\
-        tossbrokenreads \\
+    irma-core sampler \\
+        ${fastq_file} \\
+        -o ${sample}_subsampled.fastq \\
+        --subsample-target ${target} \\
         1> ${sample}.${barcode}.reformat.stdout.log \\
         2> ${sample}.${barcode}.reformat.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        subsamplesinglereads: \$(bbtools --version |& sed '1!d ; s/samtools //')
+        subsamplesinglereads: \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
@@ -43,7 +41,7 @@ process SUBSAMPLESINGLEREADS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        subsamplesinglereads: \$(bbtools --version |& sed '1!d ; s/samtools //')
+        subsamplesinglereads: \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

@@ -54,11 +54,11 @@ workflow PREPONTREADS {
             [sample_ID:item.sample, barcodes:item.barcodes, fastq_file_path:item.fastq_1]
         }
         new_ch3 = irma_chemistry_ch.map { item ->
-                [sample_ID:item.sample_ID, subsample:item.subsample]
+            [sample_ID:item.sample_ID, subsample:item.subsample]
         }
         subsample_ch = new_ch2.combine(new_ch3)
-                .filter { it[0].sample_ID == it[1].sample_ID }
-                .map { [it[0].sample_ID, it[0].barcodes, it[0].fastq_file_path, it[1].subsample] }
+            .filter { it[0].sample_ID == it[1].sample_ID }
+            .map { [it[0].sample_ID, it[0].barcodes, it[0].fastq_file_path, it[1].subsample] }
         SUBSAMPLESINGLEREADS(subsample_ch)
 
         subsample_output_ch = SUBSAMPLESINGLEREADS.out.subsampled_fastq
