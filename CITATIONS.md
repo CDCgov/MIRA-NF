@@ -9,7 +9,7 @@ citEntry(
   address  = "1600 Clifton Road NE, Building 21, 8th Floor, Atlanta, Georgia 30333",
   year     = "2024",
   textVersion = paste(
-  "Sullivan, A. H., Lacek, K., Chau, R. & Rambo-Martin, B. MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation."
+  "Sullivan, A. H., Lacek, K., Chau, R., Wiley, S. & Rambo-Martin, B. MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation."
   )
 )
 ```
