@@ -23,7 +23,7 @@ MIRA-NF performs these steps for genome assembly and curation:
 
 1. Read QC (optional) ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
-3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
+3. Checking chemistry in fastq files (optional) ([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
 4. Subsampling to faster analysis (optional) ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 5. Trimming ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))

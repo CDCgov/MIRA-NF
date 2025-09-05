@@ -2,7 +2,7 @@ process TRIMBARCODES {
     tag "${sample}"
     label 'process_medium'
 
-    container 'ghcr.io/cdcgov/irma-core:v0.6.0'
+    container 'ghcr.io/cdcgov/irma-core:v0.6.1'
 
     input:
     tuple val(sample), val(barcode), path(subsample_file_path), val(seq)

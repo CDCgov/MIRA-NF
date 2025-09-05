@@ -5,7 +5,7 @@ process IRMA {
     container 'cdcgov/irma:v1.3.0'
 
     input:
-    tuple val(sample), path(subsampled_fastq_files), val(irma_custom_0), path(irma_custom_1), val(module)
+    tuple val(sample), path(subsampled_fastq_files), path(irma_custom), val(module)
 
     output:
     tuple val(sample), path('*') , emit: outputs
@@ -18,13 +18,11 @@ process IRMA {
     def args = task.ext.args ?: ''
 
     """
-    ${irma_custom_0}
-
     IRMA \\
         ${module} \\
         ${subsampled_fastq_files} \\
         ${sample} \\
-        --external-config ${irma_custom_1} \\
+        --external-config ${irma_custom} \\
         2> ${sample}.irma.stderr.log | tee -a ${sample}.irma.stdout.log
 
     cat <<-END_VERSIONS > versions.yml
