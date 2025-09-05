@@ -22,7 +22,7 @@ process POSITIONSOFINT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        positionsofint: \$(rustc --version |& sed '1!d ; s/rustc //')
+        positionsofint: \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
     END_VERSIONS
     """
 
@@ -32,7 +32,7 @@ process POSITIONSOFINT {
     """
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        positionsofint: \$(rustc --version |& sed '1!d ; s/rustc //')
+        positionsofint: \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
     END_VERSIONS
     """
 }

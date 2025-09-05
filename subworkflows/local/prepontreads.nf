@@ -4,7 +4,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { FINDCHEMISTRYO       } from '../../modules/local/findchemistryo'
+include { FINDCHEMISTRY        } from '../../modules/local/findchemistry'
 include { SUBSAMPLESINGLEREADS } from '../../modules/local/subsamplesinglereads'
 include { TRIMBARCODES         } from '../../modules/local/trimbarcodes'
 
@@ -41,11 +41,11 @@ workflow PREPONTREADS {
     }
 
     find_chemistry_ch = new_ch.combine(run_ID_ch)
-    FINDCHEMISTRYO(find_chemistry_ch, params.subsample_reads, irma_module_ch, custom_irma_config_ch)
-    ch_versions = ch_versions.unique().mix(FINDCHEMISTRYO.out.versions)
+    FINDCHEMISTRY(find_chemistry_ch, params.subsample_reads, irma_module_ch, custom_irma_config_ch)
+    ch_versions = ch_versions.unique().mix(FINDCHEMISTRY.out.versions)
 
     // Create the irma chemistry channel
-    irma_chemistry_ch = FINDCHEMISTRYO.out.sample_chem_csv
+    irma_chemistry_ch = FINDCHEMISTRY.out.sample_chem_csv
         .splitCsv(header: true)
 
     // Subsample
