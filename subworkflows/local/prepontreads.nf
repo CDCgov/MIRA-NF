@@ -40,7 +40,10 @@ workflow PREPONTREADS {
         [item.sample, item.barcodes, item.fastq_1]
     }
 
-    find_chemistry_ch = new_ch.combine(run_ID_ch)
+    find_chemistry_ch = input_ch.map { item ->
+        [item.sample, item.fastq_1]
+    }
+    find_chemistry_ch.view()
     FINDCHEMISTRY(find_chemistry_ch, params.subsample_reads, irma_module_ch, custom_irma_config_ch)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRY.out.versions)
 
@@ -87,7 +90,7 @@ workflow PREPONTREADS {
     }
     irma_ch = new_ch5.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
-        .map { [it[0].sample_ID, it[0].bartrim_fastq_path, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+        .map { [it[0].sample_ID, it[0].bartrim_fastq_path, it[1].irma_custom, it[1].irma_module] }
 
     //creating dais module input
     if (params.e == 'Flu-ONT') {

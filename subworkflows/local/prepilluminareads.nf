@@ -204,7 +204,7 @@ workflow PREPILLUMINAREADS {
         //combining chemistry info with read info
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
-        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom, it[1].irma_module] }
     } else if (params.e == 'RSV-Illumina') {
         //// Trim primers
         RSVTRIMPRIMERS(subsample_output_ch)
@@ -228,7 +228,7 @@ workflow PREPILLUMINAREADS {
         // combining chemistry info with read info
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
-        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom, it[1].irma_module] }
     } else if (params.e == 'Flu-Illumina' && params.custom_primers != null) {
         //// Trim reads with custom flu primers
         FLUTRIMPRIMERS(subsample_output_ch)
@@ -252,7 +252,7 @@ workflow PREPILLUMINAREADS {
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID
          }
-        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom, it[1].irma_module] }
     } else if (params.e == 'Flu-Illumina' && params.custom_primers == null) {
         //// Make IRMA input channel without trimming primers
         // restructing read 1 and read2 so that they are passed as one thing - this is for the IRMA module fastq input
@@ -272,7 +272,7 @@ workflow PREPILLUMINAREADS {
         // combining chemistry info with read info
         irma_ch = final_combined_reads_ch.combine(irma_chemistry_ch)
         .filter { it[0].sample_ID == it[1].sample_ID }
-        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom_0, it[1].irma_custom_1, it[1].irma_module] }
+        .map { [it[0].sample_ID, it[0].subsampled_fastq_files, it[1].irma_custom, it[1].irma_module] }
     }
 
     // creating dais module input
