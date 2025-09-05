@@ -4,7 +4,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { FINDCHEMISTRYI       } from '../../modules/local/findchemistryi'
+include { FINDCHEMISTRY        } from '../../modules/local/findchemistry'
 include { SUBSAMPLEPAIREDREADS } from '../../modules/local/subsamplepairedreads'
 include { FLUTRIMPRIMERS       } from '../../modules/local/flutrimprimers'
 include { SC2TRIMPRIMERS       } from '../../modules/local/sc2trimprimers'
@@ -136,15 +136,15 @@ workflow PREPILLUMINAREADS {
     find_chemistry_ch = input_ch.map { item ->
         [item.sample, item.fastq_1]
     }
-    FINDCHEMISTRYI(find_chemistry_ch, params.subsample_reads, irma_module_ch, custom_irma_config_ch)
-    ch_versions = ch_versions.unique().mix(FINDCHEMISTRYI.out.versions)
+    FINDCHEMISTRY(find_chemistry_ch, params.subsample_reads, irma_module_ch, custom_irma_config_ch)
+    ch_versions = ch_versions.unique().mix(FINDCHEMISTRY.out.versions)
 
     // Create the irma chemistry channel
-    irma_chemistry_ch = FINDCHEMISTRYI.out.sample_chem_csv
+    irma_chemistry_ch = FINDCHEMISTRY.out.sample_chem_csv
         .splitCsv(header: true)
         .filter { it.size() > 0 }
 
-    sample_empty_fastq_ch = FINDCHEMISTRYI.out.sample_chem_csv
+    sample_empty_fastq_ch = FINDCHEMISTRY.out.sample_chem_csv
         .splitCsv(header: true)
         .filter { it.size() == 0 }
 

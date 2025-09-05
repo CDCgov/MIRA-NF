@@ -22,7 +22,7 @@ process VARIANTSOFINT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        variantsofint: \$(rustc --version |& sed '1!d ; s/rustc //')
+        variantsofint: \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
     END_VERSIONS
     """
 
@@ -32,7 +32,7 @@ process VARIANTSOFINT {
     """
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        variantsofint: \$(rustc --version |& sed '1!d ; s/rustc //')
+        variantsofint: \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
     END_VERSIONS
     """
 }
