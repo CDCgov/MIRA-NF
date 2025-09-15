@@ -37,7 +37,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
         |---primer-trimmed-reads (when applicable) -> fastqs and log files
         |---IRMA/Sample_ID -> IRMA outputs and log files
         |---IRMA-negative (when applicable)
-    |---fastqs or fastq_pass -> allows staging of files in the S3
+    |---fastq_pass -> ONT data only – concatenated fastqs
     |---pipeline_info -> execution reports
 ```
 
