@@ -116,7 +116,7 @@ cd MIRA-NF
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input Parameters for -NF Workflows
+# Input Parameters for MIRA-NF Workflows
 
 | Flag       | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|

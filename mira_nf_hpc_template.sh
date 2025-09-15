@@ -20,7 +20,7 @@ module load nextflow/24.10.4
 nextflow run <WORKDIR>/MIRA-NF/main.nf \
    -profile singularity,sge \
    --input <RUN_PATH>/samplesheet.csv \
-   --outdir <OUTDIR_PATH> \
+   --outdir <OUTDIR_PATH>/mira-outputs  \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SET> (optional) \
