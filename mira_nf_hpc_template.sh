@@ -17,7 +17,7 @@ module load nextflow/24.10.4
 
 ##Abosolute file paths are needed to run the pipeline
 # Run nextflow
-nextflow run ./main.nf \
+nextflow run <WORKDIR>/main.nf \
    -profile singularity,sge \
    --input <RUN_PATH>/samplesheet.csv \
    --outdir <OUTDIR_PATH> \
