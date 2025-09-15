@@ -34,8 +34,13 @@ workflow PREPAREREPORTS {
     }
 
     //check mira version
-    CHECKMIRAVERSION(support_file_path)
-    mira_version_ch = CHECKMIRAVERSION.out.view()
+    if (params.check_version == false){
+        println("MIRA version not checked")
+        mira_version_ch = "MIRA version not checked"
+    } else {
+        CHECKMIRAVERSION(support_file_path)
+        mira_version_ch = CHECKMIRAVERSION.out.view()
+    }
 
     //creating platform value
     if (params.e == 'Flu-Illumina') {

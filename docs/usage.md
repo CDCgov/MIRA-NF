@@ -4,14 +4,14 @@
 
 ## Introduction
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
+**cdcgov/mira-nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. cdcgov/mira-nf can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
 MIRA performs these steps for genome assembly and curation:
 
 1. Read QC (optional) ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
 3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
-4. Subsampling to faster analysis (optional) ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
+4. Subsampling for faster analysis (optional) ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 5. Trimming and dapter removal ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
@@ -180,6 +180,9 @@ Oxford Nanopore set up should be set up as follows:
 | `amd_platform`        | (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false |
 | `ecr_registry`        | (optional) Allows a user to pass their ecr registry for AWS to the workflow.                                                                                                                                                      |
 | `sourcepath`          | (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one cannot place the entire repo in their working directory. |
+| `variants_of_interest`  | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
+| `reference_seq_table`        | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the  `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.  |
+| `check_version`        | (optional) The flag is set to true by default. It will check that you are using the most up to date version of MIRA-NF. However, it will require that you have an internet connection to check. If you do not have internet, then the flag should be set to false.  |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -266,6 +269,10 @@ read_qc: false (optional)
 ```
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).
+
+### To See MIRA Utility Workflows
+
+- [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
 
 ### Updating the pipeline
 

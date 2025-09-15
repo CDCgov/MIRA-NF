@@ -42,20 +42,6 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-  bbtools:
-    container_name: bbtools
-    image: mira-nf:bbtools-alpine
-    build:
-      context: .
-      dockerfile: bbtools/Dockerfile-bbtools
-      args:
-        python_image: *python-image
-        python_version: *python-version
-    restart: always
-    volumes:
-      - *data-volume
-    command: tail -f /dev/null
-
   pyarrow:
     container_name: pyarrow
     image: *pyarrow-image
@@ -70,7 +56,6 @@ services:
       - *data-volume
     command: tail -f /dev/null
 
-
   mira-nf:
     container_name: mira-nf
     image: *mira-nf-image
@@ -83,12 +68,6 @@ services:
     depends_on:
       - multiqc
       - fastqc
-      - bbtools
-<<<<<<< HEAD
-      - cutadapt
-=======
-      - blast
->>>>>>> d949d5791b1cbe27098a7af04a9979030b20cdce
       - pyarrow
     restart: always
     volumes:

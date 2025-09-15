@@ -3,7 +3,7 @@
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/mira-nf/mira)
+[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/cdcgov/mira-nf)
 
 # <img src="assets/mira-logo-midjourney_20230526_rmbkgnd.png" align="left" width="190" /> MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation
 
@@ -15,16 +15,16 @@ Administrators for this service reserve the right to moderate all information us
 
 The material embodied in this software is provided to you "as-is" and without warranty of any kind, express, implied or otherwise, including without limitation, any warranty of fitness for a particular purpose. In no event shall the Centers for Disease Control and Prevention (CDC) or the United States (U.S.) government be liable to you or anyone else for any direct, special, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including without limitation, loss of profit, loss of use, savings or revenue, or the claims of third parties, whether or not CDC or the U.S. government has been advised of the possibility of such loss, however caused and on any theory of liability, arising out of or in connection with the possession, use or performance of this software.
 
-## Introduction
+# Introduction to Full Analysis Workflows
 
-**mira-nf/mira** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira-nf/mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
+**cdcgov/mira-nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. cdcgov/mira-nf can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
-MIRA performs these steps for genome assembly and curation:
+MIRA-NF performs these steps for genome assembly and curation:
 
 1. Read QC (optional) ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
 3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
-4. Subsampling to faster analysis (optional) ([`bbtools`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/))
+4. Subsampling to faster analysis (optional) ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 5. Trimming ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
@@ -32,17 +32,17 @@ MIRA performs these steps for genome assembly and curation:
 9. Create html, excel files and amended consensus fasta files
 10. Reformat tables into parquet files and csv files
 
-#### MIRA is able to analyze 7 data types:
+#### MIRA-NF is able to analyze 7 data types:
 
-|                | Illumina | ONT | 
+|                | Illumina | ONT |
 |----------------|--------------|---------|
 | Influenza            |   🥳         | 🥳       |
-| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 | 
+| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 |
 | SARS-CoV-2 :: Spike-only            |            |    🥳   |
-| RSV            |       🥳       |     🥳    |  
+| RSV            |       🥳       |     🥳    |
 
-![MIRA-NF workflows with default settings](docs/images/mira_nf_workflow_img_v4.png)
-*MIRA-NF workflows with default settings*
+![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v5.png)
+*MIRA-NF workflows*
 
 ## Usage
 
@@ -57,7 +57,7 @@ Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-r
 - Tiny test data from ONT Influenza genome and SARS-CoV-2-spike - 40Mb [Download](https://centersfordiseasecontrol.sharefile.com/d-s839d7319e9b04e2baba07b4d328f02c2).
 - Full test data set - the data set from above + full genomes of Influenza and SARS-CoV-2 from Illumina MiSeqs 1 Gb [Download](<https://centersfordiseasecontrol.sharefile.com/d-s3c52c0b25c2243078f506d60bd787c62>).
 
-To run this pipeline with the MIRA setup:
+To run this pipeline with the MIRA-NF setup:
 
 First, prepare a samplesheet with your input data that looks as follows:
 
@@ -116,7 +116,7 @@ cd MIRA-NF
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input Parameters for MIRA-NF
+# Input Parameters for -NF Workflows
 
 | Flag       | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -126,7 +126,7 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 | `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
 | `e`        | Experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT. |
 
-### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
+### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used with SC2 and RSV pipelines*
 
 | Flag                  | Description                                                                                                                                                                                                                       |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -145,6 +145,10 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 | `amd_platform`        | (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false |
 | `ecr_registry`        | (optional) Allows a user to pass their ecr registry for AWS to the workflow.                                                                                                                                                      |
 | `sourcepath`          | (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one cannot place the entire repo in their working directory. |
+| `variants_of_interest`  | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA-nf workflow. This module will provide the codon and amino acid differences at the specified postions. The user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
+| `positions_of_interest`  | (optional) Providing this flag will run the [find_positions_of_interest](docs/find_positions_of_interest_docs/) module within the MIRA-nf workflow. This module will provide the all codon and amino acid allelles at the specified postions whether they differ between sample and reference or not. The the user should provide the `<FILE_PATH>/positions_of_interest.txt` with the format described [here](docs/find_postions_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
+| `reference_seq_table`        | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA-NF workflow. Here the user should provide the  `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.  |
+| `check_version`        | (optional) The flag is set to true by default. It will check that you are using the most up to date version of MIRA-NF. However, it will require that you have an internet connection to check. If you do not have internet, then the flag should be set to false.  |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -167,7 +171,7 @@ To run in a high computing cluster you will need to add sge or slurm to the prof
 nextflow run ./main.nf \
    -profile singularity,sge \
    --input <RUN_PATH>/samplesheet.csv \
-   --outdir <RUN_PATH> \
+   --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
@@ -202,13 +206,15 @@ qsub MIRA_nextflow.sh \
 
 ```
 
-> [!WARNING]
-> Please provide pipeline parameters via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+Note that pipeline parameters can be provided via the NF or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***; see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+
+# MIRA-NF Utility Workflows
+
+- [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
 
 ## Credits
 
-mira-nf/mira is developed and maintained by Ben Rambo-Martin, Kristine Lacek, Reina Chau, Amanda Sullivan, and Sam Wiley.
+cdcgov/mira-nf is developed and maintained by Amanda Sullivan (maintainer), Kristine Lacek, Reina Chau, Sam Wiley and Ben Rambo-Martin (lead).
 
 ## Citations
 

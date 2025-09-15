@@ -90,7 +90,6 @@ RUN bash ${PROJECT_DIR}/remove_vulnerability_pkgs.sh
 RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
     && rm -rf /usr/local/lib/${python_version}/site-packages/pipenv/patched/pip/_vendor \
     && rm -rf /usr/local/lib/${python_version}/site-packages/examples \
-    && rm -rf ${PROJECT_DIR}/bbtools \
     && rm -rf ${PROJECT_DIR}/blast \
     && rm -rf ${PROJECT_DIR}/fastqc \
     && rm -rf ${PROJECT_DIR}/multiqc \

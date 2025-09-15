@@ -1,4 +1,20 @@
-# mira-nf/mira: Citations
+# To cite MIRA-NF
+
+```
+citEntry(
+  entry    = "manual",
+  title    = "MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation",
+  author   = "Amanda Sullivan, Kristine Lacek, Reina Chau, Sam Wiley and Ben Rambo-Martin",
+  institution = "Centers for Disease Control and Prevention",
+  address  = "1600 Clifton Road NE, Building 21, 8th Floor, Atlanta, Georgia 30333",
+  year     = "2024",
+  textVersion = paste(
+  "Sullivan, A. H., Lacek, K., Chau, R., Wiley, S. & Rambo-Martin, B. MIRA-NF: A Nextflow Pipeline for Influenza, SARS-CoV-2 and RSV Assembly and Curation."
+  )
+)
+```
+
+# cdcgov/MIRA-NF: Citations
 
 ## [nf-core](https://pubmed.ncbi.nlm.nih.gov/32055031/)
 
@@ -18,8 +34,6 @@
 
   > Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PubMed PMID: 27312411; PubMed Central PMCID: PMC5039924.
 
-- [bbtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/)
-
 - [IRMA](https://wonder.cdc.gov/amd/flu/irma/)
 
  > Shepard, S.S., Meno, S., Bahl, J. et al. Viral deep sequencing needs an adaptive approach: IRMA, the iterative refinement meta-assembler. BMC Genomics 17, 708 (2016). <https://doi.org/10.1186/s12864-016-3030-6>
@@ -29,18 +43,6 @@
  > Shepard, S.S., Chettleburgh, W., Wiley, S. IRMA-core: a tool for IRMA and to assist the sequencing of virus genomes. (2025)
 
 ## Software packaging/containerisation tools
-
-- [Anaconda](https://anaconda.com)
-
-  > Anaconda Software Distribution. Computer software. Vers. 2-2.4.0. Anaconda, Nov. 2016. Web.
-
-- [Bioconda](https://pubmed.ncbi.nlm.nih.gov/29967506/)
-
-  > Grüning B, Dale R, Sjödin A, Chapman BA, Rowe J, Tomkins-Tinch CH, Valieris R, Köster J; Bioconda Team. Bioconda: sustainable and comprehensive software distribution for the life sciences. Nat Methods. 2018 Jul;15(7):475-476. doi: 10.1038/s41592-018-0046-7. PubMed PMID: 29967506.
-
-- [BioContainers](https://pubmed.ncbi.nlm.nih.gov/28379341/)
-
-  > da Veiga Leprevost F, Grüning B, Aflitos SA, Röst HL, Uszkoreit J, Barsnes H, Vaudel M, Moreno P, Gatto L, Weber J, Bai M, Jimenez RC, Sachsenberg T, Pfeuffer J, Alvarez RV, Griss J, Nesvizhskii AI, Perez-Riverol Y. BioContainers: an open-source and community-driven framework for software standardization. Bioinformatics. 2017 Aug 15;33(16):2580-2582. doi: 10.1093/bioinformatics/btx192. PubMed PMID: 28379341; PubMed Central PMCID: PMC5870671.
 
 - [Docker](https://dl.acm.org/doi/10.5555/2600239.2600241)
 
