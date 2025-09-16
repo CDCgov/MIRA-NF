@@ -43,7 +43,6 @@ workflow PREPONTREADS {
     find_chemistry_ch = input_ch.map { item ->
         [item.sample, item.fastq_1]
     }
-    find_chemistry_ch.view()
     FINDCHEMISTRY(find_chemistry_ch, params.subsample_reads, irma_module_ch, custom_irma_config_ch)
     ch_versions = ch_versions.unique().mix(FINDCHEMISTRY.out.versions)
 
