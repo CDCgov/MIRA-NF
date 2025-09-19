@@ -1,17 +1,15 @@
 
 ---
+### Notes on CDC Influenza NGS Quality
 
-### Notes on Influenza NGS Quality
-Genomic surveillance depends on standardized, reproducible consensus sequences across laboratories to enable early detection of emerging variants and subtle antigenic or functional changes. Therefore, CDC recommends uniform thresholds that are often stricter and less exploratory than criteria used in individual research studies, which may tolerate greater variability for hypothesis generation.
+High quality influenza consensus sequences across laboratories enable early detection of emerging variants or antigenic/functional changes. CDC therefore recommends strict, standard quality thresholds for routine surveillance.
 
-CDC offers freely-available, open-source software to assist with quality control and consensus sequence generation from influenza virus NGS data.
-- IRMA: The Iterative Refinement Meta-Assembler is CDC's influenza virus assembly and variant calling software and is responsible for over 100,000 influenza virus genome assemblies submitted to public databases.
-    - https://github.com/CDCgov/irma
+CDC offers **free, open-source software** to assist with quality control / consensus sequence generation for NGS data.
 
-- MIRA is a pipeline that runs IRMA and performs additional data curation and quality control to assure that consensus sequences meet CDC's quality thresholds. MIRA facilitates batch processing of samples and can be operated through a user-friendly graphical interface or with the command-line locally or on HPC clusters.
-    - GUI and complete documentation: https://cdcgov.github.io/MIRA
-    - CLI Nextflow: https://github.com/CDCgov/MIRA-NF
-
-Specific quality thresholds and database submission requirements including strain naming and metadata inclusion can be found at https://www.aphl.org/programs/infectious_disease/Documents/US_2025-26_Influenza_Season_Surveillance_Guidance.pdf
+- [IRMA is CDC's flu virus **assembler**](https://github.com/CDCgov/irma) & variant calling software. It is responsible for >100k flu genome assemblies submitted to public databases. Modernization / new features are being delivered via [IRMA-core](https://github.com/CDCgov/irma-core).
+- [MIRA is a **GUI application**](https://cdcgov.github.io/MIRA) that wraps IRMA and performs additional data curation / quality control to assure that consensus sequences meet CDC's quality thresholds. MIRA facilitates batch processing of samples and has a user-friendly graphical interface.
+- [MIRA-NF is the **Nextflow CLI**](https://github.com/CDCgov/MIRA-NF) version of MIRA suitable for HPC or local runs.
+- [CDC's quality **thresholds** & database submission requirements](https://www.aphl.org/programs/infectious_disease/Documents/US_2025-26_Influenza_Season_Surveillance_Guidance.pdf), including strain naming and metadata inclusion
+- **Containers** available for [MIRA](https://hub.docker.com/r/cdcgov/mira), [MIRA-NF](https://hub.docker.com/r/cdcgov/mira-nf), [IRMA](https://hub.docker.com/r/cdcgov/irma), and [IRMA-core](https://github.com/CDCgov/irma-core/pkgs/container/irma-core)
 
 ---
