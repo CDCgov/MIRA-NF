@@ -9,7 +9,8 @@ CDC offers freely-available, open-source software to assist with quality control
     - https://github.com/CDCgov/irma
 
 - MIRA is a pipeline that runs IRMA and performs additional data curation and quality control to assure that consensus sequences meet CDC's quality thresholds. MIRA facilitates batch processing of samples and can be operated through a user-friendly graphical interface or with the command-line locally or on HPC clusters.
-    - https://cdcgov.github.io/MIRA
+    - GUI and complete documentation: https://cdcgov.github.io/MIRA
+    - CLI Nextflow: https://github.com/CDCgov/MIRA-NF
 
 Specific quality thresholds and database submission requirements including strain naming and metadata inclusion can be found at https://www.aphl.org/programs/infectious_disease/Documents/US_2025-26_Influenza_Season_Surveillance_Guidance.pdf
 
