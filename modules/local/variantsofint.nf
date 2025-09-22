@@ -6,6 +6,7 @@ process VARIANTSOFINT {
     path dais_seq_output
     path ref_table
     path variant_of_int_table
+    val virus
 
     output:
     path "*", emit: variant_of_int
@@ -18,7 +19,7 @@ process VARIANTSOFINT {
     def args = task.ext.args ?: ''
 
    """
-    mira-oxide variants-of-interest -i ${dais_seq_output} -r ${ref_table} -o variants_of_interest.csv -m ${variant_of_int_table}
+    mira-oxide variants-of-interest -i ${dais_seq_output} -r ${ref_table} -o variants_of_interest.csv -m ${variant_of_int_table} -v ${virus}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

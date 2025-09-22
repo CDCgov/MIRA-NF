@@ -6,6 +6,7 @@ process POSITIONSOFINT {
     path dais_seq_output
     path ref_table
     path position_of_int_table
+    val virus
 
     output:
     path "*", emit: position_of_int
@@ -18,7 +19,7 @@ process POSITIONSOFINT {
     def args = task.ext.args ?: ''
 
    """
-    mira-oxide positions-of-interest -i ${dais_seq_output} -r ${ref_table} -o positions_of_interest.csv -m ${position_of_int_table}
+    mira-oxide positions-of-interest -i ${dais_seq_output} -r ${ref_table} -o positions_of_interest.csv -m ${position_of_int_table} -v ${virus}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
