@@ -1171,7 +1171,7 @@ workflow find_variants_of_int {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //MODULE: Run Variants of Interest
-    VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch, dais_module_ch)
 
 }
 
@@ -1238,7 +1238,7 @@ workflow find_positions_of_int {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //MODULE: Run Positions of Interest
-    POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_interest_ch)
+    POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_interest_ch, dais_module_ch)
 
 }
 // MAIN WORKFLOW
