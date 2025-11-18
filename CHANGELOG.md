@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -[PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
 - [PR #85](https://github.com/CDCgov/MIRA-NF/pull/85) - replaced `findchemistryi.py` and `findchemistryo.py` with `findchemistry.rs` from `mira-oxide`.
+- [PR #90](https://github.com/CDCgov/MIRA-NF/pull/90) - Bug squash. Fix "MissingMissing" subtype in mira_summary report.
 
 ### `Dependencies`
 
