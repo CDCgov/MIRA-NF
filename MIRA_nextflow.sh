@@ -10,7 +10,7 @@
 #$ -V
 
 usage() {
-    echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira_nf> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_primers> <optional: -t kmer_for_custom_primers> <optional: -u restrict_window_for_custom_primers> <optional: -a reformat_tables> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -k read_qc> <optional: -n > " 1>&2
+    echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira_nf> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_primers> <optional: -t kmer_for_custom_primers> <optional: -u restrict_window_for_custom_primers> <optional: -a reformat_tables> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_module> <optional: -k read_qc> <optional: -n > " 1>&2
     exit 1
 }
 
@@ -33,7 +33,7 @@ while getopts 'd:i:o:r:e:p:g:t:u:f:a:c:q:m:b:k:na' OPTION; do
     c) READ_COUNTS="$OPTARG" ;;
     q) PROCESSQ="$OPTARG" ;;
     m) EMAIL="$OPTARG" ;;
-    b) OTHER_IRMA_CONFIG="$OPTARG" ;;
+    b) OTHER_IRMA_MODULE="$OPTARG" ;;
     k) READS_QC="$OPTARG" ;;
     *) usage ;;
     esac
@@ -69,10 +69,10 @@ else
     OPTIONALARGS4="--subsample_reads $READ_COUNTS"
 fi
 
-if [[ -z "${OTHER_IRMA_CONFIG}" ]]; then
+if [[ -z "${OTHER_IRMA_MODULE}" ]]; then
     OPTIONALARGS5=""
 else
-    OPTIONALARGS5="--irma_config $OTHER_IRMA_CONFIG"
+    OPTIONALARGS5="--irma_module $OTHER_IRMA_MODULE"
 fi
 
 if [[ -z "${EMAIL}" ]]; then
