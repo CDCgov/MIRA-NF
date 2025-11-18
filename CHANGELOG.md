@@ -13,14 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 -[PR #76](https://github.com/CDCgov/MIRA-NF/pull/76) - added both the find_variants_of_interest module that can be run as a part of analysis and the find_variants_of_interest workflow that run the the workflow described [here](docs/find_variants_of_interest_docs/).
--[PR #82](https://github.com/CDCgov/MIRA-NF/pull/82) - added a `check_version` flag that can be set to false so that MIRA-NF can be run with docker without internet. Default is set to true.
+- [PR #82](https://github.com/CDCgov/MIRA-NF/pull/82) - added a `check_version` flag that can be set to false so that MIRA-NF can be run with docker without internet. Default is set to true.
 - [PR #84](https://github.com/CDCgov/MIRA-NF/pull/84) - added IRMA-core's standalone `sampler` module for subsampling single and paired-read `.fastq` files, replacing BBTools' `reformat.sh`.
 - [PR #88](https://github.com/CDCgov/MIRA-NF/pull/88) - Added filtering to a single subtype for the variants_of_interest and positions_of_intrest outputs if the virus flu (as "INFLUENZA") is passed to the program.
 
 ### `Fixed`
 
 -[PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
--[PR #85](https://github.com/CDCgov/MIRA-NF/pull/85) - replaced `findchemistryi.py` and `findchemistryo.py` with `findchemistry.rs` from `mira-oxide`.
+- [PR #85](https://github.com/CDCgov/MIRA-NF/pull/85) - replaced `findchemistryi.py` and `findchemistryo.py` with `findchemistry.rs` from `mira-oxide`.
 
 ### `Dependencies`
 
