@@ -1,7 +1,7 @@
 process CHECKMIRAVERSION {
     label 'process_single'
 
-    container 'cdcgov/mira-oxide:test'
+    container 'cdcgov/mira-oxide:latest'
 
     input:
     path description_file_path
