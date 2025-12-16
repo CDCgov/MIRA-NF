@@ -14,8 +14,9 @@ workflow PREPAREREPORTS {
     main:
     platform = Channel.empty()
     virus = Channel.empty()
-    run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+    runid = params.runpath.tokenize('/').last()
+
 
     //Get run name
     def path = "${params.runpath}"
@@ -94,7 +95,7 @@ workflow PREPAREREPORTS {
     }
 
     //create aggregate reports
-    PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, run_ID_ch)
+    PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
 
     //collate versions

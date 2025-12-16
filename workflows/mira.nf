@@ -1279,12 +1279,12 @@ if (params.email) {
     def path = "${params.runpath}"
     def folder_name = new File(path)
     def basename = folder_name.name
-    def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta")
+    def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/mira_${basename}_amended_consensus.fasta")
 
     if (ac_file.exists()) {
         def final_files = [
-            "${params.outdir}/aggregate_outputs/csv-reports/MIRA_${basename}_summary.csv",
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta"
+            "${params.outdir}/aggregate_outputs/csv-reports/mira_${basename}_summary.csv",
+            "${params.outdir}/aggregate_outputs/mira-reports/mira_${basename}_amended_consensus.fasta"
         ]
         def msg = """
         Pipeline execution summary
@@ -1307,7 +1307,7 @@ if (params.email) {
         )
     } else {
         def final_files = [
-            "${params.outdir}/aggregate_outputs/csv-reports/MIRA_${basename}_summary.csv"
+            "${params.outdir}/aggregate_outputs/csv-reports/mira_${basename}_summary.csv"
         ]
         def msg = """
         Pipeline execution summary

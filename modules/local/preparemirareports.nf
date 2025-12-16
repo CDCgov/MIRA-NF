@@ -36,6 +36,7 @@ process PREPAREMIRAREPORTS {
         -c ${irma_config_type} \\
         -r ${runid} \\
         -o ./ \\
+        -f \\
         ${args}
 
     cat <<-END_VERSIONS > versions.yml
