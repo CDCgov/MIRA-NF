@@ -169,7 +169,7 @@ workflow flu_i {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -320,7 +320,7 @@ workflow flu_o {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -470,7 +470,7 @@ workflow sc2_spike_o {
     }
 
     // Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -621,7 +621,7 @@ workflow sc2_wgs_o {
     }
 
     //SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     //setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -785,7 +785,7 @@ workflow sc2_wgs_i {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -946,7 +946,7 @@ workflow rsv_i {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -1099,7 +1099,7 @@ workflow rsv_o {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     //setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -1283,7 +1283,7 @@ if (params.email) {
 
     if (ac_file.exists()) {
         def final_files = [
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_summary.xlsx",
+            "${params.outdir}/aggregate_outputs/csv-reports/MIRA_${basename}_summary.csv",
             "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta"
         ]
         def msg = """
@@ -1307,7 +1307,7 @@ if (params.email) {
         )
     } else {
         def final_files = [
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_summary.xlsx"
+            "${params.outdir}/aggregate_outputs/csv-reports/MIRA_${basename}_summary.csv"
         ]
         def msg = """
         Pipeline execution summary

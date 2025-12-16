@@ -3,22 +3,20 @@
     IMPORT LOCAL MODULES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { CHECKMIRAVERSION   } from '../../modules/local/checkmiraversion'
-include { PREPAREIRMAJSON   } from '../../modules/local/prepareirmajson'
-include { STATICHTML        } from '../../modules/local/statichtml'
-include { PARQUETMAKER      } from '../../modules/local/parquetmaker'
-include { ADDFLUSUBTYPE      } from '../../modules/local/addflusubtype'
+include { CHECKMIRAVERSION     } from '../../modules/local/checkmiraversion'
+include { PREPAREMIRAREPORTS   } from '../../modules/local/preparemirareports'
 
 workflow PREPAREREPORTS {
     take:
     dais_outputs_ch // channel: holds dais outputs
-    nf_samplesheet_ch //channel: hold the nextflow samplesheet
     ch_versions // channel: holds all previous version
 
     main:
     platform = Channel.empty()
     virus = Channel.empty()
     run_ID_ch = Channel.fromPath(params.runpath, checkIfExists: true)
+    samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
+
     //Get run name
     def path = "${params.runpath}"
     def folder_name = new File(path)
@@ -26,7 +24,7 @@ workflow PREPAREREPORTS {
     //Get irma directory
     irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     input_ch = Channel.fromPath(params.input, checkIfExists: true)
-    //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in prepareIRMAjson and staticHTML
+    //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in preparemirareports
     if (params.sourcepath == null) {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
     } else {
@@ -96,46 +94,11 @@ workflow PREPAREREPORTS {
     }
 
     //create aggregate reports
-    PREPAREIRMAJSON(dais_outputs_ch, support_file_path, irma_dir_ch, nf_samplesheet_ch, platform, virus, irma_config_type_ch, qc_path_ch)
-    ch_versions = ch_versions.mix(PREPAREIRMAJSON.out.versions)
+    PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, run_ID_ch)
+    ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
 
-    //convert aggregate reports (json files) into html files
-    STATICHTML(support_file_path, PREPAREIRMAJSON.out.dash_json_and_fastqs, run_ID_ch)
-    ch_versions = ch_versions.mix(STATICHTML.out.versions)
-
-    //Parquet maker converts the report tables into csv files and parquet files
-
-    if (params.reformat_tables == true) {
-        //Get instrument type for parquetmaker
-        if (params.e == 'Flu-Illumina') {
-            instrument_ch = 'illumina'
-        } else if (params.e == 'Flu-ONT') {
-            instrument_ch = 'ont'
-        } else if (params.e == 'SC2-Spike-Only-ONT') {
-            instrument_ch = 'ont'
-        } else if (params.e == 'SC2-Whole-Genome-ONT') {
-            instrument_ch = 'ont'
-        } else if (params.e == 'SC2-Whole-Genome-Illumina') {
-            instrument_ch = 'illumina'
-        } else if (params.e == 'RSV-Illumina') {
-            instrument_ch = 'illumina'
-        } else if (params.e == 'RSV-ONT') {
-            instrument_ch = 'ont'
-        }
-
-        PARQUETMAKER(STATICHTML.out.reports, run_name, input_ch, instrument_ch, irma_dir_ch)
-        ch_versions = ch_versions.mix(PARQUETMAKER.out.versions)
-
-        if (params.e == 'Flu-Illumina' || params.e == 'Flu-ONT') {
-            ADDFLUSUBTYPE(irma_dir_ch, run_name, PARQUETMAKER.out.aavars, PARQUETMAKER.out.input_summary)
-            ch_versions = ch_versions.mix(ADDFLUSUBTYPE.out.versions)
-        }
-
-        versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
-    } else if (params.reformat_tables == false) {
-        versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
-    }
-
+    //collate versions
+    versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
     versions_path_ch.view()
 
     emit:
