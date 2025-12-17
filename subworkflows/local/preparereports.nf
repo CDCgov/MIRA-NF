@@ -5,6 +5,7 @@
 */
 include { CHECKMIRAVERSION     } from '../../modules/local/checkmiraversion'
 include { PREPAREMIRAREPORTS   } from '../../modules/local/preparemirareports'
+include { PREPAREMIRAREPORTSWITHPARQ   } from '../../modules/local/preparemirareportswithparq'
 
 workflow PREPAREREPORTS {
     take:
@@ -94,9 +95,14 @@ workflow PREPAREREPORTS {
             qc_path_ch = params.custom_qc_settings
     }
 
-    //create aggregate reports
+    //create aggregate reports with or without parquet files
+    if (params.reformat_tables == true) {
+    PREPAREMIRAREPORTSWITHPARQ(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
+    ch_versions = ch_versions.mix(PREPAREMIRAREPORTSWITHPARQ.out.versions)
+    } else {
     PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
+    }
 
     //collate versions
     versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')

@@ -1,4 +1,4 @@
-process PREPAREMIRAREPORTS {
+process PREPAREMIRAREPORTSWITHPARQ {
     label 'process_low'
 
     container 'cdcgov/mira-oxide:test'
@@ -36,11 +36,12 @@ process PREPAREMIRAREPORTS {
         -c ${irma_config_type} \\
         -r ${runid} \\
         -o ./ \\
+        -f \\
         ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-      preparemirareports: \$(mira-oxide --version |& sed '1!d; s/python3 //')
+      preparemirareportswithparq: \$(mira-oxide --version |& sed '1!d; s/python3 //')
     END_VERSIONS
     """
 
@@ -50,7 +51,7 @@ process PREPAREMIRAREPORTS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-      preparemirareports: stub
+      preparemirareportswithparq: stub
     END_VERSIONS
     """
 }
