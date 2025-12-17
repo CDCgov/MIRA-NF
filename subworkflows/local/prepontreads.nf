@@ -13,7 +13,6 @@ workflow PREPONTREADS {
     nf_samplesheet // channel: file path to the nextflowsamplesheet.csv
 
     main:
-    run_ID_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     //If sourcepath flag is given, sourcepath will be used for barcode path
     if (params.sourcepath == null) {
         barcode_ch = Channel.fromPath("${projectDir}/data/primers/ont_barcodes.csv", checkIfExists: true)

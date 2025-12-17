@@ -89,6 +89,13 @@ workflow flu_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow
@@ -97,7 +104,6 @@ workflow flu_i {
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
@@ -705,6 +711,13 @@ workflow sc2_wgs_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
@@ -713,7 +726,6 @@ workflow sc2_wgs_i {
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
@@ -867,6 +879,13 @@ workflow rsv_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
@@ -875,7 +894,6 @@ workflow rsv_i {
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)

@@ -16,13 +16,15 @@ workflow PREPAREREPORTS {
     platform = Channel.empty()
     virus = Channel.empty()
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
-    runid = params.runpath.tokenize('/').last()
+    //Get run id
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
-
-    //Get run name
-    def path = "${params.runpath}"
-    def folder_name = new File(path)
-    def run_name = folder_name.name
     //Get irma directory
     irma_dir_ch = Channel.fromPath(params.outdir, checkIfExists: true)
     input_ch = Channel.fromPath(params.input, checkIfExists: true)
