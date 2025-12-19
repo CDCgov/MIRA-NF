@@ -28,9 +28,9 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
         |---multiqc  (when applicable) --> multiqc outputs
         |---dais-ribosome -> dais inputs and outputs
         |---dash-json -> json files
-        |---mira-reports -> the aggregated fasta files, html files and excel files
+        |---mira-reports -> the aggregated fasta files and html files
+        |---csv-reports -> CSV summary files
         |---parquet-reports (when applicable)
-        |---csv-reports (when applicable)
     |---Sample_ID
         |---subsampled-reads (when applicable) -> fastqs and log files
         |---barcode-trimmed-reads (when applicable) -> fastqs and log files
@@ -263,16 +263,12 @@ The collected results from IRMA and DAIS-Ribosome in json files
 <summary>Output files</summary>
 
 - `aggregate_outputs/mira-reports`
-  - MIRA_run_name_amended_consensus.fasta
-  - MIRA_run_name_failed_amended_consensus.fasta
-  - MIRA_run_name_amino_acid_consensus.fasta
-  - MIRA_run_name_failed_amino_acid_consensus.fasta
-  - MIRA_sample_#_coverage.html
-  - MIRA-summary-tiny_test_run_flu_illumina.html
-  - MIRA_run_name_aavars.xlsx
-  - MIRA_run_name_minorindels.xlsx
-  - MIRA_run_name_minorvariants.xlsx
-  - MIRA_run_name_summary.xlsx
+  - mira_run_name_amended_consensus.fasta
+  - mira_run_name_failed_amended_consensus.fasta
+  - mira_run_name_amino_acid_consensus.fasta
+  - mira_run_name_failed_amino_acid_consensus.fasta
+  - mira_sample_#_coverage.html
+  - mira_run_name_summary.html
 
 </details>
 
@@ -288,16 +284,17 @@ Convert into csv files
 <summary>Output files</summary>
 
 - `aggregate_outputs/csv-files/`
-  - run_name_alleles.csv
-  - run_name_amended_consensus.csv
-  - run_name_amino_acid_consensus.csv
-  - run_name_coverage.csv
-  - run_name_indels.csv
-  - run_name_irma_config.csv
-  - run_name_reads.csv
-  - run_name_samplesheet.csv
-  - run_name_summary.csv
-  - run_name_variants.csv
+  - mira_run_name_aavars.csv
+  - mira_run_name_alleles.csv
+  - mira_run_name_amended_consensus.csv
+  - mira_run_name_amino_acid_consensus.csv
+  - mira_run_name_coverage.csv
+  - mira_run_name_indels.csv
+  - mira_run_name_irma_config.csv
+  - mira_run_name_reads.csv
+  - mira_run_name_samplesheet.csv
+  - mira_run_name_summary.csv
+  - mira_run_name_variants.csv
 
 </details>
 

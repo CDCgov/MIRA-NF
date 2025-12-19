@@ -12,17 +12,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
--[PR #76](https://github.com/CDCgov/MIRA-NF/pull/76) - added both the find_variants_of_interest module that can be run as a part of analysis and the find_variants_of_interest workflow that run the the workflow described [here](docs/find_variants_of_interest_docs/).
+- [PR #76](https://github.com/CDCgov/MIRA-NF/pull/76) - added both the find_variants_of_interest module that can be run as a part of analysis and the find_variants_of_interest workflow that run the the workflow described [here](docs/find_variants_of_interest_docs/).
 - [PR #82](https://github.com/CDCgov/MIRA-NF/pull/82) - added a `check_version` flag that can be set to false so that MIRA-NF can be run with docker without internet. Default is set to true.
 - [PR #84](https://github.com/CDCgov/MIRA-NF/pull/84) - added IRMA-core's standalone `sampler` module for subsampling single and paired-read `.fastq` files, replacing BBTools' `reformat.sh`.
 - [PR #88](https://github.com/CDCgov/MIRA-NF/pull/88) - Added filtering to a single subtype for the variants_of_interest and positions_of_intrest outputs if the virus flu (as "INFLUENZA") is passed to the program.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Subtype in the summary report for all viruses now.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Added `custom_runid` flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.
 
 ### `Fixed`
 
--[PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
+- [PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
 - [PR #85](https://github.com/CDCgov/MIRA-NF/pull/85) - replaced `findchemistryi.py` and `findchemistryo.py` with `findchemistry.rs` from `mira-oxide`.
 - [PR #90](https://github.com/CDCgov/MIRA-NF/pull/90) - Bug squash. Fix "MissingMissing" subtype in mira_summary report.
-- [PR #92](https://github.com/CDCgov/MIRA-NF/pull/92) - replaced `checkmiraversion.py` with `checkmiraversion.rs` from `mira-oxide`.
+
 
 ### `Dependencies`
 
@@ -30,6 +32,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Deprecated`
 
 - [PR #84](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed BBTools `reformat.sh` for subsampling.
+- [PR #92](https://github.com/CDCgov/MIRA-NF/pull/92) - replaced `checkmiraversion.py` with `checkmiraversion.rs` from `mira-oxide`.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced `prepareIRMAjson.py`, `irma2pandas.py`, `dais2pandas.py` `parquet_maker.py` and `extract_subtypes.py` with `prepare-mira-report` from `mira-oxide`.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced `prepareirmajson.nf`, `statichtml.nf`, `parquetmaker.nf` and `addflusubtype.nf` with `preparemirareports.nf` and `preparemirareportswithparq.nf`.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced the `reformat_tables` flag with the `parquet_files` flag. CSV files now automatically generate and the `parquet_files` flag will iniate the generation of parquet files.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - No longer creating XSLX files in the `mira-reports` folder. CSV files are always geenrated to replace them.
 
 ### Parameter Changes
 
@@ -39,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | | `--reference_seq_table` |
 | | `--dais_module` |
 | | `--check_version` |
+|`--reformat_tables` | `--parquet_files` |
 
 
 ## v1.6.1 - 06.04.2025

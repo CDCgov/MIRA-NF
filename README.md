@@ -28,9 +28,7 @@ MIRA-NF performs these steps for genome assembly and curation:
 5. Trimming ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
-8. Collect results from IRMA and DAIS-Ribosome in json files
-9. Create html, excel files and amended consensus fasta files
-10. Reformat tables into parquet files and csv files
+8. Collect results from IRMA and DAIS-Ribosome to create MIRA reoprts (JSON, HTML, FASTA, CSV and optional PARQ files)([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
 
 #### MIRA-NF is able to analyze 7 data types:
 
@@ -41,7 +39,7 @@ MIRA-NF performs these steps for genome assembly and curation:
 | SARS-CoV-2 :: Spike-only            |            |    🥳   |
 | RSV            |       🥳       |     🥳    |
 
-![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v5.png)
+![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v6.png)
 *MIRA-NF workflows*
 
 ## Usage
@@ -135,10 +133,11 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 | `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |
 | `primer_restrict_window` | The N number of bases provided by this flag will restrict them primer searching to the leftmost and rightmost N bases.                                                                                                           |
 | `read_qc`             | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                |
-| `reformat_tables`     | (optional) Flag to reformat report tables into parquet files and csv files (boolean). Default set to false.                                                                                                                        |
+| `parquet_files`       | (optional) Flag to create parquet files from the csv file formats (boolean). Default set to false.                                                                                                                        |
 | `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
 | `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
-| `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
+| `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.
+| `custom_runid`        | (optional) An option flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.                                                       |
 | `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
 | `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |
 | `custom_qc_settings`  | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                     |
@@ -161,7 +160,7 @@ nextflow run ./main.nf \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
    --subsample_reads <READ_COUNT> (optional)\
-   --reformat_tables true (optional) \
+   --parquet_files true (optional) \
    --read_qc false (optional) \
 ```
 
@@ -176,7 +175,7 @@ nextflow run ./main.nf \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
    --process_q <QUEUE_NAME> \
-   --reformat_tables true (optional) \
+   --parquet_files true (optional) \
    --email <EMAIL_ADDRESS> (optional) \
    --read_qc false (optional)
 ```
@@ -198,7 +197,7 @@ qsub MIRA_nextflow.sh \
    -t <PRIMER_KMER_LEN> \ (used with custom primers flag)
    -u <PRIMER_RESTRICT_WINDOW> \ (used with custom primers flag)
    -q <QUEUE_NAME> \
-   -a <REFORMAT_TABLES> \ (optional)
+   -a <PARQUET_FILES> \ (optional)
    -c <SUBSAMPLED_READ_COUNTS> \ (optional)
    -b <OTHER_IRMA_MODULE> (optional)
    -m <EMAIL_ADDRESS> \ (optional)

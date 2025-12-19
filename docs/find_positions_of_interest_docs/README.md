@@ -4,7 +4,7 @@ The **find_positions_of_int** workflow is a handy tool that runs (or reruns) DAI
 
 To get started, you'll need to provide the DAIS-ribosome input, a reference table, and a positions of interest table. Once it's done, you'll get a CSV file that lists all the positions in your input sequences that match the positions you're interested in from the positions of interest table you provided. Check out the info below for more details about how it works.
 
-![find_positions_of_int workflow](../../docs/images/find_variants_of_interst_workflow_img.png)
+![find_positions_of_int workflow](../../docs/images/find_variants_of_interst_workflow_img_v2.png)
 *find_positions_of_int workflow*
 
 ### The DAIS-ribosome input
@@ -65,7 +65,6 @@ nextflow run ./main.nf \
    --reference_seq_table <filepath>/ref_table.txt \
    --dais_module <DAIS_MODULE> \
    --process_q <QUEUE_NAME> \
-   --reformat_tables true (optional) \
    --email <EMAIL_ADDRESS> (optional) \
 ```
 

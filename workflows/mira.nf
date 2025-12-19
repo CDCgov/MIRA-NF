@@ -89,6 +89,13 @@ workflow flu_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow
@@ -97,7 +104,6 @@ workflow flu_i {
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
@@ -169,7 +175,7 @@ workflow flu_i {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -320,7 +326,7 @@ workflow flu_o {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -470,7 +476,7 @@ workflow sc2_spike_o {
     }
 
     // Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -621,7 +627,7 @@ workflow sc2_wgs_o {
     }
 
     //SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     //setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -705,6 +711,13 @@ workflow sc2_wgs_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
@@ -713,7 +726,6 @@ workflow sc2_wgs_i {
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
@@ -785,7 +797,7 @@ workflow sc2_wgs_i {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -867,6 +879,13 @@ workflow rsv_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow format
@@ -875,7 +894,6 @@ workflow rsv_i {
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
@@ -946,7 +964,7 @@ workflow rsv_i {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -1099,7 +1117,7 @@ workflow rsv_o {
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
 
     //setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -1279,12 +1297,12 @@ if (params.email) {
     def path = "${params.runpath}"
     def folder_name = new File(path)
     def basename = folder_name.name
-    def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta")
+    def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/mira_${basename}_amended_consensus.fasta")
 
     if (ac_file.exists()) {
         def final_files = [
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_summary.xlsx",
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta"
+            "${params.outdir}/aggregate_outputs/csv-reports/mira_${basename}_summary.csv",
+            "${params.outdir}/aggregate_outputs/mira-reports/mira_${basename}_amended_consensus.fasta"
         ]
         def msg = """
         Pipeline execution summary
@@ -1307,7 +1325,7 @@ if (params.email) {
         )
     } else {
         def final_files = [
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_summary.xlsx"
+            "${params.outdir}/aggregate_outputs/csv-reports/mira_${basename}_summary.csv"
         ]
         def msg = """
         Pipeline execution summary

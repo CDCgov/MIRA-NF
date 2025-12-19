@@ -42,6 +42,11 @@ citEntry(
 
  > Shepard, S.S., Chettleburgh, W., Wiley, S. IRMA-core: a tool for IRMA and to assist the sequencing of virus genomes. (2025)
 
+ - [`mira-oxide`](https://github.com/CDCgov/mira-oxide)
+
+ > Sullivan, A.H., Rambo-Martin, B., Wiley, S., Shepard, S.S. mira-oxide: A set of rusty tools for use in MIRA. (2025)
+
+
 ## Software packaging/containerisation tools
 
 - [Docker](https://dl.acm.org/doi/10.5555/2600239.2600241)

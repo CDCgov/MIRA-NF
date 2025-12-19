@@ -15,9 +15,7 @@ MIRA performs these steps for genome assembly and curation:
 5. Trimming and dapter removal ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
-8. Collect results from IRMA and DAIS-Ribosome in json files
-9. Create html, excel files and amended consensus fasta files
-10. Reformat tables into parquet files and csv files
+8. Collect results from IRMA and DAIS-Ribosome to create MIRA reoprts ([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
 
 MIRA is able to analyze 7 data types:
 
@@ -170,10 +168,11 @@ Oxford Nanopore set up should be set up as follows:
 | `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |
 | `primer_restrict_window` | The N number of bases provided by this flag will restrict them primer searching to the leftmost and rightmost N bases.                                                                                                           |
 | `read_qc`             | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                |
-| `reformat_tables`     | (optional) Flag to reformat report tables into parquet files and csv files (boolean). Default set to false.                                                                                                                        |
+| `parquet_files`       | (optional) Flag to create parquet files from the csv file formats (boolean). Default set to false.                                                                                                                        |
 | `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
 | `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
 | `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
+| `custom_runid`        | (optional) An option flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.                                                       |
 | `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
 | `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |
 | `custom_qc_settings`  | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                     |
@@ -198,7 +197,7 @@ nextflow run ./main.nf \
    --primer_kmer_len <KMER_LEN> \ (used with custom primers flag)
    --primer_restrict_window <RESTRICT_WIN> \ (used with custom primers flag)
    --subsample_reads <READ_COUNT> \ (optional)
-   --reformat_tables true \ (optional)
+   --parquet_files true \ (optional)
    --read_qc false \ (optional)
 ```
 
@@ -216,7 +215,7 @@ nextflow run ./main.nf \
    --primer_kmer_len <KMER_LEN> \ (used with custom primers flag)
    --primer_restrict_window <RESTRICT_WIN> \ (used with custom primers flag)
    --subsample_reads <READ_COUNT> \ (optional)
-   --reformat_tables true \ (optional)
+   --parquet_files true \ (optional)
    --read_qc false \ (optional)
    --email <EMAIL_ADDRESS> \ (optional)
 ```
@@ -260,11 +259,12 @@ custom_primer: '/FILE_PATH/custom_primer.fasta'
 primer_kmer_len: 'kmer_len' (used with custom primers flag)
 primer_restrict_window: 'restrict_window' (used with custom primers flag)
 subsample_reads: 'read_counts' (optional)
-reformat_tables: true (optional)
+parquet_files: true (optional)
 irma_config: 'config_type' (optional)
 email: 'email' (optional)
 amd_platform: false (optional)
 read_qc: false (optional)
+custum_runid: 'runid' (oiptional)
 <...>
 ```
 
@@ -326,12 +326,6 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/)
 - `podman`
   - A generic configuration profile to be used with [Podman](https://podman.io/)
-- `shifter`
-  - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
-- `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
-- `apptainer`
-  - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
 - `sge`
   - A configuration profile that enables the pipeline to be executed on an HPC with a Sun Grid Engine (SGE) job scheduling system.
 - `slurm`
