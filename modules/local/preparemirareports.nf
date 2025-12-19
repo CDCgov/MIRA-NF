@@ -1,7 +1,7 @@
 process PREPAREMIRAREPORTS {
     label 'process_low'
 
-    container 'cdcgov/mira-oxide:test'
+    container 'cdcgov/mira-oxide:latest'
 
     input:
     path dais_outputs
