@@ -41,7 +41,7 @@ MIRA-NF performs these steps for genome assembly and curation:
 | SARS-CoV-2 :: Spike-only            |            |    🥳   |
 | RSV            |       🥳       |     🥳    |
 
-![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v5.png)
+![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v6.png)
 *MIRA-NF workflows*
 
 ## Usage
