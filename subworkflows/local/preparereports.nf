@@ -98,7 +98,7 @@ workflow PREPAREREPORTS {
     }
 
     //create aggregate reports with or without parquet files
-    if (params.reformat_tables == true) {
+    if (params.parquet_files == true) {
     PREPAREMIRAREPORTSWITHPARQ(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTSWITHPARQ.out.versions)
     } else {

@@ -65,7 +65,6 @@ nextflow run ./main.nf \
    --reference_seq_table <filepath>/ref_table.txt \
    --dais_module <DAIS_MODULE> \
    --process_q <QUEUE_NAME> \
-   --reformat_tables true (optional) \
    --email <EMAIL_ADDRESS> (optional) \
 ```
 
