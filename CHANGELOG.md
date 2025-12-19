@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #88](https://github.com/CDCgov/MIRA-NF/pull/88) - Added filtering to a single subtype for the variants_of_interest and positions_of_intrest outputs if the virus flu (as "INFLUENZA") is passed to the program.
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Subtype in the summary report for all viruses now.
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Added `custom_runid` flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.
+- [PR #95](https://github.com/CDCgov/MIRA-NF/pull/95) - Added arm64 profiles for improved compatibilaty.
 
 ### `Fixed`
 

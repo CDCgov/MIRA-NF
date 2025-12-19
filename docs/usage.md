@@ -153,7 +153,7 @@ Oxford Nanopore set up should be set up as follows:
 
 | Flag       | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
-| `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
+| `profile`  | singularity, singularity_arm64, docker, docker_arm64, podman, podman_arm64, local, sge, slurm. You can use docker, podman or singularity. Use local for running on local computer and sge or slurm for HPC's.   |
 | `input`    | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                         |
 | `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
 | `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
@@ -170,7 +170,7 @@ Oxford Nanopore set up should be set up as follows:
 | `read_qc`             | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                |
 | `parquet_files`       | (optional) Flag to create parquet files from the csv file formats (boolean). Default set to false.                                                                                                                        |
 | `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
-| `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
+| `process_q`           | (required for sge or slurm profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
 | `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
 | `custom_runid`        | (optional) An option flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.                                                       |
 | `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
@@ -321,11 +321,17 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - Includes links to test data so only the profile (singularity or docker) parameter is needed.
   - will make a directory named "testing_config".
 - `docker`
-  - A generic configuration profile to be used with [Docker](https://docker.com/). Must have docker running for this profile to work.
+  - A generic configuration profile to be used with [Docker](https://docker.com/) on a x86_64 operating system. Must have docker running for this profile to work.
+- `docker_arm64`
+  - A generic configuration profile to be used with [Docker](https://docker.com/) on an arm64 (aarch64) operating system. Must have docker running for this profile to work.
 - `singularity`
-  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/)
+  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/) on a x86_64 operating system.
+- `singularity_arm64`
+  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/) on an arm64 (aarch64) operating system.
 - `podman`
-  - A generic configuration profile to be used with [Podman](https://podman.io/)
+  - A generic configuration profile to be used with [Podman](https://podman.io/) on a x86_64 operating system.
+- `podman_arm64`
+  - A generic configuration profile to be used with [Podman](https://podman.io/) on an arm64 (aarch64) operating system.
 - `sge`
   - A configuration profile that enables the pipeline to be executed on an HPC with a Sun Grid Engine (SGE) job scheduling system.
 - `slurm`
