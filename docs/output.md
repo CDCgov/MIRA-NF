@@ -16,9 +16,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Reads Prepped for IRMA](#reads-prepped-for-irma) - The subsampled and trimmed fastq inputs that IRMA will use for assembly
 - [IRMA](#irma-outputs) - A folder containing all of the outs made by IRMA
 - [DAIS-ribosome](dais-ribosome-outputs) - Aggregate insertion, deletion and sequence file for the input data
-- [prepareIRMAjson](#prepare-IRMA-json) - Collected results from IRMA and DAIS-Ribosome in json files
-- [statichtml](#static-html) - Create html files, excel files and amended consensus fasta files
-- [parquetmaker`](#parquet-maker) - Excels and amended consensus fasta converted parquet files for importing into a database
+- [PrepareMIRAReports](#preparemirareports) - Collected results from IRMA and DAIS-Ribosome to create MIRA reoprts (JSON, HTML, FASTA, CSV and optional PARQ files)
 
 ## Output Structure
 
@@ -230,12 +228,13 @@ A sequence file output example:
 | 11209 | B_HA | BRISBANE60 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false | false | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45 | 1..45 |
 | 11209 | B_HA | PHUKET3073 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false | false | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45 | 1..45 |
 
-### prepareIRMAjson
+### PrepareMIRAReports
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `aggregate_outputs/dash_json/`
+The collected results from IRMA and DAIS-Ribosome in JSON files
+- `aggregate_outputs/dash-json/`
   - alleles.json
   - barcode_distribution.json
   - coveragefig_sample_#_linear.json
@@ -253,15 +252,7 @@ A sequence file output example:
   - ref_data.json
   - vtpye.json
 
-</details>
-
-The collected results from IRMA and DAIS-Ribosome in json files
-
-### Statichtml
-
-<details markdown="1">
-<summary>Output files</summary>
-
+ HTML files and combined amended consensus FASTA files are created in this step.
 - `aggregate_outputs/mira-reports`
   - mira_run_name_amended_consensus.fasta
   - mira_run_name_failed_amended_consensus.fasta
@@ -270,19 +261,10 @@ The collected results from IRMA and DAIS-Ribosome in json files
   - mira_sample_#_coverage.html
   - mira_run_name_summary.html
 
-</details>
-
- Html files, excel files and combined amended consensus fasta files are created in this step.
-
  Explanations of the summary HTML for Illumina data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-illumina.html#mira-cli-ouputs>
  Explanations of the summary HTML for ONT data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-ont.html>
 
-### parquetmaker
-
-Convert into csv files
-<details markdown="1">
-<summary>Output files</summary>
-
+The collected results from IRMA and DAIS-Ribosome in CSV files
 - `aggregate_outputs/csv-files/`
   - mira_run_name_aavars.csv
   - mira_run_name_alleles.csv
@@ -295,6 +277,19 @@ Convert into csv files
   - mira_run_name_samplesheet.csv
   - mira_run_name_summary.csv
   - mira_run_name_variants.csv
+
+Optional collected results from IRMA and DAIS-Ribosome in PARQ files
+- `aggregate_outputs/parquet-reports/`
+  - mira_run_name_alleles.parq
+  - mira_run_name_amended_consensus.parq
+  - mira_run_name_amino_acid_consensus.parq
+  - mira_run_name_coverage.parq
+  - mira_run_name_indels.parq
+  - mira_run_name_irma_config.parq
+  - mira_run_name_reads.parq
+  - mira_run_name_samplesheet.parq
+  - mira_run_name_summary.parq
+  - mira_run_name_variants.parq
 
 </details>
 
