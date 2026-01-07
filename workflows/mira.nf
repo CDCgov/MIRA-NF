@@ -340,6 +340,11 @@ workflow flu_o {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
+
+    // SUBWORKFLOW: Run Nextclade
+    if(params.nextclade){
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+    }
 }
 
 workflow sc2_spike_o {
@@ -397,6 +402,10 @@ workflow sc2_spike_o {
         println 'ERROR!!: The dais_module flag only needs to be specificied with the Find-Variants-Of-Interest or Find-Positions-Of-Interest workflow.'
         workflow.exit
     }
+    // nextclade error handling
+    if (params.nextclade != null) {
+    error "Nextclade does not support protein-only SARS-CoV-2 sequences"
+}
 
     //Inializing parameters
     experiment_type_ch = Channel.value(params.e)
@@ -490,6 +499,11 @@ workflow sc2_spike_o {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
+
+    // SUBWORKFLOW: Run Nextclade
+    if(params.nextclade){
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+    }
 }
 
 workflow sc2_wgs_o {
@@ -641,6 +655,11 @@ workflow sc2_wgs_o {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
+
+    // SUBWORKFLOW: Run Nextclade
+    if(params.nextclade){
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+    }
 }
 
 workflow sc2_wgs_i {
@@ -811,6 +830,11 @@ workflow sc2_wgs_i {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
+
+    // SUBWORKFLOW: Run Nextclade
+    if(params.nextclade){
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+    }
 }
 
 workflow rsv_i {
@@ -978,6 +1002,11 @@ workflow rsv_i {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
+
+    // SUBWORKFLOW: Run Nextclade
+    if(params.nextclade){
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+    }
 }
 
 workflow rsv_o {
@@ -1131,6 +1160,11 @@ workflow rsv_o {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
+
+    // SUBWORKFLOW: Run Nextclade
+    if(params.nextclade){
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+    }
 }
 
 workflow find_variants_of_int {
