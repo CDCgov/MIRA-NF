@@ -3,6 +3,7 @@
     IMPORT LOCAL MODULES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+include { GETNEXTCLADEDATASET     } from '../../../modules/local/getnextcladedataset'
 
 workflow NEXTCLADE {
 

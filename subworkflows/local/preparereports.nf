@@ -5,7 +5,6 @@
 */
 include { CHECKMIRAVERSION     } from '../../modules/local/checkmiraversion'
 include { PREPAREMIRAREPORTS   } from '../../modules/local/preparemirareports'
-include { PREPAREMIRAREPORTSWITHPARQ   } from '../../modules/local/preparemirareportswithparq'
 
 workflow PREPAREREPORTS {
     take:
@@ -98,17 +97,10 @@ workflow PREPAREREPORTS {
     }
 
     //create aggregate reports with or without parquet files
-    if (params.parquet_files == true) {
-    PREPAREMIRAREPORTSWITHPARQ(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
-    ch_versions = ch_versions.mix(PREPAREMIRAREPORTSWITHPARQ.out.versions)
-    summary_ch  = PREPAREMIRAREPORTSWITHPARQ.out.summary_csv
-    amended_consensus_ch = PREPAREMIRAREPORTSWITHPARQ.out.amend_con_fasta
-    } else {
     PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
     summary_ch  = PREPAREMIRAREPORTS.out.summary_csv
-    amended_consensus_ch = PREPAREMIRAREPORTSWITHPARQ.out.amend_con_fasta
-    }
+    amended_consensus_ch = PREPAREMIRAREPORTS.out.amend_con_fasta
 
     amended_consensus_ch.view()
 
