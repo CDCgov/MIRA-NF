@@ -101,9 +101,11 @@ workflow PREPAREREPORTS {
     if (params.parquet_files == true) {
     PREPAREMIRAREPORTSWITHPARQ(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTSWITHPARQ.out.versions)
+    summary_ch  = PREPAREMIRAREPORTSWITHPARQ.out.summary_csv
     } else {
     PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
+    summary_ch  = PREPAREMIRAREPORTS.out.summary_csv
     }
 
     //collate versions
@@ -113,4 +115,5 @@ workflow PREPAREREPORTS {
     emit:
     collated_versions = versions_path_ch                     // channel: [ versions.yml ]
     mira_version_ch                                 // channel:specifies if MIRA-NF version is up to date
+    summary_ch                                   // channel: holds aggregate summary report
 }

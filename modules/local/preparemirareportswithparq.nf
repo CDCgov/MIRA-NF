@@ -17,6 +17,7 @@ process PREPAREMIRAREPORTSWITHPARQ {
 
     output:
     path('*'), emit: all_files
+    path('*summary.csv'), emit: summary_csv
     path 'versions.yml', emit: versions
 
     when:

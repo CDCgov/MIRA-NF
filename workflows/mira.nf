@@ -22,6 +22,7 @@ include { VARIANTSOFINT        } from '../modules/local/variantsofint'
 include { POSITIONSOFINT       } from '../modules/local/positionsofint'
 include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 include { CHECKMIRAVERSION     } from '../modules/local/checkmiraversion'
+include { NEXTCLADE            } from '../subworkflows/local/nextclade'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -183,6 +184,11 @@ workflow flu_i {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
+
+    // SUBWORKFLOW: Run Nextclade
+    if(params.nextclade){
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+    }
 }
 
 workflow flu_o {
