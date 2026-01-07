@@ -102,11 +102,15 @@ workflow PREPAREREPORTS {
     PREPAREMIRAREPORTSWITHPARQ(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTSWITHPARQ.out.versions)
     summary_ch  = PREPAREMIRAREPORTSWITHPARQ.out.summary_csv
+    amended_consensus_ch = PREPAREMIRAREPORTSWITHPARQ.out.amend_con_fasta
     } else {
     PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
     summary_ch  = PREPAREMIRAREPORTS.out.summary_csv
+    amended_consensus_ch = PREPAREMIRAREPORTSWITHPARQ.out.amend_con_fasta
     }
+
+    amended_consensus_ch.view()
 
     //collate versions
     versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
@@ -116,4 +120,5 @@ workflow PREPAREREPORTS {
     collated_versions = versions_path_ch                     // channel: [ versions.yml ]
     mira_version_ch                                 // channel:specifies if MIRA-NF version is up to date
     summary_ch                                   // channel: holds aggregate summary report
+    amended_consensus_ch                           // channel: holds amended consensus fasta file
 }

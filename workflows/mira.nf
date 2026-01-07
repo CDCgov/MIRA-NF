@@ -187,7 +187,7 @@ workflow flu_i {
 
     // SUBWORKFLOW: Run Nextclade
     if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.amended_consensus_ch)
     }
 }
 
@@ -343,7 +343,7 @@ workflow flu_o {
 
     // SUBWORKFLOW: Run Nextclade
     if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.amended_consensus_ch)
     }
 }
 
@@ -502,7 +502,7 @@ workflow sc2_spike_o {
 
     // SUBWORKFLOW: Run Nextclade
     if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.amended_consensus_ch)
     }
 }
 
@@ -658,7 +658,7 @@ workflow sc2_wgs_o {
 
     // SUBWORKFLOW: Run Nextclade
     if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.amended_consensus_ch)
     }
 }
 
@@ -833,7 +833,7 @@ workflow sc2_wgs_i {
 
     // SUBWORKFLOW: Run Nextclade
     if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.amended_consensus_ch)
     }
 }
 
@@ -1005,7 +1005,7 @@ workflow rsv_i {
 
     // SUBWORKFLOW: Run Nextclade
     if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.amended_consensus_ch)
     }
 }
 
@@ -1163,7 +1163,7 @@ workflow rsv_o {
 
     // SUBWORKFLOW: Run Nextclade
     if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.summary_ch)
+        NEXTCLADE(PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.amended_consensus_ch)
     }
 }
 

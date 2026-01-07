@@ -1,7 +1,7 @@
 process PREPAREMIRAREPORTSWITHPARQ {
     label 'process_low'
 
-    container 'cdcgov/mira-oxide:latest'
+    container 'cdcgov/mira-oxide:test'
 
     input:
     path dais_outputs
@@ -18,6 +18,7 @@ process PREPAREMIRAREPORTSWITHPARQ {
     output:
     path('*'), emit: all_files
     path('*summary.csv'), emit: summary_csv
+    path("mira_${runid}_amended_consensus.fasta"), emit: amend_con_fasta
     path 'versions.yml', emit: versions
 
     when:
@@ -52,7 +53,7 @@ process PREPAREMIRAREPORTSWITHPARQ {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-      preparemirareportswithparq: stub
+      preparemirareportswithparq: \$(mira-oxide --version |& sed '1!d; s/python3 //')
     END_VERSIONS
     """
 }

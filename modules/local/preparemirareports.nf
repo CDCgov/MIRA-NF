@@ -1,7 +1,7 @@
 process PREPAREMIRAREPORTS {
     label 'process_low'
 
-    container 'cdcgov/mira-oxide:latest'
+    container 'cdcgov/mira-oxide:test'
 
     input:
     path dais_outputs
@@ -18,6 +18,7 @@ process PREPAREMIRAREPORTS {
     output:
     path('*'), emit: all_files
     path('*summary.csv'), emit: summary_csv
+    path('*amended_consensus.fasta '), emit: amend_con_fasta
     path 'versions.yml', emit: versions
 
     when:

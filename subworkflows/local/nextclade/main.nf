@@ -8,6 +8,7 @@ workflow NEXTCLADE {
 
     take:
     summary_ch   // channel: holds aggregate summary report
+    amended_consensus_ch  // channel: holds amended consensus fasta file
 
     main:
     ch_versions = Channel.empty()
