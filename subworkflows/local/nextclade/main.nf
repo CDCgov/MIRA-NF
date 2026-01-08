@@ -3,7 +3,7 @@
     IMPORT LOCAL MODULES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { GETNEXTCLADEDATASET     } from '../../../modules/local/getnextcladedataset'
+include { GETNEXTCLADEDATASET     } from "../../../modules/local/getnextcladedataset/main"
 
 workflow NEXTCLADE {
 
@@ -16,32 +16,42 @@ workflow NEXTCLADE {
 
     // List of expected nextclade FASTA filenames (without path)
     def expected_fastas = [
-        "influenza-a-h3n2-ha",
-        "influenza-a-h1n1pdm-ha",
-        "influenza-b-victoria-ha",
-        "influenza-a-h1n1pdm-na",
-        "influenza-a-h3n2-na",
-        "influenza-b-victoria-na",
-        "rsv-a",
-        "rsv-b",
+        "flu_h3n2_ha",
+        "flu_h1n1pdm_ha",
+        "flu_vic_ha",
+        "flu_h3n2_na",
+        "flu_h1n1pdm_na",
+        "flu_h3n2_na",
+        "rsv_a",
+        "rsv_b",
         "sars-cov-2"
+    ]
+
+    // Most recent Nextclade dataset tags
+    def nextclade_tags = [
+        "flu_h3n2_ha"    : "2024-11-27--02-51-00Z",
+        "flu_h1n1pdm_ha" : "2024-11-27--02-51-00Z",
+        "flu_vic_ha"     : "2024-01-16--20-31-02Z",
+        "flu_h3n2_na"    : "2024-11-05--09-19-52Z",
+        "flu_h1n1pdm_na" : "2024-11-05--09-19-52Z",
+        "rsv_a"          : "2025-08-25--09-00-35Z",
+        "rsv_b"          : "2024-08-01--22-31-31Z",
+        "sars-cov-2"     : "2024-04-25--01-03-07Z"
     ]
 
     // Assume channel carrying paths to generated FASTAs
     nextclade_fasta_files_ch
         .flatten()
         .map { fasta_path ->
-            // Ensure this is a Path object
             def path_obj = fasta_path as Path
-
-            // Extract filename without directory and extension
             def base_name = path_obj.getName().replaceFirst(/\.fasta$/, '')
 
-            // Match against expected datasets
             def dataset_name = expected_fastas.find { base_name.contains(it) }
 
             if (dataset_name) {
-                tuple(path_obj, dataset_name)
+                def tag = nextclade_tags[dataset_name]
+
+                tuple(path_obj, dataset_name, tag)
             } else {
                 null
             }
@@ -49,9 +59,11 @@ workflow NEXTCLADE {
         .filter { it != null }
         .set { nextclade_dataset_ch }
 
-        nextclade_dataset_ch.view()
+        //nextclade_dataset_ch.view()
 
-    // TODO nf-core: substitute modules here for the modules of your subworkflow
+    GETNEXTCLADEDATASET(nextclade_dataset_ch)
+
+    GETNEXTCLADEDATASET.out.dataset.view()
 
     emit:
     // TODO nf-core: edit emitted channels

@@ -1,14 +1,14 @@
  process GETNEXTCLADEDATASET {
-    label 'process_low'
+    tag "${dataset}"
 
+    label 'process_low'
     container 'nextstrain/nextclade:3.18.1'
 
     input:
-    val dataset
-    val tag
+    tuple path(nextclade_fastq_files), val(dataset), val (tag)
 
     output:
-    path "$prefix"     , emit: dataset
+    tuple path(nextclade_fastq_files), path("$prefix")     , emit: dataset
     path "versions.yml"           , emit: versions
 
     when:
@@ -21,10 +21,10 @@
     nextclade \\
         dataset \\
         get \\
-        $args \\
-        --name $dataset \\
-        $version \\
-        --output-dir $prefix
+        --name ${dataset} \\
+        --tag ${tag} \\
+        --output-dir $prefix \\
+        $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -183,8 +183,8 @@
                     "description": "Custom run ID to be used instead of folder name as run identifier in output files"
                 },
                 "nextclade": {
-                    "type": "string",
-                    "description": "Enable running Nextclade. When enabled, the pipeline will download and use a tagged Nextclade dataset. Specify the Nextclade dataset tag to use, in YYYY-MM-DD format (for example: 2024-03-01)"
+                    "type": "boolean",
+                    "description": "When set to true, this flag will divide amend consensus fasta files by subtype and run them through nextclade. Default: false"
                 }
             }
         },
