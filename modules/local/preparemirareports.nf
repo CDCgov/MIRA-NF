@@ -18,8 +18,8 @@ process PREPAREMIRAREPORTS {
     output:
     path('*'), emit: all_files
     path('*summary.csv'), emit: summary_csv
-    path("mira_${runid}_amended_consensus.fasta"), emit: amend_con_fasta
     path('*.parq', emit: parquet_files, optional: true)
+    path('nextclade_*.fasta', emit: nextclade_fasta_files, optional: true)
     path 'versions.yml', emit: versions
 
     when:
@@ -28,6 +28,7 @@ process PREPAREMIRAREPORTS {
     script:
     def args = task.ext.args ?: ''
     def parquet_args = params.parquet_files ? '-f' : ''
+    def nextclade_args = params.nextclade ? '-n' : ''
 
     """
     mira-oxide prepare-mira-reports \\
@@ -41,6 +42,7 @@ process PREPAREMIRAREPORTS {
         -r ${runid} \\
         -o ./ \\
         ${parquet_args} \\
+        ${nextclade_args} \\
         ${args}
 
     cat <<-END_VERSIONS > versions.yml
