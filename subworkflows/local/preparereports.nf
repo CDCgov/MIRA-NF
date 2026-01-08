@@ -102,8 +102,6 @@ workflow PREPAREREPORTS {
     summary_ch  = PREPAREMIRAREPORTS.out.summary_csv
     nextclade_fasta_files_ch = PREPAREMIRAREPORTS.out.nextclade_fasta_files
 
-    nextclade_fasta_files_ch.view()
-
     //collate versions
     versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
     versions_path_ch.view()

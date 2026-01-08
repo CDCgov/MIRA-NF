@@ -4,11 +4,11 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 include { GETNEXTCLADEDATASET     } from "../../../modules/local/getnextcladedataset/main"
+include { RUNNEXTCLADE     } from "../../../modules/local/runnextclade/main"
 
 workflow NEXTCLADE {
 
     take:
-    summary_ch   // channel: holds aggregate summary report
     nextclade_fasta_files_ch  // channel: holds amended consensus fasta file
 
     main:
@@ -63,7 +63,8 @@ workflow NEXTCLADE {
 
     GETNEXTCLADEDATASET(nextclade_dataset_ch)
 
-    GETNEXTCLADEDATASET.out.dataset.view()
+    RUNNEXTCLADE(GETNEXTCLADEDATASET.out.dataset)
+
 
     emit:
     // TODO nf-core: edit emitted channels
