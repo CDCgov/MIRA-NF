@@ -184,7 +184,7 @@
                 },
                 "nextclade": {
                     "type": "boolean",
-                    "description": "When set to true, this flag will divide amend consensus fasta files by subtype and run them through nextclade. Default: false"
+                    "description": "When set to true, this flag will run subtype specific fasta files through nextclade. Default: false."
                 }
             }
         },

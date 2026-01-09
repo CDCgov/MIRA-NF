@@ -28,7 +28,6 @@ process PREPAREMIRAREPORTS {
     script:
     def args = task.ext.args ?: ''
     def parquet_args = params.parquet_files ? '-f' : ''
-    def nextclade_args = params.nextclade ? '-n' : ''
 
     """
     mira-oxide prepare-mira-reports \\
@@ -42,7 +41,6 @@ process PREPAREMIRAREPORTS {
         -r ${runid} \\
         -o ./ \\
         ${parquet_args} \\
-        ${nextclade_args} \\
         ${args}
 
     cat <<-END_VERSIONS > versions.yml

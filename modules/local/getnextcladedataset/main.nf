@@ -23,7 +23,7 @@
         get \\
         --name ${dataset} \\
         --tag ${tag} \\
-        --output-dir $prefix \\
+        --output-dir ${prefix} \\
         $args
 
     cat <<-END_VERSIONS > versions.yml
