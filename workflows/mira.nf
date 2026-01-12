@@ -405,7 +405,7 @@ workflow sc2_spike_o {
     // nextclade error handling
     if (params.nextclade != null) {
     error "Nextclade does not support protein-only SARS-CoV-2 sequences"
-}
+    }
 
     //Inializing parameters
     experiment_type_ch = Channel.value(params.e)
@@ -499,11 +499,6 @@ workflow sc2_spike_o {
             storeDir:"${params.outdir}/pipeline_info",
             keepHeader: false
         )
-
-    // SUBWORKFLOW: Run Nextclade
-    if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch)
-    }
 }
 
 workflow sc2_wgs_o {
