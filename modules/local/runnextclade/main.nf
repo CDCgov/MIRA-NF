@@ -9,7 +9,7 @@ process RUNNEXTCLADE {
 
     output:
     tuple val(dataset_name), path("${dataset_name}.csv")           , optional:true, emit: csv
-    tuple val(dataset_name), path("${dataset_name}.tsv")           , optional:true, emit: tsv
+    path("${dataset_name}.tsv")           , optional:true, emit: tsv
     tuple val(dataset_name), path("${dataset_name}.json")          , optional:true, emit: json
     tuple val(dataset_name), path("${dataset_name}.auspice.json")  , optional:true, emit: json_auspice
     tuple val(dataset_name), path("${dataset_name}.ndjson")        , optional:true, emit: ndjson

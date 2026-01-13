@@ -187,7 +187,7 @@ workflow flu_i {
 
     // SUBWORKFLOW: Run Nextclade
     if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch)
+        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch, PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.virus,PREPAREREPORTS.out.runid)
     }
 }
 

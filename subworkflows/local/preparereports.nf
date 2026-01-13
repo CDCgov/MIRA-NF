@@ -111,4 +111,6 @@ workflow PREPAREREPORTS {
     mira_version_ch                                 // channel:specifies if MIRA-NF version is up to date
     summary_ch                                   // channel: holds aggregate summary report
     nextclade_fasta_files_ch                           // channel: holds nextclade fasta file
+    virus                                   // channel: holds virus type
+    runid                           // value: holds run id
 }

@@ -4,12 +4,16 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 include { GETNEXTCLADEDATASET     } from "../../../modules/local/getnextcladedataset/main"
-include { RUNNEXTCLADE     } from "../../../modules/local/runnextclade/main"
+include { RUNNEXTCLADE            } from "../../../modules/local/runnextclade/main"
+include { UPDATEMIRASUMMARY       } from "../../../modules/local/updatemirasummary/main"
 
 workflow NEXTCLADE {
 
     take:
     nextclade_fasta_files_ch  // channel: holds amended consensus fasta file
+    summary_ch               // channel: holds summary information
+    virus                  // value: virus type
+    runid                  // value: run id
 
     main:
     ch_versions = Channel.empty()
@@ -66,6 +70,8 @@ workflow NEXTCLADE {
 
     RUNNEXTCLADE(GETNEXTCLADEDATASET.out.dataset)
 
+    // Pass to update summary
+    UPDATEMIRASUMMARY(summary_ch, RUNNEXTCLADE.out.tsv.collect(), virus, runid)
 
     emit:
     // TODO nf-core: edit emitted channels
