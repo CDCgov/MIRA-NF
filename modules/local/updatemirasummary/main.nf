@@ -37,8 +37,7 @@ process UPDATEMIRASUMMARY {
         ${args}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        updatemirasummary: \$(mira-oxide --version |& sed '1!d; s/python3 //')
+    "${task.process}": updatemirasummary: mira-oxide \$(mira-oxide --version |& sed '1!d; s/python3 //')
     END_VERSIONS
     """
 
@@ -51,8 +50,7 @@ process UPDATEMIRASUMMARY {
     touch ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        updatemirasummary: \$(mira-oxide --version |& sed '1!d; s/python3 //')
+    "${task.process}": updatemirasummary: mira-oxide \$(mira-oxide --version |& sed '1!d; s/python3 //')
     END_VERSIONS
     """
 }

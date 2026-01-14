@@ -22,6 +22,6 @@ process DAISRIBOSOME {
     dais_out="${base_name%_input*}"
     ribosome --module !{dais_module} !{input_fasta} ${dais_out}.seq ${dais_out}.ins ${dais_out}.del ${dais_out}.gen
 
-    echo "daisribosome: cdcgov/dais-ribosome:v1.6.1" > versions.yml
+    echo "!{task.process}: daisribosome: cdcgov/dais-ribosome:v1.6.1" > versions.yml
     '''
 }

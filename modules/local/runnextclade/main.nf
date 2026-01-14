@@ -35,8 +35,7 @@ process RUNNEXTCLADE {
         $args
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        runnextclade: \$(runnextclade --version)
+    "${task.process}": runnextclade: nextclade \$(echo \$(nextclade --version 2>&1) | sed 's/^.*nextclade //; s/ .*\$//')
     END_VERSIONS
     """
 
@@ -47,8 +46,7 @@ process RUNNEXTCLADE {
     echo $args
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        runnextclade: \$(runnextclade --version)
+    "${task.process}": runnextclade: nextclade \$(echo \$(nextclade --version 2>&1) | sed 's/^.*nextclade //; s/ .*\$//')
     END_VERSIONS
     """
 }

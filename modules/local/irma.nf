@@ -26,8 +26,7 @@ process IRMA {
         2> ${sample}.irma.stderr.log | tee -a ${sample}.irma.stdout.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        irma: \$(echo \$(IRMA | grep -o "v[0-9][^ ]*" | cut -c 2-))
+    "${task.process}": irma: \$(echo \$(IRMA | grep -o "v[0-9][^ ]*" | cut -c 2-))
     END_VERSIONS
     """
 
@@ -38,8 +37,7 @@ process IRMA {
     touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        irma: \$(echo \$(IRMA | grep -o "v[0-9][^ ]*" | cut -c 2-))
+    "${task.process}": irma: \$(echo \$(IRMA | grep -o "v[0-9][^ ]*" | cut -c 2-))
     END_VERSIONS
     """
 }

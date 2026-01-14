@@ -35,8 +35,7 @@ process FLUTRIMPRIMERS {
         2> ${sample}.primertrim.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        primertrim_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": flutrimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
@@ -46,8 +45,7 @@ process FLUTRIMPRIMERS {
     touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        flutrimprimers_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": flutrimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

@@ -27,8 +27,7 @@
         $args
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        getnextcladedataset: \$(echo \$(nextclade --version 2>&1) | sed 's/^.*nextclade //; s/ .*\$//')
+    "${task.process}": getnextcladedataset: nextclade \$(echo \$(nextclade --version 2>&1) | sed 's/^.*nextclade //; s/ .*\$//')
     END_VERSIONS
     """
 
@@ -38,8 +37,7 @@
     echo $args
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        getnextcladedataset:  \$(echo \$(nextclade --version 2>&1) | sed 's/^.*nextclade //; s/ .*\$//')
+    "${task.process}": getnextcladedataset: nextclade \$(echo \$(nextclade --version 2>&1) | sed 's/^.*nextclade //; s/ .*\$//')
     END_VERSIONS
     """
 }

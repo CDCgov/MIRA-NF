@@ -17,7 +17,7 @@ process PREPAREMIRAREPORTS {
 
     output:
     path('*'), emit: all_files
-    path('*summary'), emit: summary_csv
+    path('*summary', emit: summary_csv, optional: true)
     path('*.parq', emit: parquet_files, optional: true)
     path('nextclade_*.fasta', emit: nextclade_fasta_files, optional: true)
     path 'versions.yml', emit: versions
@@ -47,8 +47,7 @@ process PREPAREMIRAREPORTS {
     ${summary_passing}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-      preparemirareports: \$(mira-oxide --version |& sed '1!d; s/python3 //')
+    "${task.process}": preparemirareports: mira-oxide \$(mira-oxide --version |& sed '1!d; s/mira-oxide //')
     END_VERSIONS
     """
 
@@ -57,8 +56,7 @@ process PREPAREMIRAREPORTS {
     touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-      preparemirareports: \$(mira-oxide --version |& sed '1!d; s/python3 //')
+    "${task.process}": preparemirareports: mira-oxide \$(mira-oxide --version |& sed '1!d; s/mira-oxide //')
     END_VERSIONS
     """
 }

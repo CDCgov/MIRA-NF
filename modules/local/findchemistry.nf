@@ -24,8 +24,7 @@ process FINDCHEMISTRY {
     mira-oxide find-chemistry --sample "${sample}" --fastq "${fastq}" --experiment "${params.e}" --wd-path "${projectDir}" --read-count "${read_counts}" --irma-config "${irma_config}" --irma-config-path "${custom_irma_config}"
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        findchemistry: \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
+    "${task.process}": findchemistry: mira-oxide \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
     END_VERSIONS
     """
 
@@ -36,8 +35,7 @@ process FINDCHEMISTRY {
     touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        findchemistry: \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
+    "${task.process}": findchemistry: mira-oxide \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
     END_VERSIONS
     """
 }

@@ -35,8 +35,7 @@ process FASTQC {
         $renamed_files
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        fastqc: \$( fastqc --version | sed '/FastQC v/!d; s/.*v//' )
+    "${task.process}": fastqc \$( fastqc --version | sed '/FastQC v/!d; s/.*v//' )
     END_VERSIONS
     """
 
@@ -47,8 +46,7 @@ process FASTQC {
     touch ${prefix}.zip
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        fastqc: \$( fastqc --version | sed '/FastQC v/!d; s/.*v//' )
+    "${task.process}": fastqc \$( fastqc --version | sed '/FastQC v/!d; s/.*v//' )
     END_VERSIONS
     """
 }

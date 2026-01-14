@@ -185,10 +185,38 @@ workflow flu_i {
             keepHeader: false
         )
 
-    // SUBWORKFLOW: Run Nextclade
-    if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch, PREPAREREPORTS.out.summary_ch, PREPAREREPORTS.out.virus,PREPAREREPORTS.out.runid)
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
+        )
+
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+
+        versions_path_ch.view()
+
     }
+
 }
 
 workflow flu_o {
@@ -341,9 +369,33 @@ workflow flu_o {
             keepHeader: false
         )
 
-    // SUBWORKFLOW: Run Nextclade
-    if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch)
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
+        )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
     }
 }
 
@@ -651,9 +703,33 @@ workflow sc2_wgs_o {
             keepHeader: false
         )
 
-    // SUBWORKFLOW: Run Nextclade
-    if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch)
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
+        )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
     }
 }
 
@@ -826,9 +902,33 @@ workflow sc2_wgs_i {
             keepHeader: false
         )
 
-    // SUBWORKFLOW: Run Nextclade
-    if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch)
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
+        )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
     }
 }
 
@@ -998,9 +1098,33 @@ workflow rsv_i {
             keepHeader: false
         )
 
-    // SUBWORKFLOW: Run Nextclade
-    if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch)
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
+        )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
     }
 }
 
@@ -1156,9 +1280,33 @@ workflow rsv_o {
             keepHeader: false
         )
 
-    // SUBWORKFLOW: Run Nextclade
-    if(params.nextclade){
-        NEXTCLADE(PREPAREREPORTS.out.nextclade_fasta_files_ch)
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
+        )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
     }
 }
 
@@ -1225,6 +1373,25 @@ workflow find_variants_of_int {
 
     //MODULE: Run Variants of Interest
     VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch, dais_module_ch)
+    ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
+
+    // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
 
 }
 
@@ -1292,6 +1459,25 @@ workflow find_positions_of_int {
 
     //MODULE: Run Positions of Interest
     POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_interest_ch, dais_module_ch)
+    ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
+
+    // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
 
 }
 // MAIN WORKFLOW

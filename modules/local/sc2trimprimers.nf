@@ -35,8 +35,7 @@ process SC2TRIMPRIMERS {
         2> ${sample}.primertrim.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        primertrim_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": sc2trimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
@@ -46,8 +45,7 @@ process SC2TRIMPRIMERS {
     touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        sc2trimprimers_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": sc2trimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

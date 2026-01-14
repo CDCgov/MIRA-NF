@@ -102,12 +102,9 @@ workflow PREPAREREPORTS {
     summary_ch  = PREPAREMIRAREPORTS.out.summary_csv
     nextclade_fasta_files_ch = PREPAREMIRAREPORTS.out.nextclade_fasta_files
 
-    //collate versions
-    versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
-    versions_path_ch.view()
 
     emit:
-    collated_versions = versions_path_ch                     // channel: [ versions.yml ]
+    ch_versions                                    // channel: [ versions.yml ]
     mira_version_ch                                 // channel:specifies if MIRA-NF version is up to date
     summary_ch                                   // channel: holds aggregate summary report
     nextclade_fasta_files_ch                           // channel: holds nextclade fasta file

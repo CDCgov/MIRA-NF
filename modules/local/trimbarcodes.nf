@@ -31,8 +31,7 @@ process TRIMBARCODES {
         2> ${sample}.${barcode}.bartrim.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bartrim_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": bartrim_irma-core: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
@@ -43,8 +42,7 @@ process TRIMBARCODES {
     touch ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bartrim_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": bartrim_irma-core: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

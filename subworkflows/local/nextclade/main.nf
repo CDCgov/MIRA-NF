@@ -14,9 +14,9 @@ workflow NEXTCLADE {
     summary_ch               // channel: holds summary information
     virus                  // value: virus type
     runid                  // value: run id
+    ch_versions           // channel: holds all previous version
 
     main:
-    ch_versions = Channel.empty()
 
     // List of expected nextclade FASTA filenames (without path)
     def expected_fastas = [
@@ -67,11 +67,34 @@ workflow NEXTCLADE {
         //nextclade_dataset_ch.view()
 
     GETNEXTCLADEDATASET(nextclade_dataset_ch)
+    ch_versions = ch_versions.mix(GETNEXTCLADEDATASET.out.versions)
 
     RUNNEXTCLADE(GETNEXTCLADEDATASET.out.dataset)
+    ch_versions = ch_versions.mix(RUNNEXTCLADE.out.versions)
 
     // Pass to update summary
     UPDATEMIRASUMMARY(summary_ch, RUNNEXTCLADE.out.tsv.collect(), virus, runid)
+    ch_versions = ch_versions.mix(UPDATEMIRASUMMARY.out.versions)
+
+
+    // collate versions with unique lines into pipeline_info
+    versions_path_ch = ch_versions
+        .collectFile(
+            name: 'collated_versions.yml',
+            storeDir: "${params.outdir}/pipeline_info"
+        )
+        .map { file ->
+            def uniqueLines = file.text
+                .readLines()
+                .unique()
+                .join('\n') + '\n'
+
+            def out = file.parent.resolve('collated_versions.unique.yml')
+            out.text = uniqueLines
+            return out
+        }
+
+    versions_path_ch.view()
 
     emit:
     // TODO nf-core: edit emitted channels
