@@ -166,6 +166,7 @@ workflow flu_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -173,10 +174,12 @@ workflow flu_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -350,6 +353,7 @@ workflow flu_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -357,10 +361,12 @@ workflow flu_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -533,6 +539,7 @@ workflow sc2_spike_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -540,10 +547,12 @@ workflow sc2_spike_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -684,6 +693,7 @@ workflow sc2_wgs_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -691,10 +701,12 @@ workflow sc2_wgs_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     //SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
     //setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -883,6 +895,7 @@ workflow sc2_wgs_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -890,10 +903,12 @@ workflow sc2_wgs_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -1079,6 +1094,7 @@ workflow rsv_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -1086,10 +1102,12 @@ workflow rsv_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
     // setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
@@ -1261,6 +1279,7 @@ workflow rsv_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -1268,10 +1287,12 @@ workflow rsv_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
     //setting up to put MIRA-NF version checking in email
     PREPAREREPORTS.out.mira_version_ch.collectFile(
