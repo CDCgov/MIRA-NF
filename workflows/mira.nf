@@ -181,13 +181,6 @@ workflow flu_i {
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
-
     // SUBWORKFLOW: Run Nextclade (optional)
     if (params.nextclade) {
         NEXTCLADE(
@@ -368,12 +361,6 @@ workflow flu_o {
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
 
     // SUBWORKFLOW: Run Nextclade (optional)
     if (params.nextclade) {
@@ -554,12 +541,6 @@ workflow sc2_spike_o {
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
 }
 
 workflow sc2_wgs_o {
@@ -910,13 +891,6 @@ workflow sc2_wgs_i {
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
-
     // SUBWORKFLOW: Run Nextclade (optional)
     if (params.nextclade) {
         NEXTCLADE(
@@ -1108,13 +1082,6 @@ workflow rsv_i {
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
-
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
 
     // SUBWORKFLOW: Run Nextclade (optional)
     if (params.nextclade) {
@@ -1502,8 +1469,41 @@ workflow find_positions_of_int {
 
 }
 // MAIN WORKFLOW
-// Decides which experiment type workflow to run based on experiment parameter given
+
 workflow MIRA {
+    //If sourcepath flag is given, then it will use the sourcepath to point to the support files
+    if (params.sourcepath == null) {
+        support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
+    } else {
+        support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
+    }
+
+    // Check MIRA version
+    if ( !params.check_version ) {
+        println "MIRA version not checked"
+        mira_version_ch = Channel.value("MIRA version not checked")
+    } else {
+        CHECKMIRAVERSION(support_file_path)
+        // Capture output channel
+        mira_version_ch = CHECKMIRAVERSION.out
+
+        mira_version_ch.map { it.trim() as String }
+            .subscribe { value ->
+            if ( value != "MIRA-NF version up to date!" ) {
+                println "MIRA version not up to date. Please update MIRA before running the pipeline."
+                workflow.exit
+            }
+        }
+    }
+
+    // setting up to put MIRA-NF version checking in email
+    mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
+
+    // Decides which experiment type workflow to run based on experiment parameter given
     if (params.e == 'Flu-Illumina') {
         flu_i()
 } else if (params.e == 'Flu-ONT') {

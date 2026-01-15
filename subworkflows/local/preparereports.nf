@@ -3,7 +3,6 @@
     IMPORT LOCAL MODULES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { CHECKMIRAVERSION     } from '../../modules/local/checkmiraversion'
 include { PREPAREMIRAREPORTS   } from '../../modules/local/preparemirareports'
 
 workflow PREPAREREPORTS {
@@ -32,15 +31,6 @@ workflow PREPAREREPORTS {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
     } else {
         support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
-    }
-
-    //check mira version
-    if (params.check_version == false){
-        println("MIRA version not checked")
-        mira_version_ch = "MIRA version not checked"
-    } else {
-        CHECKMIRAVERSION(support_file_path)
-        mira_version_ch = CHECKMIRAVERSION.out.view()
     }
 
     //creating platform value
@@ -105,7 +95,6 @@ workflow PREPAREREPORTS {
 
     emit:
     ch_versions                                    // channel: [ versions.yml ]
-    mira_version_ch                                 // channel:specifies if MIRA-NF version is up to date
     summary_ch                                   // channel: holds aggregate summary report
     nextclade_fasta_files_ch                           // channel: holds nextclade fasta file
     virus                                   // channel: holds virus type
