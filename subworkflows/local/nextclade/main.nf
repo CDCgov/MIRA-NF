@@ -97,7 +97,5 @@ workflow NEXTCLADE {
     versions_path_ch.view()
 
     emit:
-    // TODO nf-core: edit emitted channels
-
     versions = ch_versions                     // channel: [ versions.yml ]
 }

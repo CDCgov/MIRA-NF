@@ -448,7 +448,7 @@ workflow sc2_spike_o {
         workflow.exit
     }
     // nextclade error handling
-    if (params.nextclade != null) {
+    if (params.nextclade != false) {
     error "Nextclade does not support protein-only SARS-CoV-2 sequences"
     }
 
@@ -688,13 +688,6 @@ workflow sc2_wgs_o {
     //SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
-
-    //setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
 
     // SUBWORKFLOW: Run Nextclade (optional)
     if (params.nextclade) {
@@ -1260,13 +1253,6 @@ workflow rsv_o {
     // SUBWORKFLOW: Create reports
     PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
     ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
-
-    //setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
 
     // SUBWORKFLOW: Run Nextclade (optional)
     if (params.nextclade) {

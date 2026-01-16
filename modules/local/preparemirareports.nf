@@ -1,5 +1,5 @@
 process PREPAREMIRAREPORTS {
-    label 'process_low'
+    label 'process_medium'
 
     container 'cdcgov/mira-oxide:v1.3.1'
 
