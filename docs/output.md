@@ -17,6 +17,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [IRMA](#irma-outputs) - A folder containing all of the outs made by IRMA
 - [DAIS-ribosome](dais-ribosome-outputs) - Aggregate insertion, deletion and sequence file for the input data
 - [PrepareMIRAReports](#preparemirareports) - Collected results from IRMA and DAIS-Ribosome to create MIRA reoprts (JSON, HTML, FASTA, CSV and optional PARQ files)
+- [Nextclade](#nextclade) - Input fasta file for Nextclade and Nextclade outputs if Nextclade was run within the workflow.
 
 ## Output Structure
 
@@ -35,6 +36,8 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
         |---primer-trimmed-reads (when applicable) -> fastqs and log files
         |---IRMA/Sample_ID -> IRMA outputs and log files
         |---IRMA-negative (when applicable)
+    |---nextclade -> Inputs and outputs for Nextclade
+        |---input_fasta_files -> Input FASTA files for running Nextclade
     |---fastq_pass -> ONT data only – concatenated fastqs
     |---pipeline_info -> execution reports
 ```
@@ -292,5 +295,32 @@ Optional collected results from IRMA and DAIS-Ribosome in PARQ files
   - mira_run_name_variants.parq
 
 </details>
+
+### Nextclade
+- `nextclade/input_fasta_files/` - potential input fasta files
+```
+nextclade_<runid>_influenza-a-h3n2-ha.fasta
+nextclade_<runid>_influenza-a-h1n1pdm-ha.fasta
+nextclade_<runid>_influenza-b-victoria-ha.fasta
+nextclade_<runid>_influenza-a-h1n1pdm-na.fasta
+nextclade_<runid>_influenza-a-h3n2-na.fasta
+nextclade_<runid>_influenza-b-victoria-na.fasta
+nextclade_<runid>_rsv-a.fasta
+nextclade_<runid>_rsv-b.fasta
+nextclade_<runid>_sars-cov-2.fasta
+```
+- `nextclade/` - potential output files
+```
+ - csv - CSV file containing nextclade results
+ - error_csv - CSV file containing errors from nextclade results
+ - insertions_csv - CSV file containing insertions from nextclade results
+ - tsv - TSV file containing nextclade results
+ - json - JSON file containing nextclade results
+ - json_auspice - Auspice JSON V2 containing nextclade results
+ - ndjson - newline-delimited JSON file containing nextclade results
+ - fasta_aligned - FASTA file containing aligned sequences from nextclade results
+ - fasta_translation - FASTA file containing aligned peptides from nextclade results
+ - nwk - NWK file containing nextclade results
+```
 
 [Nextflow](https://www.nextflow.io/docs/latest/tracing.html) provides excellent functionality for generating various reports relevant to the running and execution of the pipeline. This will allow you to troubleshoot errors with the running of the pipeline, and also provide you with other information such as launch commands, run times and resource usage.
