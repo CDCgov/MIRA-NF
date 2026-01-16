@@ -46,6 +46,9 @@ citEntry(
 
  > Sullivan, A.H., Rambo-Martin, B., Wiley, S., Shepard, S.S. mira-oxide: A set of rusty tools for use in MIRA. (2025)
 
+ - [`Nextclade`](https://github.com/nextstrain/nextclade)
+
+ > Aksamentov, I., Roemer, C., Hodcroft, E. B., & Neher, R. A., (2021). Nextclade: clade assignment, mutation calling and quality control for viral genomes. Journal of Open Source Software, 6(67), 3773, https://doi.org/10.21105/joss.03773
 
 ## Software packaging/containerisation tools
 
