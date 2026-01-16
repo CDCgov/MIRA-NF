@@ -1,0 +1,65 @@
+name: "updatemirasummary"
+description: Add nextclade results to MIRA summary report
+keywords:
+  - nextclade
+  - variant
+  - consensus
+  - MIRA summary
+tools:
+  - "updatemirasummary":
+      description: "mira-oxide subprocess to add nextclade results to MIRA summary report"
+      homepage: "https://github.com/CDCgov/mira-oxide"
+      documentation: "https://github.com/CDCgov/mira-oxide/blob/main/docs/summary_report_update.md"
+      tool_dev_url: "https://github.com/CDCgov/mira-oxide"
+      licence: null
+      identifier: mira-oxide:summary-report-update
+
+input:
+  summary:
+    summary_csv:
+        type: file
+        description: CSV file containing MIRA summary results
+        pattern: "*.{csv}"
+        ontologies:
+          - edam: http://edamontology.org/format_3752 # CSV
+  nextclade_tsv:
+    - ${prefix}.tsv:
+        type: file
+        description: TSV file containing nextclade results
+        pattern: "*.{tsv}"
+        ontologies:
+          - edam: http://edamontology.org/format_3475 # TSV
+  virus:
+    type: string
+    description: |
+      The virus to be analyzed (e.g., 'sars-cov-2', 'flu', 'rsv')
+    pattern: ".+"
+  runid:
+    type: string
+    description: |
+      The runid to be used for naming output files
+    pattern: ".+"
+output:
+  updated_summary_csv:
+    - ${prefix}.csv:
+        type: file
+        description: CSV file containing MIRA summary with nextclade results
+        pattern: "*.{csv}"
+        ontologies:
+          - edam: http://edamontology.org/format_3752 # CSV
+  updated_summary_parq:
+    - ${prefix}.parq:
+        type: file
+        description: PARQUET file containing MIRA summary with nextclade results
+        pattern: "*.{parq}"
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+authors:
+  - "@mandysulli"
+maintainers:
+  - "@mandysulli"

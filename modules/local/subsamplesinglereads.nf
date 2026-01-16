@@ -28,8 +28,7 @@ process SUBSAMPLESINGLEREADS {
         2> ${sample}.${barcode}.subsampler.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        subsamplesinglereads: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": subsamplesinglereads: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
@@ -41,7 +40,7 @@ process SUBSAMPLESINGLEREADS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        subsamplesinglereads: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+        "${task.process}": subsamplesinglereads: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

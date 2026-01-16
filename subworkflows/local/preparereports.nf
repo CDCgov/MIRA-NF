@@ -3,9 +3,7 @@
     IMPORT LOCAL MODULES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { CHECKMIRAVERSION     } from '../../modules/local/checkmiraversion'
 include { PREPAREMIRAREPORTS   } from '../../modules/local/preparemirareports'
-include { PREPAREMIRAREPORTSWITHPARQ   } from '../../modules/local/preparemirareportswithparq'
 
 workflow PREPAREREPORTS {
     take:
@@ -33,15 +31,6 @@ workflow PREPAREREPORTS {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
     } else {
         support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
-    }
-
-    //check mira version
-    if (params.check_version == false){
-        println("MIRA version not checked")
-        mira_version_ch = "MIRA version not checked"
-    } else {
-        CHECKMIRAVERSION(support_file_path)
-        mira_version_ch = CHECKMIRAVERSION.out.view()
     }
 
     //creating platform value
@@ -98,19 +87,16 @@ workflow PREPAREREPORTS {
     }
 
     //create aggregate reports with or without parquet files
-    if (params.parquet_files == true) {
-    PREPAREMIRAREPORTSWITHPARQ(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
-    ch_versions = ch_versions.mix(PREPAREMIRAREPORTSWITHPARQ.out.versions)
-    } else {
     PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
-    }
+    summary_ch  = PREPAREMIRAREPORTS.out.summary_csv
+    nextclade_fasta_files_ch = PREPAREMIRAREPORTS.out.nextclade_fasta_files
 
-    //collate versions
-    versions_path_ch = ch_versions.distinct().collectFile(name: 'collated_versions.yml')
-    versions_path_ch.view()
 
     emit:
-    collated_versions = versions_path_ch                     // channel: [ versions.yml ]
-    mira_version_ch                                 // channel:specifies if MIRA-NF version is up to date
+    ch_versions                                    // channel: [ versions.yml ]
+    summary_ch                                   // channel: holds aggregate summary report
+    nextclade_fasta_files_ch                           // channel: holds nextclade fasta file
+    virus                                   // channel: holds virus type
+    runid                           // value: holds run id
 }

@@ -29,6 +29,7 @@ MIRA-NF performs these steps for genome assembly and curation:
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
 8. Collect results from IRMA and DAIS-Ribosome to create MIRA reoprts (JSON, HTML, FASTA, CSV and optional PARQ files)([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
+9. Nextclade (optional)([`Nextclade`](https://github.com/nextstrain/nextclade))
 
 #### MIRA-NF is able to analyze 7 data types:
 
@@ -137,7 +138,7 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 | `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
 | `process_q`           | (required for age or slurm profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
 | `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.
-| `custom_runid`        | (optional) An option flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.                                                       |
+| `nextclade`        | (optional) When set to true, this flag will run nextclade for your passing samples. Default: false.                                                       |
 | `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
 | `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |
 | `custom_qc_settings`  | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                     |
@@ -147,6 +148,7 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 | `variants_of_interest`  | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA-nf workflow. This module will provide the codon and amino acid differences at the specified postions. The user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
 | `positions_of_interest`  | (optional) Providing this flag will run the [find_positions_of_interest](docs/find_positions_of_interest_docs/) module within the MIRA-nf workflow. This module will provide the all codon and amino acid allelles at the specified postions whether they differ between sample and reference or not. The the user should provide the `<FILE_PATH>/positions_of_interest.txt` with the format described [here](docs/find_postions_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
 | `reference_seq_table`        | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA-NF workflow. Here the user should provide the  `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.  |
+specific
 | `check_version`        | (optional) The flag is set to true by default. It will check that you are using the most up to date version of MIRA-NF. However, it will require that you have an internet connection to check. If you do not have internet, then the flag should be set to false.  |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:

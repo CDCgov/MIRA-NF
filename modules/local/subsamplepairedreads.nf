@@ -30,8 +30,7 @@ process SUBSAMPLEPAIREDREADS {
         2> ${sample}.subsampler.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        subsamplepairedreads: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": subsamplepairedreads: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
@@ -42,7 +41,7 @@ process SUBSAMPLEPAIREDREADS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        subsamplepairedreads: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+        "${task.process}": subsamplepairedreads: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

@@ -35,8 +35,7 @@ process RSVTRIMPRIMERS {
         2> ${sample}.primertrim.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        primertrim_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": rsvtrimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
@@ -46,8 +45,7 @@ process RSVTRIMPRIMERS {
     touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        rsvtrimprimers_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": rsvtrimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

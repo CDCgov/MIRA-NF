@@ -23,8 +23,7 @@ process NEXTFLOWSAMPLESHEETI {
     create_nextflow_samplesheet_i.py -s "${samplesheet}" -r "${fastq_files}" -e "${experiment_type}"
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        nextflowsamplesheeti: \$(python3 --version |& sed '1!d ; s/python //')
+    "${task.process}": nextflowsamplesheeti: \$(python3 --version |& sed '1!d ; s/python //')
     END_VERSIONS
     """
 
@@ -35,8 +34,7 @@ process NEXTFLOWSAMPLESHEETI {
     touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        nextflowsamplesheeti: \$(python3 --version |& sed '1!d ; /python //')
+    "${task.process}": nextflowsamplesheeti: \$(python3 --version |& sed '1!d ; /python //')
     END_VERSIONS
     """
 }

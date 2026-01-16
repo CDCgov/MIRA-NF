@@ -8,6 +8,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Sam Wiley](https://github.com/samcwiley)
 
+### Associated Tags
+| Program           | Version                |
+|-------------------|------------------------|
+| irma-core         | 0.6.1                  |
+| IRMA              | 1.3.1                  |
+| DAIS-ribosome     | 1.6.1                  |
+| mira-oxide        | 1.3.1                  |
+| nextclade         | 3.18.1                 |
+
+### Nextclade Tags Used
+| Dataset           | Tag                    |
+|-------------------|------------------------|
+| flu_h3n2_ha       | 2024-11-27--02-51-00Z  |
+| flu_h1n1pdm_ha    | 2024-11-27--02-51-00Z  |
+| flu_vic_ha        | 2024-01-16--20-31-02Z  |
+| flu_h3n2_na       | 2024-11-05--09-19-52Z  |
+| flu_h1n1pdm_na    | 2024-11-05--09-19-52Z  |
+| flu_vic_na        | 2024-01-16--20-31-02Z  |
+| rsv_a             | 2025-08-25--09-00-35Z  |
+| rsv_b             | 2024-08-01--22-31-31Z  |
+| sars-cov-2        | 2024-04-25--01-03-07Z  |
+
 ### Enhancements
 
 ### `Added`
@@ -19,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Subtype in the summary report for all viruses now.
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Added `custom_runid` flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.
 - [PR #95](https://github.com/CDCgov/MIRA-NF/pull/95) - Added arm64 profiles for improved compatibilaty.
+- [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - Added Nextclade subworkflow that gets a nextclade database base on subtpye (and segment for flu) and runs nextclade when the `--nextclade` flag is used.
 
 ### `Fixed`
 
@@ -26,9 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #85](https://github.com/CDCgov/MIRA-NF/pull/85) - replaced `findchemistryi.py` and `findchemistryo.py` with `findchemistry.rs` from `mira-oxide`.
 - [PR #90](https://github.com/CDCgov/MIRA-NF/pull/90) - Bug squash. Fix "MissingMissing" subtype in mira_summary report.
 
-
 ### `Dependencies`
-
+- [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - new container `nextstrain/nextclade:3.18.1` for running nexclade.
 
 ### `Deprecated`
 
@@ -48,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | | `--dais_module` |
 | | `--check_version` |
 |`--reformat_tables` | `--parquet_files` |
+| | `--nextclade` |
 
 
 ## v1.6.1 - 06.04.2025

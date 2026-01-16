@@ -1,6 +1,6 @@
 process VARIANTSOFINT {
     label 'process_low'
-    container 'cdcgov/mira-oxide:latest'
+    container 'cdcgov/mira-oxide:v1.3.1'
 
     input:
     path dais_seq_output
@@ -22,8 +22,7 @@ process VARIANTSOFINT {
     mira-oxide variants-of-interest -i ${dais_seq_output} -r ${ref_table} -o variants_of_interest.csv -m ${variant_of_int_table} -v ${virus}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        variantsofint: \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
+    "${task.process}": variantsofint: mira-oxide \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
     END_VERSIONS
     """
 
@@ -32,8 +31,7 @@ process VARIANTSOFINT {
 
     """
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        variantsofint: \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
+    "${task.process}": variantsofint: mira-oxide \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
     END_VERSIONS
     """
 }

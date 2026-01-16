@@ -1,0 +1,54 @@
+name: "nextclade"
+description: A subworkflow for running Nextclade for viral sequence analysis
+keywords:
+  - fasta
+  - nextclade
+  - lineage analysis
+  - sequence QC
+  - viral genomics
+  - phylogenetics
+
+components:
+  - getnextcladedataset
+  - runnextclade
+  - updatemirasummary
+
+input:
+  - summary_ch:
+      type: file
+      description: |
+        Input channel for containing sample metadata
+      pattern: "*.csv"
+  - nextclade_fasta_files_ch:
+      type: file
+      description: |
+        FATSA files for Nextclade analysis
+      pattern: "*.fasta"
+  - virus:
+      type: string
+      description: |
+        The virus to be analyzed (e.g., 'sars-cov-2', 'flu', 'rsv')
+      pattern: ".+"
+  - runid:
+      type: string
+      description: |
+        The runid to be used for naming output files
+      pattern: ".+"
+  - ch_version:
+      type: file
+      description: File containing software versions
+      pattern: versions.yml
+      ontologies:
+        - edam: http://edamontology.org/format_3750
+output:
+ versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@mandysulli"
+maintainers:
+  - "@mandysulli"

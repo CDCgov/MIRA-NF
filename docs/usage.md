@@ -16,6 +16,7 @@ MIRA performs these steps for genome assembly and curation:
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
 8. Collect results from IRMA and DAIS-Ribosome to create MIRA reoprts ([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
+9. Nextclade (optional)([`Nextclade`](https://github.com/nextstrain/nextclade))
 
 MIRA is able to analyze 7 data types:
 
@@ -172,6 +173,7 @@ Oxford Nanopore set up should be set up as follows:
 | `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
 | `process_q`           | (required for sge or slurm profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
 | `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
+| `nextclade`        | (optional) When set to true, this flag will run nextclade for your passing samples. Default: false.                                                       |
 | `custom_runid`        | (optional) An option flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.                                                       |
 | `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
 | `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |

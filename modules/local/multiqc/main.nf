@@ -34,8 +34,7 @@ process MULTIQC {
         .
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        multiqc: \$( multiqc --version | sed -e "s/multiqc, version //g" )
+    "${task.process}":  multiqc \$( multiqc --version | sed -e "s/multiqc, version //g" )
     END_VERSIONS
     """
 
@@ -46,8 +45,7 @@ process MULTIQC {
     touch multiqc_report.html
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        multiqc: \$( multiqc --version | sed -e "s/multiqc, version //g" )
+    "${task.process}": multiqc \$( multiqc --version | sed -e "s/multiqc, version //g" )
     END_VERSIONS
     """
 }
