@@ -10,7 +10,7 @@ process VARIANTSOFINT {
 
     output:
     path "*", emit: variant_of_int
-    path "versions.yml"           , emit: versions
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -18,7 +18,7 @@ process VARIANTSOFINT {
     script:
     def args = task.ext.args ?: ''
 
-   """
+    """
     mira-oxide variants-of-interest -i ${dais_seq_output} -r ${ref_table} -o variants_of_interest.csv -m ${variant_of_int_table} -v ${virus}
 
     cat <<-END_VERSIONS > versions.yml

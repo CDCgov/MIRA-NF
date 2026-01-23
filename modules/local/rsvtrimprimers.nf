@@ -11,7 +11,7 @@ process RSVTRIMPRIMERS {
     tuple val(sample), path('*ptrim_R1.fastq'), path('*ptrim_R2.fastq'), emit: trim_fastqs
     path '*.primertrim.stdout.log', emit: primertrim_log_out
     path '*.primertrim.stderr.log', emit: primertrim_log_err
-    path 'versions.yml'           , emit: versions
+    path 'versions.yml', emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -42,7 +42,6 @@ process RSVTRIMPRIMERS {
     stub:
     def args = task.ext.args ?: ''
     """
-    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": rsvtrimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')

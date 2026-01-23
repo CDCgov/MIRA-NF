@@ -11,7 +11,7 @@ process TRIMBARCODES {
     tuple val(sample), val(barcode), path('*_trimmed.fastq'), emit: bartrim_fastq
     path '*.bartrim.stdout.log', emit: bartrim_log_out
     path '*.bartrim.stderr.log', emit: bartrim_log_err
-    path 'versions.yml'           , emit: versions
+    path 'versions.yml', emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -39,7 +39,6 @@ process TRIMBARCODES {
     def args = task.ext.args ?: ''
 
     """
-    touch ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": bartrim_irma-core: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')

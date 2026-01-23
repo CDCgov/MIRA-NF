@@ -8,16 +8,17 @@ process SAMPLESHEET_CHECK {
     path samplesheet
 
     output:
-    path '*.csv'       , emit: csv
+    path '*.csv', emit: csv
     path 'versions.yml', emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
-    script: // This script is bundled with the pipeline, in mira/cli/bin/
+    script:
+    // This script is bundled with the pipeline, in mira/cli/bin/
     """
     check_samplesheet.py \\
-        $samplesheet \\
+        ${samplesheet} \\
         samplesheet.valid.csv
 
     cat <<-END_VERSIONS > versions.yml

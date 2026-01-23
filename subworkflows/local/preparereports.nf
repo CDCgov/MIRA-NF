@@ -3,7 +3,7 @@
     IMPORT LOCAL MODULES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { PREPAREMIRAREPORTS   } from '../../modules/local/preparemirareports'
+include { PREPAREMIRAREPORTS } from '../../modules/local/preparemirareports'
 
 workflow PREPAREREPORTS {
     take:
@@ -17,7 +17,8 @@ workflow PREPAREREPORTS {
     //Get run id
     if (params.custom_runid != null) {
         runid = params.custom_runid
-    } else {
+    }
+    else {
         def path = "${params.runpath}"
         def folder_name = new File(path)
         runid = folder_name.name
@@ -29,41 +30,54 @@ workflow PREPAREREPORTS {
     //If sourcepath flag is given, then it will use the sourcepath to point to the reference files and support files in preparemirareports
     if (params.sourcepath == null) {
         support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
-    } else {
+    }
+    else {
         support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
     }
 
     //creating platform value
     if (params.e == 'Flu-Illumina') {
         platform = 'illumina'
-    } else if (params.e == 'SC2-Whole-Genome-Illumina') {
+    }
+    else if (params.e == 'SC2-Whole-Genome-Illumina') {
         platform = 'illumina'
-    } else if (params.e == 'RSV-Illumina') {
+    }
+    else if (params.e == 'RSV-Illumina') {
         platform = 'illumina'
-    } else if (params.e == 'Flu-ONT') {
+    }
+    else if (params.e == 'Flu-ONT') {
         platform = 'ont'
-    } else if (params.e == 'SC2-Spike-Only-ONT') {
+    }
+    else if (params.e == 'SC2-Spike-Only-ONT') {
         platform = 'ont'
-    } else if (params.e == 'SC2-Whole-Genome-ONT') {
+    }
+    else if (params.e == 'SC2-Whole-Genome-ONT') {
         platform = 'ont'
-    } else if (params.e == 'RSV-ONT') {
+    }
+    else if (params.e == 'RSV-ONT') {
         platform = 'ont'
     }
 
     //creating virus value
     if (params.e == 'Flu-Illumina') {
         virus = 'flu'
-    } else if (params.e == 'SC2-Whole-Genome-Illumina') {
+    }
+    else if (params.e == 'SC2-Whole-Genome-Illumina') {
         virus = 'sc2-wgs'
-    } else if (params.e == 'RSV-Illumina') {
+    }
+    else if (params.e == 'RSV-Illumina') {
         virus = 'rsv'
-    } else if (params.e == 'Flu-ONT') {
+    }
+    else if (params.e == 'Flu-ONT') {
         virus = 'flu'
-    } else if (params.e == 'SC2-Spike-Only-ONT') {
+    }
+    else if (params.e == 'SC2-Spike-Only-ONT') {
         virus = 'sc2-spike'
-    } else if (params.e == 'SC2-Whole-Genome-ONT') {
+    }
+    else if (params.e == 'SC2-Whole-Genome-ONT') {
         virus = 'sc2-wgs'
-    } else if (params.e == 'RSV-ONT') {
+    }
+    else if (params.e == 'RSV-ONT') {
         virus = 'rsv'
     }
 
@@ -71,32 +85,35 @@ workflow PREPAREREPORTS {
     if (params.custom_irma_config == null) {
         if (params.irma_module == 'none') {
             irma_config_type_ch = 'default-config'
-        } else {
+        }
+        else {
             irma_config_type_ch = params.irma_module + '-config'
         }
-    } else {
+    }
+    else {
         irma_config_type_ch = 'custom-config'
     }
     //getting path to qc_pass_fail_settings.yml
     if (params.custom_qc_settings == null && params.sourcepath == null) {
         qc_path_ch = "${projectDir}/bin/irma_config/qc_pass_fail_settings.yaml"
-    } else if (params.custom_qc_settings == null && params.sourcepath != null) {
+    }
+    else if (params.custom_qc_settings == null && params.sourcepath != null) {
         qc_path_ch = "${params.sourcepath}/bin/irma_config/qc_pass_fail_settings.yaml"
-        } else {
-            qc_path_ch = params.custom_qc_settings
+    }
+    else {
+        qc_path_ch = params.custom_qc_settings
     }
 
     //create aggregate reports with or without parquet files
     PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
     ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
-    summary_ch  = PREPAREMIRAREPORTS.out.summary_csv
+    summary_ch = PREPAREMIRAREPORTS.out.summary_csv
     nextclade_fasta_files_ch = PREPAREMIRAREPORTS.out.nextclade_fasta_files
 
-
     emit:
-    ch_versions                                    // channel: [ versions.yml ]
-    summary_ch                                   // channel: holds aggregate summary report
-    nextclade_fasta_files_ch                           // channel: holds nextclade fasta file
-    virus                                   // channel: holds virus type
-    runid                           // value: holds run id
+    ch_versions // channel: [ versions.yml ]
+    summary_ch // channel: holds aggregate summary report
+    nextclade_fasta_files_ch // channel: holds nextclade fasta file
+    virus // channel: holds virus type
+    runid // value: holds run id
 }

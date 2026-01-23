@@ -4,12 +4,12 @@ process STAGES3FILES {
     container 'cdcgov/mira-nf:python3.10-alpine'
 
     input:
-    val(runid)
-    val(folder)
-    path(fastq_file, stageAs: '?/*')
+    val runid
+    val folder
+    path fastq_file, stageAs: '?/*'
 
     output:
-    val("${folder}")
+    val "${folder}"
 
     script:
     """
