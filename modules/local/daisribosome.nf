@@ -13,9 +13,6 @@ process DAISRIBOSOME {
     path('*.seq') , emit: dais_seq_output
     path 'versions.yml' , emit: versions
 
-    script:
-    def args = task.ext.args ?: ''
-
     shell:
     '''
     base_name=$(basename !{input_fasta})

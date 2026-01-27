@@ -5,10 +5,10 @@ process MULTIQC {
     container 'cdcgov/multiqc:v1.19-alpine'
 
     input:
-    path  multiqc_files, stageAs: '?/*'
-    path(multiqc_config)
-    path(extra_multiqc_config)
-    path(multiqc_logo)
+    path multiqc_files
+    path multiqc_config
+    path extra_multiqc_config
+    path multiqc_logo
 
     output:
     path '*multiqc_report.html', emit: report
@@ -23,7 +23,7 @@ process MULTIQC {
     def args = task.ext.args ?: ''
     def config = multiqc_config ? "--config $multiqc_config" : ''
     def extra_config = extra_multiqc_config ? "--config $extra_multiqc_config" : ''
-    def logo = multiqc_logo ? /--cl-config 'custom_logo: "${multiqc_logo}"'/ : ''
+    def logo = multiqc_logo ? "--cl-config 'custom_logo: \"${multiqc_logo}\"'" : ''
     """
     multiqc \\
         --force \\
@@ -34,7 +34,8 @@ process MULTIQC {
         .
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":  multiqc \$( multiqc --version | sed -e "s/multiqc, version //g" )
+    "${task.process}":
+        multiqc: \$( multiqc --version | sed -e "s/multiqc, version //g" )
     END_VERSIONS
     """
 
@@ -45,7 +46,8 @@ process MULTIQC {
     touch multiqc_report.html
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}": multiqc \$( multiqc --version | sed -e "s/multiqc, version //g" )
+    "${task.process}":
+        multiqc: \$( multiqc --version | sed -e "s/multiqc, version //g" )
     END_VERSIONS
     """
 }
