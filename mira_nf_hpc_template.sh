@@ -25,7 +25,7 @@ nextflow run <WORKDIR>/MIRA-NF/main.nf \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SET> (optional) \
    --subsample_reads <READ_COUNT> (optional)\
-   --reformat_tables true (optional) \
+   --parquet_files true (optional) \
    --read_qc false (optional) \
 
 ## There are more flag that can be used to customize the run, please see the readme for more details.
