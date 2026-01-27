@@ -64,12 +64,17 @@ lint:
   - .github/workflows/ci.yml
   - .github/workflows/linting_comment.yml
   - .github/workflows/linting.yml
+  - .github/workflows/nf-test.yml
+  - .github/actions/get-shards/action.yml
+  - .github/actions/nf-test/action.yml
   - conf/igenomes.config
   - conf/igenomes_ignored.config
   - assets/multiqc_config.yml
   - conf/base.config
   - conf/modules.config
   - modules.json
+  - nf-test.config
+  - tests/default.nf.test
   - assets/email_template.html
   - assets/sendmail_template.txt
   - assets/email_template.txt
@@ -109,9 +114,9 @@ lint:
 template:
   org: cdcgov
   name: mira-nf
-  description: mira is a bioinformatics pipeline that assembles Influenza 
-    genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when 
-    given the raw fastq files and a samplesheet. mira can analyze reads from 
+  description: mira is a bioinformatics pipeline that assembles Influenza
+    genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when
+    given the raw fastq files and a samplesheet. mira can analyze reads from
     both Illumina and OxFord Nanopore sequencing machines.
   author: Ben Rambo-Martin, Amanda Sullivan, Kristine Lacek and Reina Chau.
   version: 3.3.2
