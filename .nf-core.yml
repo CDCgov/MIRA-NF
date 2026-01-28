@@ -20,5 +20,5 @@ lint:
   - manifest.homePage
 repository_type: pipeline
 template:
-  prefix: mira
+  prefix: mira-nf
   skip: []

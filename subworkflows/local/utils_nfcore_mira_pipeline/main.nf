@@ -1,5 +1,5 @@
 //
-// Subworkflow with functionality specific to the mira-nf/mira pipeline
+// Subworkflow with functionality specific to the cdcgov/mira-nf pipeline
 //
 
 /*

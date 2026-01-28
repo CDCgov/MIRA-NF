@@ -1,6 +1,6 @@
 {
-    "name": "mira-nf/mira",
-    "homePage": "https://github.com/mira-nf/mira",
+    "name": "cdcgov/mira-nf",
+    "homePage": "https://github.com/cdcgov/mira-nf",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {

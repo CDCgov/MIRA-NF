@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the workflow/cli.nf in the mira/cli pipeline
+// This file holds several functions specific to the workflow/cli.nf in the cdcgov/mira-nf pipeline
 //
 
 import nextflow.Nextflow

@@ -1,8 +1,8 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/cdcgov/mira/master/nextflow_schema.json",
-    "title": "cdcgov/mira pipeline parameters",
-    "description": "mira is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. mira can analyze reads from both Illumina and OxFord Nanopore sequencing machines.",
+    "$id": "https://raw.githubusercontent.com/cdcgov/mira-nf/master/nextflow_schema.json",
+    "title": "cdcgov/mira-nf pipeline parameters",
+    "description": "MIRA is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. MIRA can analyze reads from both Illumina and OxFord Nanopore sequencing machines.",
     "type": "object",
     "$defs": {
         "input_output_options": {
