@@ -10,7 +10,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-workflow MIRA {
+workflow MIRA-NF {
 
     take:
     ch_samplesheet // channel: samplesheet read in from --input

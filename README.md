@@ -11,7 +11,7 @@
 -->
 
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
+     workflows use the "tube map" design for that. See https://nf-co.re/docs/guidelines/graphic_design/workflow_diagrams#examples for examples.   -->
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
 ## Usage
@@ -51,7 +51,7 @@ nextflow run cdcgov/mira-nf \
 
 ## Credits
 
-cdcgov/-nf was originally written by Ben Rambo-Martin, Amanda Sullivan, Kristine Lacek and Reina Chau..
+cdcgov/mira-nf was originally written by Ben Rambo-Martin, Amanda Sullivan, Kristine Lacek and Reina Chau..
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 

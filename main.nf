@@ -13,7 +13,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { MIRA  } from './workflows/mira'
+include { MIRA-NF  } from './workflows/mira-nf'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
@@ -23,7 +23,7 @@ include { MIRA  } from './workflows/mira'
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow CDCGOV_MIRA {
+workflow CDCGOV_MIRA-NF {
 
     take:
     samplesheet // channel: samplesheet read in from --input
@@ -33,7 +33,7 @@ workflow CDCGOV_MIRA {
     //
     // WORKFLOW: Run pipeline
     //
-    MIRA (
+    MIRA-NF (
         samplesheet
     )
 }
@@ -50,7 +50,7 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    CDCGOV_MIRA (
+    CDCGOV_MIRA-NF (
         params.input
     )
 }

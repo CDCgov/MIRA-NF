@@ -1,24 +1,138 @@
 lint:
+  base_config: false
   files_exist:
-  - CODE_OF_CONDUCT.md
-  - assets/nf-core-cli_logo_light.png
-  - docs/images/nf-core-cli_logo_light.png
-  - docs/images/nf-core-cli_logo_dark.png
-  - .github/ISSUE_TEMPLATE/config.yml
-  - .github/workflows/awstest.yml
-  - .github/workflows/awsfulltest.yml
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/CONTRIBUTING.md
+    - .github/.dockstore.yml
+    - .github/workflows/branch.yml
+    - .github/workflows/ci.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - .github/workflows/nf-test.yml
+    - .github/actions/get-shards/action.yml
+    - .github/actions/nf-test/action.yml
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - assets/multiqc_config.yml
+    - conf/base.config
+    - conf/modules.config
+    - modules.json
+    - nf-test.config
+    - tests/default.nf.test
+    - assets/email_template.html
+    - assets/sendmail_template.txt
+    - assets/email_template.txt
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/CONTRIBUTING.md
+    - .github/.dockstore.yml
+    - .github/workflows/branch.yml
+    - .github/workflows/ci.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - assets/multiqc_config.yml
+    - conf/base.config
+    - conf/modules.config
+    - modules.json
+    - assets/email_template.html
+    - assets/sendmail_template.txt
+    - assets/email_template.txt
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-mira-nf_logo_light.png
+    - docs/images/nf-core-mira-nf_logo_light.png
+    - docs/images/nf-core-mira-nf_logo_dark.png
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
   files_unchanged:
-  - CODE_OF_CONDUCT.md
-  - assets/nf-core-cli_logo_light.png
-  - docs/images/nf-core-cli_logo_light.png
-  - docs/images/nf-core-cli_logo_dark.png
-  - .github/ISSUE_TEMPLATE/bug_report.yml
-  multiqc_config:
-  - report_comment
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/workflows/branch.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - .github/CONTRIBUTING.md
+    - .github/.dockstore.yml
+    - .github/CONTRIBUTING.md
+    - .github/CONTRIBUTING.md
+    - assets/sendmail_template.txt
+    - .prettierignore
+    - .prettierignore
+    - .prettierignore
+    - .prettierignore
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/workflows/branch.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - .github/CONTRIBUTING.md
+    - .github/.dockstore.yml
+    - .github/CONTRIBUTING.md
+    - .github/CONTRIBUTING.md
+    - assets/sendmail_template.txt
+    - .prettierignore
+    - .prettierignore
+    - .prettierignore
+    - .prettierignore
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-mira_logo_light.png
+    - docs/images/nf-core-mira_logo_light.png
+    - docs/images/nf-core-mira_logo_dark.png
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/CONTRIBUTING.md
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - assets/email_template.txt
+    - docs/README.md
+  modules_config: false
+  modules_json: false
+  multiqc_config: false
   nextflow_config:
-  - manifest.name
-  - manifest.homePage
+    - manifest.name
+    - manifest.homePage
+    - validation.help.beforeText
+    - validation.help.afterText
+    - validation.summary.beforeText
+    - validation.summary.afterText
+  nfcore_components: false
+  readme:
+    - nextflow_badge
+    - nextflow_badge
+    - nextflow_badge
+nf_core_version: 3.3.2
 repository_type: pipeline
 template:
-  prefix: mira-nf
-  skip: []
+  author: Ben Rambo-Martin, Amanda Sullivan, Kristine Lacek and Reina Chau.
+  description: mira is a bioinformatics pipeline that assembles Influenza genomes,
+    SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw
+    fastq files and a samplesheet. mira can analyze reads from both Illumina and OxFord
+    Nanopore sequencing machines.
+  force: false
+  is_nfcore: false
+  name: mira-nf
+  org: cdcgov
+  outdir: .
+  skip_features:
+    - github
+    - ci
+    - igenomes
+    - github_badges
+    - gitpod
+    - codespaces
+    - multiqc
+    - fastqc
+    - modules
+    - email
+    - adaptivecard
+    - slackreport
+    - seqera_platform
+    - rocrate
+    - vscode
+  version: 3.3.2
