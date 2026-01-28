@@ -14,7 +14,7 @@
 */
 
 include { MIRA } from './workflows/mira'
-TEMPLATE
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
@@ -29,7 +29,7 @@ workflow CDCGOV_MIRA_NF {
 
 
     MIRA()
- TEMPLATE
+
 }
 
 /*
