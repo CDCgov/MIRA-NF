@@ -21,18 +21,18 @@ process SC2TRIMPRIMERS {
 
     """
     irma-core trimmer  \\
-        ${subsampled_fastq_1} \\
-	    ${subsampled_fastq_2} \\
-	    -1 ${sample}_ptrim_R1.fastq \\
-	    -2 ${sample}_ptrim_R2.fastq \\
-	    --primer-trim ${primers} \\
-	    --p-end B \\
-	    --polyg-trim 10 \\
-	    --p-fuzzy \\
-	    --p-kmer-length ${primer_kmer_len} \\
-	    --p-restrict ${primer_restrict_window} \\
-        1> ${sample}.primertrim.stdout.log \\
-        2> ${sample}.primertrim.stderr.log
+         ${subsampled_fastq_1} \\
+	     ${subsampled_fastq_2} \\
+	     -1 ${sample}_ptrim_R1.fastq \\
+	     -2 ${sample}_ptrim_R2.fastq \\
+	     --primer-trim ${primers} \\
+	     --p-end B \\
+	     --polyg-trim 10 \\
+	     --p-fuzzy \\
+	     --p-kmer-length ${primer_kmer_len} \\
+	     --p-restrict ${primer_restrict_window} \\
+         1> ${sample}.primertrim.stdout.log \\
+         2> ${sample}.primertrim.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": sc2trimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')

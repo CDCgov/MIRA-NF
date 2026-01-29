@@ -16,7 +16,7 @@ process CONFIRMIRMAOUTPUT {
 
     """
     [ -d ${sample}/amended_consensus ] &&
-        [ \"\$(ls -A ${sample}/amended_consensus)\" ] &&
+         [ \"\$(ls -A ${sample}/amended_consensus)\" ] &&
          echo passed > ${sample}.irma.decision ||
          echo failed > ${sample}.irma.decision
     """
