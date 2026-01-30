@@ -1,28 +1,18 @@
+x-mira-nf-git-repo: &mira-nf-git-repo https://github.com/CDCgov/MIRA-NF.git#master
 
-x-mira-nf-git-repo:
-  &mira-nf-git-repo
-  https://github.com/CDCgov/MIRA-NF.git#master
+x-python-version: &python-version python3.10
 
-x-python-version:
-  &python-version
-  python3.10
+x-pyarrow-image: &pyarrow-image cdcgov/pyarrow:v17.0.0-alpine
 
-x-pyarrow-image:
-  &pyarrow-image
-  cdcgov/pyarrow:v17.0.0-alpine
+x-mira-nf-image: &mira-nf-image mira-nf:python3.10-alpine
 
-x-mira-nf-image:
-  &mira-nf-image
-  mira-nf:python3.10-alpine
-
-x-data-volume:
-  &data-volume
+x-data-volume: &data-volume
   type: bind
   source: /home/snu3/Github/FLU_SC2_SEQUENCING
   target: /data
 
 services:
-  mira-nf: 
+  mira-nf:
     container_name: mira-nf
     image: *mira-nf-image
     build:

@@ -36,8 +36,8 @@ B	HA	121	N	inference description
 
 # Input Parameters for din_positions_of_interest Workflow
 
- Flag       | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
+| Flag       | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
 | `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
 | `input`    | `<FILE_PATH>/DAIS_ribosome_input.fasta` with the format described above. The full file path is required.                         |
 | `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
@@ -47,8 +47,8 @@ B	HA	121	N	inference description
 
 ### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
 
-| Flag                  | Description                                                                                                                                                                                                                       |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Flag       | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
 | `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
 | `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.
 

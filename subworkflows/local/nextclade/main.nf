@@ -3,18 +3,17 @@
     IMPORT LOCAL MODULES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { GETNEXTCLADEDATASET     } from "../../../modules/local/getnextcladedataset/main"
-include { RUNNEXTCLADE            } from "../../../modules/local/runnextclade/main"
-include { UPDATEMIRASUMMARY       } from "../../../modules/local/updatemirasummary/main"
+include { GETNEXTCLADEDATASET } from "../../../modules/local/getnextcladedataset/main"
+include { RUNNEXTCLADE } from "../../../modules/local/runnextclade/main"
+include { UPDATEMIRASUMMARY } from "../../../modules/local/updatemirasummary/main"
 
 workflow NEXTCLADE {
-
     take:
-    nextclade_fasta_files_ch  // channel: holds amended consensus fasta file
-    summary_ch               // channel: holds summary information
-    virus                  // value: virus type
-    runid                  // value: run id
-    ch_versions           // channel: holds all previous version
+    nextclade_fasta_files_ch // channel: holds amended consensus fasta file
+    summary_ch // channel: holds summary information
+    virus // value: virus type
+    runid // value: run id
+    ch_versions // channel: holds all previous version
 
     main:
 
@@ -28,20 +27,20 @@ workflow NEXTCLADE {
         "flu_vic_na",
         "rsv_a",
         "rsv_b",
-        "sars-cov-2"
+        "sars-cov-2",
     ]
 
     // Most recent Nextclade dataset tags
     def nextclade_tags = [
-        "flu_h3n2_ha"    : "2024-11-27--02-51-00Z",
-        "flu_h1n1pdm_ha" : "2024-11-27--02-51-00Z",
-        "flu_vic_ha"     : "2024-01-16--20-31-02Z",
-        "flu_h3n2_na"    : "2024-11-05--09-19-52Z",
-        "flu_h1n1pdm_na" : "2024-11-05--09-19-52Z",
-        "flu_vic_na"     : "2024-01-16--20-31-02Z",
-        "rsv_a"          : "2025-08-25--09-00-35Z",
-        "rsv_b"          : "2024-08-01--22-31-31Z",
-        "sars-cov-2"     : "2024-04-25--01-03-07Z"
+        "flu_h3n2_ha": "2024-11-27--02-51-00Z",
+        "flu_h1n1pdm_ha": "2024-11-27--02-51-00Z",
+        "flu_vic_ha": "2024-01-16--20-31-02Z",
+        "flu_h3n2_na": "2024-11-05--09-19-52Z",
+        "flu_h1n1pdm_na": "2024-11-05--09-19-52Z",
+        "flu_vic_na": "2024-01-16--20-31-02Z",
+        "rsv_a": "2025-08-25--09-00-35Z",
+        "rsv_b": "2024-08-01--22-31-31Z",
+        "sars-cov-2": "2024-04-25--01-03-07Z",
     ]
 
     // Assume channel carrying paths to generated FASTAs
@@ -57,14 +56,15 @@ workflow NEXTCLADE {
                 def tag = nextclade_tags[dataset_name]
 
                 tuple(path_obj, dataset_name, tag)
-            } else {
+            }
+            else {
                 null
             }
         }
         .filter { it != null }
         .set { nextclade_dataset_ch }
 
-        //nextclade_dataset_ch.view()
+    //nextclade_dataset_ch.view()
 
     GETNEXTCLADEDATASET(nextclade_dataset_ch)
     ch_versions = ch_versions.mix(GETNEXTCLADEDATASET.out.versions)
@@ -81,13 +81,10 @@ workflow NEXTCLADE {
     versions_path_ch = ch_versions
         .collectFile(
             name: 'collated_versions.yml',
-            storeDir: "${params.outdir}/pipeline_info"
+            storeDir: "${params.outdir}/pipeline_info",
         )
         .map { file ->
-            def uniqueLines = file.text
-                .readLines()
-                .unique()
-                .join('\n') + '\n'
+            def uniqueLines = file.text.readLines().unique().join('\n') + '\n'
 
             def out = file.parent.resolve('collated_versions.unique.yml')
             out.text = uniqueLines
@@ -97,5 +94,5 @@ workflow NEXTCLADE {
     versions_path_ch.view()
 
     emit:
-    versions = ch_versions                     // channel: [ versions.yml ]
+    versions = ch_versions // channel: [ versions.yml ]
 }

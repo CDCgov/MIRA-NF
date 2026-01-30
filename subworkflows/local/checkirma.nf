@@ -4,9 +4,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CONFIRMIRMAOUTPUT  } from '../../modules/local/confirmirmaoutput'
-include { PASSFAILED         } from '../../modules/local/passfailed'
-include { CREATEDAISINPUT    } from '../../modules/local/createdaisinput'
+include { CONFIRMIRMAOUTPUT } from '../../modules/local/confirmirmaoutput'
+include { PASSFAILED } from '../../modules/local/passfailed'
+include { CREATEDAISINPUT } from '../../modules/local/createdaisinput'
 
 workflow CHECKIRMA {
     take:
@@ -28,6 +28,5 @@ workflow CHECKIRMA {
     dais_ch = CREATEDAISINPUT(passedSamples.collect())
 
     emit:
-    dais_ch                    // channel: paths to dais inputs
+    dais_ch // channel: paths to dais inputs
 }
-

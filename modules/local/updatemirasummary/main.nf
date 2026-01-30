@@ -10,11 +10,10 @@ process UPDATEMIRASUMMARY {
     val virus
     val runid
 
-
     output:
-    path('*.csv'), emit: summary_csv
-    path('*.parq', emit: summary_parq, optional: true)
-    path "versions.yml"           , emit: versions
+    path ('*.csv'), emit: summary_csv
+    path '*.parq', emit: summary_parq, optional: true
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -45,9 +44,7 @@ process UPDATEMIRASUMMARY {
     def args = task.ext.args ?: ''
 
     """
-    echo $args
-
-    touch ${prefix}.bam
+    echo ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": updatemirasummary: mira-oxide \$(mira-oxide --version |& sed '1!d; s/python3 //')

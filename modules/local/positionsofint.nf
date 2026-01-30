@@ -10,7 +10,7 @@ process POSITIONSOFINT {
 
     output:
     path "*", emit: position_of_int
-    path "versions.yml"           , emit: versions
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -18,7 +18,7 @@ process POSITIONSOFINT {
     script:
     def args = task.ext.args ?: ''
 
-   """
+    """
     mira-oxide positions-of-interest -i ${dais_seq_output} -r ${ref_table} -o positions_of_interest.csv -m ${position_of_int_table} -v ${virus}
 
     cat <<-END_VERSIONS > versions.yml

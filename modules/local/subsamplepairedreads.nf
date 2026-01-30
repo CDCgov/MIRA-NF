@@ -11,7 +11,7 @@ process SUBSAMPLEPAIREDREADS {
     tuple val(sample), path('*_subsampled_R1.fastq'), path('*_subsampled_R2.fastq'), path(primers), val(primer_kmer_len), val(primer_restrict_window), emit: subsampled_fastq
     path '*.subsampler.stdout.log', emit: subsample_log_out
     path '*.subsampler.stderr.log', emit: subsample_log_err
-    path 'versions.yml'           , emit: versions
+    path 'versions.yml', emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -37,7 +37,6 @@ process SUBSAMPLEPAIREDREADS {
     stub:
     def args = task.ext.args ?: ''
     """
-    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

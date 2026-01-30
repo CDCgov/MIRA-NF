@@ -1,4 +1,4 @@
-# cdcgov/mira: Changelog
+# cdcgov/mira-nf: Changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Added `custom_runid` flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.
 - [PR #95](https://github.com/CDCgov/MIRA-NF/pull/95) - Added arm64 profiles for improved compatibilaty.
 - [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - Added Nextclade subworkflow that gets a nextclade database base on subtpye (and segment for flu) and runs nextclade when the `--nextclade` flag is used.
+- [PR #97](https://github.com/CDCgov/MIRA-NF/pull/96) - Updated nf-core template to v3.3.2 and fixed formatting and whitespace issues.
 
 ### `Fixed`
 

@@ -31,8 +31,6 @@ process NEXTFLOWSAMPLESHEETI {
     def args = task.ext.args ?: ''
 
     """
-    touch ${prefix}
-
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": nextflowsamplesheeti: \$(python3 --version |& sed '1!d ; /python //')
     END_VERSIONS

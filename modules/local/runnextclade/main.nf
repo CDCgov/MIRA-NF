@@ -8,15 +8,15 @@ process RUNNEXTCLADE {
     tuple val(dataset_name), path(nextclade_fastq_files), path(nextclade_dataset)
 
     output:
-    tuple val(dataset_name), path("${dataset_name}.csv")           , optional:true, emit: csv
-    path("${dataset_name}.tsv")           , optional:true, emit: tsv
-    tuple val(dataset_name), path("${dataset_name}.json")          , optional:true, emit: json
-    tuple val(dataset_name), path("${dataset_name}.auspice.json")  , optional:true, emit: json_auspice
-    tuple val(dataset_name), path("${dataset_name}.ndjson")        , optional:true, emit: ndjson
-    tuple val(dataset_name), path("${dataset_name}.aligned.fasta") , optional:true, emit: fasta_aligned
-    tuple val(dataset_name), path("*_translation.*.fasta")   , optional:true, emit: fasta_translation
-    tuple val(dataset_name), path("${dataset_name}.nwk")           , optional:true, emit: nwk
-    path "versions.yml"                              , emit: versions
+    tuple val(dataset_name), path("${dataset_name}.csv"), optional: true, emit: csv
+    path ("${dataset_name}.tsv"), optional: true, emit: tsv
+    tuple val(dataset_name), path("${dataset_name}.json"), optional: true, emit: json
+    tuple val(dataset_name), path("${dataset_name}.auspice.json"), optional: true, emit: json_auspice
+    tuple val(dataset_name), path("${dataset_name}.ndjson"), optional: true, emit: ndjson
+    tuple val(dataset_name), path("${dataset_name}.aligned.fasta"), optional: true, emit: fasta_aligned
+    tuple val(dataset_name), path("*_translation.*.fasta"), optional: true, emit: fasta_translation
+    tuple val(dataset_name), path("${dataset_name}.nwk"), optional: true, emit: nwk
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -27,12 +27,12 @@ process RUNNEXTCLADE {
     """
     nextclade \\
         run \\
-        --jobs $task.cpus \\
+        --jobs ${task.cpus} \\
         --input-dataset ${nextclade_dataset}\\
         --output-all ./ \\
         --output-basename ${dataset_name} \\
         ${nextclade_fastq_files} \\
-        $args
+        ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": runnextclade: nextclade \$(echo \$(nextclade --version 2>&1) | sed 's/^.*nextclade //; s/ .*\$//')
@@ -43,7 +43,7 @@ process RUNNEXTCLADE {
     def args = task.ext.args ?: ''
 
     """
-    echo $args
+    echo ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": runnextclade: nextclade \$(echo \$(nextclade --version 2>&1) | sed 's/^.*nextclade //; s/ .*\$//')

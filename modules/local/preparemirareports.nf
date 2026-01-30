@@ -53,8 +53,6 @@ process PREPAREMIRAREPORTS {
 
     stub:
     """
-    touch ${prefix}
-
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": preparemirareports: mira-oxide \$(mira-oxide --version |& sed '1!d; s/mira-oxide //')
     END_VERSIONS

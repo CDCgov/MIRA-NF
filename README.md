@@ -33,12 +33,12 @@ MIRA-NF performs these steps for genome assembly and curation:
 
 #### MIRA-NF is able to analyze 7 data types:
 
-|                | Illumina | ONT |
-|----------------|--------------|---------|
-| Influenza            |   🥳         | 🥳       |
-| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 |
-| SARS-CoV-2 :: Spike-only            |            |    🥳   |
-| RSV            |       🥳       |     🥳    |
+|   | Illumina | ONT |
+|---|---|---|
+| Influenza   |   🥳   |   🥳   |
+| SARS-CoV-2 :: Whole Genome   |   🥳   |   🥳   |
+| SARS-CoV-2 :: Spike-only   |   |   🥳   |
+| RSV   |   🥳   |   🥳   |
 
 ![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v6.png)
 *MIRA-NF workflows*
@@ -117,8 +117,8 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 # Input Parameters for MIRA-NF Workflows
 
-| Flag       | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
+| Flag       | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
 | `profile`  | singularity, singularity_arm64, docker, docker_arm64, podman, podman_arm64, local, sge, slurm. You can use docker, podman or singularity. Use local for running on local computer and sge or slurm for HPC's.   |
 | `input`    | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                         |
 | `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
@@ -127,8 +127,8 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 ### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used with SC2 and RSV pipelines*
 
-| Flag                  | Description                                                                                                                                                                                                                       |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Flag       | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
 | `p`                   | Provide a built-in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided** |
 | `custom_primers`      | Provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **primer_kmer_len and primer_restrict_window flags must also be used with this flag**                      |
 | `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |
@@ -221,7 +221,7 @@ cdcgov/mira-nf is developed and maintained by Amanda Sullivan (maintainer), Kris
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
-This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
+This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/main/LICENSE).
 
 > **The nf-core framework for community-curated bioinformatics pipelines.**
 >

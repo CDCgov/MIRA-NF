@@ -11,7 +11,7 @@ process SUBSAMPLESINGLEREADS {
     tuple val(sample), val(barcode), path('*_subsampled.fastq'), emit: subsampled_fastq
     path '*.subsampler.stdout.log', emit: subsample_log_out
     path '*.subsampler.stderr.log', emit: subsample_log_err
-    path 'versions.yml'           , emit: versions
+    path 'versions.yml', emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -36,7 +36,6 @@ process SUBSAMPLESINGLEREADS {
     def args = task.ext.args ?: ''
 
     """
-    touch ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

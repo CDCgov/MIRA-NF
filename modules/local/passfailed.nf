@@ -3,10 +3,10 @@ process PASSFAILED {
     label 'process_single'
 
     input:
-    val(sample)
+    val sample
 
     output:
-    path('*')
+    path '*'
 
     when:
     task.ext.when == null || task.ext.when
