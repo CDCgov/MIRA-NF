@@ -65,7 +65,7 @@ RUN dos2unix ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 RUN chmod a+x ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 # Execute bash script to wget the file and tar the package
-RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh  
+RUN bash ${PROJECT_DIR}/fixed_vulnerability_pkgs.sh
 
 ############# Remove vulnerability pkgs ##################
 
@@ -93,7 +93,7 @@ RUN rm -rf /usr/local/lib/${python_version}/site-packages/pip/_vendor \
     && rm -rf ${PROJECT_DIR}/blast \
     && rm -rf ${PROJECT_DIR}/fastqc \
     && rm -rf ${PROJECT_DIR}/multiqc \
-    && rm -rf ${PROJECT_DIR}/pyarrow 
+    && rm -rf ${PROJECT_DIR}/pyarrow
 
 ############# Set up working directory ##################
 
@@ -104,8 +104,7 @@ ENV WORKDIR=/data
 VOLUME ${WORKDIR}
 
 # Set up working directory in docker
-WORKDIR ${WORKDIR}    
+WORKDIR ${WORKDIR}
 
 # Export project directory to PATH
 ENV PATH "$PATH:${PROJECT_DIR}"
-
