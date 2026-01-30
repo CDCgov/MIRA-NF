@@ -21,14 +21,14 @@ process TRIMBARCODES {
 
     """
     irma-core trimmer  \\
-        ${subsample_file_path} \\
-	    -o ${sample}_trimmed.fastq \\
-	    --barcode-trim ${seq} \\
-	    --b-end b \\
-	    --b-hdist 3 \\
-	    --hard-trim 30 \\
-        1> ${sample}.${barcode}.bartrim.stdout.log \\
-        2> ${sample}.${barcode}.bartrim.stderr.log
+         ${subsample_file_path} \\
+	     -o ${sample}_trimmed.fastq \\
+	     --barcode-trim ${seq} \\
+	     --b-end b \\
+	     --b-hdist 3 \\
+	     --hard-trim 30 \\
+         1> ${sample}.${barcode}.bartrim.stdout.log \\
+         2> ${sample}.${barcode}.bartrim.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": bartrim_irma-core: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
