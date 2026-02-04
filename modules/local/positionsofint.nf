@@ -19,7 +19,7 @@ process POSITIONSOFINT {
     def args = task.ext.args ?: ''
 
     """
-    mira-oxide positions-of-interest -i ${dais_seq_output} -r ${ref_table} -o positions_of_interest.csv -m ${position_of_int_table} -v ${virus}
+    mira-oxide positions-of-interest -i ${dais_seq_output} -r ${ref_table} -o positions_of_interest.csv -m ${position_of_int_table}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": positionsofint: mira-oxide \$(mira-oxide --version |& sed '1!d ; s/mira-oxide //')
