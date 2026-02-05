@@ -9,8 +9,7 @@
 //
 include { STAGES3FILES        } from '../modules/local/stages3files'
 include { CONCATFASTQS         } from '../modules/local/concatfastqs'
-include { NEXTFLOWSAMPLESHEETI } from '../modules/local/nextflowsamplesheeti'
-include { NEXTFLOWSAMPLESHEETO } from '../modules/local/nextflowsamplesheeto'
+include { NEXTFLOWSAMPLESHEET } from '../modules/local/nextflowsamplesheet'
 include { INPUT_CHECK          } from '../subworkflows/local/input_check'
 include { READQC               } from '../subworkflows/local/readqc'
 include { PREPILLUMINAREADS    } from '../subworkflows/local/prepilluminareads'
@@ -111,15 +110,15 @@ workflow flu_i {
 
         }
 
-        NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END
 
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
         //save samplesheet as the nf sample
@@ -291,15 +290,15 @@ workflow flu_o {
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
         // OMICS & Local END
 
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
         //save samplesheet as the nf sample
@@ -471,15 +470,15 @@ workflow sc2_spike_o {
         concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
         // OMICS & Local END
 
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
         //save samplesheet as the nf sample
@@ -619,15 +618,15 @@ workflow sc2_wgs_o {
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
         // OMICS & Local END
 
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
         //save samplesheet as the nf sample
@@ -813,16 +812,16 @@ workflow sc2_wgs_i {
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
         }
 
-        NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END
 
-        // NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+        // NEXTFLOWSAMPLESHEET(samplesheet_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
         // save samplesheet as the nf sample
@@ -1006,15 +1005,15 @@ workflow rsv_i {
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
         }
 
-        NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, sequences_ch, experiment_type_ch)
         // OMICS & Local PLATFORM: END
-        // NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+        // NEXTFLOWSAMPLESHEET(samplesheet_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
         // save samplesheet as the nf sample
@@ -1183,16 +1182,16 @@ workflow rsv_o {
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
         // OMICS & Local END
 
-        // NEXTFLOWSAMPLESHEETO(samplesheet_ch, experiment_type_ch, CONCATFASTQS.out)
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+        // NEXTFLOWSAMPLESHEET(samplesheet_ch, experiment_type_ch, CONCATFASTQS.out)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
         // save samplesheet as the nf sample
