@@ -1,8 +1,7 @@
 process SAMPLESHEET_CHECK {
     label 'process_single'
 
-    conda 'conda-forge::python=3.8.3'
-    container 'cdcgov/mira-nf:python3.10-alpine'
+    container 'cdcgov/mira-oxide:v1.4.0'
 
     input:
     path samplesheet
@@ -17,12 +16,10 @@ process SAMPLESHEET_CHECK {
     script:
     // This script is bundled with the pipeline, in mira/cli/bin/
     """
-    check_samplesheet.py \\
-        ${samplesheet} \\
-        samplesheet.valid.csv
+    mira-oxide samplesheet-check -i ${samplesheet} -o samplesheet.valid.csv
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}": python \$(python --version | sed 's/Python //g')
+    "${task.process}": mira-oxide \$(mira-oxide --version |& sed '1!d; s/mira-oxide //')
     END_VERSIONS
     """
 }

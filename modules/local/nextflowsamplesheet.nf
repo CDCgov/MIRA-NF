@@ -10,6 +10,7 @@ process NEXTFLOWSAMPLESHEET {
 
     output:
     path 'nextflow_samplesheet.csv', emit: nf_samplesheet
+    path ('bad_samples.tsv', emit: bad_samples, optional: true)
     path 'versions.yml', emit: versions
 
     when:
@@ -26,7 +27,7 @@ process NEXTFLOWSAMPLESHEET {
     fi
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}": nextflowsamplesheet: \$(python3 --version |& sed '1!d ; s/python //')
+    "${task.process}": nextflowsamplesheet: mira-oxide \$(mira-oxide --version |& sed '1!d; s/mira-oxide //')
     END_VERSIONS
     """
 
@@ -35,7 +36,7 @@ process NEXTFLOWSAMPLESHEET {
 
     """
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}": nextflowsamplesheet: \$(python3 --version |& sed '1!d ; /python //')
+    "${task.process}": nextflowsamplesheet: mira-oxide \$(mira-oxide --version |& sed '1!d; s/mira-oxide //')
     END_VERSIONS
     """
 }
