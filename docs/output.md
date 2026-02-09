@@ -21,24 +21,25 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 ## Output Structure
 
 ```bash
-|---outputs
-    |---aggregate_outputs
-        |---multiqc  (when applicable) --> multiqc outputs
-        |---dais-ribosome -> dais inputs and outputs
-        |---dash-json -> json files
-        |---mira-reports -> the aggregated fasta files and html files
-        |---csv-reports -> CSV summary files
-        |---parquet-reports (when applicable)
-    |---Sample_ID
-        |---subsampled-reads (when applicable) -> fastqs and log files
-        |---barcode-trimmed-reads (when applicable) -> fastqs and log files
-        |---primer-trimmed-reads (when applicable) -> fastqs and log files
-        |---IRMA/Sample_ID -> IRMA outputs and log files
-        |---IRMA-negative (when applicable)
+|---outputs/
+    |---aggregate_outputs/
+        |---multiqc/  (when applicable) --> multiqc outputs
+        |---dais-ribosome/ -> dais inputs and outputs
+        |---dash-json/ -> json files
+        |---mira-reports/ -> the aggregated fasta files and html files
+        |---csv-reports/ -> CSV summary files
+        |---parquet-reports/ (when applicable)
+    |---Sample_ID/
+        |---subsampled-reads/ (when applicable) -> fastqs and log files
+        |---barcode-trimmed-reads/ (when applicable) -> fastqs and log files
+        |---primer-trimmed-reads/ (when applicable) -> fastqs and log files
+        |---IRMA/Sample_ID/ -> IRMA outputs and log files
+        |---IRMA-negative/ (when applicable)
     |---nextclade -> Inputs and outputs for Nextclade
-        |---input_fasta_files -> Input FASTA files for running Nextclade
-    |---fastq_pass -> ONT data only – concatenated fastqs
-    |---pipeline_info -> execution reports
+        |---input_fasta_files/ -> Input FASTA files for running Nextclade
+        |--- All nextclade outputs files including aligned fastas, auspice json, and csv files.
+    |---fastq_pass/ -> ONT data only – concatenated fastqs
+    |---pipeline_info/ -> execution reports, sad_samples.tsv and program versions file
 ```
 
 ### MultiQC

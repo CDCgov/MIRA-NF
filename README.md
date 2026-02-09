@@ -40,10 +40,10 @@ MIRA-NF performs these steps for genome assembly and curation:
 | SARS-CoV-2 :: Spike-only   |   |   🥳   |
 | RSV   |   🥳   |   🥳   |
 
-![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v6.png)
+![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v7.png)
 *MIRA-NF workflows*
 
-## Usage
+# Usage
 
 > To run this pipeline you will need to have these programs installed:
 
@@ -65,30 +65,42 @@ First, prepare a samplesheet with your input data that looks as follows:
 Illumina data should be set up as follows:
 
 ```csv
-Sample ID,Sample Type
+sample_id,sample_type
 sample_1,Test
 sample_2,Test
 sample_3,Test
 sample_4,Test
 ```
+Each row represents a sample.
+
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `sample_id`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`).  |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
 
 Oxford Nanopore data should be set up as follows:
 
 ```csv
-Barcode #,Sample ID,Sample Type
+barcode,sample_id,sample_type
 barcode07,s1,Test
 barcode37,s2,Test
 barcode41,s3,Test
 ```
-
 Each row represents a sample.
+
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `barcode`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07  |
+| `sample_id` | Custom sample name. Convert all spaces in sample names to underscores (`_`).  |
+| `sample_type` | The sample type for the given sample. Ex: test, positive, negative, etc.  |
 
 **Important things to note about samplesheet:**
 
 - Sample names within the "Sample ID" column need to be unique.
-- Be sure that sample names are not nested within another sample name (i.e. having sample_1 and sample_1_1)
+- The headers must be named as seen above.
 - Be sure that there are no empty lines at the end of the samplesheet.
 - For Illumina samples be sure that you have read 1 and read 2 for all samples in samplesheet.
+- Illumina fastq file must be in this format: {sample_id}_R1\*fastq\* or {sample_id}_R1\*fq\* AND {sample_id}_R2\*fastq\* or {sample_id}_R2\*fq\*
 
 **To use the nextflow samplesheet setup please refer to the usage document (../assets/usage.md). USING THE NEXTFLOW SAMPLESHEET SET UP WITH ONT DATA WILL REQUIRE YOU TO COMBINE ONT FASTQS YOURSELF.**
 
