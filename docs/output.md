@@ -231,8 +231,6 @@ A sequence file output example:
 | 11209 | B_HA | PHUKET3073 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false | false | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45 | 1..45 |
 
 ### PrepareMIRAReports
-
-<details markdown="1">
 <summary>Output files</summary>
 
 The collected results from IRMA and DAIS-Ribosome in JSON files - These are for vizualizing in MIRA-GUI
@@ -407,6 +405,23 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
 Optional collected results from IRMA and DAIS-Ribosome in PARQ files
 - `aggregate_outputs/parquet-reports/`
   - mira_<runid>_all_alleles.parq
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample_id | Unique identifier for the sample. |
+    | reference | Name of the gene segment or genome assembled. |
+    | position | Site or position from the beginning of the assembled consensus. |
+    | allele | Nucleotide allele observed at this position. |
+    | allele_count | Number of reads supporting this allele at the position. |
+    | total_count | Total coverage depth at the position for all alleles (excluding ambiguous nucleotides). |
+    | allele_frequency | Frequency of the allele at this position (Count / Total). |
+    | average_quality | Average base quality score for reads supporting this allele. |
+    | confidence_not_machine_error | Confidence that the allele is not due to machine/sequence error (see formula). |
+    | allele_aype | Classification of allele: either plurality consensus allele or minority allele. |
+    | run_id | Sequencing run identifier. |
+    | instrument | Sequencing instrument used. |
+    | reference_upstream_position | (optional) Reference position immediately upstream of the allele. Present with SC2-Spike data. |
+
+    **All other files as described previously**
   - mira_<runid>_amended_consensus.parq
   - mira_<runid>_amino_acid_consensus.parq
   - mira_<runid>_coverage.parq
@@ -417,7 +432,7 @@ Optional collected results from IRMA and DAIS-Ribosome in PARQ files
   - mira_<runid>_samplesheet.parq
   - mira_<runid>_summary.parq
 
-</details>
+
 
 ### Nextclade
 - `nextclade/input_fasta_files/` - potential input fasta files
