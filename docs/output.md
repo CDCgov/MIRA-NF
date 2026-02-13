@@ -235,9 +235,8 @@ A sequence file output example:
 <details markdown="1">
 <summary>Output files</summary>
 
-The collected results from IRMA and DAIS-Ribosome in JSON files
+The collected results from IRMA and DAIS-Ribosome in JSON files - These are for vizualizing in MIRA-GUI
 - `aggregate_outputs/dash-json/`
-  - alleles.json
   - barcode_distribution.json
   - coveragefig_sample_#_linear.json
   - coverage.json
@@ -245,6 +244,7 @@ The collected results from IRMA and DAIS-Ribosome in JSON files
   - heatmap.json
   - indels.json
   - irma_summary.json
+  - minor_variants.json
   - nt_sequences.json
   - pass_fail_heatmap.json
   - pass_fail_qc.json
@@ -269,7 +269,6 @@ The collected results from IRMA and DAIS-Ribosome in JSON files
 The collected results from IRMA and DAIS-Ribosome in CSV files
 - `aggregate_outputs/csv-files/`
   - mira_run_name_aavars.csv
-  - mira_run_name_alleles.csv
   - mira_run_name_amended_consensus.csv
   - mira_run_name_amino_acid_consensus.csv
   - mira_run_name_coverage.csv
@@ -282,16 +281,16 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
 
 Optional collected results from IRMA and DAIS-Ribosome in PARQ files
 - `aggregate_outputs/parquet-reports/`
-  - mira_run_name_alleles.parq
+  - mira_run_name_all_alleles.parq
   - mira_run_name_amended_consensus.parq
   - mira_run_name_amino_acid_consensus.parq
   - mira_run_name_coverage.parq
   - mira_run_name_indels.parq
   - mira_run_name_irma_config.parq
+  - mira_run_name_minor_variants.parq
   - mira_run_name_reads.parq
   - mira_run_name_samplesheet.parq
   - mira_run_name_summary.parq
-  - mira_run_name_variants.parq
 
 </details>
 

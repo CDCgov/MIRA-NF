@@ -43,24 +43,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #95](https://github.com/CDCgov/MIRA-NF/pull/95) - Added arm64 profiles for improved compatibilaty.
 - [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - Added Nextclade subworkflow that gets a nextclade database base on subtpye (and segment for flu) and runs nextclade when the `--nextclade` flag is used.
 - [PR #97](https://github.com/CDCgov/MIRA-NF/pull/96) - Updated nf-core template to v3.3.2 and fixed formatting and whitespace issues.
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - replaced alleles.json with minor_variants.json - will break MIRA GUI until updated
 
 ### `Fixed`
 
 - [PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
 - [PR #85](https://github.com/CDCgov/MIRA-NF/pull/85) - replaced `findchemistryi.py` and `findchemistryo.py` with `findchemistry.rs` from `mira-oxide`.
 - [PR #90](https://github.com/CDCgov/MIRA-NF/pull/90) - Bug squash. Fix "MissingMissing" subtype in mira_summary report.
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - reading in the allAlleles.txt files for the all_alleles.parq now - may break schemas
 
 ### `Dependencies`
 - [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - new container `nextstrain/nextclade:3.18.1` for running nexclade.
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - updating mira-oxide container to v1.4.0
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - removing the use of the `cdcgov/mira-nf:python3.10-alpine` container
 
 ### `Deprecated`
-
 - [PR #84](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed BBTools `reformat.sh` for subsampling.
 - [PR #92](https://github.com/CDCgov/MIRA-NF/pull/92) - replaced `checkmiraversion.py` with `checkmiraversion.rs` from `mira-oxide`.
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced `prepareIRMAjson.py`, `irma2pandas.py`, `dais2pandas.py` `parquet_maker.py` and `extract_subtypes.py` with `prepare-mira-report` from `mira-oxide`.
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced `prepareirmajson.nf`, `statichtml.nf`, `parquetmaker.nf` and `addflusubtype.nf` with `preparemirareports.nf` and `preparemirareportswithparq.nf`.
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced the `reformat_tables` flag with the `parquet_files` flag. CSV files now automatically generate and the `parquet_files` flag will iniate the generation of parquet files.
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - No longer creating XSLX files in the `mira-reports` folder. CSV files are always geenrated to replace them.
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - No longer making alleles.json or all_alleles.csv
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - minor_variants.csv and minor_variants.parq no longer filtered to frequency of 0.05
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - the minor_indel_count column has been removed from summary.csv, summary.json and summary.parq - may break schemas
 
 ### Parameter Changes
 
