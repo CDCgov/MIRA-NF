@@ -256,41 +256,166 @@ The collected results from IRMA and DAIS-Ribosome in JSON files - These are for 
 
  HTML files and combined amended consensus FASTA files are created in this step.
 - `aggregate_outputs/mira-reports`
-  - mira_run_name_amended_consensus.fasta
-  - mira_run_name_failed_amended_consensus.fasta
-  - mira_run_name_amino_acid_consensus.fasta
-  - mira_run_name_failed_amino_acid_consensus.fasta
+  - mira_<runid>_amended_consensus.fasta
+  - mira_<runid>_failed_amended_consensus.fasta
+  - mira_<runid>_amino_acid_consensus.fasta
+  - mira_<runid>_failed_amino_acid_consensus.fasta
   - mira_sample_#_coverage.html
-  - mira_run_name_summary.html
+  - mira_<runid>_summary.html
 
  Explanations of the summary HTML for Illumina data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-illumina.html#mira-cli-ouputs>
  Explanations of the summary HTML for ONT data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-ont.html>
 
 The collected results from IRMA and DAIS-Ribosome in CSV files
 - `aggregate_outputs/csv-files/`
-  - mira_run_name_aavars.csv
-  - mira_run_name_amended_consensus.csv
-  - mira_run_name_amino_acid_consensus.csv
-  - mira_run_name_coverage.csv
-  - mira_run_name_indels.csv
-  - mira_run_name_irma_config.csv
-  - mira_run_name_reads.csv
-  - mira_run_name_samplesheet.csv
-  - mira_run_name_summary.csv
-  - mira_run_name_variants.csv
+  - **mira_<runid>_aavars.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample_id | Unique sample identifier. |
+    | reference_id | Reference genome used by DAIS-ribosome for annotation. |
+    | protein | Protein name where variants were detected. |
+    | aa_variant_count | Number of amino acid variants detected in the protein. |
+    | aa_variants | List of amino acid variant annotations. |
+
+  - **mira_<runid>_amended_consensus.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample_id | Unique sample identifier. |
+    | reference | Reference genome or segment name. |
+    | qc_decision | Final QC decision for the sequence. |
+    | sequence | Amended nucleotide consensus sequence. |
+    | runid | Sequencing run identifier. |
+    | instrument | Sequencing instrument used. |
+
+  - **mira_<runid>_amino_acid_consensus.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample_id | Unique sample identifier. |
+    | reference | Protein name corresponding to the consensus sequence. |
+    | qc_decision | QC decision for the protein consensus. |
+    | sequence | Amino acid consensus sequence. |
+    | runid | Sequencing run identifier. |
+    | instrument | Sequencing instrument used. |
+
+  - **mira_<runid>_coverage.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample_id | Unique identifier for the sample being analyzed. |
+    | reference | Reference genome or segment name used for alignment. |
+    | reference_position | Genomic position within the reference sequence. |
+    | depth | Total coverage depth at position for all alleles (not counting deletions & ambiguous nucleotides). |
+    | consensus | Consensus nucleotide call at this position. |
+    | deletions | Deleted states, not included in coverage depth. |
+    | ambiguous | Number of ambiguous ("N") states in the reads, not included in coverage depth. |
+    | consensus_count |  Coverage depth of the consensus allele. |
+    | consensus_average_quality | Average base quality score for the consensus allele. |
+    | run_id | Unique identifier for the sequencing run. |
+    | instrument | Sequencing instrument used for the run. |
+
+  - **mira_<runid>_indels.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample | Unique sample identifier. |
+    | sample_upstream_position | Reference position immediately upstream of the indel event. |
+    | reference_name | Reference genome or segment name. |
+    | context | 5 bp flanking regions around indel event |
+    | length | Length of deletions. NULL if insertion. |
+    | insert | Inserted sequence (if insertion). |
+    | count | Number of reads supporting the indel. |
+    | upstream_base_coverage | Total coverage at the upstream reference position. |
+    | frequency | Frequency of the indel. |
+    | runid | Sequencing run identifier. |
+    | instrument | Sequencing instrument used. |
+
+  - **mira_<runid>_irma_config.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | program_name | Name of process being used by program. |
+    | program | Program name. |
+    | irma | IRMA software identifier string. |
+    | runid | Sequencing run identifier. |
+    | instrument | Sequencing instrument used. |
+    | timestamp | Timestamp of report generation. |
+
+  - **mira_<runid>_reads.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample_id | Unique identifier for the sample. |
+    | record | Processing record label for read counts. See below. |
+    | reads | Number of reads in this record category. |
+    | patterns |  Number of read patterns for the group. Patterns are de-duplicated read sequences.|
+    | pairs_and_windows | The number of merged paired-end reads (if applicable). Widows have no paired-end mate. |
+    | stage | Record stage at which reads were counted. |
+    | run_id | Unique identifier for the sequencing run. |
+    | instrument | Sequencing instrument used. |
+
+    **Record - Group of records**
+    - 0 -Original data files
+    - 1 - Aggregated data
+    - 2 - Data partitioned during quality control step
+    - 3 - Data partitioned during the read gathering phase
+    - 4 - Primary data used in the final assembly phase (3-match)
+    - 5 - Additional secondary data not used in the final assembly phase (3-altmatch)
+
+  - **mira_<runid>_summary.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample_id | Unique sample identifier. |
+    | total_reads | Total number of reads generated for the sample. |
+    | pass_qc | Reads that passed QC criteriafor the sample. |
+    | reads_mapped | Number of reads mapped to the reference. |
+    | reference | Reference genome or segment. |
+    | percent_reference_coverage | Percentage of the reference genome/segment covered by reads. |
+    | median_coverage | Median sequencing depth across the reference. |
+    | count_minor_snv_at_or_over_5_pct | Number of minor SNVs with frequency ≥5%. |
+    | spike_percent_coverage | (optional) Percent coverage across the spike gene. Present of SC2-Whole-Genome data. |
+    | spike_median_coverage | (optional) Median depth across the spike gene. Present of SC2-Whole-Genome data. |
+    | pass_fail_reason | Explanation for QC failure (if applicable). |
+    | subtype | Assigned viral subtype or lineage to be used by nextclade. |
+    | mira_module | MIRA version and config settings used for analysis. |
+    | runid | Sequencing run identifier. |
+    | instrument | Sequencing instrument used. |
+
+    **Additional Fields if Nextclade has been run**
+    | Column Name | Virus | Definition |
+    |-------------|--------|------------|
+    | clade | sc2-wgs | Nextclade clade designation. |
+    | clade_who | sc2-wgs | WHO clade designation. |
+    | nextclade_pango | sc2-wgs | Assigned Pango lineage from Nextclade. |
+    | clade | flu | Assigned influenza clade designation. |
+    | short_clade | flu | Abbreviated clade label. |
+    | subclade | flu | Influenza subclade classification. |
+    | clade | rsv | Assigned viral clade designation. |
+    | g_clade | rsv | GISAID clade designation. |
+
+  - **mira_<runid>_minor_variants.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample | Unique sample identifier. |
+    | reference | Reference genome or segment name. |
+    | sample_position |  Position of the called single nucleotide variant. |
+    | reference_position | (optional) HMM-based reference position of the variant. Present with SC2-Spike-ONT data. |
+    | depth | Total coverage depth at that position for all alleles not counting ambiguous nucleotides |
+    | consensus_allele | Plurality consensus allele at that position. |
+    | minority_allele | Minor allele detected at this position. |
+    | consensus_count | Plurality consensus observation count at that position |
+    | minority_count | Minor variant observation count at that position |
+    | minority_frequency | Minor variant frequency at that position. |
+    | run_id | Sequencing run identifier. |
+    | instrument | Sequencing instrument used. |
 
 Optional collected results from IRMA and DAIS-Ribosome in PARQ files
 - `aggregate_outputs/parquet-reports/`
-  - mira_run_name_all_alleles.parq
-  - mira_run_name_amended_consensus.parq
-  - mira_run_name_amino_acid_consensus.parq
-  - mira_run_name_coverage.parq
-  - mira_run_name_indels.parq
-  - mira_run_name_irma_config.parq
-  - mira_run_name_minor_variants.parq
-  - mira_run_name_reads.parq
-  - mira_run_name_samplesheet.parq
-  - mira_run_name_summary.parq
+  - mira_<runid>_all_alleles.parq
+  - mira_<runid>_amended_consensus.parq
+  - mira_<runid>_amino_acid_consensus.parq
+  - mira_<runid>_coverage.parq
+  - mira_<runid>_indels.parq
+  - mira_<runid>_irma_config.parq
+  - mira_<runid>_minor_variants.parq
+  - mira_<runid>_reads.parq
+  - mira_<runid>_samplesheet.parq
+  - mira_<runid>_summary.parq
 
 </details>
 
