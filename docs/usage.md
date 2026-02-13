@@ -43,43 +43,43 @@ The sample sheet will need to be set up as seen below. Using the samplesheet tha
 Illumina data should be set up as follows:
 
 ```csv
-Sample ID,Sample Type
+sample_id,sample_type
 sample_1,Test
 sample_2,Test
 sample_3,Test
 sample_4,Test
 ```
-
 Each row represents a sample.
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Sample ID`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`).                                       |
-| `Sample Type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                         |
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `sample_id`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`).  |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
 
-**Important things to note about samplesheet:**
-
-- Sample names within the "Sample ID" column need to be unique.
-- Be sure that sample names are not nested within another sample name (i.e. having sample_1 and sample_1_1)
-- Be sure that there are no empty lines at the end of the samplesheet.
-- For Illumina samples be sure that you have read 1 and read 2 for all samples in samplesheet.
 
 ONT data should be set up as follows:
 
 ```csv
-Barcode #,Sample ID,Sample Type
+barcode,sample_id,sample_type
 barcode07,s1,Test
 barcode37,s2,Test
 barcode41,s3,Test
 ```
-
 Each row represents a sample.
 
-| Column    | Description                                                                                                                                                                                          |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Barcode #`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
-| `Sample ID` | Custom sample name. Convert all spaces in sample names to underscores (`_`).                                                                                                                       |
-| `Sample Type` | The sample type for the given sample. Ex: test, positive, negative, etc.                                                                                                                         |
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `barcode`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07  |
+| `sample_id` | Custom sample name. Convert all spaces in sample names to underscores (`_`).  |
+| `sample_type` | The sample type for the given sample. Ex: test, positive, negative, etc.  |
+
+**Important things to note about samplesheet:**
+
+- Sample names within the "Sample ID" column need to be unique.
+- The headers must be named as seen above.
+- Be sure that there are no empty lines at the end of the samplesheet.
+- For Illumina samples be sure that you have read 1 and read 2 for all samples in samplesheet.
+- Illumina fastq file must be in this format: {sample_id}_R1\*fastq\* or {sample_id}_R1\*fq\* AND {sample_id}_R2\*fastq\* or {sample_id}_R2\*fq\*
 
 ### amd platform samplesheet set up
 
@@ -93,12 +93,12 @@ TREATMENT_REP2,<FILE_PATH>/fastqs/AEG588A5_S5_L003_R1_001.fastq.gz,<FILE_PATH>/f
 TREATMENT_REP3,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R2_001.fastq.gz,test
 ```
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                         |
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).  |
+| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
+| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
 
 ONT data should be set up as follows:
 
@@ -110,13 +110,13 @@ s3,<FILE_PATH>/fastq_pass/cat_fastqs/s3.fastq.gz,,barcode41,Test
 
 ```
 
-| Column    | Description                                                                                                                                                                                       |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).            |
-| `fastq_1` | Full path to FastQ file for ONT that have been concatenated by barcode. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                    |
-| `fastq_2` | Leave blank for ONT data.                                                                                                                                                                         |
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).  |
+| `fastq_1` | Full path to FastQ file for ONT that have been concatenated by barcode. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
+| `fastq_2` | Leave blank for ONT data. |
 | `barcode` | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
-| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                                    |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
 
 ### File set-up with MIRA samplesheet
 
@@ -162,8 +162,8 @@ Oxford Nanopore set up should be set up as follows:
 
 ### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
 
-| Flag                  | Description                                                                                                                                                                                                                       |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Flag       | Description                                                                                                           |
+|------------|-----------------------------------------------------------------------------------------------------------------------|
 | `p`                   | Provide a built-in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided** |
 | `custom_primers`      | Provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **primer_kmer_len and primer_restrict_window flags must also be used with this flag**                      |
 | `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |

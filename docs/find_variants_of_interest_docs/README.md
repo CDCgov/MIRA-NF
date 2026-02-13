@@ -4,7 +4,7 @@ The **find_variants_of_int** workflow is a handy tool that runs (or reruns) DAIS
 
 To get started, you'll need to provide the DAIS-ribosome input, a reference table, and a variants of interest table. Once it's done, you'll get a CSV file that lists all the positions in your input sequences that match the variants you're interested in from the variants of interest table you provided. Check out the info below for more details about how it works.
 
-![find_variants_of_int workflow](../../docs/images/find_variants_of_interst_workflow_img_v2.png)
+![find_variants_of_int workflow](../../docs/images/find_variants_of_interst_workflow_img_v3.png)
 *find_variants_of_int workflow*
 
 ### The DAIS-ribosome input
