@@ -2,7 +2,7 @@ process FLUTRIMPRIMERS {
     tag "${sample}"
     label 'process_medium'
 
-    container 'ghcr.io/cdcgov/irma-core:v0.6.0'
+    container 'ghcr.io/cdcgov/irma-core:v0.6.1'
 
     input:
     tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers), val(primer_kmer_len), val(primer_restrict_window)
@@ -11,7 +11,7 @@ process FLUTRIMPRIMERS {
     tuple val(sample), path('*ptrim_R1.fastq'), path('*ptrim_R2.fastq'), emit: trim_fastqs
     path '*.primertrim.stdout.log', emit: primertrim_log_out
     path '*.primertrim.stderr.log', emit: primertrim_log_err
-    path 'versions.yml'           , emit: versions
+    path 'versions.yml', emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -35,19 +35,16 @@ process FLUTRIMPRIMERS {
         2> ${sample}.primertrim.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        primertrim_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": flutrimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
     stub:
     def args = task.ext.args ?: ''
     """
-    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        flutrimprimers_irma-core: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": flutrimprimers: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

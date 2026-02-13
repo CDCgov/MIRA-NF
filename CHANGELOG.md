@@ -1,12 +1,34 @@
-# cdcgov/mira: Changelog
+# cdcgov/mira-nf: Changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.0.0 -
+## v2.0.0 - 02.13.2026
 
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Sam Wiley](https://github.com/samcwiley)
+
+### Associated Tags
+| Program           | Version                |
+|-------------------|------------------------|
+| irma-core         | 0.6.1                  |
+| IRMA              | 1.3.1                  |
+| DAIS-ribosome     | 1.6.1                  |
+| mira-oxide        | 1.3.1                  |
+| nextclade         | 3.18.1                 |
+
+### Nextclade Tags Used
+| Dataset           | Tag                    |
+|-------------------|------------------------|
+| flu_h3n2_ha       | 2024-11-27--02-51-00Z  |
+| flu_h1n1pdm_ha    | 2024-11-27--02-51-00Z  |
+| flu_vic_ha        | 2024-01-16--20-31-02Z  |
+| flu_h3n2_na       | 2024-11-05--09-19-52Z  |
+| flu_h1n1pdm_na    | 2024-11-05--09-19-52Z  |
+| flu_vic_na        | 2024-01-16--20-31-02Z  |
+| rsv_a             | 2025-08-25--09-00-35Z  |
+| rsv_b             | 2024-08-01--22-31-31Z  |
+| sars-cov-2        | 2024-04-25--01-03-07Z  |
 
 ### Enhancements
 
@@ -14,18 +36,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [PR #76](https://github.com/CDCgov/MIRA-NF/pull/76) - added both the find_variants_of_interest module that can be run as a part of analysis and the find_variants_of_interest workflow that run the the workflow described [here](docs/find_variants_of_interest_docs/).
 - [PR #82](https://github.com/CDCgov/MIRA-NF/pull/82) - added a `check_version` flag that can be set to false so that MIRA-NF can be run with docker without internet. Default is set to true.
-- [PR #84](https://github.com/CDCgov/MIRA-NF/pull/84) - Added IRMA-core's standalone `sampler` module for subsampling single and paired-read `.fastq` files, replacing BBTools' `reformat.sh`.
+- [PR #84](https://github.com/CDCgov/MIRA-NF/pull/84) - added IRMA-core's standalone `sampler` module for subsampling single and paired-read `.fastq` files, replacing BBTools' `reformat.sh`.
+- [PR #88](https://github.com/CDCgov/MIRA-NF/pull/88) - Added filtering to a single subtype for the variants_of_interest and positions_of_intrest outputs if the virus flu (as "INFLUENZA") is passed to the program.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Subtype in the summary report for all viruses now.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - Added `custom_runid` flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.
+- [PR #95](https://github.com/CDCgov/MIRA-NF/pull/95) - Added arm64 profiles for improved compatibilaty.
+- [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - Added Nextclade subworkflow that gets a nextclade database base on subtpye (and segment for flu) and runs nextclade when the `--nextclade` flag is used.
+- [PR #97](https://github.com/CDCgov/MIRA-NF/pull/96) - Updated nf-core template to v3.3.2 and fixed formatting and whitespace issues.
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - replaced alleles.json with minor_variants.json - will break MIRA GUI until updated
 
 ### `Fixed`
 
 - [PR #77](https://github.com/CDCgov/MIRA-NF/pull/77) - Update the nextflow schema with nf-core v3.2.0. Pipeline passing lint with nf-core v3.2.0 now.
+- [PR #85](https://github.com/CDCgov/MIRA-NF/pull/85) - replaced `findchemistryi.py` and `findchemistryo.py` with `findchemistry.rs` from `mira-oxide`.
+- [PR #90](https://github.com/CDCgov/MIRA-NF/pull/90) - Bug squash. Fix "MissingMissing" subtype in mira_summary report.
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - reading in the allAlleles.txt files for the all_alleles.parq now - may break schemas
 
 ### `Dependencies`
-
+- [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - new container `nextstrain/nextclade:3.18.1` for running nexclade.
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - updating mira-oxide container to v1.4.0
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - removing the use of the `cdcgov/mira-nf:python3.10-alpine` container
 
 ### `Deprecated`
-
 - [PR #84](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed BBTools `reformat.sh` for subsampling.
+- [PR #92](https://github.com/CDCgov/MIRA-NF/pull/92) - replaced `checkmiraversion.py` with `checkmiraversion.rs` from `mira-oxide`.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced `prepareIRMAjson.py`, `irma2pandas.py`, `dais2pandas.py` `parquet_maker.py` and `extract_subtypes.py` with `prepare-mira-report` from `mira-oxide`.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced `prepareirmajson.nf`, `statichtml.nf`, `parquetmaker.nf` and `addflusubtype.nf` with `preparemirareports.nf` and `preparemirareportswithparq.nf`.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced the `reformat_tables` flag with the `parquet_files` flag. CSV files now automatically generate and the `parquet_files` flag will iniate the generation of parquet files.
+- [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - No longer creating XSLX files in the `mira-reports` folder. CSV files are always geenrated to replace them.
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - No longer making alleles.json or all_alleles.csv
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - minor_variants.csv and minor_variants.parq no longer filtered to frequency of 0.05
+- [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - the minor_indel_count column has been removed from summary.csv, summary.json and summary.parq - may break schemas
 
 ### Parameter Changes
 
@@ -35,6 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | | `--reference_seq_table` |
 | | `--dais_module` |
 | | `--check_version` |
+|`--reformat_tables` | `--parquet_files` |
+| | `--nextclade` |
 
 
 ## v1.6.1 - 06.04.2025

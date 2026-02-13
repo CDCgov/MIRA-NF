@@ -1,4 +1,4 @@
-# mira/nf: Usage
+# cdcgov/mira-nf: Usage
 
 > _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
 
@@ -10,14 +10,13 @@ MIRA performs these steps for genome assembly and curation:
 
 1. Read QC (optional) ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
-3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
+3. Checking chemistry in fastq files (optional) ([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
 4. Subsampling for faster analysis (optional) ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 5. Trimming and dapter removal ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
-8. Collect results from IRMA and DAIS-Ribosome in json files
-9. Create html, excel files and amended consensus fasta files
-10. Reformat tables into parquet files and csv files
+8. Collect results from IRMA and DAIS-Ribosome to create MIRA reoprts ([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
+9. Nextclade (optional)([`Nextclade`](https://github.com/nextstrain/nextclade))
 
 MIRA is able to analyze 7 data types:
 
@@ -44,43 +43,43 @@ The sample sheet will need to be set up as seen below. Using the samplesheet tha
 Illumina data should be set up as follows:
 
 ```csv
-Sample ID,Sample Type
+sample_id,sample_type
 sample_1,Test
 sample_2,Test
 sample_3,Test
 sample_4,Test
 ```
-
 Each row represents a sample.
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Sample ID`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`).                                       |
-| `Sample Type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                         |
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `sample_id`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`).  |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
 
-**Important things to note about samplesheet:**
-
-- Sample names within the "Sample ID" column need to be unique.
-- Be sure that sample names are not nested within another sample name (i.e. having sample_1 and sample_1_1)
-- Be sure that there are no empty lines at the end of the samplesheet.
-- For Illumina samples be sure that you have read 1 and read 2 for all samples in samplesheet.
 
 ONT data should be set up as follows:
 
 ```csv
-Barcode #,Sample ID,Sample Type
+barcode,sample_id,sample_type
 barcode07,s1,Test
 barcode37,s2,Test
 barcode41,s3,Test
 ```
-
 Each row represents a sample.
 
-| Column    | Description                                                                                                                                                                                          |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Barcode #`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
-| `Sample ID` | Custom sample name. Convert all spaces in sample names to underscores (`_`).                                                                                                                       |
-| `Sample Type` | The sample type for the given sample. Ex: test, positive, negative, etc.                                                                                                                         |
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `barcode`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07  |
+| `sample_id` | Custom sample name. Convert all spaces in sample names to underscores (`_`).  |
+| `sample_type` | The sample type for the given sample. Ex: test, positive, negative, etc.  |
+
+**Important things to note about samplesheet:**
+
+- Sample names within the "Sample ID" column need to be unique.
+- The headers must be named as seen above.
+- Be sure that there are no empty lines at the end of the samplesheet.
+- For Illumina samples be sure that you have read 1 and read 2 for all samples in samplesheet.
+- Illumina fastq file must be in this format: {sample_id}_R1\*fastq\* or {sample_id}_R1\*fq\* AND {sample_id}_R2\*fastq\* or {sample_id}_R2\*fq\*
 
 ### amd platform samplesheet set up
 
@@ -94,12 +93,12 @@ TREATMENT_REP2,<FILE_PATH>/fastqs/AEG588A5_S5_L003_R1_001.fastq.gz,<FILE_PATH>/f
 TREATMENT_REP3,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R2_001.fastq.gz,test
 ```
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                         |
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).  |
+| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
+| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
 
 ONT data should be set up as follows:
 
@@ -111,13 +110,13 @@ s3,<FILE_PATH>/fastq_pass/cat_fastqs/s3.fastq.gz,,barcode41,Test
 
 ```
 
-| Column    | Description                                                                                                                                                                                       |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).            |
-| `fastq_1` | Full path to FastQ file for ONT that have been concatenated by barcode. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                    |
-| `fastq_2` | Leave blank for ONT data.                                                                                                                                                                         |
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).  |
+| `fastq_1` | Full path to FastQ file for ONT that have been concatenated by barcode. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
+| `fastq_2` | Leave blank for ONT data. |
 | `barcode` | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
-| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                                    |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
 
 ### File set-up with MIRA samplesheet
 
@@ -155,7 +154,7 @@ Oxford Nanopore set up should be set up as follows:
 
 | Flag       | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
-| `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
+| `profile`  | singularity, singularity_arm64, docker, docker_arm64, podman, podman_arm64, local, sge, slurm. You can use docker, podman or singularity. Use local for running on local computer and sge or slurm for HPC's.   |
 | `input`    | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                         |
 | `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
 | `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
@@ -163,17 +162,19 @@ Oxford Nanopore set up should be set up as follows:
 
 ### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
 
-| Flag                  | Description                                                                                                                                                                                                                       |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Flag       | Description                                                                                                           |
+|------------|-----------------------------------------------------------------------------------------------------------------------|
 | `p`                   | Provide a built-in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided** |
 | `custom_primers`      | Provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **primer_kmer_len and primer_restrict_window flags must also be used with this flag**                      |
 | `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |
 | `primer_restrict_window` | The N number of bases provided by this flag will restrict them primer searching to the leftmost and rightmost N bases.                                                                                                           |
 | `read_qc`             | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                |
-| `reformat_tables`     | (optional) Flag to reformat report tables into parquet files and csv files (boolean). Default set to false.                                                                                                                        |
+| `parquet_files`       | (optional) Flag to create parquet files from the csv file formats (boolean). Default set to false.                                                                                                                        |
 | `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
-| `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
+| `process_q`           | (required for sge or slurm profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
 | `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
+| `nextclade`        | (optional) When set to true, this flag will run nextclade for your passing samples. Default: false.                                                       |
+| `custom_runid`        | (optional) An option flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.                                                       |
 | `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
 | `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |
 | `custom_qc_settings`  | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                     |
@@ -198,8 +199,9 @@ nextflow run ./main.nf \
    --primer_kmer_len <KMER_LEN> \ (used with custom primers flag)
    --primer_restrict_window <RESTRICT_WIN> \ (used with custom primers flag)
    --subsample_reads <READ_COUNT> \ (optional)
-   --reformat_tables true \ (optional)
+   --parquet_files true \ (optional)
    --read_qc false \ (optional)
+
 ```
 
 To run in a high computing cluster you will need to add hpc to the profile and provide a queue name for the queue that you would like jobs to be submitting to:
@@ -216,7 +218,7 @@ nextflow run ./main.nf \
    --primer_kmer_len <KMER_LEN> \ (used with custom primers flag)
    --primer_restrict_window <RESTRICT_WIN> \ (used with custom primers flag)
    --subsample_reads <READ_COUNT> \ (optional)
-   --reformat_tables true \ (optional)
+   --parquet_files true \ (optional)
    --read_qc false \ (optional)
    --email <EMAIL_ADDRESS> \ (optional)
 ```
@@ -238,9 +240,8 @@ If you wish to repeatedly use the same parameters for multiple runs, rather than
 
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
-:::warning
-Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
-:::
+> [!WARNING]
+> Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
 
 The above pipeline run specified with a params file in yaml format:
 
@@ -248,7 +249,8 @@ The above pipeline run specified with a params file in yaml format:
 nextflow run ./main/nf -profile docker -params-file params.yaml
 ```
 
-with `params.yaml` containing:
+with:
+
 
 ```yaml
 input: '/RUN_PATH/samplesheet.csv'
@@ -260,11 +262,12 @@ custom_primer: '/FILE_PATH/custom_primer.fasta'
 primer_kmer_len: 'kmer_len' (used with custom primers flag)
 primer_restrict_window: 'restrict_window' (used with custom primers flag)
 subsample_reads: 'read_counts' (optional)
-reformat_tables: true (optional)
+parquet_files: true (optional)
 irma_config: 'config_type' (optional)
 email: 'email' (optional)
 amd_platform: false (optional)
 read_qc: false (optional)
+custum_runid: 'runid' (oiptional)
 <...>
 ```
 
@@ -281,27 +284,27 @@ When you run the above command, Nextflow automatically pulls the pipeline code f
 ```bash
 git clone https://github.com/CDCgov/MIRA-NF.git
 cd MIRA-NF
+
 ```
 
 ### Reproducibility
 
-It is a good idea to specify a pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
+It is a good idea to specify the pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [mira/nf releases page](https://github.com/mira/nf/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [cdcgov/mira-nf releases page](https://github.com/cdcgov/mira-nf/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
-This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
+This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
-To further assist in reproducibility, you can use share and re-use [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 
-:::tip
-If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
-:::
+To further assist in reproducibility, you can use share and reuse [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
+
+> [!TIP]
+> If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
 
 ## Core Nextflow arguments
 
-:::note
-These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
-:::
+> [!NOTE]
+> These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen)
 
 ### `-profile`
 
@@ -309,7 +312,11 @@ Use this parameter to choose a configuration profile. Profiles can give configur
 
 Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Shifter, Charliecloud, Apptainer, Conda) - see below.
 
-The pipeline also dynamically loads configurations from [https://github.com/nf-core/configs](https://github.com/nf-core/configs) when it runs, making multiple config profiles for various institutional clusters available at run time. For more information and to see if your system is available in these configs please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
+t run time. For more information and to see if your system is available in these configs please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
+> [!IMPORTANT]
+> We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
+
+The pipeline also dynamically loads configurations from [https://github.com/nf-core/configs](https://github.com/nf-core/configs) when it runs, making multiple config profiles for various institutional clusters available at run time. For more information and to check if your system is supported, please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
 
 Note that multiple profiles can be loaded, for example: `-profile test,docker` - the order of arguments is important!
 They are loaded in sequence, so later profiles can overwrite earlier profiles.
@@ -321,17 +328,17 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - Includes links to test data so only the profile (singularity or docker) parameter is needed.
   - will make a directory named "testing_config".
 - `docker`
-  - A generic configuration profile to be used with [Docker](https://docker.com/). Must have docker running for this profile to work.
+  - A generic configuration profile to be used with [Docker](https://docker.com/) on a x86_64 operating system. Must have docker running for this profile to work.
+- `docker_arm64`
+  - A generic configuration profile to be used with [Docker](https://docker.com/) on an arm64 (aarch64) operating system. Must have docker running for this profile to work.
 - `singularity`
-  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/)
+  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/) on a x86_64 operating system.
+- `singularity_arm64`
+  - A generic configuration profile to be used with [Singularity](https://sylabs.io/docs/) on an arm64 (aarch64) operating system.
 - `podman`
-  - A generic configuration profile to be used with [Podman](https://podman.io/)
-- `shifter`
-  - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
-- `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
-- `apptainer`
-  - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
+  - A generic configuration profile to be used with [Podman](https://podman.io/) on a x86_64 operating system.
+- `podman_arm64`
+  - A generic configuration profile to be used with [Podman](https://podman.io/) on an arm64 (aarch64) operating system.
 - `sge`
   - A configuration profile that enables the pipeline to be executed on an HPC with a Sun Grid Engine (SGE) job scheduling system.
 - `slurm`
@@ -340,6 +347,7 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A configuration profile that enables the pipeline to run smoothly on a local machine.
 - `standard`
   - A configuration profile that has been configured to run within AWS.
+
 
 ### `-resume`
 
@@ -355,13 +363,14 @@ Specify the path to a specific config file (this is a core Nextflow command). Se
 
 ### Resource requests
 
-Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customize the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18) it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
+
+Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the pipeline steps, if the job exits with any of the error codes specified [here](https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18) it will automatically be resubmitted with higher resources request (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
 
 To change the resource requests, please see the [max resources](https://nf-co.re/docs/usage/configuration#max-resources) and [tuning workflow resources](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources) section of the nf-core website.
 
 ### Custom Containers
+In some cases, you may wish to change the container or conda environment used by a pipeline steps for a particular tool. By default, nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However, in some cases the pipeline specified version maybe out of date.
 
-In some cases you may wish to change which container a step of the pipeline uses for a particular tool. By default nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However in some cases the pipeline specified version maybe out of date.
 
 To use a different container from the default container specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/usage/configuration#updating-tool-versions) section of the nf-core website.
 
@@ -378,14 +387,6 @@ In most cases, you will only need to create a custom config as a one-off but if 
 See the main [Nextflow documentation](https://www.nextflow.io/docs/latest/config.html) for more information about creating your own configuration files.
 
 If you have any questions or issues please send us a message on [Slack](https://nf-co.re/join/slack) on the [`#configs` channel](https://nfcore.slack.com/channels/configs).
-
-## Azure Resource Requests
-
-To be used with the `azurebatch` profile by specifying the `-profile azurebatch`.
-We recommend providing a compute `params.vm_type` of `Standard_D16_v3` VMs by default but these options can be changed if required.
-
-Note that the choice of VM size depends on your quota and the overall workload during the analysis.
-For a thorough list, please refer the [Azure Sizes for virtual machines in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes).
 
 ## Running in the background
 

@@ -2,7 +2,7 @@ process SUBSAMPLESINGLEREADS {
     tag "${sample}"
     label 'process_medium'
 
-    container 'ghcr.io/cdcgov/irma-core:v0.6.0'
+    container 'ghcr.io/cdcgov/irma-core:v0.6.1'
 
     input:
     tuple val(sample), val(barcode), path(fastq_file), val(target)
@@ -11,7 +11,7 @@ process SUBSAMPLESINGLEREADS {
     tuple val(sample), val(barcode), path('*_subsampled.fastq'), emit: subsampled_fastq
     path '*.subsampler.stdout.log', emit: subsample_log_out
     path '*.subsampler.stderr.log', emit: subsample_log_err
-    path 'versions.yml'           , emit: versions
+    path 'versions.yml', emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -28,8 +28,7 @@ process SUBSAMPLESINGLEREADS {
         2> ${sample}.${barcode}.subsampler.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        subsamplesinglereads: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+    "${task.process}": subsamplesinglereads: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 
@@ -37,11 +36,10 @@ process SUBSAMPLESINGLEREADS {
     def args = task.ext.args ?: ''
 
     """
-    touch ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        subsamplesinglereads: \$(irma-core --version |& sed '1!d ; s/irma-core //')
+        "${task.process}": subsamplesinglereads: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS
     """
 }

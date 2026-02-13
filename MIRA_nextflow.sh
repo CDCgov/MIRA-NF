@@ -10,14 +10,14 @@
 #$ -V
 
 usage() {
-    echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira_nf> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_primers> <optional: -t kmer_for_custom_primers> <optional: -u restrict_window_for_custom_primers> <optional: -a reformat_tables> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_config> <optional: -k read_qc> <optional: -n > " 1>&2
+    echo -e "Usage in git cloned CLI: \n bash $0 -d <pth_to_mira_nf> -i <path_to_samplesheet.csv> -o <outdir> -r <run_id> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_primers> <optional: -t kmer_for_custom_primers> <optional: -u restrict_window_for_custom_primers> <optional: -a parquet_files> <optional: -c read_counts> <optional: -q processing_q> <optional: -m email_address> <optional: -b irma_module> <optional: -k read_qc> <optional: -r runid> <optional: -n run_nextclade> " 1>&2
     exit 1
 }
 
 # Experiment type options: Flu-ONT, SC2-Spike-Only-ONT, Flu_Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina
 # Primer Schema options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206
 
-while getopts 'd:i:o:r:e:p:g:t:u:f:a:c:q:m:b:k:na' OPTION; do
+while getopts 'd:i:o:r:e:p:g:t:u:f:a:c:n:q:m:b:k:h:na' OPTION; do
     case "$OPTION" in
     d) DIRNAME="$OPTARG" ;;
     i) INPUT="$OPTARG" ;;
@@ -29,12 +29,14 @@ while getopts 'd:i:o:r:e:p:g:t:u:f:a:c:q:m:b:k:na' OPTION; do
     t) KMER_LEN="$OPTARG" ;;
     u) RESTRICT_WIN="$OPTARG" ;;
     f) APPLICATION="$OPTARG" ;;
-    a) REFORMAT="$OPTARG" ;;
+    a) PARQUETFILES="$OPTARG" ;;
     c) READ_COUNTS="$OPTARG" ;;
     q) PROCESSQ="$OPTARG" ;;
     m) EMAIL="$OPTARG" ;;
-    b) OTHER_IRMA_CONFIG="$OPTARG" ;;
+    b) OTHER_IRMA_MODULE="$OPTARG" ;;
     k) READS_QC="$OPTARG" ;;
+    h) CUSTOMRUNID="$OPTARG" ;;
+    n) NEXTCLADE="$OPTARG" ;;
     *) usage ;;
     esac
 done
@@ -57,10 +59,10 @@ else
     OPTIONALARGS2="--custom_primers $CUSTOM_PRIMERS"
 fi
 
-if [[ -z "${REFORMAT}" ]]; then
+if [[ -z "${PARQUETFILES}" ]]; then
     OPTIONALARGS3=""
 else
-    OPTIONALARGS3="--reformat_tables $REFORMAT"
+    OPTIONALARGS3="--parquet_files $PARQUETFILES"
 fi
 
 if [[ -z "${READ_COUNTS}" ]]; then
@@ -69,10 +71,10 @@ else
     OPTIONALARGS4="--subsample_reads $READ_COUNTS"
 fi
 
-if [[ -z "${OTHER_IRMA_CONFIG}" ]]; then
+if [[ -z "${OTHER_IRMA_MODULE}" ]]; then
     OPTIONALARGS5=""
 else
-    OPTIONALARGS5="--irma_config $OTHER_IRMA_CONFIG"
+    OPTIONALARGS5="--irma_module $OTHER_IRMA_MODULE"
 fi
 
 if [[ -z "${EMAIL}" ]]; then
@@ -99,9 +101,16 @@ else
     OPTIONALARGS9="--primer_restrict_window $RESTRICT_WIN"
 fi
 
-# Archive previous run using the summary.xlsx file sent in email
-if [ -d "$1/dash-json/" ] && [ -n "${TAR}" ]; then
-    tar --remove-files -czf ${RUNPATH}/previous_run_$(date -d @$(stat -c %Y ${RUNPATH}/dash-json/) "+%Y%b%d-%H%M%S").tar.gz ${RUNPATH}/*html ${RUNPATH}/*fasta ${RUNPATH}/*txt ${RUNPATH}/*xlsx ${RUNPATH}/IRMA ${RUNPATH}/dash-json
+if [[ -z "${CUSTOMRUNID}" ]]; then
+    OPTIONALARGS10=""
+else
+    OPTIONALARGS10="--custom_runid $CUSTOMRUNID"
+fi
+
+if [[ -z "${NEXTCLADE}" ]]; then
+    OPTIONALARGS11=""
+else
+    OPTIONALARGS11="--nextclade $NEXTCLADE"
 fi
 
 # Run nextflow
@@ -121,4 +130,6 @@ nextflow run "$DIRNAME"/MIRA-NF/main.nf \
     $OPTIONALARGS6 \
     $OPTIONALARGS7 \
     $OPTIONALARGS8 \
-    $OPTIONALARGS9
+    $OPTIONALARGS9 \
+    $OPTIONALARGS10 \
+    $OPTIONALARGS11

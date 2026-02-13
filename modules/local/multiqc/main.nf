@@ -5,10 +5,10 @@ process MULTIQC {
     container 'cdcgov/multiqc:v1.19-alpine'
 
     input:
-    path  multiqc_files, stageAs: '?/*'
-    path(multiqc_config)
-    path(extra_multiqc_config)
-    path(multiqc_logo)
+    path multiqc_files
+    path multiqc_config
+    path extra_multiqc_config
+    path multiqc_logo
 
     output:
     path '*multiqc_report.html', emit: report
@@ -23,7 +23,7 @@ process MULTIQC {
     def args = task.ext.args ?: ''
     def config = multiqc_config ? "--config $multiqc_config" : ''
     def extra_config = extra_multiqc_config ? "--config $extra_multiqc_config" : ''
-    def logo = multiqc_logo ? /--cl-config 'custom_logo: "${multiqc_logo}"'/ : ''
+    def logo = multiqc_logo ? "--cl-config 'custom_logo: \"${multiqc_logo}\"'" : ''
     """
     multiqc \\
         --force \\

@@ -23,28 +23,27 @@ MIRA-NF performs these steps for genome assembly and curation:
 
 1. Read QC (optional) ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
-3. Checking chemistry in fastq files (optional) ([`python`](https://www.python.org/))
+3. Checking chemistry in fastq files (optional) ([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
 4. Subsampling to faster analysis (optional) ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 5. Trimming ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
-8. Collect results from IRMA and DAIS-Ribosome in json files
-9. Create html, excel files and amended consensus fasta files
-10. Reformat tables into parquet files and csv files
+8. Collect results from IRMA and DAIS-Ribosome to create MIRA reoprts (JSON, HTML, FASTA, CSV and optional PARQ files)([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
+9. Nextclade (optional)([`Nextclade`](https://github.com/nextstrain/nextclade))
 
 #### MIRA-NF is able to analyze 7 data types:
 
-|                | Illumina | ONT |
-|----------------|--------------|---------|
-| Influenza            |   🥳         | 🥳       |
-| SARS-CoV-2 :: Whole Genome          |             🥳 |        🥳 |
-| SARS-CoV-2 :: Spike-only            |            |    🥳   |
-| RSV            |       🥳       |     🥳    |
+|   | Illumina | ONT |
+|---|---|---|
+| Influenza   |   🥳   |   🥳   |
+| SARS-CoV-2 :: Whole Genome   |   🥳   |   🥳   |
+| SARS-CoV-2 :: Spike-only   |   |   🥳   |
+| RSV   |   🥳   |   🥳   |
 
-![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v5.png)
+![MIRA-NF workflows](docs/images/mira_nf_workflow_img_v7.png)
 *MIRA-NF workflows*
 
-## Usage
+# Usage
 
 > To run this pipeline you will need to have these programs installed:
 
@@ -66,30 +65,42 @@ First, prepare a samplesheet with your input data that looks as follows:
 Illumina data should be set up as follows:
 
 ```csv
-Sample ID,Sample Type
+sample_id,sample_type
 sample_1,Test
 sample_2,Test
 sample_3,Test
 sample_4,Test
 ```
+Each row represents a sample.
+
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `sample_id`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`).  |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
 
 Oxford Nanopore data should be set up as follows:
 
 ```csv
-Barcode #,Sample ID,Sample Type
+barcode,sample_id,sample_type
 barcode07,s1,Test
 barcode37,s2,Test
 barcode41,s3,Test
 ```
-
 Each row represents a sample.
+
+| Column     | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `barcode`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07  |
+| `sample_id` | Custom sample name. Convert all spaces in sample names to underscores (`_`).  |
+| `sample_type` | The sample type for the given sample. Ex: test, positive, negative, etc.  |
 
 **Important things to note about samplesheet:**
 
 - Sample names within the "Sample ID" column need to be unique.
-- Be sure that sample names are not nested within another sample name (i.e. having sample_1 and sample_1_1)
+- The headers must be named as seen above.
 - Be sure that there are no empty lines at the end of the samplesheet.
 - For Illumina samples be sure that you have read 1 and read 2 for all samples in samplesheet.
+- Illumina fastq file must be in this format: {sample_id}_R1\*fastq\* or {sample_id}_R1\*fq\* AND {sample_id}_R2\*fastq\* or {sample_id}_R2\*fq\*
 
 **To use the nextflow samplesheet setup please refer to the usage document (../assets/usage.md). USING THE NEXTFLOW SAMPLESHEET SET UP WITH ONT DATA WILL REQUIRE YOU TO COMBINE ONT FASTQS YOURSELF.**
 
@@ -116,11 +127,11 @@ cd MIRA-NF
 
 Now, you can run the pipeline using two methods: locally or within a high computing cluster. In both cases you will need to launch the workflow from the mira-nf folder.
 
-# Input Parameters for -NF Workflows
+# Input Parameters for MIRA-NF Workflows
 
-| Flag       | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
-| `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
+| Flag       | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
+| `profile`  | singularity, singularity_arm64, docker, docker_arm64, podman, podman_arm64, local, sge, slurm. You can use docker, podman or singularity. Use local for running on local computer and sge or slurm for HPC's.   |
 | `input`    | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                         |
 | `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
 | `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
@@ -128,17 +139,18 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 ### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used with SC2 and RSV pipelines*
 
-| Flag                  | Description                                                                                                                                                                                                                       |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Flag       | Description                                                                                               |
+|------------|-----------------------------------------------------------------------------------------------------------|
 | `p`                   | Provide a built-in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided** |
 | `custom_primers`      | Provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **primer_kmer_len and primer_restrict_window flags must also be used with this flag**                      |
 | `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |
 | `primer_restrict_window` | The N number of bases provided by this flag will restrict them primer searching to the leftmost and rightmost N bases.                                                                                                           |
 | `read_qc`             | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                |
-| `reformat_tables`     | (optional) Flag to reformat report tables into parquet files and csv files (boolean). Default set to false.                                                                                                                        |
+| `parquet_files`       | (optional) Flag to create parquet files from the csv file formats (boolean). Default set to false.                                                                                                                        |
 | `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
-| `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
-| `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
+| `process_q`           | (required for age or slurm profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
+| `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.
+| `nextclade`        | (optional) When set to true, this flag will run nextclade for your passing samples. Default: false.                                                       |
 | `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
 | `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |
 | `custom_qc_settings`  | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                     |
@@ -148,6 +160,7 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 | `variants_of_interest`  | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA-nf workflow. This module will provide the codon and amino acid differences at the specified postions. The user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
 | `positions_of_interest`  | (optional) Providing this flag will run the [find_positions_of_interest](docs/find_positions_of_interest_docs/) module within the MIRA-nf workflow. This module will provide the all codon and amino acid allelles at the specified postions whether they differ between sample and reference or not. The the user should provide the `<FILE_PATH>/positions_of_interest.txt` with the format described [here](docs/find_postions_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
 | `reference_seq_table`        | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA-NF workflow. Here the user should provide the  `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.  |
+specific
 | `check_version`        | (optional) The flag is set to true by default. It will check that you are using the most up to date version of MIRA-NF. However, it will require that you have an internet connection to check. If you do not have internet, then the flag should be set to false.  |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
@@ -161,7 +174,7 @@ nextflow run ./main.nf \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
    --subsample_reads <READ_COUNT> (optional)\
-   --reformat_tables true (optional) \
+   --parquet_files true (optional) \
    --read_qc false (optional) \
 ```
 
@@ -176,7 +189,7 @@ nextflow run ./main.nf \
    --e <EXPERIMENT_TYPE> \
    --p <PRIMER_SCHEMA> (optional) \
    --process_q <QUEUE_NAME> \
-   --reformat_tables true (optional) \
+   --parquet_files true (optional) \
    --email <EMAIL_ADDRESS> (optional) \
    --read_qc false (optional)
 ```
@@ -198,7 +211,7 @@ qsub MIRA_nextflow.sh \
    -t <PRIMER_KMER_LEN> \ (used with custom primers flag)
    -u <PRIMER_RESTRICT_WINDOW> \ (used with custom primers flag)
    -q <QUEUE_NAME> \
-   -a <REFORMAT_TABLES> \ (optional)
+   -a <PARQUET_FILES> \ (optional)
    -c <SUBSAMPLED_READ_COUNTS> \ (optional)
    -b <OTHER_IRMA_MODULE> (optional)
    -m <EMAIL_ADDRESS> \ (optional)
@@ -220,7 +233,7 @@ cdcgov/mira-nf is developed and maintained by Amanda Sullivan (maintainer), Kris
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
-This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
+This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/main/LICENSE).
 
 > **The nf-core framework for community-curated bioinformatics pipelines.**
 >

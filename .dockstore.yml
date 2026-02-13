@@ -4,7 +4,7 @@ workflows:
     primaryDescriptorPath: /main.nf
     readMePath: /README.md
     authors:
-      - name: Mandy Sullivan
+      - name: Amanda Sullivan
         email: xpa3@cdc.gov
         affiliation: CDC/NCIRD/ID
         orcid: '0000-0003-2007-4210'

@@ -9,8 +9,7 @@
 //
 include { STAGES3FILES        } from '../modules/local/stages3files'
 include { CONCATFASTQS         } from '../modules/local/concatfastqs'
-include { NEXTFLOWSAMPLESHEETI } from '../modules/local/nextflowsamplesheeti'
-include { NEXTFLOWSAMPLESHEETO } from '../modules/local/nextflowsamplesheeto'
+include { NEXTFLOWSAMPLESHEET } from '../modules/local/nextflowsamplesheet'
 include { INPUT_CHECK          } from '../subworkflows/local/input_check'
 include { READQC               } from '../subworkflows/local/readqc'
 include { PREPILLUMINAREADS    } from '../subworkflows/local/prepilluminareads'
@@ -22,6 +21,7 @@ include { VARIANTSOFINT        } from '../modules/local/variantsofint'
 include { POSITIONSOFINT       } from '../modules/local/positionsofint'
 include { PREPAREREPORTS       } from '../subworkflows/local/preparereports'
 include { CHECKMIRAVERSION     } from '../modules/local/checkmiraversion'
+include { NEXTCLADE            } from '../subworkflows/local/nextclade'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -89,6 +89,13 @@ workflow flu_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
         // MODULE: Convert the samplesheet to a nextflow
@@ -97,24 +104,31 @@ workflow flu_i {
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
 
         }
 
-        NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
-        // OMICS & Local PLATFORM: END
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, sequences_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
+        
+        // Get the channel for the bad samples TSV
+        def bad_samples_ch = NEXTFLOWSAMPLESHEET.out.bad_samples
 
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+        // Consume the channel and print the contents
+        bad_samples_ch.subscribe { tsv_file ->
+            tsv_file.eachLine { line ->
+                println line
+            }
+        }
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    } else if (params.amd_platform == true) {
+        } else if (params.amd_platform == true) {
         //save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
@@ -159,6 +173,7 @@ workflow flu_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -166,17 +181,45 @@ workflow flu_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
         )
+
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+
+        versions_path_ch.view()
+
+    }
+
 }
 
 workflow flu_o {
@@ -255,17 +298,25 @@ workflow flu_o {
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
-        // OMICS & Local END
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+        // Get the channel for the bad samples TSV
+        def bad_samples_ch = NEXTFLOWSAMPLESHEET.out.bad_samples
+
+        // Consume the channel and print the contents
+        bad_samples_ch.subscribe { tsv_file ->
+            tsv_file.eachLine { line ->
+                println line
+            }
+        }
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    } else if (params.amd_platform == true) {
+        } else if (params.amd_platform == true) {
         //save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
@@ -310,6 +361,7 @@ workflow flu_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -317,17 +369,42 @@ workflow flu_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
+
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
         )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
+    }
 }
 
 workflow sc2_spike_o {
@@ -385,6 +462,10 @@ workflow sc2_spike_o {
         println 'ERROR!!: The dais_module flag only needs to be specificied with the Find-Variants-Of-Interest or Find-Positions-Of-Interest workflow.'
         workflow.exit
     }
+    // nextclade error handling
+    if (params.nextclade != false) {
+    error "Nextclade does not support protein-only SARS-CoV-2 sequences"
+    }
 
     //Inializing parameters
     experiment_type_ch = Channel.value(params.e)
@@ -405,17 +486,25 @@ workflow sc2_spike_o {
         concatenated_fastqs_ch = fastq_ch | CONCATFASTQS
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
-        // OMICS & Local END
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+        // Get the channel for the bad samples TSV
+        def bad_samples_ch = NEXTFLOWSAMPLESHEET.out.bad_samples
+
+        // Consume the channel and print the contents
+        bad_samples_ch.subscribe { tsv_file ->
+            tsv_file.eachLine { line ->
+                println line
+            }
+        }
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    } else if (params.amd_platform == true) {
+        } else if (params.amd_platform == true) {
         //save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
@@ -460,6 +549,7 @@ workflow sc2_spike_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -467,17 +557,13 @@ workflow sc2_spike_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
 }
 
 workflow sc2_wgs_o {
@@ -556,17 +642,25 @@ workflow sc2_wgs_o {
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
-        // OMICS & Local END
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+        // Get the channel for the bad samples TSV
+        def bad_samples_ch = NEXTFLOWSAMPLESHEET.out.bad_samples
+
+        // Consume the channel and print the contents
+        bad_samples_ch.subscribe { tsv_file ->
+            tsv_file.eachLine { line ->
+                println line
+            }
+        }
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    } else if (params.amd_platform == true) {
+        } else if (params.amd_platform == true) {
         //save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
@@ -611,6 +705,7 @@ workflow sc2_wgs_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -618,17 +713,41 @@ workflow sc2_wgs_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     //SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    //setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
         )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
+    }
 }
 
 workflow sc2_wgs_i {
@@ -705,32 +824,46 @@ workflow sc2_wgs_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
-        // MODULE: Convert the samplesheet to a nextflow format
+        // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         // Stage fastq files based on profile
         if (params.restage == true){
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
         }
 
-        NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
-        // OMICS & Local PLATFORM: END
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, sequences_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
-        // NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+        // Get the channel for the bad samples TSV
+        def bad_samples_ch = NEXTFLOWSAMPLESHEET.out.bad_samples
+
+        // Consume the channel and print the contents
+        bad_samples_ch.subscribe { tsv_file ->
+            tsv_file.eachLine { line ->
+                println line
+            }
+        }
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    } else if (params.amd_platform == true) {
+        } else if (params.amd_platform == true) {
         // save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
@@ -775,6 +908,7 @@ workflow sc2_wgs_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -782,17 +916,41 @@ workflow sc2_wgs_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
         )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
+    }
 }
 
 workflow rsv_i {
@@ -867,29 +1025,44 @@ workflow rsv_i {
     samplesheet_ch = Channel.fromPath(params.input, checkIfExists: true)
     experiment_type_ch = Channel.value(params.e)
     ch_versions = Channel.empty()
+    if (params.custom_runid != null) {
+        runid = params.custom_runid
+    } else {
+        def path = "${params.runpath}"
+        def folder_name = new File(path)
+        runid = folder_name.name
+    }
 
     if (params.amd_platform == false) {
-        // MODULE: Convert the samplesheet to a nextflow format
+        // OMICS & Local PLATFORM: START Concat all fastq files by barcode
         // Stage fastq files based on profile
         if (params.restage == true){
             fastq_ch = Channel
                 .fromPath("${params.runpath}/**/*.fastq.gz", checkIfExists: true)
                 .collect()
-            def runid = params.runpath.tokenize('/').last()
             sequences_ch = STAGES3FILES(runid, 'fastqs', fastq_ch)
         } else if (params.restage == false ){
             sequences_ch = Channel.fromPath("${params.runpath}/fastqs", checkIfExists: true)
         }
 
-        NEXTFLOWSAMPLESHEETI(samplesheet_ch, sequences_ch, experiment_type_ch)
-        // OMICS & Local PLATFORM: END
-        // NEXTFLOWSAMPLESHEETI(samplesheet_ch, experiment_type_ch)
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETI.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETI.out.nf_samplesheet
+        // MODULE: Convert the samplesheet to a nextflow format
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, sequences_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
+
+        // Get the channel for the bad samples TSV
+        def bad_samples_ch = NEXTFLOWSAMPLESHEET.out.bad_samples
+
+        // Consume the channel and print the contents
+        bad_samples_ch.subscribe { tsv_file ->
+            tsv_file.eachLine { line ->
+                println line
+            }
+        }
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETI.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
     } else if (params.amd_platform == true) {
         // save samplesheet as the nf sample
@@ -936,6 +1109,7 @@ workflow rsv_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -943,17 +1117,41 @@ workflow rsv_i {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    // setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
         )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
+    }
 }
 
 workflow rsv_o {
@@ -1033,18 +1231,25 @@ workflow rsv_o {
         collected_concatenated_fastqs_ch = concatenated_fastqs_ch.collect()
 
         // MODULE: Convert the samplesheet to a nextflow format
-        NEXTFLOWSAMPLESHEETO(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
-        // OMICS & Local END
+        NEXTFLOWSAMPLESHEET(samplesheet_ch, collected_concatenated_fastqs_ch, experiment_type_ch)
+        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
+        nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
 
-        // NEXTFLOWSAMPLESHEETO(samplesheet_ch, experiment_type_ch, CONCATFASTQS.out)
-        ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEETO.out.versions)
-        nf_samplesheet_ch = NEXTFLOWSAMPLESHEETO.out.nf_samplesheet
+        // Get the channel for the bad samples TSV
+        def bad_samples_ch = NEXTFLOWSAMPLESHEET.out.bad_samples
+
+        // Consume the channel and print the contents
+        bad_samples_ch.subscribe { tsv_file ->
+            tsv_file.eachLine { line ->
+                println line
+            }
+        }
 
         // SUBWORKFLOW: Read in samplesheet, validate and stage input files
         //
-        INPUT_CHECK(NEXTFLOWSAMPLESHEETO.out.nf_samplesheet)
+        INPUT_CHECK(NEXTFLOWSAMPLESHEET.out.nf_samplesheet)
         ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    } else if (params.amd_platform == true) {
+        } else if (params.amd_platform == true) {
         // save samplesheet as the nf sample
         nf_samplesheet_ch = samplesheet_ch
 
@@ -1089,6 +1294,7 @@ workflow rsv_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         variant_of_int_table_ch = Channel.fromPath(params.variants_of_interest, checkIfExists: true)
         VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
     }
 
     //MODULE: Run Positions of Interest
@@ -1096,17 +1302,41 @@ workflow rsv_o {
         ref_table_ch = Channel.fromPath(params.reference_seq_table, checkIfExists: true)
         positions_of_int_table_ch = Channel.fromPath(params.positions_of_interest, checkIfExists: true)
         POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_int_table_ch)
+        ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
     }
 
     // SUBWORKFLOW: Create reports
-    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), nf_samplesheet_ch, ch_versions)
+    PREPAREREPORTS(DAISRIBOSOME.out.dais_outputs.collect(), ch_versions)
+    ch_versions = ch_versions.unique().mix(PREPAREREPORTS.out.ch_versions)
 
-    //setting up to put MIRA-NF version checking in email
-    PREPAREREPORTS.out.mira_version_ch.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
+    // SUBWORKFLOW: Run Nextclade (optional)
+    if (params.nextclade) {
+        NEXTCLADE(
+            PREPAREREPORTS.out.nextclade_fasta_files_ch,
+            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.virus,
+            PREPAREREPORTS.out.runid,
+            ch_versions
         )
+    } else {
+        // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
+    }
 }
 
 workflow find_variants_of_int {
@@ -1171,7 +1401,26 @@ workflow find_variants_of_int {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //MODULE: Run Variants of Interest
-    VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch)
+    VARIANTSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, variant_of_int_table_ch, dais_module_ch)
+    ch_versions = ch_versions.unique().mix(VARIANTSOFINT.out.versions)
+
+    // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
 
 }
 
@@ -1238,12 +1487,64 @@ workflow find_positions_of_int {
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
 
     //MODULE: Run Positions of Interest
-    POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_interest_ch)
+    POSITIONSOFINT(DAISRIBOSOME.out.dais_seq_output, ref_table_ch, positions_of_interest_ch, dais_module_ch)
+    ch_versions = ch_versions.unique().mix(POSITIONSOFINT.out.versions)
+
+    // collate versions with unique lines into pipeline_info
+        versions_path_ch = ch_versions
+            .collectFile(
+                name: 'collated_versions.yml',
+                storeDir: "${params.outdir}/pipeline_info"
+            )
+            .map { file ->
+                def uniqueLines = file.text
+                    .readLines()
+                    .unique()
+                    .join('\n') + '\n'
+
+                def out = file.parent.resolve('collated_versions.unique.yml')
+                out.text = uniqueLines
+                return out
+            }
+        versions_path_ch.view()
 
 }
 // MAIN WORKFLOW
-// Decides which experiment type workflow to run based on experiment parameter given
+
 workflow MIRA {
+    //If sourcepath flag is given, then it will use the sourcepath to point to the support files
+    if (params.sourcepath == null) {
+        support_file_path = Channel.fromPath(projectDir, checkIfExists: true)
+    } else {
+        support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
+    }
+
+    // Check MIRA version
+    if ( !params.check_version ) {
+        println "MIRA version not checked"
+        mira_version_ch = Channel.value("MIRA version not checked")
+    } else {
+        CHECKMIRAVERSION(support_file_path)
+        // Capture output channel
+        mira_version_ch = CHECKMIRAVERSION.out
+
+        mira_version_ch.map { it.trim() as String }
+            .subscribe { value ->
+            if ( value != "MIRA-NF version up to date!" ) {
+                println "MIRA version not up to date. Please update MIRA before running the pipeline."
+                workflow.exit
+            }
+        }
+    }
+
+    // setting up to put MIRA-NF version checking in email
+    mira_version_ch.collectFile(
+            name: 'mira_version_check.txt',
+            storeDir:"${params.outdir}/pipeline_info",
+            keepHeader: false
+        )
+
+    // Decides which experiment type workflow to run based on experiment parameter given
     if (params.e == 'Flu-Illumina') {
         flu_i()
 } else if (params.e == 'Flu-ONT') {
@@ -1279,12 +1580,12 @@ if (params.email) {
     def path = "${params.runpath}"
     def folder_name = new File(path)
     def basename = folder_name.name
-    def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta")
+    def ac_file = new File("${params.outdir}/aggregate_outputs/mira-reports/mira_${basename}_amended_consensus.fasta")
 
     if (ac_file.exists()) {
         def final_files = [
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_summary.xlsx",
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_amended_consensus.fasta"
+            "${params.outdir}/aggregate_outputs/csv-reports/mira_${basename}_summary.csv",
+            "${params.outdir}/aggregate_outputs/mira-reports/mira_${basename}_amended_consensus.fasta"
         ]
         def msg = """
         Pipeline execution summary
@@ -1307,7 +1608,7 @@ if (params.email) {
         )
     } else {
         def final_files = [
-            "${params.outdir}/aggregate_outputs/mira-reports/MIRA_${basename}_summary.xlsx"
+            "${params.outdir}/aggregate_outputs/csv-reports/mira_${basename}_summary.csv"
         ]
         def msg = """
         Pipeline execution summary
