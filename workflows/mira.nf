@@ -1531,7 +1531,8 @@ workflow MIRA {
         mira_version_ch.map { it.trim() as String }
             .subscribe { value ->
             if ( value != "MIRA-NF version up to date!" ) {
-                println "MIRA version not up to date. Please update MIRA before running the pipeline."
+                println "MIRA-NF Workflow has been exited."
+                println "MIRA-NF version not up to date. Please update MIRA before running the pipeline."
                 workflow.exit
             }
         }

@@ -146,6 +146,7 @@
                 },
                 "check_version": {
                     "type": "boolean",
+                    "default": true,
                     "description": "Check if user is running most up to date version of MIRA-NF"
                 },
                 "custom_runid": {
