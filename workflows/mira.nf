@@ -1381,21 +1381,6 @@ workflow find_variants_of_int {
         support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
     }
 
-    //MODULE: Check mira version
-    if (params.check_version == false){
-        println("MIRA version not checked")
-        mira_version_ch = "MIRA version not checked"
-    } else {
-        CHECKMIRAVERSION(support_file_path)
-        mira_version_ch = CHECKMIRAVERSION.out.view()
-    }
-    //Setting up to put MIRA-NF version checking in email
-    CHECKMIRAVERSION.out.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
-
     //MODULE: Run Dais Ribosome
     DAISRIBOSOME(dais_input_ch, dais_module_ch)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
@@ -1466,22 +1451,6 @@ workflow find_positions_of_int {
         support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
     }
 
-    //MODULE: Check mira version
-    if (params.check_version == false){
-        println("MIRA version not checked")
-        mira_version_ch = "MIRA version not checked"
-    } else {
-        CHECKMIRAVERSION(support_file_path)
-        mira_version_ch = CHECKMIRAVERSION.out.view()
-    }
-    //Setting up to put MIRA-NF version checking in email
-    CHECKMIRAVERSION.out.collectFile(
-            name: 'mira_version_check.txt',
-            storeDir:"${params.outdir}/pipeline_info",
-            keepHeader: false
-        )
-
-
     //MODULE: Run Dais Ribosome
     DAISRIBOSOME(dais_input_ch, dais_module_ch)
     ch_versions = ch_versions.unique().mix(DAISRIBOSOME.out.versions)
@@ -1531,7 +1500,8 @@ workflow MIRA {
         mira_version_ch.map { it.trim() as String }
             .subscribe { value ->
             if ( value != "MIRA-NF version up to date!" ) {
-                println "MIRA version not up to date. Please update MIRA before running the pipeline."
+                println "MIRA-NF Workflow has been exited."
+                println "MIRA-NF version not up to date. Please update MIRA before running the pipeline."
                 workflow.exit
             }
         }
