@@ -35,8 +35,8 @@ jobs:
     with:
       run_on_aws: false
       component_type: "pipeline"
-      run_tests: ${{ github.event.inputs.run_tests }}
+      run_tests: ${{ github.event.inputs.run_tests || 'tests/default.nf.test' }}
       nft_profile: "gh_test,docker"
-      nxf_version: ${{ github.event.inputs.nxf_version }}
-      max_parallel: ${{ github.event.inputs.max_parallel }}
+      nxf_version: ${{ github.event.inputs.nxf_version || '24.10.5' }}
+      max_parallel: ${{ github.event.inputs.max_parallel || 2 }}
     secrets: inherit
