@@ -1,5 +1,4 @@
 name: Run Pipeline Tests CI/CD
-# This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
 
 on:
   workflow_call:
@@ -8,6 +7,7 @@ on:
         description: "Comma separated tests to run (Ex: tests/default.nf.test,tests/flu.nf.test)"
         required: false
         default: "tests/default.nf.test"
+        type: string
       max_parallel:
         description: "Maximum number of parallel test runs"
         required: false
@@ -17,12 +17,13 @@ on:
         description: "Nextflow profile(s) to use"
         required: false
         default: "test,docker"
+        type: string
       nxf_version:
         description: "Nextflow version to use"
         required: false
         default: "24.04.2"
+        type: string
 
-# Ensure only one workflow run per PR/branch, cancel previous if a new one is triggered
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
