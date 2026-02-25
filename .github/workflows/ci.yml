@@ -1,10 +1,13 @@
 name: Run Pipeline Tests CI/CD
 # This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
 
-on:
-  push:
-    branches:
-      - fix_gh_action
+on: 
+  push: 
+    branches: 
+      - dev
+  pull_request: 
+  release: 
+      types: [published]
   workflow_dispatch:
     inputs:
       run_tests:
