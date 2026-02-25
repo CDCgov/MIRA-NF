@@ -21,7 +21,6 @@ jobs:
   pipeline-test:
     uses: CDCgov/MIRA-NF/.github/workflows/ci.yml@fix_gh_actions
     with:
-      run_on_aws: true
       component_type: "pipeline"
       max_parallel: 2
       run_tests: ${{ inputs.run_tests || 'tests/default.nf.test' }}
