@@ -73,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Old parameter | New parameter                |
 | ------------- | ---------------------------- |
 | | `--variants_of_interest` |
+| | `--postions_of_interest` |
 | | `--reference_seq_table` |
 | | `--dais_module` |
 | | `--check_version` |
