@@ -28,20 +28,16 @@ on:
         default: false
         type: boolean
 
-# Ensure only one workflow run per PR/branch, cancel previous if a new one is triggered
+# Concurrency: only one workflow active per branch or PR
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   nf-test:
-    strategy:
-      matrix:
-        NXF_VER: ["24.10.5"]
     uses: CDCgov/MIRA-NF/.github/workflows/ci.yml@fix_gh_actions
     with:
       max_parallel: ${{ inputs.max_parallel }}
       run_tests: "tests/default.nf.test"
       nft_profile: "${{ inputs.run_on_batch && 'dev' || 'standard,dev_reg' }}"
-      nxf_version: ${{ matrix.NXF_VER }}
-    secrets: inherit
+      only_changed: ${{ inputs.only_changed }}
