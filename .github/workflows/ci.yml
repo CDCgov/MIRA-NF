@@ -1,39 +1,30 @@
-name: nf-core CI
+name: Run Pipeline Tests CI/CD
 # This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
+
 on:
   push:
     branches:
       - dev
-  pull_request:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: "Run comma separated tests on the pipeline (Ex: tests/default.nf.test,tests/flu.nf.test)"
+        required: false
+        default: "tests/default.nf.test"
 
-env:
-  NXF_ANSI_LOG: false
-
+# Ensure only one workflow run per PR/branch, cancel previous if a new one is triggered
 concurrency:
-  group: "${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  test:
-    name: Run pipeline with test data
-    # Only run on push if this is the nf-core dev branch (merged PRs)
-    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'cdcgov/mira-nf') }}"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        NXF_VER:
-          - "24.04.2"
-    steps:
-      - name: Check out pipeline code
-        uses: actions/checkout@v4
-
-      - name: Install Nextflow
-        uses: nf-core/setup-nextflow@v1
-        with:
-          version: "${{ matrix.NXF_VER }}"
-
-      - name: Run pipeline with test data
-        run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
+  pipeline-test:
+    uses: cdcent/oamd-bio-gh-actions/.github/workflows/nf-test.yml@main
+    with:
+      run_on_aws: true
+      component_type: "pipeline"
+      max_parallel: 2
+      run_tests: ${{ inputs.run_tests || 'tests/default.nf.test' }}
+      nft_profile: "test,docker"
+      nxf_version: "24.04.2"
+    secrets: inherit
