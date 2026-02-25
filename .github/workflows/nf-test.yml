@@ -1,61 +1,63 @@
-name: Run nf-test CI/CD
+name: NF Test Reusable Workflow
 
-# Triggers
 on:
-  push:
-    branches:
-      - master
-      - main
-  pull_request:
-    branches:
-      - dev
-  release:
-    types: [published]
   workflow_call:
-      inputs:
-        run_on_aws:
-          description: "Run pipeline on AWS"
-          required: false
-          type: boolean
-          default: false
-        component_type:
-          description: "Component type"
-          required: true
-          type: string
-        run_tests:
-          description: "Comma separated test files"
-          required: false
-          type: string
-          default: "tests/default.nf.test"
-        nft_profile:
-          description: "Nextflow profile"
-          required: false
-          type: string
-          default: "gh_test,docker"
-        nxf_version:
-          description: "Nextflow version"
-          required: false
-          type: string
-          default: "24.10.5"
-        max_parallel:
-          description: "Maximum parallel runs"
-          required: false
-          type: number
-          default: 2
-
-# Concurrency: only one workflow run active at a time per branch or PR
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+    inputs:
+      run_on_aws:
+        description: "Run pipeline on AWS"
+        required: false
+        type: boolean
+        default: false
+      component_type:
+        description: "Component type"
+        required: true
+        type: string
+      run_tests:
+        description: "Comma separated test files"
+        required: false
+        type: string
+        default: "tests/default.nf.test"
+      nft_profile:
+        description: "Nextflow profile"
+        required: false
+        type: string
+        default: "gh_test,docker"
+      nxf_version:
+        description: "Nextflow version"
+        required: false
+        type: string
+        default: "24.10.5"
+      max_parallel:
+        description: "Maximum parallel runs"
+        required: false
+        type: number
+        default: 2
 
 jobs:
-  pipeline-test:
-    uses: CDCgov/MIRA-NF/.github/workflows/nf-test.yml@fix_gh_actions
-    with:
-      run_on_aws: ${{ github.event.inputs.run_on_aws }}
-      component_type: "pipeline"
-      run_tests: ${{ github.event.inputs.run_tests || 'tests/default.nf.test' }}
-      nft_profile: ${{ github.event.inputs.nft_profile }}
-      nxf_version: ${{ github.event.inputs.nxf_version }}
-      max_parallel: ${{ github.event.inputs.max_parallel }}
-    secrets: inherit
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Nextflow
+        run: |
+          curl -s https://get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+          nextflow -version
+
+      - name: Run pipeline tests
+        run: |
+          echo "Running tests on local runner..."
+          echo "Tests: ${{ inputs.run_tests }}"
+          echo "Profile: ${{ inputs.nft_profile }}"
+          echo "Nextflow version: ${{ inputs.nxf_version }}"
+          echo "Max parallel: ${{ inputs.max_parallel }}"
+
+          # Loop over comma-separated test files
+          for test_file in $(echo "${{ inputs.run_tests }}" | tr ',' ' '); do
+            echo "Running test: $test_file"
+            nextflow run main.nf \
+              -profile ${{ inputs.nft_profile }} \
+              -with-trace $test_file
+          done

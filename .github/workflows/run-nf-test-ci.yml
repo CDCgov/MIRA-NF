@@ -1,0 +1,46 @@
+name: Run nf-test CI/CD
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - dev
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: "Comma separated test files to run"
+        required: false
+        default: "tests/default.nf.test"
+      nft_profile:
+        description: "Nextflow profile to use"
+        required: false
+        default: "gh_test,docker"
+      nxf_version:
+        description: "Nextflow version to use"
+        required: false
+        default: "24.10.5"
+      max_parallel:
+        description: "Maximum number of parallel test runs"
+        required: false
+        default: 2
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pipeline-test:
+    uses: CDCgov/MIRA-NF/.github/workflows/nf-test.yml@fix_gh_actions
+    with:
+      run_on_aws: false
+      component_type: "pipeline"
+      run_tests: ${{ github.event.inputs.run_tests || 'tests/default.nf.test' }}
+      nft_profile: ${{ github.event.inputs.nft_profile }}
+      nxf_version: ${{ github.event.inputs.nxf_version }}
+      max_parallel: ${{ github.event.inputs.max_parallel }}
+    secrets: inherit
