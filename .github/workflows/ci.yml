@@ -4,7 +4,7 @@ name: Run Pipeline Tests CI/CD
 on:
   push:
     branches:
-      - dev
+      - fix_gh_action
   workflow_dispatch:
     inputs:
       run_tests:
