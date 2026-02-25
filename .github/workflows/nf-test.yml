@@ -42,7 +42,7 @@ concurrency:
 
 jobs:
   pipeline-test:
-    uses: cdcent/oamd-bio-gh-actions/.github/workflows/nf-test.yml@fix_gh_actions
+    uses: CDCgov/MIRA-NF/.github/workflows/nf-test.yml@fix_gh_actions
     with:
       run_on_aws: ${{ github.event.inputs.run_on_aws }}
       component_type: "pipeline"
