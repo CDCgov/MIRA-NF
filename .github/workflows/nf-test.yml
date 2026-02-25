@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       run_on_batch:
-        description: "Run tests"
+        description: "Run tests in batch mode"
         required: false
         default: false
         type: boolean
@@ -28,10 +28,7 @@ on:
         default: false
         type: boolean
 
-# This concurrency group ensures that only one workflow run is active at a time for the same pull request or branch.
-# If a new run is triggered, the previous one will be cancelled.
-# This is useful to avoid multiple runs of the same workflow for the same pull request or branch.
-# It also helps to save resources and time by not running multiple instances of the same workflow in parallel.
+# Ensure only one workflow run per PR/branch, cancel previous if a new one is triggered
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -43,8 +40,8 @@ jobs:
         NXF_VER: ["24.10.5"]
     uses: CDCgov/MIRA-NF/.github/workflows/ci.yml@fix_gh_actions
     with:
-      max_parallel: ${{ inputs.max_parallel || 2 }}
-      only_changed: ${{ inputs.only_changed && 'true' || github.event_name != 'push' || github.event_name == 'pull_request' }}
+      max_parallel: ${{ inputs.max_parallel }}
+      run_tests: "tests/default.nf.test"
       nft_profile: "${{ inputs.run_on_batch && 'dev' || 'standard,dev_reg' }}"
       nxf_version: ${{ matrix.NXF_VER }}
     secrets: inherit
