@@ -39,7 +39,7 @@ jobs:
   nf-test:
     strategy:
       matrix:
-        NXF_VER: ["24.10.5", "24.04.2"]  # Add more Nextflow versions if needed
+        NXF_VER: ["24.10.5"]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -62,6 +62,5 @@ jobs:
           echo "  NFT_PROFILE=$NFT_PROFILE"
           echo "  MAX_PARALLEL=$MAX_PARALLEL"
           # Replace the echo below with your real Nextflow test command
-          # Example:
-          # nextflow run main.nf -profile $NFT_PROFILE -with-trace tests/default.nf.test
           echo "Simulating nf-test execution..."
+          nextflow run main.nf -profile $NFT_PROFILE -with-trace tests/default.nf.test
