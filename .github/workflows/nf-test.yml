@@ -58,7 +58,7 @@ jobs:
           echo "ONLY_CHANGED=${{ github.event.inputs.only_changed || 'false' }}" >> $GITHUB_ENV
           echo "MAX_PARALLEL=${{ github.event.inputs.max_parallel || '2' }}" >> $GITHUB_ENV
           echo "NXF_VERSION=${{ matrix.NXF_VER }}" >> $GITHUB_ENV
-          echo "NFT_PROFILE=$( [[ '${{ github.event.inputs.run_on_batch }}' == 'true' ]] && echo 'dev' || echo 'github_test,docker' )" >> $GITHUB_ENV
+          echo "NFT_PROFILE=$( [[ '${{ github.event.inputs.run_on_batch }}' == 'true' ]] && echo 'dev' || echo 'gh_test,docker' )" >> $GITHUB_ENV
 
       - name: Run nf-test pipeline
         run: |
