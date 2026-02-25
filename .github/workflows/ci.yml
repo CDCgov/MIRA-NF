@@ -1,36 +1,19 @@
 name: Run Pipeline Tests CI/CD
-# Reusable workflow for nf-test pipeline
 
 on:
   workflow_call:
     inputs:
-      run_tests:
-        description: "Comma separated tests to run (Ex: tests/default.nf.test,tests/flu.nf.test)"
+      run_on_batch:
+        description: "Run tests in batch mode"
         required: false
-        default: "tests/default.nf.test"
-        type: string
-      max_parallel:
-        description: "Maximum number of parallel test runs"
-        required: false
-        default: 2
-        type: number
-      nft_profile:
-        description: "Nextflow profile(s) to use"
-        required: false
-        default: "test,docker"
-        type: string
-      nxf_version:
-        description: "Nextflow version to use"
-        required: false
-        default: "24.10.5"
-        type: string
+        default: false
+        type: boolean
       only_changed:
         description: "Run tests only for changed modules"
         required: false
         default: false
         type: boolean
 
-# Concurrency: only one workflow active per branch or PR
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -39,7 +22,7 @@ jobs:
   pipeline-test:
     strategy:
       matrix:
-        NXF_VER: ["24.10.5", "24.04.2"]  # Add more versions as needed
+        NXF_VER: ["24.10.5"]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -47,21 +30,20 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "RUN_TESTS=${{ inputs.run_tests }}" >> $GITHUB_ENV
-          echo "MAX_PARALLEL=${{ inputs.max_parallel }}" >> $GITHUB_ENV
-          echo "NFT_PROFILE=${{ inputs.nft_profile }}" >> $GITHUB_ENV
-          echo "NXF_VERSION=${{ matrix.NXF_VER }}" >> $GITHUB_ENV
+          echo "RUN_ON_BATCH=${{ inputs.run_on_batch }}" >> $GITHUB_ENV
           echo "ONLY_CHANGED=${{ inputs.only_changed }}" >> $GITHUB_ENV
+          echo "NXF_VERSION=${{ matrix.NXF_VER }}" >> $GITHUB_ENV
+          echo "NFT_PROFILE=$( [[ '${{ inputs.run_on_batch }}' == 'true' ]] && echo 'dev' || echo 'standard,dev_reg' )" >> $GITHUB_ENV
+          echo "MAX_PARALLEL=2" >> $GITHUB_ENV  # Can be hardcoded or also added as input
 
       - name: Run pipeline tests
         run: |
-          echo "Running pipeline tests with:"
-          echo "  run_tests=$RUN_TESTS"
-          echo "  max_parallel=$MAX_PARALLEL"
-          echo "  nft_profile=$NFT_PROFILE"
-          echo "  nxf_version=$NXF_VERSION"
-          echo "  only_changed=$ONLY_CHANGED"
-          # Replace the echo below with your real nf-test command
-          # Example:
-          # nextflow run main.nf -profile $NFT_PROFILE -with-trace $RUN_TESTS
-          echo "Simulating pipeline test execution..."
+          echo "Running nf-test with:"
+          echo "  NXF_VERSION=$NXF_VERSION"
+          echo "  RUN_ON_BATCH=$RUN_ON_BATCH"
+          echo "  ONLY_CHANGED=$ONLY_CHANGED"
+          echo "  NFT_PROFILE=$NFT_PROFILE"
+          echo "  MAX_PARALLEL=$MAX_PARALLEL"
+          # Replace below with your actual nf-test command:
+          # nextflow run main.nf -profile $NFT_PROFILE -with-trace tests/default.nf.test
+          echo "Simulating nf-test execution..."

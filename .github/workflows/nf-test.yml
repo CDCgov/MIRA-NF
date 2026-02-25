@@ -17,11 +17,6 @@ on:
         required: false
         default: false
         type: boolean
-      max_parallel:
-        description: "Maximum number of parallel test runs"
-        required: false
-        default: 2
-        type: number
       only_changed:
         description: "Run tests only for changed modules"
         required: false
@@ -37,7 +32,5 @@ jobs:
   nf-test:
     uses: CDCgov/MIRA-NF/.github/workflows/ci.yml@fix_gh_actions
     with:
-      max_parallel: ${{ inputs.max_parallel }}
-      run_tests: "tests/default.nf.test"
-      nft_profile: "${{ inputs.run_on_batch && 'dev' || 'standard,dev_reg' }}"
+      run_on_batch: ${{ inputs.run_on_batch }}
       only_changed: ${{ inputs.only_changed }}
