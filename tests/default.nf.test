@@ -8,7 +8,7 @@ nextflow_pipeline{
                 e = "Flu-ONT"
                 input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/master/data/test_data/samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/master/data/test_data"
-                outdir = "$outputDir"
+                outdir = "./outputs"
             }
         }
         then {

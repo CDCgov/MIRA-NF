@@ -24,10 +24,6 @@ on:
         description: "Maximum number of parallel test runs"
         required: false
         default: 2
-      outdir:
-        description: "Directory to store test outputs"
-        required: false
-        default: "results"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -43,5 +39,4 @@ jobs:
       nft_profile: "gh_test,docker"
       nxf_version: ${{ github.event.inputs.nxf_version || '24.10.5' }}
       max_parallel: ${{ github.event.inputs.max_parallel || 2 }}
-      outdir: ${{ github.event.inputs.outdir || 'results' }}
     secrets: inherit
