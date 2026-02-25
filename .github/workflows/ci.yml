@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   pipeline-test:
-    uses: CDCgov/MIRA-NF/.github/workflows/ci.yml@fix_gh_actions
+    uses: CDCgov/MIRA-NF/.github/workflows/nf-test.yml@fix_gh_actions
     with:
       component_type: "pipeline"
       max_parallel: 2
