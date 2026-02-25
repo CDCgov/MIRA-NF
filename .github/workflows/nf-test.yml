@@ -79,4 +79,5 @@ jobs:
           nextflow run main.nf \
             -profile $NFT_PROFILE \
             --outdir $TEST_OUTDIR \
+            --check_version false \
             -with-trace tests/default.nf.test
