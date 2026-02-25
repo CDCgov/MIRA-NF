@@ -45,11 +45,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Install Nextflow
+        run: |
+          curl -s https://get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+          nextflow -version
+
       - name: Set environment variables
         run: |
-          echo "RUN_ON_BATCH=${{ github.event.inputs.run_on_batch || false }}" >> $GITHUB_ENV
-          echo "ONLY_CHANGED=${{ github.event.inputs.only_changed || false }}" >> $GITHUB_ENV
-          echo "MAX_PARALLEL=${{ github.event.inputs.max_parallel || 2 }}" >> $GITHUB_ENV
+          echo "RUN_ON_BATCH=${{ github.event.inputs.run_on_batch || 'false' }}" >> $GITHUB_ENV
+          echo "ONLY_CHANGED=${{ github.event.inputs.only_changed || 'false' }}" >> $GITHUB_ENV
+          echo "MAX_PARALLEL=${{ github.event.inputs.max_parallel || '2' }}" >> $GITHUB_ENV
           echo "NXF_VERSION=${{ matrix.NXF_VER }}" >> $GITHUB_ENV
           echo "NFT_PROFILE=$( [[ '${{ github.event.inputs.run_on_batch }}' == 'true' ]] && echo 'dev' || echo 'standard,dev_reg' )" >> $GITHUB_ENV
 
@@ -62,5 +68,4 @@ jobs:
           echo "  NFT_PROFILE=$NFT_PROFILE"
           echo "  MAX_PARALLEL=$MAX_PARALLEL"
           # Replace the echo below with your real Nextflow test command
-          echo "Simulating nf-test execution..."
           nextflow run main.nf -profile $NFT_PROFILE -with-trace tests/default.nf.test
