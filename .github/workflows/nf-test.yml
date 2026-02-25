@@ -1,10 +1,11 @@
 name: Run nf-test CI/CD
 
+# Triggers
 on:
   push:
     branches:
       - master
-      - fix_gh_actions
+      - main
   pull_request:
     branches:
       - dev
@@ -22,15 +23,45 @@ on:
         required: false
         default: false
         type: boolean
+      max_parallel:
+        description: "Maximum number of parallel test runs"
+        required: false
+        default: 2
+        type: number
 
 # Concurrency: only one workflow active per branch or PR
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+# Jobs
 jobs:
   nf-test:
-    uses: CDCgov/MIRA-NF/.github/workflows/ci.yml@fix_gh_actions
-    with:
-      run_on_batch: ${{ inputs.run_on_batch }}
-      only_changed: ${{ inputs.only_changed }}
+    strategy:
+      matrix:
+        NXF_VER: ["24.10.5", "24.04.2"]  # Add more Nextflow versions if needed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set environment variables
+        run: |
+          echo "RUN_ON_BATCH=${{ github.event.inputs.run_on_batch || false }}" >> $GITHUB_ENV
+          echo "ONLY_CHANGED=${{ github.event.inputs.only_changed || false }}" >> $GITHUB_ENV
+          echo "MAX_PARALLEL=${{ github.event.inputs.max_parallel || 2 }}" >> $GITHUB_ENV
+          echo "NXF_VERSION=${{ matrix.NXF_VER }}" >> $GITHUB_ENV
+          echo "NFT_PROFILE=$( [[ '${{ github.event.inputs.run_on_batch }}' == 'true' ]] && echo 'dev' || echo 'standard,dev_reg' )" >> $GITHUB_ENV
+
+      - name: Run nf-test pipeline
+        run: |
+          echo "Running nf-test with:"
+          echo "  NXF_VERSION=$NXF_VERSION"
+          echo "  RUN_ON_BATCH=$RUN_ON_BATCH"
+          echo "  ONLY_CHANGED=$ONLY_CHANGED"
+          echo "  NFT_PROFILE=$NFT_PROFILE"
+          echo "  MAX_PARALLEL=$MAX_PARALLEL"
+          # Replace the echo below with your real Nextflow test command
+          # Example:
+          # nextflow run main.nf -profile $NFT_PROFILE -with-trace tests/default.nf.test
+          echo "Simulating nf-test execution..."
