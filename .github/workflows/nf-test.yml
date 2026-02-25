@@ -35,6 +35,7 @@ concurrency:
   cancel-in-progress: true
 
 # Jobs
+# Jobs
 jobs:
   nf-test:
     strategy:
@@ -61,11 +62,21 @@ jobs:
 
       - name: Run nf-test pipeline
         run: |
+          # Define a unique output directory per run
+          TEST_OUTDIR=results/test_run_${GITHUB_RUN_NUMBER}
+          mkdir -p $TEST_OUTDIR
+          echo "Output directory: $TEST_OUTDIR"
+
           echo "Running nf-test with:"
           echo "  NXF_VERSION=$NXF_VERSION"
           echo "  RUN_ON_BATCH=$RUN_ON_BATCH"
           echo "  ONLY_CHANGED=$ONLY_CHANGED"
           echo "  NFT_PROFILE=$NFT_PROFILE"
           echo "  MAX_PARALLEL=$MAX_PARALLEL"
-          # Replace the echo below with your real Nextflow test command
-          nextflow run main.nf -profile $NFT_PROFILE -with-trace tests/default.nf.test
+          echo "  OUTPUT_DIR=$TEST_OUTDIR"
+
+          # Run Nextflow test pipeline with the output directory
+          nextflow run main.nf \
+            -profile $NFT_PROFILE \
+            --outdir $TEST_OUTDIR \
+            -with-trace tests/default.nf.test
