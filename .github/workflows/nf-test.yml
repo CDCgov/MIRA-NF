@@ -69,8 +69,11 @@ jobs:
             echo "Found runpath: $RUNPATH"
 
             REPO_URL=$(echo "$RUNPATH" | grep -oP 'https://github\.com/[^/]+/[^/]+')
-            BRANCH=$(echo "$RUNPATH" | grep -oP '(?<=/tree/)[^/]+')
-            SUBDIR=$(echo "$RUNPATH" | grep -oP '(?<=/tree/[^/]+/).+')
+
+            # Extract the part after '/tree/'
+            TREE_SUFFIX=$(echo "$RUNPATH" | sed 's|.*/tree/||')
+            BRANCH=$(echo "$TREE_SUFFIX" | cut -d'/' -f1)
+            SUBDIR=$(echo "$TREE_SUFFIX" | cut -d'/' -f2-)
 
             echo "Repo: $REPO_URL | Branch: $BRANCH | Subdir: $SUBDIR"
 
