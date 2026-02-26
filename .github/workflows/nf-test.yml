@@ -61,7 +61,12 @@ jobs:
 
           # Use the first test file to extract the runpath
           FIRST_TEST=$(echo "${{ inputs.run_tests }}" | tr ',' ' ' | awk '{print $1}')
-          RUNPATH=$(grep -o 'runpath\s*=\s*"[^"]*"' "$FIRST_TEST" | grep -o '"[^"]*"' | tr -d '"' | tr -d '_')
+
+          # Extract raw runpath value and strip surrounding __ markdown bold markers (not individual underscores)
+          RUNPATH=$(grep -o 'runpath\s*=\s*"[^"]*"' "$FIRST_TEST" \
+            | grep -o '"[^"]*"' \
+            | tr -d '"' \
+            | sed 's/^__//;s/__$//')
 
           if [ -z "$RUNPATH" ]; then
             echo "No runpath found in $FIRST_TEST, skipping download."
@@ -79,7 +84,16 @@ jobs:
 
             CLONE_DIR=$(mktemp -d)
             git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
-            cp -r "$CLONE_DIR/$SUBDIR/" "$LOCAL_RUNPATH/"
+
+            # Verify the subdir exists before copying
+            if [ ! -d "$CLONE_DIR/$SUBDIR" ]; then
+              echo "ERROR: Subdirectory '$SUBDIR' not found in cloned repo."
+              echo "Contents of clone root:"
+              ls "$CLONE_DIR"
+              exit 1
+            fi
+
+            cp -r "$CLONE_DIR/$SUBDIR/." "$LOCAL_RUNPATH/"
             rm -rf "$CLONE_DIR"
 
             echo "Downloaded runpath contents to: $LOCAL_RUNPATH"
