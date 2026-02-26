@@ -56,8 +56,11 @@ jobs:
 
           # Loop over comma-separated test files
           for test_file in $(echo "${{ inputs.run_tests }}" | tr ',' ' '); do
+          test_params=$(echo "${{ inputs.run_tests }}" | tr ',' ' ')
+          
             echo "Running test: $test_file"
+            echo "params: $test_params"
             nextflow run main.nf \
               -profile ${{ inputs.nft_profile }} \
-              -with-trace $test_file
+              -with-trace $test_params
           done
