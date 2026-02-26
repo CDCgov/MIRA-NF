@@ -40,14 +40,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Nextflow
-        run: |
-          curl -s https://get.nextflow.io | bash
-          sudo mv nextflow /usr/local/bin/
-          nextflow -version
-        env:
-          NXF_VER: ${{ inputs.nxf_version }}
-
       - name: Install nf-test
         run: |
           curl -fsSL https://code.askimed.com/install/nf-test | bash
