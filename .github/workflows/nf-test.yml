@@ -70,6 +70,7 @@ jobs:
 
           if [ -z "$RUNPATH" ]; then
             echo "No runpath found in $FIRST_TEST, skipping download."
+            echo "LOCAL_RUNPATH=" >> $GITHUB_ENV
           else
             echo "Found runpath: $RUNPATH"
 
@@ -93,19 +94,18 @@ jobs:
               exit 1
             fi
 
-            cp -r "$CLONE_DIR/$SUBDIR/*" "$LOCAL_RUNPATH/"
+            # Use trailing dot to copy contents (not the dir itself), avoiding glob issues
+            cp -r "$CLONE_DIR/$SUBDIR/." "$LOCAL_RUNPATH/"
             rm -rf "$CLONE_DIR"
 
             echo "Downloaded runpath contents to: $LOCAL_RUNPATH"
             ls "$LOCAL_RUNPATH"
+
+            # Export for use in the next step
+            echo "LOCAL_RUNPATH=$LOCAL_RUNPATH" >> $GITHUB_ENV
           fi
 
-          # Export for use in the next step
-          echo "LOCAL_RUNPATH=$LOCAL_RUNPATH" >> $GITHUB_ENV
-
       - name: Run pipeline tests
-        env:
-          RUNPATH: ${{ env.LOCAL_RUNPATH }}
         run: |
           echo "Running tests on local runner..."
           echo "Tests: ${{ inputs.run_tests }}"
@@ -117,6 +117,13 @@ jobs:
           # Convert comma-separated list to space-separated for nf-test
           TEST_FILES=$(echo "${{ inputs.run_tests }}" | tr ',' ' ')
 
+          # Build optional --params override for runpath if we downloaded it locally
+          RUNPATH_OVERRIDE=""
+          if [ -n "$LOCAL_RUNPATH" ]; then
+            RUNPATH_OVERRIDE="--params runpath=$LOCAL_RUNPATH"
+          fi
+
           nf-test test \
             --profile "${{ inputs.nft_profile }}" \
+            $RUNPATH_OVERRIDE \
             $TEST_FILES
