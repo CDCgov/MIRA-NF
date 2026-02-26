@@ -105,6 +105,22 @@ jobs:
             echo "LOCAL_RUNPATH=$LOCAL_RUNPATH" >> $GITHUB_ENV
           fi
 
+      - name: Patch runpath in test files to use local path
+        run: |
+          if [ -z "$LOCAL_RUNPATH" ]; then
+            echo "No LOCAL_RUNPATH set, skipping patch."
+            exit 0
+          fi
+
+          # For each test file, replace the GitHub runpath URL with the local path
+          for TEST_FILE in $(echo "${{ inputs.run_tests }}" | tr ',' ' '); do
+            echo "Patching runpath in: $TEST_FILE"
+            # Replace the entire runpath value (GitHub URL) with the local path
+            sed -i "s|runpath\s*=\s*\"[^\"]*\"|runpath = \"$LOCAL_RUNPATH\"|g" "$TEST_FILE"
+            echo "--- Patched runpath in $TEST_FILE ---"
+            grep 'runpath' "$TEST_FILE" || echo "(no runpath line found)"
+          done
+
       - name: Run pipeline tests
         run: |
           echo "Running tests on local runner..."
@@ -117,13 +133,6 @@ jobs:
           # Convert comma-separated list to space-separated for nf-test
           TEST_FILES=$(echo "${{ inputs.run_tests }}" | tr ',' ' ')
 
-          # Build optional --params override for runpath if we downloaded it locally
-          RUNPATH_OVERRIDE=""
-          if [ -n "$LOCAL_RUNPATH" ]; then
-            RUNPATH_OVERRIDE="--params runpath=$LOCAL_RUNPATH"
-          fi
-
           nf-test test \
             --profile "${{ inputs.nft_profile }}" \
-            $RUNPATH_OVERRIDE \
             $TEST_FILES
