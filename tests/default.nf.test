@@ -1,13 +1,46 @@
-nextflow_pipeline{
-    name "Test Nextstrain wrapper pipeline"
+nextflow_pipeline {
+
+    name "Test pipeline"
     script "../main.nf"
-    test("Flu-ONT") {
+    tag "pipeline"
+
+    test("Flu-ONT Pipeline Test") {
 
         when {
             params {
                 e = "Flu-ONT"
                 input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/nextflow_samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/master/data/test_data/"
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            // stable_name: All files + folders in ${params.outdir}/ with a stable name
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            // stable_path: All files in ${params.outdir}/ with stable content
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    // Number of successful tasks
+                    workflow.trace.succeeded().size(),
+                    // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
+                    removeNextflowVersion("$outputDir/pipeline_info/mira-nf_software_mqc_versions.yml"),
+                    // All stable path name, with a relative path
+                    stable_name,
+                    // All files with stable contents
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+}
+
+test("Pipeline test") {
+
+        when {
+            params {
                 outdir = "$outputDir"
             }
         }
@@ -28,4 +61,3 @@ nextflow_pipeline{
             )
         }
     }
-}

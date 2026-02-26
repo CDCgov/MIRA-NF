@@ -45,14 +45,6 @@ jobs:
           curl -s https://get.nextflow.io | bash
           sudo mv nextflow /usr/local/bin/
           nextflow -version
-        env:
-          NXF_VER: ${{ inputs.nxf_version }}
-
-      - name: Install nf-test
-        run: |
-          curl -fsSL https://code.askimed.com/install/nf-test | bash
-          sudo mv nf-test /usr/local/bin/
-          nf-test version
 
       - name: Run pipeline tests
         run: |
@@ -62,10 +54,10 @@ jobs:
           echo "Nextflow version: ${{ inputs.nxf_version }}"
           echo "Max parallel: ${{ inputs.max_parallel }}"
 
-          # Convert comma-separated list to space-separated for nf-test
-          TEST_FILES=$(echo "${{ inputs.run_tests }}" | tr ',' ' ')
-
-          nf-test test \
-            --profile "${{ inputs.nft_profile }}" \
-            --max-parallel ${{ inputs.max_parallel }} \
-            $TEST_FILES
+          # Loop over comma-separated test files
+          for test_file in $(echo "${{ inputs.run_tests }}" | tr ',' ' '); do
+            echo "Running test: $test_file"
+            nextflow run main.nf \
+              -profile ${{ inputs.nft_profile }} \
+              -with-trace $test_file
+          done
