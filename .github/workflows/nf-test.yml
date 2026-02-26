@@ -21,7 +21,7 @@ on:
         description: "Nextflow profile"
         required: false
         type: string
-        default: "docker"
+        default: "gh_test,docker"
       nxf_version:
         description: "Nextflow version"
         required: false
