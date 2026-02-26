@@ -54,6 +54,38 @@ jobs:
           sudo mv nf-test /usr/local/bin/
           nf-test version
 
+      - name: Extract runpath and download locally
+        run: |
+          LOCAL_RUNPATH="${{ github.workspace }}/test_data"
+          mkdir -p "$LOCAL_RUNPATH"
+
+          # Use the first test file to extract the runpath
+          FIRST_TEST=$(echo "${{ inputs.run_tests }}" | tr ',' ' ' | awk '{print $1}')
+          RUNPATH=$(grep -oP '(?<=runpath\s=\s")[^"]+' "$FIRST_TEST")
+
+          if [ -z "$RUNPATH" ]; then
+            echo "No runpath found in $FIRST_TEST, skipping download."
+          else
+            echo "Found runpath: $RUNPATH"
+
+            REPO_URL=$(echo "$RUNPATH" | grep -oP 'https://github\.com/[^/]+/[^/]+')
+            BRANCH=$(echo "$RUNPATH" | grep -oP '(?<=/tree/)[^/]+')
+            SUBDIR=$(echo "$RUNPATH" | grep -oP '(?<=/tree/[^/]+/).+')
+
+            echo "Repo: $REPO_URL | Branch: $BRANCH | Subdir: $SUBDIR"
+
+            CLONE_DIR=$(mktemp -d)
+            git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
+            cp -r "$CLONE_DIR/$SUBDIR/." "$LOCAL_RUNPATH/"
+            rm -rf "$CLONE_DIR"
+
+            echo "Downloaded runpath contents to: $LOCAL_RUNPATH"
+            ls "$LOCAL_RUNPATH"
+          fi
+
+          # Export for use in the next step
+          echo "LOCAL_RUNPATH=$LOCAL_RUNPATH" >> $GITHUB_ENV
+
       - name: Run pipeline tests
         run: |
           echo "Running tests on local runner..."
@@ -61,10 +93,12 @@ jobs:
           echo "Profile: ${{ inputs.nft_profile }}"
           echo "Nextflow version: ${{ inputs.nxf_version }}"
           echo "Max parallel: ${{ inputs.max_parallel }}"
+          echo "Local runpath: $LOCAL_RUNPATH"
 
           # Convert comma-separated list to space-separated for nf-test
           TEST_FILES=$(echo "${{ inputs.run_tests }}" | tr ',' ' ')
 
           nf-test test \
             --profile "${{ inputs.nft_profile }}" \
+            --params "runpath=$LOCAL_RUNPATH" \
             $TEST_FILES
