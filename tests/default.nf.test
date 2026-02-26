@@ -52,6 +52,7 @@ nextflow_pipeline {
                 input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_wgs_illumina/samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_illumina"
                 outdir = "$outputDir"
+                primer = "swift_211206"
             }
         }
         then {
