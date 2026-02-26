@@ -67,5 +67,4 @@ jobs:
 
           nf-test test \
             --profile "${{ inputs.nft_profile }}" \
-            --max-parallel ${{ inputs.max_parallel }} \
             $TEST_FILES
