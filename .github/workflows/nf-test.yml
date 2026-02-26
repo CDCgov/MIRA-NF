@@ -93,7 +93,7 @@ jobs:
               exit 1
             fi
 
-            cp -r "$CLONE_DIR/$SUBDIR/." "$LOCAL_RUNPATH/"
+            cp -r "$CLONE_DIR/$SUBDIR/*" "$LOCAL_RUNPATH/"
             rm -rf "$CLONE_DIR"
 
             echo "Downloaded runpath contents to: $LOCAL_RUNPATH"
