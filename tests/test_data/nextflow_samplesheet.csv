@@ -1,2 +1,2 @@
 sample,barcodes,fastq_1,fastq_2,sample_type
-s3,barcode41,https://github.com/CDCgov/MIRA-NF/blob/fix_gh_actions/tests/test_data/fastq_pass/barcode41/s3_subsampled.fastq.gz,,Test
+s3,barcode41,https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/fastq_pass/barcode41/s3_subsampled.fastq,,Test
