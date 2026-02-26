@@ -6,8 +6,8 @@ nextflow_pipeline{
         when {
             params {
                 e = "Flu-ONT"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/master/data/test_data/samplesheet.csv"
-                runpath = "https://github.com/CDCgov/MIRA-NF/tree/master/data/test_data"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/nextflow_samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/master/data/test_data/"
                 outdir = "$outputDir"
             }
         }
