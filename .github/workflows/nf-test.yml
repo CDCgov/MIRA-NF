@@ -104,6 +104,8 @@ jobs:
           echo "LOCAL_RUNPATH=$LOCAL_RUNPATH" >> $GITHUB_ENV
 
       - name: Run pipeline tests
+        env:
+          RUNPATH: ${{ env.LOCAL_RUNPATH }}
         run: |
           echo "Running tests on local runner..."
           echo "Tests: ${{ inputs.run_tests }}"
@@ -117,5 +119,4 @@ jobs:
 
           nf-test test \
             --profile "${{ inputs.nft_profile }}" \
-            --params "runpath=$LOCAL_RUNPATH" \
             $TEST_FILES
