@@ -54,71 +54,83 @@ jobs:
           sudo mv nf-test /usr/local/bin/
           nf-test version
 
-      - name: Extract runpath and download locally
+      - name: Extract runpaths and download locally
         run: |
-          LOCAL_RUNPATH="${{ github.workspace }}/test_data"
-          mkdir -p "$LOCAL_RUNPATH"
+          BASE_DIR="${{ github.workspace }}/test_data"
+          mkdir -p "$BASE_DIR"
 
-          # Use the first test file to extract the runpath
-          FIRST_TEST=$(echo "${{ inputs.run_tests }}" | tr ',' ' ' | awk '{print $1}')
+          CLONED_REPOS=""
 
-          # Extract raw runpath value and strip surrounding __ markdown bold markers (not individual underscores)
-          RUNPATH=$(grep -o 'runpath\s*=\s*"[^"]*"' "$FIRST_TEST" \
-            | grep -o '"[^"]*"' \
-            | tr -d '"' \
-            | sed 's/^__//;s/__$//')
+          for TEST_FILE in $(echo "${{ inputs.run_tests }}" | tr ',' ' '); do
+            echo "=== Processing test file: $TEST_FILE ==="
 
-          if [ -z "$RUNPATH" ]; then
-            echo "No runpath found in $FIRST_TEST, skipping download."
-            echo "LOCAL_RUNPATH=" >> $GITHUB_ENV
-          else
-            echo "Found runpath: $RUNPATH"
+            # Extract all unique runpath URLs from this test file, one per line
+            RUNPATHS=$(grep -oP 'runpath\s*=\s*"\K[^"]+' "$TEST_FILE" | sort -u)
 
-            REPO_URL=$(echo "$RUNPATH" | grep -oP 'https://github\.com/[^/]+/[^/]+')
-
-            # Extract the part after '/tree/'
-            TREE_SUFFIX=$(echo "$RUNPATH" | sed 's|.*/tree/||')
-            BRANCH=$(echo "$TREE_SUFFIX" | cut -d'/' -f1)
-            SUBDIR=$(echo "$TREE_SUFFIX" | cut -d'/' -f2-)
-
-            echo "Repo: $REPO_URL | Branch: $BRANCH | Subdir: $SUBDIR"
-
-            CLONE_DIR=$(mktemp -d)
-            git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
-
-            # Verify the subdir exists before copying
-            if [ ! -d "$CLONE_DIR/$SUBDIR" ]; then
-              echo "ERROR: Subdirectory '$SUBDIR' not found in cloned repo."
-              echo "Contents of clone root:"
-              ls "$CLONE_DIR"
-              exit 1
+            if [ -z "$RUNPATHS" ]; then
+              echo "No runpath found in $TEST_FILE, skipping."
+              continue
             fi
 
-            # Use trailing dot to copy contents (not the dir itself), avoiding glob issues
-            cp -r "$CLONE_DIR/$SUBDIR/." "$LOCAL_RUNPATH/"
-            rm -rf "$CLONE_DIR"
+            while IFS= read -r RUNPATH; do
+              echo "Found runpath: $RUNPATH"
 
-            echo "Downloaded runpath contents to: $LOCAL_RUNPATH"
-            ls "$LOCAL_RUNPATH"
+              # Validate it looks like a GitHub tree URL
+              if ! echo "$RUNPATH" | grep -qP '^https://github\.com/[^/]+/[^/]+/tree/'; then
+                echo "WARNING: runpath does not look like a GitHub tree URL, skipping: $RUNPATH"
+                continue
+              fi
 
-            # Export for use in the next step
-            echo "LOCAL_RUNPATH=$LOCAL_RUNPATH" >> $GITHUB_ENV
-          fi
+              REPO_URL=$(echo "$RUNPATH" | grep -oP 'https://github\.com/[^/]+/[^/]+')
+              TREE_SUFFIX=$(echo "$RUNPATH" | sed 's|.*/tree/||')
+              BRANCH=$(echo "$TREE_SUFFIX" | cut -d'/' -f1)
+              SUBDIR=$(echo "$TREE_SUFFIX" | cut -d'/' -f2-)
 
-      - name: Patch runpath in test files to use local path
-        run: |
-          if [ -z "$LOCAL_RUNPATH" ]; then
-            echo "No LOCAL_RUNPATH set, skipping patch."
-            exit 0
-          fi
+              echo "Repo: $REPO_URL | Branch: $BRANCH | Subdir: $SUBDIR"
 
-          # For each test file, replace the GitHub runpath URL with the local path
-          for TEST_FILE in $(echo "${{ inputs.run_tests }}" | tr ',' ' '); do
-            echo "Patching runpath in: $TEST_FILE"
-            # Replace the entire runpath value (GitHub URL) with the local path
-            sed -i "s|runpath\s*=\s*\"[^\"]*\"|runpath = \"$LOCAL_RUNPATH\"|g" "$TEST_FILE"
-            echo "--- Patched runpath in $TEST_FILE ---"
-            grep 'runpath' "$TEST_FILE" || echo "(no runpath line found)"
+              # Use a stable local path based on the subdir name (last component)
+              LOCAL_SUBDIR_NAME=$(basename "$SUBDIR")
+              LOCAL_DEST="$BASE_DIR/$LOCAL_SUBDIR_NAME"
+              mkdir -p "$LOCAL_DEST"
+
+              # Only clone each repo+branch once
+              CLONE_KEY="${REPO_URL}@${BRANCH}"
+              if echo "$CLONED_REPOS" | grep -qF "$CLONE_KEY"; then
+                echo "Already cloned $CLONE_KEY, reusing."
+                CLONE_DIR=$(echo "$CLONED_REPOS" | grep -oP "(?<=${CLONE_KEY}=)[^ ]+")
+              else
+                CLONE_DIR=$(mktemp -d)
+                git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
+                CLONED_REPOS="$CLONED_REPOS ${CLONE_KEY}=${CLONE_DIR}"
+              fi
+
+              if [ ! -d "$CLONE_DIR/$SUBDIR" ]; then
+                echo "ERROR: Subdirectory '$SUBDIR' not found in cloned repo."
+                ls "$CLONE_DIR"
+                exit 1
+              fi
+
+              cp -r "$CLONE_DIR/$SUBDIR/." "$LOCAL_DEST/"
+              echo "Downloaded '$SUBDIR' to: $LOCAL_DEST"
+              ls "$LOCAL_DEST"
+
+              # Patch this specific runpath URL to the local destination
+              echo "Patching runpath in: $TEST_FILE"
+              # Escape special characters in RUNPATH for use in sed
+              ESCAPED_RUNPATH=$(printf '%s\n' "$RUNPATH" | sed 's|[&/\]|\\&|g')
+              ESCAPED_LOCAL=$(printf '%s\n' "$LOCAL_DEST" | sed 's|[&/\]|\\&|g')
+              sed -i "s|runpath = \"${ESCAPED_RUNPATH}\"|runpath = \"${ESCAPED_LOCAL}\"|g" "$TEST_FILE"
+
+            done <<< "$RUNPATHS"
+
+            echo "--- Final runpath lines in $TEST_FILE ---"
+            grep 'runpath' "$TEST_FILE" || echo "(no runpath lines found)"
+          done
+
+          # Clean up cloned repos
+          for ENTRY in $CLONED_REPOS; do
+            DIR=$(echo "$ENTRY" | cut -d'=' -f2)
+            rm -rf "$DIR"
           done
 
       - name: Run pipeline tests
@@ -128,9 +140,7 @@ jobs:
           echo "Profile: ${{ inputs.nft_profile }}"
           echo "Nextflow version: ${{ inputs.nxf_version }}"
           echo "Max parallel: ${{ inputs.max_parallel }}"
-          echo "Local runpath: $LOCAL_RUNPATH"
 
-          # Convert comma-separated list to space-separated for nf-test
           TEST_FILES=$(echo "${{ inputs.run_tests }}" | tr ',' ' ')
 
           nf-test test \
