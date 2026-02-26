@@ -61,7 +61,7 @@ jobs:
 
           # Use the first test file to extract the runpath
           FIRST_TEST=$(echo "${{ inputs.run_tests }}" | tr ',' ' ' | awk '{print $1}')
-          RUNPATH=$(grep -oP '(?<=runpath\s=\s")[^"]+' "$FIRST_TEST")
+          RUNPATH=$(grep -o 'runpath\s*=\s*"[^"]*"' "$FIRST_TEST" | grep -o '"[^"]*"' | tr -d '"' | tr -d '_')
 
           if [ -z "$RUNPATH" ]; then
             echo "No runpath found in $FIRST_TEST, skipping download."
