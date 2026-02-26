@@ -4,7 +4,9 @@ nextflow_pipeline {
     test("Pipeline Check") {
         when {
             params {
-                e = "Flu-ONT"
+                e = "Flu-Illumina"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/flu_wgs_illumina/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/flu_wgs_illumina"
                 outdir = "$outputDir"
             }
         }
@@ -25,7 +27,7 @@ nextflow_pipeline {
         when {
             params {
                 e = "Flu-ONT"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/samplesheet.csv"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/flu_wgs_ont/samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/flu_wgs_ont"
                 outdir = "$outputDir"
             }
