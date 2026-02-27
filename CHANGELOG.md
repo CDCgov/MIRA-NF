@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.0.0 - 02.13.2026
+## v2.0.0 - 02.27.2026
 
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Sam Wiley](https://github.com/samcwiley)
@@ -19,18 +19,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | nextclade     | 3.18.1  |
 
 ### Nextclade Tags Used
-
-| Dataset        | Tag                   |
-| -------------- | --------------------- |
-| flu_h3n2_ha    | 2024-11-27--02-51-00Z |
-| flu_h1n1pdm_ha | 2024-11-27--02-51-00Z |
-| flu_vic_ha     | 2024-01-16--20-31-02Z |
-| flu_h3n2_na    | 2024-11-05--09-19-52Z |
-| flu_h1n1pdm_na | 2024-11-05--09-19-52Z |
-| flu_vic_na     | 2024-01-16--20-31-02Z |
-| rsv_a          | 2025-08-25--09-00-35Z |
-| rsv_b          | 2024-08-01--22-31-31Z |
-| sars-cov-2     | 2024-04-25--01-03-07Z |
+| Dataset           | Tag                    |
+|-------------------|------------------------|
+| flu_h3n2_ha       | 2026-01-14--19-24-43Z  |
+| flu_h1n1pdm_ha    | 2026-01-14--19-24-43Z  |
+| flu_vic_ha        | 2025-10-22--18-11-36Z  |
+| flu_h3n2_na       | 2026-01-14--08-53-00Z  |
+| flu_h1n1pdm_na    | 2026-01-14--08-53-00Z  |
+| flu_vic_na        | 2025-09-09--12-13-13Z  |
+| rsv_a             | 2025-09-09--12-13-13Z  |
+| rsv_b             | 2025-09-09--12-13-13Z  |
+| sars-cov-2        | 2026-01-06--14-59-32Z  |
 
 ### Enhancements
 
