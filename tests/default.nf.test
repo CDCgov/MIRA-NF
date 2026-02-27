@@ -1,13 +1,16 @@
 nextflow_pipeline {
     script "../main.nf"
 
-    test("Flu-Illumina Check") {
+    test("Flu-Illumina with ReadQC and Nextclade Check") {
         when {
             params {
                 e = "Flu-Illumina"
                 input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/flu_wgs_illumina/samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/flu_wgs_illumina"
                 outdir = "$outputDir"
+                nextclade = true
+                readqc = true
+                parquet_files = true
             }
         }
         then {
@@ -53,6 +56,50 @@ nextflow_pipeline {
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_illumina"
                 outdir = "$outputDir"
                 p = "swift_211206"
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("SC2-Whole-Genome-ONT Check") {
+        when {
+            params {
+                e = "SC2-Whole-Genome-ONT"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_wgs_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_ont"
+                outdir = "$outputDir"
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("SC2-Whole-Spike-ONT Check") {
+        when {
+            params {
+                e = "SC2-Whole-Genome-ONT"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_spike_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_spike_ont"
+                outdir = "$outputDir"
             }
         }
         then {
