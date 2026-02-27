@@ -1,5 +1,5 @@
 name: "runnextclade"
-description:  Run nextclade for flu, sars-cov-2 and rsv genome clade assignment
+description: Run nextclade for flu, sars-cov-2 and rsv genome clade assignment
 keywords:
   - nextclade
   - variant
@@ -16,7 +16,7 @@ tools:
       licence: ["MIT"]
       identifier: nextclade
 input:
- dataset:
+  dataset:
     - dataset_name:
         type: string
         description: |
@@ -61,8 +61,8 @@ output:
     - dataset_name:
         type: map
         description: |
-           Groovy Map containing dataset information
-           e.g. [ id:'test', single_end:false ]
+          Groovy Map containing dataset information
+          e.g. [ id:'test', single_end:false ]
     - ${prefix}.json:
         type: file
         description: JSON file containing nextclade results

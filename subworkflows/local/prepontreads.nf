@@ -63,7 +63,7 @@ workflow PREPONTREADS {
                 .combine(new_ch3)
                 .filter { it[0].sample_ID == it[1].sample_ID }
                 .map { [it[0].sample_ID, it[0].barcodes, it[0].fastq_file_path, it[1].subsample] }
-            
+
             SUBSAMPLESINGLEREADS(subsample_ch)
 
             subsample_output_ch = SUBSAMPLESINGLEREADS.out.subsampled_fastq

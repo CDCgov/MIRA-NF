@@ -1,32 +1,216 @@
 nextflow_pipeline {
-
-    name "Test pipeline"
     script "../main.nf"
-    tag "pipeline"
 
-    test("-profile test") {
-
+    test("Flu-Illumina with ReadQC and Nextclade Check") {
         when {
             params {
+                e = "Flu-Illumina"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/flu_wgs_illumina/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/flu_wgs_illumina"
+                outdir = "$outputDir"
+                nextclade = true
+                readqc = true
+                parquet_files = true
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("Flu-ONT Check") {
+        when {
+            params {
+                e = "Flu-ONT"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/flu_wgs_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/flu_wgs_ont"
+                outdir = "$outputDir"
+                check_version false
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("SC2-Whole-Genome-Illumina Check") {
+        when {
+            params {
+                e = "SC2-Whole-Genome-Illumina"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_wgs_illumina/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_illumina"
+                outdir = "$outputDir"
+                p = "swift_211206"
+                check_version false
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("SC2-Whole-Genome-ONT Check") {
+        when {
+            params {
+                e = "SC2-Whole-Genome-ONT"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_wgs_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_ont"
+                outdir = "$outputDir"
+                check_version false
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("SC2-Whole-Spike-ONT Check") {
+        when {
+            params {
+                e = "SC2-Whole-Genome-ONT"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_spike_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_spike_ont"
+                outdir = "$outputDir"
+                check_version false
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("RSV-Illumina Check") {
+        when {
+            params {
+                e = "RSV-Illumina"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/rsv_illumina/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/rsv_illumina"
+                outdir = "$outputDir"
+                p = "RSV_CDC_8amplicon_230901"
+                check_version false
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("RSV-ONT Check") {
+        when {
+            params {
+                e = "RSV-ONT"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/rsv_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/rsv_ont"
+                outdir = "$outputDir"
+                check_version false
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("Find-Variants-Of-Interest Check") {
+        when {
+            params {
+                e = "Find-Variants-Of-Interest"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/DAIS_ribosome_input.fasta"
+                variants_of_interest = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/poi.txt"
+                reference_seq_table = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/flu_curated_references.txt"
+                dais_module = "influenza"
+                check_version false
                 outdir = "$outputDir"
             }
         }
-
         then {
-            // stable_name: All files + folders in ${params.outdir}/ with a stable name
             def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
-            // stable_path: All files in ${params.outdir}/ with stable content
             def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
             assertAll(
-                { assert workflow.success},
+                { assert workflow.success },
                 { assert snapshot(
-                    // Number of successful tasks
-                    workflow.trace.succeeded().size(),
-                    // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
-                    removeNextflowVersion("$outputDir/pipeline_info/mira-nf_software_mqc_versions.yml"),
-                    // All stable path name, with a relative path
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
                     stable_name,
-                    // All files with stable contents
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("Find-Positions-Of-Interest Check") {
+        when {
+            params {
+                e = "Find-Positions-Of-Interest"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/DAIS_ribosome_input.fasta"
+                positions_of_interest = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/poi.txt"
+                reference_seq_table = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/flu_curated_references.txt"
+                dais_module = "influenza"
+                check_version false
+                outdir = "$outputDir"
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
                     stable_path
                 ).match() }
             )

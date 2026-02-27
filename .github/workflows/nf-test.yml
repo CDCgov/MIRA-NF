@@ -1,0 +1,116 @@
+name: nf-test
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+  release:
+    types: [published]
+
+jobs:
+  nf-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        NXF_VER:
+          - "24.04.2"
+          - "25.10.4"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nextflow
+        uses: nf-core/setup-nextflow@v2
+        with:
+          version: "${{ matrix.NXF_VER }}"
+
+      - name: Install nf-test
+        run: |
+          curl -fsSL https://code.askimed.com/install/nf-test | bash
+          sudo mv nf-test /usr/local/bin/
+          nf-test version
+
+      - name: Extract runpaths and download locally
+        run: |
+          BASE_DIR="${{ github.workspace }}/test_data"
+          mkdir -p "$BASE_DIR"
+
+          CLONED_REPOS=""
+
+          for TEST_FILE in $(echo "tests/default.nf.test" | tr ',' ' '); do
+            echo "=== Processing test file: $TEST_FILE ==="
+
+            RUNPATHS=$(grep -oP 'runpath\s*=\s*"\K[^"]+' "$TEST_FILE" | sort -u)
+
+            if [ -z "$RUNPATHS" ]; then
+              echo "No runpath found in $TEST_FILE, skipping."
+              continue
+            fi
+
+            while IFS= read -r RUNPATH; do
+              echo "Found runpath: $RUNPATH"
+
+              if ! echo "$RUNPATH" | grep -qP '^https://github\.com/[^/]+/[^/]+/tree/'; then
+                echo "WARNING: runpath does not look like a GitHub tree URL, skipping: $RUNPATH"
+                continue
+              fi
+
+              REPO_URL=$(echo "$RUNPATH" | grep -oP 'https://github\.com/[^/]+/[^/]+')
+              TREE_SUFFIX=$(echo "$RUNPATH" | sed 's|.*/tree/||')
+              BRANCH=$(echo "$TREE_SUFFIX" | cut -d'/' -f1)
+              SUBDIR=$(echo "$TREE_SUFFIX" | cut -d'/' -f2-)
+
+              echo "Repo: $REPO_URL | Branch: $BRANCH | Subdir: $SUBDIR"
+
+              LOCAL_SUBDIR_NAME=$(basename "$SUBDIR")
+              LOCAL_DEST="$BASE_DIR/$LOCAL_SUBDIR_NAME"
+              mkdir -p "$LOCAL_DEST"
+
+              CLONE_KEY="${REPO_URL}@${BRANCH}"
+              if echo "$CLONED_REPOS" | grep -qF "$CLONE_KEY"; then
+                echo "Already cloned $CLONE_KEY, reusing."
+                CLONE_DIR=$(echo "$CLONED_REPOS" | grep -oP "(?<=${CLONE_KEY}=)[^ ]+")
+              else
+                CLONE_DIR=$(mktemp -d)
+                git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
+                CLONED_REPOS="$CLONED_REPOS ${CLONE_KEY}=${CLONE_DIR}"
+              fi
+
+              if [ ! -d "$CLONE_DIR/$SUBDIR" ]; then
+                echo "ERROR: Subdirectory '$SUBDIR' not found in cloned repo."
+                ls "$CLONE_DIR"
+                exit 1
+              fi
+
+              cp -r "$CLONE_DIR/$SUBDIR/." "$LOCAL_DEST/"
+              echo "Downloaded '$SUBDIR' to: $LOCAL_DEST"
+              ls "$LOCAL_DEST"
+
+              ESCAPED_RUNPATH=$(printf '%s\n' "$RUNPATH" | sed 's|[&/\]|\\&|g')
+              ESCAPED_LOCAL=$(printf '%s\n' "$LOCAL_DEST" | sed 's|[&/\]|\\&|g')
+              sed -i "s|runpath = \"${ESCAPED_RUNPATH}\"|runpath = \"${ESCAPED_LOCAL}\"|g" "$TEST_FILE"
+
+            done <<< "$RUNPATHS"
+
+            echo "--- Final runpath lines in $TEST_FILE ---"
+            grep 'runpath' "$TEST_FILE" || echo "(no runpath lines found)"
+          done
+
+          for ENTRY in $CLONED_REPOS; do
+            DIR=$(echo "$ENTRY" | cut -d'=' -f2)
+            rm -rf "$DIR"
+          done
+
+      - name: Run pipeline tests
+        run: |
+          echo "========================================="
+          echo "Running nf-test with profile: gh_test,docker"
+          echo "Test file: tests/default.nf.test"
+          echo "========================================="
+          nf-test test \
+            --profile "gh_test,docker" \
+            --verbose \
+            tests/default.nf.test
