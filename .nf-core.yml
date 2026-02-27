@@ -67,6 +67,7 @@ lint:
   - .github/workflows/nf-test.yml
   - .github/actions/get-shards/action.yml
   - .github/actions/nf-test/action.yml
+  - conf/test_full.config
   - conf/igenomes.config
   - conf/igenomes_ignored.config
   - assets/multiqc_config.yml

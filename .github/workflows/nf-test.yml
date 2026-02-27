@@ -1,52 +1,26 @@
-name: NF Test Reusable Workflow
+name: nf-test
 
 on:
-  workflow_call:
-    inputs:
-      run_on_aws:
-        description: "Run pipeline on AWS"
-        required: false
-        type: boolean
-        default: false
-      component_type:
-        description: "Component type"
-        required: true
-        type: string
-      run_tests:
-        description: "Comma separated test files"
-        required: false
-        type: string
-        default: "tests/default.nf.test"
-      nft_profile:
-        description: "Nextflow profile"
-        required: false
-        type: string
-        default: "gh_test,docker"
-      nxf_version:
-        description: "Nextflow version"
-        required: false
-        type: string
-        default: "24.10.5"
-      max_parallel:
-        description: "Maximum parallel runs"
-        required: false
-        type: number
-        default: 2
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+  release:
+    types: [published]
 
 jobs:
-  run-tests:
+  nf-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Nextflow
-        run: |
-          curl -s https://get.nextflow.io | bash
-          sudo mv nextflow /usr/local/bin/
-          nextflow -version
-        env:
-          NXF_VER: ${{ inputs.nxf_version }}
+        uses: nf-core/setup-nextflow@v2
+        with:
+          version: "${{ env.NXF_VER }}"
 
       - name: Install nf-test
         run: |
@@ -61,10 +35,9 @@ jobs:
 
           CLONED_REPOS=""
 
-          for TEST_FILE in $(echo "${{ inputs.run_tests }}" | tr ',' ' '); do
+          for TEST_FILE in $(echo "tests/default.nf.test" | tr ',' ' '); do
             echo "=== Processing test file: $TEST_FILE ==="
 
-            # Extract all unique runpath URLs from this test file, one per line
             RUNPATHS=$(grep -oP 'runpath\s*=\s*"\K[^"]+' "$TEST_FILE" | sort -u)
 
             if [ -z "$RUNPATHS" ]; then
@@ -75,7 +48,6 @@ jobs:
             while IFS= read -r RUNPATH; do
               echo "Found runpath: $RUNPATH"
 
-              # Validate it looks like a GitHub tree URL
               if ! echo "$RUNPATH" | grep -qP '^https://github\.com/[^/]+/[^/]+/tree/'; then
                 echo "WARNING: runpath does not look like a GitHub tree URL, skipping: $RUNPATH"
                 continue
@@ -88,12 +60,10 @@ jobs:
 
               echo "Repo: $REPO_URL | Branch: $BRANCH | Subdir: $SUBDIR"
 
-              # Use a stable local path based on the subdir name (last component)
               LOCAL_SUBDIR_NAME=$(basename "$SUBDIR")
               LOCAL_DEST="$BASE_DIR/$LOCAL_SUBDIR_NAME"
               mkdir -p "$LOCAL_DEST"
 
-              # Only clone each repo+branch once
               CLONE_KEY="${REPO_URL}@${BRANCH}"
               if echo "$CLONED_REPOS" | grep -qF "$CLONE_KEY"; then
                 echo "Already cloned $CLONE_KEY, reusing."
@@ -114,9 +84,6 @@ jobs:
               echo "Downloaded '$SUBDIR' to: $LOCAL_DEST"
               ls "$LOCAL_DEST"
 
-              # Patch this specific runpath URL to the local destination
-              echo "Patching runpath in: $TEST_FILE"
-              # Escape special characters in RUNPATH for use in sed
               ESCAPED_RUNPATH=$(printf '%s\n' "$RUNPATH" | sed 's|[&/\]|\\&|g')
               ESCAPED_LOCAL=$(printf '%s\n' "$LOCAL_DEST" | sed 's|[&/\]|\\&|g')
               sed -i "s|runpath = \"${ESCAPED_RUNPATH}\"|runpath = \"${ESCAPED_LOCAL}\"|g" "$TEST_FILE"
@@ -127,7 +94,6 @@ jobs:
             grep 'runpath' "$TEST_FILE" || echo "(no runpath lines found)"
           done
 
-          # Clean up cloned repos
           for ENTRY in $CLONED_REPOS; do
             DIR=$(echo "$ENTRY" | cut -d'=' -f2)
             rm -rf "$DIR"
@@ -135,14 +101,9 @@ jobs:
 
       - name: Run pipeline tests
         run: |
-          echo "Running tests on local runner..."
-          echo "Tests: ${{ inputs.run_tests }}"
-          echo "Profile: ${{ inputs.nft_profile }}"
-          echo "Nextflow version: ${{ inputs.nxf_version }}"
-          echo "Max parallel: ${{ inputs.max_parallel }}"
-
-          TEST_FILES=$(echo "${{ inputs.run_tests }}" | tr ',' ' ')
-
           nf-test test \
-            --profile "${{ inputs.nft_profile }}" \
-            $TEST_FILES
+            --profile "gh_test,docker" \
+            tests/default.nf.test
+
+env:
+  NXF_VER: "24.10.5"
