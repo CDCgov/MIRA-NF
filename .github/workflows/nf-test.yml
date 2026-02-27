@@ -17,10 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Get Nextflow minimum version
+        id: nxf_ver
+        run: echo "MIN_VERSION=$(grep -oP 'nextflowVersion\s*=\s*['\''"]?!\K[\d.]+' nextflow.config)" >> $GITHUB_OUTPUT
+
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v2
         with:
-          version: "${{ env.NXF_VER }}"
+          version: "${{ steps.nxf_ver.outputs.MIN_VERSION }}"
 
       - name: Install nf-test
         run: |
@@ -101,9 +105,11 @@ jobs:
 
       - name: Run pipeline tests
         run: |
+          echo "========================================="
+          echo "Running nf-test with profile: gh_test,docker"
+          echo "Test file: tests/default.nf.test"
+          echo "========================================="
           nf-test test \
             --profile "gh_test,docker" \
+            --verbose \
             tests/default.nf.test
-
-env:
-  NXF_VER: "24.10.5"
