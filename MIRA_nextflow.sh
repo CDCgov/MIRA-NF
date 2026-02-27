@@ -114,7 +114,7 @@ else
 fi
 
 # Run nextflow
-module load nextflow/24.10.4
+module load nextflow/25.10.4
 nextflow run "$DIRNAME"/MIRA-NF/main.nf \
     --input "$INPUT" \
     --outdir "$OUTPATH" \
