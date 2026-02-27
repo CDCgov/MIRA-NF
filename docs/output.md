@@ -17,7 +17,6 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [PrepareMIRAReports](#preparemirareports) - Collected results from IRMA and DAIS-Ribosome to create MIRA reoprts (JSON, HTML, FASTA, CSV and optional PARQ files)
 - [Nextclade](#nextclade) - Input fasta file for Nextclade and Nextclade outputs if Nextclade was run within the workflow.
 
-
 ## Output Structure
 
 ```bash
@@ -176,7 +175,6 @@ IRMA output directory structure (only showing A_MP)
 - A_MP.fasta - Final assembled plurality consensus (no mixed base calls) for A_MP
 - A_MP.a2m - Optional plurality consensus aligned to profile HMM
 - A_MP.VCF - Custom variant call file for called IRMA variants, A_MP
-
   - `residual_assembly/` - Optional residual assembly results
   - `secondary_assembly/` - Optional secondary assembly results
 
@@ -204,39 +202,41 @@ Aggregate insertion, deletion and sequence file for the input data
 
 An insertion file output example:
 
-| ID | C_type | Ref_ID | Protein | Upstream_aa | Inserted_nucleotides | Inserted_residues | Upstream_nt | Codon_shift |
-| ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| 11209 | B_HA | PHUKET3073 | HA | 161 | aaa | K | 483 | 0 |
-| 154957 | B_HA | PHUKET3073 | HA | 163 | krc | X | 489 | 0 |
-| 223550 | B_HA | PHUKET3073 | HA | 161 | caa | Q | 483 | 0 |
+| ID     | C_type | Ref_ID     | Protein | Upstream_aa | Inserted_nucleotides | Inserted_residues | Upstream_nt | Codon_shift |
+| ------ | ------ | ---------- | ------- | ----------- | -------------------- | ----------------- | ----------- | ----------- |
+| 11209  | B_HA   | PHUKET3073 | HA      | 161         | aaa                  | K                 | 483         | 0           |
+| 154957 | B_HA   | PHUKET3073 | HA      | 163         | krc                  | X                 | 489         | 0           |
+| 223550 | B_HA   | PHUKET3073 | HA      | 161         | caa                  | Q                 | 483         | 0           |
 
 A deletion file example:
 
-| ID | C_type | Ref_ID | Protein | VH | Del_AA_start | Del_AA_end | Del_AA_len | In_frame | CDS_ID | Del_CDS_start | Del_CDS_end | Del_CDS_len |
-| ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-|EPI_ISL_410721|SARS-CoV-2|WUHAN19|orf1ab|5ba70e95c9a3251bc6155f62295dd3e8|994|1002|9|true|29cd767e2d144c31179395fd606d1489ce731746|2980|3006|27|
-|EPI_ISL_410721|SARS-CoV-2|WUHAN19|orf1ab|5ba70e95c9a3251bc6155f62295dd3e8|1012|1012|1|true|29cd767e2d144c31179395fd606d1489ce731746|3034|3036|3|
-|EPI_ISL_410721|SARS-CoV-2|WUHAN19|S|450c068c437e7536d27fdb883d95d4f4|72|72|1|true|36a75a0d34960c048abaf82ee46a1b713eee534e|214|216|3|
-|EPI_ISL_410721|SARS-CoV-2|WUHAN19|S|450c068c437e7536d27fdb883d95d4f4|146|146|1|true|36a75a0d34960c048abaf82ee46a1b713eee534e|436|438|3|
-|EPI_ISL_410721|SARS-CoV-2|WUHAN19|S|450c068c437e7536d27fdb883d95d4f4|254|256|3|true|36a75a0d34960c048abaf82ee46a1b713eee534e|760|768|9|
-|EPI_ISL_410721|SARS-CoV-2|WUHAN19|S|450c068c437e7536d27fdb883d95d4f4|680|683|4|true|36a75a0d34960c048abaf82ee46a1b713eee534e|2038|2049|12|
+| ID             | C_type     | Ref_ID  | Protein | VH                               | Del_AA_start | Del_AA_end | Del_AA_len | In_frame | CDS_ID                                   | Del_CDS_start | Del_CDS_end | Del_CDS_len |
+| -------------- | ---------- | ------- | ------- | -------------------------------- | ------------ | ---------- | ---------- | -------- | ---------------------------------------- | ------------- | ----------- | ----------- |
+| EPI_ISL_410721 | SARS-CoV-2 | WUHAN19 | orf1ab  | 5ba70e95c9a3251bc6155f62295dd3e8 | 994          | 1002       | 9          | true     | 29cd767e2d144c31179395fd606d1489ce731746 | 2980          | 3006        | 27          |
+| EPI_ISL_410721 | SARS-CoV-2 | WUHAN19 | orf1ab  | 5ba70e95c9a3251bc6155f62295dd3e8 | 1012         | 1012       | 1          | true     | 29cd767e2d144c31179395fd606d1489ce731746 | 3034          | 3036        | 3           |
+| EPI_ISL_410721 | SARS-CoV-2 | WUHAN19 | S       | 450c068c437e7536d27fdb883d95d4f4 | 72           | 72         | 1          | true     | 36a75a0d34960c048abaf82ee46a1b713eee534e | 214           | 216         | 3           |
+| EPI_ISL_410721 | SARS-CoV-2 | WUHAN19 | S       | 450c068c437e7536d27fdb883d95d4f4 | 146          | 146        | 1          | true     | 36a75a0d34960c048abaf82ee46a1b713eee534e | 436           | 438         | 3           |
+| EPI_ISL_410721 | SARS-CoV-2 | WUHAN19 | S       | 450c068c437e7536d27fdb883d95d4f4 | 254          | 256        | 3          | true     | 36a75a0d34960c048abaf82ee46a1b713eee534e | 760           | 768         | 9           |
+| EPI_ISL_410721 | SARS-CoV-2 | WUHAN19 | S       | 450c068c437e7536d27fdb883d95d4f4 | 680          | 683        | 4          | true     | 36a75a0d34960c048abaf82ee46a1b713eee534e | 2038          | 2049        | 12          |
 
 A sequence file output example:
 
-| ID | C_type | Ref_ID | Protein | VH |  AA_seq | AA_aln | CDS_id | Insertion | Shift_Insert | CDS_seq | CDS_aln | Query_nt_coordinates | CDS_nt_coordinates |
-| ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| 223550 | B_HA | BRISBANE60 | HA-signal | e81d2d895c70e91bb3ef917fe49fdab7 | MKAIIVLLMVVTSNA | MKAIIVLLMVVTSNA | 2aa6443b92ca45b301faa4d46e5fbd3b010e3ab7 |  false | false |ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | 20..64 | 1..45 |
-| 223550 | B_HA | PHUKET3073 | HA-signal | e81d2d895c70e91bb3ef917fe49fdab7 | MKAIIVLLMVVTSNA | MKAIIVLLMVVTSNA | 2aa6443b92ca45b301faa4d46e5fbd3b010e3ab7 | false | false | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | 20..64 | 1..45 |
-| 11209 | B_HA | BRISBANE60 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false | false | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45 | 1..45 |
-| 11209 | B_HA | PHUKET3073 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false | false | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45 | 1..45 |
+| ID     | C_type | Ref_ID     | Protein   | VH                               | AA_seq          | AA_aln          | CDS_id                                   | Insertion | Shift_Insert | CDS_seq                                       | CDS_aln                                       | Query_nt_coordinates | CDS_nt_coordinates |
+| ------ | ------ | ---------- | --------- | -------------------------------- | --------------- | --------------- | ---------------------------------------- | --------- | ------------ | --------------------------------------------- | --------------------------------------------- | -------------------- | ------------------ |
+| 223550 | B_HA   | BRISBANE60 | HA-signal | e81d2d895c70e91bb3ef917fe49fdab7 | MKAIIVLLMVVTSNA | MKAIIVLLMVVTSNA | 2aa6443b92ca45b301faa4d46e5fbd3b010e3ab7 | false     | false        | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | 20..64               | 1..45              |
+| 223550 | B_HA   | PHUKET3073 | HA-signal | e81d2d895c70e91bb3ef917fe49fdab7 | MKAIIVLLMVVTSNA | MKAIIVLLMVVTSNA | 2aa6443b92ca45b301faa4d46e5fbd3b010e3ab7 | false     | false        | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTGTACTACTCATGGTAGTAACATCCAATGCA | 20..64               | 1..45              |
+| 11209  | B_HA   | BRISBANE60 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false     | false        | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45                | 1..45              |
+| 11209  | B_HA   | PHUKET3073 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false     | false        | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45                | 1..45              |
 
 ### PrepareMIRAReports
+
 <summary>Output files</summary>
 
 The collected results from IRMA and DAIS-Ribosome in JSON files - These are for vizualizing in MIRA-GUI
+
 - `aggregate_outputs/dash-json/`
   - barcode_distribution.json
-  - coveragefig_sample_#_linear.json
+  - coveragefig*sample*#\_linear.json
   - coverage.json
   - dais_vars.json
   - heatmap.json
@@ -247,26 +247,28 @@ The collected results from IRMA and DAIS-Ribosome in JSON files - These are for 
   - pass_fail_heatmap.json
   - pass_fail_qc.json
   - qc_statement.json
-  - readsfig_sample_#.json
+  - readsfig*sample*#.json
   - reads.json
   - ref_data.json
   - vtpye.json
 
- HTML files and combined amended consensus FASTA files are created in this step.
-- `aggregate_outputs/mira-reports`
-  - mira_<runid>_amended_consensus.fasta
-  - mira_<runid>_failed_amended_consensus.fasta
-  - mira_<runid>_amino_acid_consensus.fasta
-  - mira_<runid>_failed_amino_acid_consensus.fasta
-  - mira_sample_#_coverage.html
-  - mira_<runid>_summary.html
+HTML files and combined amended consensus FASTA files are created in this step.
 
- Explanations of the summary HTML for Illumina data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-illumina.html#mira-cli-ouputs>
- Explanations of the summary HTML for ONT data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-ont.html>
+- `aggregate_outputs/mira-reports`
+  - mira\_<runid>\_amended_consensus.fasta
+  - mira\_<runid>\_failed_amended_consensus.fasta
+  - mira\_<runid>\_amino_acid_consensus.fasta
+  - mira\_<runid>\_failed_amino_acid_consensus.fasta
+  - mira*sample*#\_coverage.html
+  - mira\_<runid>\_summary.html
+
+Explanations of the summary HTML for Illumina data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-illumina.html#mira-cli-ouputs>
+Explanations of the summary HTML for ONT data can be found here: <https://cdcgov.github.io/MIRA/articles/running-mira-cli-ont.html>
 
 The collected results from IRMA and DAIS-Ribosome in CSV files
+
 - `aggregate_outputs/csv-files/`
-  - **mira_<runid>_aavars.csv**
+  - **mira\_<runid>\_aavars.csv**
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique sample identifier. |
@@ -275,7 +277,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | aa_variant_count | Number of amino acid variants detected in the protein. |
     | aa_variants | List of amino acid variant annotations. |
 
-  - **mira_<runid>_amended_consensus.csv**
+  - **mira\_<runid>\_amended_consensus.csv**
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique sample identifier. |
@@ -285,7 +287,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
 
-  - **mira_<runid>_amino_acid_consensus.csv**
+  - **mira\_<runid>\_amino_acid_consensus.csv**
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique sample identifier. |
@@ -295,7 +297,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
 
-  - **mira_<runid>_coverage.csv**
+  - **mira\_<runid>\_coverage.csv**
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique identifier for the sample being analyzed. |
@@ -305,12 +307,12 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | consensus | Consensus nucleotide call at this position. |
     | deletions | Deleted states, not included in coverage depth. |
     | ambiguous | Number of ambiguous ("N") states in the reads, not included in coverage depth. |
-    | consensus_count |  Coverage depth of the consensus allele. |
+    | consensus_count | Coverage depth of the consensus allele. |
     | consensus_average_quality | Average base quality score for the consensus allele. |
     | run_id | Unique identifier for the sequencing run. |
     | instrument | Sequencing instrument used for the run. |
 
-  - **mira_<runid>_indels.csv**
+  - **mira\_<runid>\_indels.csv**
     | Column Name | Definition |
     |-------------|------------|
     | sample | Unique sample identifier. |
@@ -325,7 +327,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
 
-  - **mira_<runid>_irma_config.csv**
+  - **mira\_<runid>\_irma_config.csv**
     | Column Name | Definition |
     |-------------|------------|
     | program_name | Name of process being used by program. |
@@ -335,13 +337,13 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | instrument | Sequencing instrument used. |
     | timestamp | Timestamp of report generation. |
 
-  - **mira_<runid>_reads.csv**
+  - **mira\_<runid>\_reads.csv**
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique identifier for the sample. |
     | record | Processing record label for read counts. See below. |
     | reads | Number of reads in this record category. |
-    | patterns |  Number of read patterns for the group. Patterns are de-duplicated read sequences.|
+    | patterns | Number of read patterns for the group. Patterns are de-duplicated read sequences.|
     | pairs_and_windows | The number of merged paired-end reads (if applicable). Widows have no paired-end mate. |
     | stage | Record stage at which reads were counted. |
     | run_id | Unique identifier for the sequencing run. |
@@ -355,7 +357,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     - 4 - Primary data used in the final assembly phase (3-match)
     - 5 - Additional secondary data not used in the final assembly phase (3-altmatch)
 
-  - **mira_<runid>_summary.csv**
+  - **mira\_<runid>\_summary.csv**
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique sample identifier. |
@@ -386,12 +388,12 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | clade | rsv | Assigned viral clade designation. |
     | g_clade | rsv | GISAID clade designation. |
 
-  - **mira_<runid>_minor_variants.csv**
+  - **mira\_<runid>\_minor_variants.csv**
     | Column Name | Definition |
     |-------------|------------|
     | sample | Unique sample identifier. |
     | reference | Reference genome or segment name. |
-    | sample_position |  Position of the called single nucleotide variant. |
+    | sample_position | Position of the called single nucleotide variant. |
     | reference_position | (optional) HMM-based reference position of the variant. Present with SC2-Spike-ONT data. |
     | depth | Total coverage depth at that position for all alleles not counting ambiguous nucleotides |
     | consensus_allele | Plurality consensus allele at that position. |
@@ -403,8 +405,9 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | instrument | Sequencing instrument used. |
 
 Optional collected results from IRMA and DAIS-Ribosome in PARQ files
+
 - `aggregate_outputs/parquet-reports/`
-  - mira_<runid>_all_alleles.parq
+  - mira\_<runid>\_all_alleles.parq
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique identifier for the sample. |
@@ -422,20 +425,21 @@ Optional collected results from IRMA and DAIS-Ribosome in PARQ files
     | reference_upstream_position | (optional) Reference position immediately upstream of the allele. Present with SC2-Spike data. |
 
     **All other files as described previously**
-  - mira_<runid>_amended_consensus.parq
-  - mira_<runid>_amino_acid_consensus.parq
-  - mira_<runid>_coverage.parq
-  - mira_<runid>_indels.parq
-  - mira_<runid>_irma_config.parq
-  - mira_<runid>_minor_variants.parq
-  - mira_<runid>_reads.parq
-  - mira_<runid>_samplesheet.parq
-  - mira_<runid>_summary.parq
 
-
+  - mira\_<runid>\_amended_consensus.parq
+  - mira\_<runid>\_amino_acid_consensus.parq
+  - mira\_<runid>\_coverage.parq
+  - mira\_<runid>\_indels.parq
+  - mira\_<runid>\_irma_config.parq
+  - mira\_<runid>\_minor_variants.parq
+  - mira\_<runid>\_reads.parq
+  - mira\_<runid>\_samplesheet.parq
+  - mira\_<runid>\_summary.parq
 
 ### Nextclade
+
 - `nextclade/input_fasta_files/` - potential input fasta files
+
 ```
 nextclade_<runid>_influenza-a-h3n2-ha.fasta
 nextclade_<runid>_influenza-a-h1n1pdm-ha.fasta
@@ -447,7 +451,9 @@ nextclade_<runid>_rsv-a.fasta
 nextclade_<runid>_rsv-b.fasta
 nextclade_<runid>_sars-cov-2.fasta
 ```
+
 - `nextclade/` - potential output files
+
 ```
  - csv - CSV file containing nextclade results
  - error_csv - CSV file containing errors from nextclade results

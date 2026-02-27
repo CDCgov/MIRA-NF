@@ -1,9 +1,8 @@
 {
-  "input": "s3://<bucket>/MIRAPipeline/Illumina/sc2-illumina-run-1/samplesheet.csv",
-  "runpath": "s3://<bucket>/MIRAPipeline/Illumina/sc2-illumina-run-1/",
-  "outdir": "/mnt/workflow/pubdir",
-  "e": "SC2-Whole-Genome-Illumina",
-  "p": "swift",
-  "ecr_registry": "XXX.dkr.ecr.us-east-1.amazonaws.com"
-  }
-  
+    "input": "s3://<bucket>/MIRAPipeline/Illumina/sc2-illumina-run-1/samplesheet.csv",
+    "runpath": "s3://<bucket>/MIRAPipeline/Illumina/sc2-illumina-run-1/",
+    "outdir": "/mnt/workflow/pubdir",
+    "e": "SC2-Whole-Genome-Illumina",
+    "p": "swift",
+    "ecr_registry": "XXX.dkr.ecr.us-east-1.amazonaws.com"
+}

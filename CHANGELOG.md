@@ -9,26 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Sam Wiley](https://github.com/samcwiley)
 
 ### Associated Tags
-| Program           | Version                |
-|-------------------|------------------------|
-| irma-core         | 0.6.1                  |
-| IRMA              | 1.3.1                  |
-| DAIS-ribosome     | 1.6.1                  |
-| mira-oxide        | 1.3.1                  |
-| nextclade         | 3.18.1                 |
+
+| Program       | Version |
+| ------------- | ------- |
+| irma-core     | 0.6.1   |
+| IRMA          | 1.3.1   |
+| DAIS-ribosome | 1.6.1   |
+| mira-oxide    | 1.3.1   |
+| nextclade     | 3.18.1  |
 
 ### Nextclade Tags Used
-| Dataset           | Tag                    |
-|-------------------|------------------------|
-| flu_h3n2_ha       | 2024-11-27--02-51-00Z  |
-| flu_h1n1pdm_ha    | 2024-11-27--02-51-00Z  |
-| flu_vic_ha        | 2024-01-16--20-31-02Z  |
-| flu_h3n2_na       | 2024-11-05--09-19-52Z  |
-| flu_h1n1pdm_na    | 2024-11-05--09-19-52Z  |
-| flu_vic_na        | 2024-01-16--20-31-02Z  |
-| rsv_a             | 2025-08-25--09-00-35Z  |
-| rsv_b             | 2024-08-01--22-31-31Z  |
-| sars-cov-2        | 2024-04-25--01-03-07Z  |
+
+| Dataset        | Tag                   |
+| -------------- | --------------------- |
+| flu_h3n2_ha    | 2024-11-27--02-51-00Z |
+| flu_h1n1pdm_ha | 2024-11-27--02-51-00Z |
+| flu_vic_ha     | 2024-01-16--20-31-02Z |
+| flu_h3n2_na    | 2024-11-05--09-19-52Z |
+| flu_h1n1pdm_na | 2024-11-05--09-19-52Z |
+| flu_vic_na     | 2024-01-16--20-31-02Z |
+| rsv_a          | 2025-08-25--09-00-35Z |
+| rsv_b          | 2024-08-01--22-31-31Z |
+| sars-cov-2     | 2024-04-25--01-03-07Z |
 
 ### Enhancements
 
@@ -53,11 +55,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - reading in the allAlleles.txt files for the all_alleles.parq now - may break schemas
 
 ### `Dependencies`
+
 - [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - new container `nextstrain/nextclade:3.18.1` for running nexclade.
 - [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - updating mira-oxide container to v1.4.0
 - [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - removing the use of the `cdcgov/mira-nf:python3.10-alpine` container
 
 ### `Deprecated`
+
 - [PR #84](https://github.com/CDCgov/MIRA-NF/pull/54) - Removed BBTools `reformat.sh` for subsampling.
 - [PR #92](https://github.com/CDCgov/MIRA-NF/pull/92) - replaced `checkmiraversion.py` with `checkmiraversion.rs` from `mira-oxide`.
 - [PR #94](https://github.com/CDCgov/MIRA-NF/pull/94) - replaced `prepareIRMAjson.py`, `irma2pandas.py`, `dais2pandas.py` `parquet_maker.py` and `extract_subtypes.py` with `prepare-mira-report` from `mira-oxide`.
@@ -70,16 +74,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Parameter Changes
 
-| Old parameter | New parameter                |
-| ------------- | ---------------------------- |
-| | `--variants_of_interest` |
-| | `--postions_of_interest` |
-| | `--reference_seq_table` |
-| | `--dais_module` |
-| | `--check_version` |
-|`--reformat_tables` | `--parquet_files` |
-| | `--nextclade` |
-
+| Old parameter       | New parameter            |
+| ------------------- | ------------------------ |
+|                     | `--variants_of_interest` |
+|                     | `--postions_of_interest` |
+|                     | `--reference_seq_table`  |
+|                     | `--dais_module`          |
+|                     | `--check_version`        |
+| `--reformat_tables` | `--parquet_files`        |
+|                     | `--nextclade`            |
 
 ## v1.6.1 - 06.04.2025
 
@@ -287,11 +290,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Parameter Changes
 
-| Old parameter | New parameter                |
-| ------------- | ---------------------------- |
-| | `--sourcepath` |
-| | `--irma_custom_config` |
-|`--irma_config` | `--irma_module` |
+| Old parameter   | New parameter          |
+| --------------- | ---------------------- |
+|                 | `--sourcepath`         |
+|                 | `--irma_custom_config` |
+| `--irma_config` | `--irma_module`        |
 
 ## v1.2.0 - 2024.11.07
 
@@ -328,11 +331,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Parameter Changes
 
-| Old parameter | New parameter                |
-| ------------- | ---------------------------- |
+| Old parameter     | New parameter       |
+| ----------------- | ------------------- |
 | `--parquet_files` | `--reformat_tables` |
-|                    | `--read_qc` |
-|                    | `--ecr_registry` |
+|                   | `--read_qc`         |
+|                   | `--ecr_registry`    |
 
 ## v1.1.0 - 2024-09-19
 
@@ -359,8 +362,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Parameter Changes
 
-| Old parameter | New parameter                |
-| ------------- | ---------------------------- |
+| Old parameter | New parameter    |
+| ------------- | ---------------- |
 |               | `--amd_platform` |
 
 ## v1.0.0 - 2024-08-20

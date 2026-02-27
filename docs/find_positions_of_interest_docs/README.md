@@ -5,13 +5,14 @@ The **find_positions_of_int** workflow is a handy tool that runs (or reruns) DAI
 To get started, you'll need to provide the DAIS-ribosome input, a reference table, and a positions of interest table. Once it's done, you'll get a CSV file that lists all the positions in your input sequences that match the positions you're interested in from the positions of interest table you provided. Check out the info below for more details about how it works.
 
 ![find_positions_of_int workflow](../../docs/images/find_variants_of_interst_workflow_img_v3.png)
-*find_positions_of_int workflow*
+_find_positions_of_int workflow_
 
 ### The DAIS-ribosome input
 
 The input file for this workflow is a concatenated FASTA file with assembled sequences from all of your samples. If you've run the MIRA pipeline, you'll find this input file named DAIS_ribosome_input.fasta in the dais-ribosome folder within the aggregate outputs.
 
 ### The reference table input should be structured like this:
+
 The reference table can be made by running your reference genomes through DAIS-ribosome and selecting the column found below. The file needs to be tab delimited. An example using Flu genomes can be seens below.
 
 ```
@@ -22,6 +23,7 @@ EPI_ISL_140	A/Hong Kong/1073/99	A / H9N2		a591bc9ad3a54f705940ad8483684cfc278c74
 ```
 
 ### The known positions of interest table input should be structured like this:
+
 The positions of interest table should be structured as seen below. These should be positions you would be interested in if they were present within your samples. The file must be tab delimited.
 
 ```
@@ -36,21 +38,21 @@ B	HA	121	N	inference description
 
 # Input Parameters for din_positions_of_interest Workflow
 
-| Flag       | Description                                                                                               |
-|------------|-----------------------------------------------------------------------------------------------------------|
-| `profile`  | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer.   |
-| `input`    | `<FILE_PATH>/DAIS_ribosome_input.fasta` with the format described above. The full file path is required.                         |
-| `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
-| `positions_of_interest`  | The `<FILE_PATH>/positions_of_interest.txt` with the format described above. The full file path is required. |
-| `reference_seq_table`        | The `<FILE_PATH>/reference_table.txt` with the format described above. The full file path is required.  |
-| `dais_module`        | The dais_module that will be used by DAIS-ribosome. Options: INFLUENZA, BETACORONAVIRUS, RSV |
+| Flag                    | Description                                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `profile`               | singularity, docker, local, sge, slurm. You can use docker or singularity. Use local for running on local computer. |
+| `input`                 | `<FILE_PATH>/DAIS_ribosome_input.fasta` with the format described above. The full file path is required.            |
+| `outdir`                | The file path to where you would like the output directory to write the files. The full file path is required.      |
+| `positions_of_interest` | The `<FILE_PATH>/positions_of_interest.txt` with the format described above. The full file path is required.        |
+| `reference_seq_table`   | The `<FILE_PATH>/reference_table.txt` with the format described above. The full file path is required.              |
+| `dais_module`           | The dais_module that will be used by DAIS-ribosome. Options: INFLUENZA, BETACORONAVIRUS, RSV                        |
 
-### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
+### _all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines_
 
-| Flag       | Description                                                                                               |
-|------------|-----------------------------------------------------------------------------------------------------------|
-| `process_q`           | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
-| `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.
+| Flag        | Description                                                                                              |
+| ----------- | -------------------------------------------------------------------------------------------------------- |
+| `process_q` | (required for hpc profile) Provide the name of the processing queue that will submit to the queue.       |
+| `email`     | (optional) Provide an email if you would like to receive an email with the irma summary upon completion. |
 
 To run the workflow you will use the command below:
 

@@ -113,7 +113,7 @@ workflow flu_i {
         NEXTFLOWSAMPLESHEET(samplesheet_ch, sequences_ch, experiment_type_ch)
         ch_versions = ch_versions.mix(NEXTFLOWSAMPLESHEET.out.versions)
         nf_samplesheet_ch = NEXTFLOWSAMPLESHEET.out.nf_samplesheet
-        
+
         // Get the channel for the bad samples TSV
         def bad_samples_ch = NEXTFLOWSAMPLESHEET.out.bad_samples
 
