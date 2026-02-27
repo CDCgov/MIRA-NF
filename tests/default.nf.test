@@ -119,6 +119,31 @@ nextflow_pipeline {
         when {
             params {
                 e = "RSV-Illumina"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/rsv_illumina/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/rsv_illumina"
+                outdir = "$outputDir"
+                p = "RSV_CDC_8amplicon_230901"
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("RSV-ONT Check") {
+        when {
+            params {
+                e = "RSV-ONT"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/rsv_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/rsv_ont"
                 outdir = "$outputDir"
             }
         }
