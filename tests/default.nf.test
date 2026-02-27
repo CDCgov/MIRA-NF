@@ -33,6 +33,7 @@ nextflow_pipeline {
                 input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/flu_wgs_ont/samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/flu_wgs_ont"
                 outdir = "$outputDir"
+                check_version false
             }
         }
         then {
@@ -56,6 +57,7 @@ nextflow_pipeline {
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_illumina"
                 outdir = "$outputDir"
                 p = "swift_211206"
+                check_version false
             }
         }
         then {
@@ -78,6 +80,7 @@ nextflow_pipeline {
                 input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_wgs_ont/samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_ont"
                 outdir = "$outputDir"
+                check_version false
             }
         }
         then {
@@ -100,6 +103,7 @@ nextflow_pipeline {
                 input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_spike_ont/samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_spike_ont"
                 outdir = "$outputDir"
+                check_version false
             }
         }
         then {
@@ -123,6 +127,7 @@ nextflow_pipeline {
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/rsv_illumina"
                 outdir = "$outputDir"
                 p = "RSV_CDC_8amplicon_230901"
+                check_version false
             }
         }
         then {
@@ -144,6 +149,57 @@ nextflow_pipeline {
                 e = "RSV-ONT"
                 input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/rsv_ont/samplesheet.csv"
                 runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/rsv_ont"
+                outdir = "$outputDir"
+                check_version false
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("Find-Variants-Of-Interest Check") {
+        when {
+            params {
+                e = "Find-Variants-Of-Interest"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/DAIS_ribosome_input.fasta"
+                variants_of_interest = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/poi.txt"
+                reference_seq_table = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/flu_curated_references.txt"
+                dais_module = "influenza"
+                check_version false
+                outdir = "$outputDir"
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    removeNextflowVersion("$params.outdir/pipeline_info/pipeline_software_versions.yml"),
+                    stable_name,
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+    test("Find-Positions-Of-Interest Check") {
+        when {
+            params {
+                e = "Find-Positions-Of-Interest"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/DAIS_ribosome_input.fasta"
+                positions_of_interest = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/poi.txt"
+                reference_seq_table = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/flu_curated_references.txt"
+                dais_module = "influenza"
+                check_version false
                 outdir = "$outputDir"
             }
         }
