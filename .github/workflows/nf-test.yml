@@ -16,26 +16,16 @@ jobs:
     strategy:
       matrix:
         NXF_VER:
+          - "24.04.2"
           - "latest-everything"
-          - "minimal"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Get Nextflow minimum version
-        id: nxf_ver
-        run: |
-          MIN=$(grep -oP 'nextflowVersion\s*=\s*['"'"'"]?!\K[\d.]+' nextflow.config)
-          if [ "${{ matrix.NXF_VER }}" = "minimal" ]; then
-            echo "NXF_VER=$MIN" >> $GITHUB_OUTPUT
-          else
-            echo "NXF_VER=${{ matrix.NXF_VER }}" >> $GITHUB_OUTPUT
-          fi
-
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v2
         with:
-          version: "${{ steps.nxf_ver.outputs.NXF_VER }}"
+          version: "${{ matrix.NXF_VER }}"
 
       - name: Install nf-test
         run: |
