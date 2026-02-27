@@ -23,7 +23,7 @@ jobs:
           curl -fsSL "https://github.com/nextstrain/nextclade/releases/latest/download/nextclade-x86_64-unknown-linux-gnu" -o nextclade
           chmod +x nextclade
           sudo mv nextclade /usr/local/bin/
-          echo "LATEST_NEXTCLADE_VERSION=$(nextclade --version)" >> "$GITHUB_ENV"
+          echo "LATEST_NEXTCLADE_VERSION=$(nextclade --version | awk '{print $NF}')" >> "$GITHUB_ENV"
 
       - name: Parse current versions from workflow
         id: current
