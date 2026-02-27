@@ -1,0 +1,245 @@
+name: Check Nextclade Updates
+
+on:
+  schedule:
+    # Run weekly on Monday at 9:00 UTC
+    - cron: "0 3 * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  check-updates:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nextclade
+        run: |
+          curl -fsSL "https://github.com/nextstrain/nextclade/releases/latest/download/nextclade-x86_64-unknown-linux-gnu" -o nextclade
+          chmod +x nextclade
+          sudo mv nextclade /usr/local/bin/
+          echo "LATEST_NEXTCLADE_VERSION=$(nextclade --version)" >> "$GITHUB_ENV"
+
+      - name: Parse current versions from workflow
+        id: current
+        run: |
+          # Extract current Nextclade container version from getnextcladedataset module
+          CURRENT_VERSION=$(grep -oP "container 'nextstrain/nextclade:\K[^']+" modules/local/getnextcladedataset/main.nf)
+          echo "nextclade_version=${CURRENT_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Current Nextclade version: ${CURRENT_VERSION}"
+
+          # Extract current dataset tags from the nextclade subworkflow
+          # Parse the nextclade_tags map from subworkflows/local/nextclade/main.nf
+          python3 << 'PYEOF'
+          import re
+          import json
+          import os
+
+          with open("subworkflows/local/nextclade/main.nf", "r") as f:
+              content = f.read()
+
+          # Extract the nextclade_tags block
+          tag_pattern = re.compile(
+              r'def nextclade_tags\s*=\s*\[(.*?)\]',
+              re.DOTALL
+          )
+          match = tag_pattern.search(content)
+          if not match:
+              print("ERROR: Could not find nextclade_tags in subworkflow")
+              exit(1)
+
+          tags_block = match.group(1)
+
+          # Parse individual dataset:tag pairs
+          pair_pattern = re.compile(r'"([^"]+)"\s*:\s*"([^"]+)"')
+          current_tags = {}
+          for m in pair_pattern.finditer(tags_block):
+              current_tags[m.group(1)] = m.group(2)
+
+          print("Current dataset tags:")
+          for dataset, tag in sorted(current_tags.items()):
+              print(f"  {dataset}: {tag}")
+
+          # Write to output
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"current_tags={json.dumps(current_tags)}\n")
+          PYEOF
+
+      - name: Fetch latest dataset tags from Nextclade
+        id: latest
+        run: |
+          python3 << 'PYEOF'
+          import json
+          import subprocess
+          import os
+
+          # Get the list of all datasets from nextclade
+          result = subprocess.run(
+              ["nextclade", "dataset", "list", "--json"],
+              capture_output=True, text=True, check=True
+          )
+          datasets = json.loads(result.stdout)
+
+          # Datasets we track in the workflow
+          tracked_datasets = [
+              "flu_h3n2_ha",
+              "flu_h1n1pdm_ha",
+              "flu_vic_ha",
+              "flu_h3n2_na",
+              "flu_h1n1pdm_na",
+              "flu_vic_na",
+              "rsv_a",
+              "rsv_b",
+              "sars-cov-2",
+          ]
+
+          latest_tags = {}
+          for ds in datasets:
+              path = ds.get("path", "")
+              shortcuts = ds.get("shortcuts", [])
+              all_names = [path] + shortcuts
+
+              for tracked_name in tracked_datasets:
+                  if tracked_name in all_names:
+                      # Prefer the top-level "version" field (always the latest)
+                      version_obj = ds.get("version", {})
+                      if version_obj and "tag" in version_obj:
+                          latest_tag = version_obj["tag"]
+                      else:
+                          # Fallback: versions list is sorted newest-first
+                          versions = ds.get("versions", [])
+                          if versions:
+                              latest_tag = versions[0].get("tag", "unknown")
+                          else:
+                              latest_tag = "unknown"
+                      latest_tags[tracked_name] = latest_tag
+
+          print("Latest dataset tags:")
+          for dataset, tag in sorted(latest_tags.items()):
+              print(f"  {dataset}: {tag}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"latest_tags={json.dumps(latest_tags)}\n")
+          PYEOF
+
+      - name: Compare versions and create issue if updates available
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_VERSION: ${{ steps.current.outputs.nextclade_version }}
+          LATEST_VERSION: ${{ env.LATEST_NEXTCLADE_VERSION }}
+          CURRENT_TAGS: ${{ steps.current.outputs.current_tags }}
+          LATEST_TAGS: ${{ steps.latest.outputs.latest_tags }}
+        run: |
+          python3 << 'PYEOF'
+          import json
+          import os
+          import subprocess
+
+          current_version = os.environ["CURRENT_VERSION"]
+          latest_version = os.environ["LATEST_VERSION"]
+          current_tags = json.loads(os.environ["CURRENT_TAGS"])
+          latest_tags = json.loads(os.environ["LATEST_TAGS"])
+
+          changes = []
+
+          # Check Nextclade version
+          version_changed = current_version != latest_version
+          if version_changed:
+              changes.append(
+                  f"### Nextclade Version\n"
+                  f"| | Version |\n"
+                  f"|---|---|\n"
+                  f"| **Current** | `{current_version}` |\n"
+                  f"| **Latest** | `{latest_version}` |\n"
+              )
+
+          # Check dataset tags
+          tag_rows = []
+          for dataset in sorted(current_tags.keys()):
+              current_tag = current_tags.get(dataset, "N/A")
+              latest_tag = latest_tags.get(dataset, "N/A")
+              if current_tag != latest_tag and latest_tag != "N/A":
+                  tag_rows.append(
+                      f"| `{dataset}` | `{current_tag}` | `{latest_tag}` |"
+                  )
+
+          if tag_rows:
+              changes.append(
+                  f"### Dataset Tags\n"
+                  f"| Dataset | Current Tag | Latest Tag |\n"
+                  f"|---|---|---|\n"
+                  + "\n".join(tag_rows)
+              )
+
+          if not changes:
+              print("No updates found. Nextclade and all dataset tags are up to date.")
+              exit(0)
+
+          # Build issue body
+          body = (
+              "## Nextclade Update Available\n\n"
+              "The automated check has detected that newer versions of Nextclade "
+              "and/or dataset tags are available.\n\n"
+              + "\n\n".join(changes) +
+              "\n\n### Files to Update\n"
+              "- `modules/local/getnextcladedataset/main.nf` — container version\n"
+              "- `modules/local/runnextclade/main.nf` — container version\n"
+              "- `subworkflows/local/nextclade/main.nf` — dataset tags\n"
+              "\n### Steps\n"
+              "1. Update the container tag in the module files if the Nextclade version changed.\n"
+              "2. Update the `nextclade_tags` map in the nextclade subworkflow for any changed dataset tags.\n"
+              "3. Run tests to verify compatibility.\n"
+              "4. Update `CHANGELOG.md` with the new versions.\n"
+          )
+
+          title = "chore: bump Nextclade"
+          parts = []
+          if version_changed:
+              parts.append(f"v{current_version} → v{latest_version}")
+          if tag_rows:
+              parts.append(f"{len(tag_rows)} dataset tag(s)")
+          title += " — " + " & ".join(parts)
+
+          # Check for ANY open Nextclade bump issue (not just exact title match)
+          result = subprocess.run(
+              ["gh", "issue", "list", "--state", "open", "--search", "chore: bump Nextclade in:title", "--json", "number,title"],
+              capture_output=True, text=True, check=True
+          )
+          existing = json.loads(result.stdout)
+          # Filter to issues whose title actually starts with our prefix
+          matching = [i for i in existing if i["title"].startswith("chore: bump Nextclade")]
+
+          if matching:
+              issue = matching[0]
+              if issue["title"] == title:
+                  print(f"Issue #{issue['number']} already exists with same title. No action needed.")
+              else:
+                  # Update the existing issue with the new title and body
+                  subprocess.run(
+                      [
+                          "gh", "issue", "edit", str(issue["number"]),
+                          "--title", title,
+                          "--body", body,
+                      ],
+                      check=True
+                  )
+                  print(f"Updated existing issue #{issue['number']} with latest versions.")
+              exit(0)
+
+          # No existing issue found — create a new one
+          subprocess.run(
+              [
+                  "gh", "issue", "create",
+                  "--title", title,
+                  "--body", body,
+                  "--label", "dependencies",
+              ],
+              check=True
+          )
+          print(f"Created issue: {title}")
+          PYEOF
