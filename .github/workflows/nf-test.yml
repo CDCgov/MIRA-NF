@@ -16,8 +16,8 @@ jobs:
     strategy:
       matrix:
         NXF_VER:
+          - "22.04.0"
           - "24.04.2"
-          - "latest-everything"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
