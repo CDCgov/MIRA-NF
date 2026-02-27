@@ -11,10 +11,13 @@ on:
     types: [published]
 
 jobs:
-  get-nxf-version:
+  nf-test:
     runs-on: ubuntu-latest
-    outputs:
-      MIN_VERSION: ${{ steps.nxf_ver.outputs.MIN_VERSION }}
+    strategy:
+      matrix:
+        NXF_VER:
+          - "latest-everything"
+          - "minimal"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,22 +26,10 @@ jobs:
         id: nxf_ver
         run: echo "MIN_VERSION=$(grep -oP 'nextflowVersion\s*=\s*['"'"'"]?!\K[\d.]+' nextflow.config)" >> $GITHUB_OUTPUT
 
-  nf-test:
-    needs: get-nxf-version
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        NXF_VER:
-          - "${{ needs.get-nxf-version.outputs.MIN_VERSION }}"
-          - "latest-everything"
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v2
         with:
-          version: "${{ matrix.NXF_VER }}"
+          version: "${{ matrix.NXF_VER == 'minimal' && steps.nxf_ver.outputs.MIN_VERSION || matrix.NXF_VER }}"
 
       - name: Install nf-test
         run: |
