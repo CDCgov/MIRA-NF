@@ -73,7 +73,7 @@ workflow NEXTCLADE {
     ch_versions = ch_versions.mix(RUNNEXTCLADE.out.versions)
 
     // Pass to update summary
-    UPDATEMIRASUMMARY(summary_ch, RUNNEXTCLADE.out.tsv.collect(), virus, runid)
+    UPDATEMIRASUMMARY(summary_ch, RUNNEXTCLADE.out.tsv.collect(), virus, runid, RUNNEXTCLADE.out.nextclade_version)
     ch_versions = ch_versions.mix(UPDATEMIRASUMMARY.out.versions)
 
 

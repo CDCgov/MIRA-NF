@@ -8,7 +8,7 @@ process GETNEXTCLADEDATASET {
     tuple path(nextclade_fastq_files), val(dataset), val(tag)
 
     output:
-    tuple val(dataset), path(nextclade_fastq_files), path("${prefix}"), emit: dataset
+    tuple val(dataset), val(tag), path(nextclade_fastq_files), path("${prefix}"), emit: dataset
     path "versions.yml", emit: versions
 
     when:
