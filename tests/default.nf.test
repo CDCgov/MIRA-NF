@@ -5,8 +5,8 @@ nextflow_pipeline {
         when {
             params {
                 e = "Flu-Illumina"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/flu_wgs_illumina/samplesheet.csv"
-                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/flu_wgs_illumina"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/flu_wgs_illumina/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/dev/tests/test_data/flu_wgs_illumina"
                 outdir = "$outputDir"
                 nextclade = true
                 readqc = true
@@ -30,8 +30,8 @@ nextflow_pipeline {
         when {
             params {
                 e = "Flu-ONT"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/flu_wgs_ont/samplesheet.csv"
-                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/flu_wgs_ont"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/flu_wgs_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/dev/tests/test_data/flu_wgs_ont"
                 outdir = "$outputDir"
                 check_version false
             }
@@ -53,8 +53,8 @@ nextflow_pipeline {
         when {
             params {
                 e = "SC2-Whole-Genome-Illumina"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_wgs_illumina/samplesheet.csv"
-                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_illumina"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/sc2_wgs_illumina/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/dev/tests/test_data/sc2_wgs_illumina"
                 outdir = "$outputDir"
                 p = "swift_211206"
                 check_version false
@@ -77,8 +77,8 @@ nextflow_pipeline {
         when {
             params {
                 e = "SC2-Whole-Genome-ONT"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_wgs_ont/samplesheet.csv"
-                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_wgs_ont"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/sc2_wgs_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/dev/tests/test_data/sc2_wgs_ont"
                 outdir = "$outputDir"
                 check_version false
             }
@@ -100,8 +100,8 @@ nextflow_pipeline {
         when {
             params {
                 e = "SC2-Whole-Genome-ONT"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/sc2_spike_ont/samplesheet.csv"
-                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/sc2_spike_ont"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/sc2_spike_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/dev/tests/test_data/sc2_spike_ont"
                 outdir = "$outputDir"
                 check_version false
             }
@@ -123,8 +123,8 @@ nextflow_pipeline {
         when {
             params {
                 e = "RSV-Illumina"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/rsv_illumina/samplesheet.csv"
-                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/rsv_illumina"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/rsv_illumina/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/dev/tests/test_data/rsv_illumina"
                 outdir = "$outputDir"
                 p = "RSV_CDC_8amplicon_230901"
                 check_version false
@@ -147,8 +147,8 @@ nextflow_pipeline {
         when {
             params {
                 e = "RSV-ONT"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/rsv_ont/samplesheet.csv"
-                runpath = "https://github.com/CDCgov/MIRA-NF/tree/fix_gh_actions/tests/test_data/rsv_ont"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/rsv_ont/samplesheet.csv"
+                runpath = "https://github.com/CDCgov/MIRA-NF/tree/dev/tests/test_data/rsv_ont"
                 outdir = "$outputDir"
                 check_version false
             }
@@ -170,9 +170,9 @@ nextflow_pipeline {
         when {
             params {
                 e = "Find-Variants-Of-Interest"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/DAIS_ribosome_input.fasta"
-                variants_of_interest = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/poi.txt"
-                reference_seq_table = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/flu_curated_references.txt"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/find_voi_poi/DAIS_ribosome_input.fasta"
+                variants_of_interest = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/find_voi_poi/poi.txt"
+                reference_seq_table = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/find_voi_poi/flu_curated_references.txt"
                 dais_module = "influenza"
                 check_version false
                 outdir = "$outputDir"
@@ -195,9 +195,9 @@ nextflow_pipeline {
         when {
             params {
                 e = "Find-Positions-Of-Interest"
-                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/DAIS_ribosome_input.fasta"
-                positions_of_interest = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/poi.txt"
-                reference_seq_table = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/fix_gh_actions/tests/test_data/find_voi_poi/flu_curated_references.txt"
+                input = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/find_voi_poi/DAIS_ribosome_input.fasta"
+                positions_of_interest = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/find_voi_poi/poi.txt"
+                reference_seq_table = "https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/dev/tests/test_data/find_voi_poi/flu_curated_references.txt"
                 dais_module = "influenza"
                 check_version false
                 outdir = "$outputDir"
