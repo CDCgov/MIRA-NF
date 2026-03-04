@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Sam Wiley](https://github.com/samcwiley)
+- [Ben Rambo-Martin](https://github.com/nbx0)
 
 ### Associated Tags
 
@@ -15,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | irma-core     | 0.6.1   |
 | IRMA          | 1.3.1   |
 | DAIS-ribosome | 1.6.1   |
-| mira-oxide    | 1.3.1   |
+| mira-oxide    | 1.4.2   |
 | nextclade     | 3.18.1  |
 
 ### Nextclade Tags Used
@@ -46,6 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - Added Nextclade subworkflow that gets a nextclade database base on subtpye (and segment for flu) and runs nextclade when the `--nextclade` flag is used.
 - [PR #97](https://github.com/CDCgov/MIRA-NF/pull/96) - Updated nf-core template to v3.3.2 and fixed formatting and whitespace issues.
 - [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - replaced alleles.json with minor_variants.json - will break MIRA GUI until updated
+- [PR #107](https://github.com/CDCgov/MIRA-NF/pull/107) - add in github actions for pipeline testing and linting
+- [PR #114](https://github.com/CDCgov/MIRA-NF/pull/114) - github action to chack that the nexclade tags are the most recent version
 
 ### `Fixed`
 

@@ -1,8 +1,6 @@
 process STAGES3FILES {
     label 'stage_s3_files'
 
-    container 'cdcgov/mira-nf:python3.10-alpine'
-
     input:
     val runid
     val folder
