@@ -6,10 +6,11 @@ process UPDATEMIRASUMMARY {
 
     input:
     path summary
-    tuple val(dataset_name), val(tag), path(nextclade_tsv_files)
+    val nextclade_metadata
+    path nextclade_tsv_files 
     val virus
     val runid
-    path nextclade_version
+    path nextclade_version_file
 
     output:
     path ('*.csv'), emit: summary_csv
@@ -25,7 +26,7 @@ process UPDATEMIRASUMMARY {
 
     """
     # Read Nextclade version from file
-    nextclade_version=\$(cat ${nextclade_version})
+    nextclade_version=\$(cat ${nextclade_version_file})
 
     mkdir nextclade
     cp ${nextclade_tsv_files} ./nextclade
@@ -36,9 +37,8 @@ process UPDATEMIRASUMMARY {
         -v ${virus} \\
         -r ${runid} \\
         -o ./ \\
-        -n $nextclade_version \\
-        -d ${dataset_name} \\
-        -t ${tag} \\
+        -n \$nextclade_version \\
+        -m ${nextclade_metadata} \\
         ${parquet_args} \\
         ${args}
 

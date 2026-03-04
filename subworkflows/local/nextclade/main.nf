@@ -72,8 +72,16 @@ workflow NEXTCLADE {
     RUNNEXTCLADE(GETNEXTCLADEDATASET.out.dataset)
     ch_versions = ch_versions.mix(RUNNEXTCLADE.out.versions)
 
+    nextclade_metadata = RUNNEXTCLADE.out.nextclade_metadata
+    .map { dataset, tag -> "${dataset},${tag}" }
+    .collect()
+    nextclade_metadata.view()
+
+    nextclade_tsv_files = RUNNEXTCLADE.out.tsv.collect()
+    nextclade_tsv_files.view()
+
     // Pass to update summary
-    UPDATEMIRASUMMARY(summary_ch, RUNNEXTCLADE.out.tsv.collect(), virus, runid, RUNNEXTCLADE.out.nextclade_version)
+    UPDATEMIRASUMMARY(summary_ch, nextclade_metadata, nextclade_tsv_files, virus, runid, RUNNEXTCLADE.out.nextclade_version)
     ch_versions = ch_versions.mix(UPDATEMIRASUMMARY.out.versions)
 
 
