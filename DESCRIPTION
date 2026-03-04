@@ -3,17 +3,17 @@ Type: Package
 Title: Nextflow Pipeline for Influenza, SARS-COV-2 and RSV Assembly and Curation
 Version: 2.0.0
 Date: 2026-02-13
-Authors@R: 
-  c(person(given="Amanda", family="Sullivan", role=c("aut","cre"), 
+Authors@R:
+  c(person(given="Amanda", family="Sullivan", role=c("aut","cre"),
            email="xpa3@cdc.gov", comment=c(ORCID="0000-0003-2007-4210")),
     person(given="Sam", family="Wiley", role=c("aut"),
            email="dzw2@cdc.gov", comment=c(ORCID="0009-0003-3079-5174"))
-    person(given="Kristine", family="Lacek", role=c("aut"), 
+    person(given="Kristine", family="Lacek", role=c("aut"),
            email="qgx6@cdc.gov", comment=c(ORCID="0000-0002-6247-5082")),
-    person(given="Reina", family="Chau", role=c("aut"), 
+    person(given="Reina", family="Chau", role=c("aut"),
            email="snu3@cdc.gov", comment=c(ORCID="0000-0003-3012-1404")),
-    person(given="Ben", family="Rambo-Martin", role=c("led", "aut"), 
-           email="nbx0@cdc.gov", comment=c(ORCID="0000-0002-8591-3954")),            
+    person(given="Ben", family="Rambo-Martin", role=c("led", "aut"),
+           email="nbx0@cdc.gov", comment=c(ORCID="0000-0002-8591-3954")),
   )
 Description: mira-nf
 RoxygenNote: 7.2.3

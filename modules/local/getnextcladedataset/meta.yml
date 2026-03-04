@@ -1,5 +1,5 @@
 name: "getnextcladedataset"
-description:  Get dataset for flu, sars-cov-2 and rsv genome clade assignment
+description: Get dataset for flu, sars-cov-2 and rsv genome clade assignment
 keywords:
   - nextclade
   - variant

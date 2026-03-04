@@ -9,7 +9,7 @@ GRID_ON=1				# use the grid
 MAX_ROUNDS=10				# extended iterations
 
 # STAGES
-MATCH_PROG="BLAT"			
+MATCH_PROG="BLAT"
 SORT_PROG="LABEL"
 ALIGN_PROG="SAM"
 ASSEM_PROG="SSW"

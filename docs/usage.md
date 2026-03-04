@@ -49,13 +49,13 @@ sample_2,Test
 sample_3,Test
 sample_4,Test
 ```
+
 Each row represents a sample.
 
-| Column     | Description                                                                                               |
-|------------|-----------------------------------------------------------------------------------------------------------|
-| `sample_id`  | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`).  |
-| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
-
+| Column        | Description                                                                                                                                   |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample_id`   | Custom sample name. This entry must match the name associated with the paired reads. Convert all spaces in sample names to underscores (`_`). |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                    |
 
 ONT data should be set up as follows:
 
@@ -65,13 +65,14 @@ barcode07,s1,Test
 barcode37,s2,Test
 barcode41,s3,Test
 ```
+
 Each row represents a sample.
 
-| Column     | Description                                                                                               |
-|------------|-----------------------------------------------------------------------------------------------------------|
-| `barcode`  | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07  |
-| `sample_id` | Custom sample name. Convert all spaces in sample names to underscores (`_`).  |
-| `sample_type` | The sample type for the given sample. Ex: test, positive, negative, etc.  |
+| Column        | Description                                                                                                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `barcode`     | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
+| `sample_id`   | Custom sample name. Convert all spaces in sample names to underscores (`_`).                                                                                                                      |
+| `sample_type` | The sample type for the given sample. Ex: test, positive, negative, etc.                                                                                                                          |
 
 **Important things to note about samplesheet:**
 
@@ -79,7 +80,7 @@ Each row represents a sample.
 - The headers must be named as seen above.
 - Be sure that there are no empty lines at the end of the samplesheet.
 - For Illumina samples be sure that you have read 1 and read 2 for all samples in samplesheet.
-- Illumina fastq file must be in this format: {sample_id}_R1\*fastq\* or {sample_id}_R1\*fq\* AND {sample_id}_R2\*fastq\* or {sample_id}_R2\*fq\*
+- Illumina fastq file must be in this format: {sample_id}\_R1\*fastq\* or {sample_id}\_R1\*fq\* AND {sample_id}\_R2\*fastq\* or {sample_id}\_R2\*fq\*
 
 ### amd platform samplesheet set up
 
@@ -93,12 +94,12 @@ TREATMENT_REP2,<FILE_PATH>/fastqs/AEG588A5_S5_L003_R1_001.fastq.gz,<FILE_PATH>/f
 TREATMENT_REP3,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R1_001.fastq.gz,<FILE_PATH>/fastqs/AEG588A6_S6_L003_R2_001.fastq.gz,test
 ```
 
-| Column     | Description                                                                                               |
-|------------|-----------------------------------------------------------------------------------------------------------|
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).  |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
-| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
+| Column        | Description                                                                                                                                                                            |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample`      | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
+| `fastq_1`     | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+| `fastq_2`     | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                             |
 
 ONT data should be set up as follows:
 
@@ -110,13 +111,13 @@ s3,<FILE_PATH>/fastq_pass/cat_fastqs/s3.fastq.gz,,barcode41,Test
 
 ```
 
-| Column     | Description                                                                                               |
-|------------|-----------------------------------------------------------------------------------------------------------|
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).  |
-| `fastq_1` | Full path to FastQ file for ONT that have been concatenated by barcode. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".  |
-| `fastq_2` | Leave blank for ONT data. |
-| `barcode` | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
-| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.  |
+| Column        | Description                                                                                                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample`      | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`).            |
+| `fastq_1`     | Full path to FastQ file for ONT that have been concatenated by barcode. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                    |
+| `fastq_2`     | Leave blank for ONT data.                                                                                                                                                                         |
+| `barcode`     | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
+| `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                                        |
 
 ### File set-up with MIRA samplesheet
 
@@ -152,38 +153,38 @@ Oxford Nanopore set up should be set up as follows:
 
 # Input Parameters for MIRA-NF
 
-| Flag       | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
-| `profile`  | singularity, singularity_arm64, docker, docker_arm64, podman, podman_arm64, local, sge, slurm. You can use docker, podman or singularity. Use local for running on local computer and sge or slurm for HPC's.   |
-| `input`    | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                         |
-| `outdir`   | The file path to where you would like the output directory to write the files. The full file path is required.        |
-| `runpath`  | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required. |
-| `e`        | Experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT. |
+| Flag      | Description                                                                                                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `profile` | singularity, singularity_arm64, docker, docker_arm64, podman, podman_arm64, local, sge, slurm. You can use docker, podman or singularity. Use local for running on local computer and sge or slurm for HPC's. |
+| `input`   | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                                                                                                                 |
+| `outdir`  | The file path to where you would like the output directory to write the files. The full file path is required.                                                                                                |
+| `runpath` | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.                                                                   |
+| `e`       | Experiment type, options: Flu-ONT, SC2-Spike-Only-ONT, Flu-Illumina, SC2-Whole-Genome-ONT, SC2-Whole-Genome-Illumina, RSV-Illumina, RSV-ONT.                                                                  |
 
-### *all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines*
+### _all commands listed below can not be included in run command and the defaults will be used, aside from the p flag that must be used wit hSC2 and RSV pipelines_
 
-| Flag       | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
-| `p`                   | Provide a built-in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided** |
-| `custom_primers`      | Provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **primer_kmer_len and primer_restrict_window flags must also be used with this flag**                      |
-| `primer_kmer_len`     | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                          |
-| `primer_restrict_window` | The N number of bases provided by this flag will restrict them primer searching to the leftmost and rightmost N bases.                                                                                                           |
-| `read_qc`             | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                |
-| `parquet_files`       | (optional) Flag to create parquet files from the csv file formats (boolean). Default set to false.                                                                                                                        |
-| `subsample_reads`     | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                  |
-| `process_q`           | (required for sge or slurm profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                |
-| `email`               | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                          |
-| `nextclade`        | (optional) When set to true, this flag will run nextclade for your passing samples. Default: false.                                                       |
-| `custom_runid`        | (optional) An option flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.                                                       |
-| `irma_module`         | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr |
-| `custom_irma_config`  | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                             |
-| `custom_qc_settings`  | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                     |
-| `amd_platform`        | (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false |
-| `ecr_registry`        | (optional) Allows a user to pass their ecr registry for AWS to the workflow.                                                                                                                                                      |
-| `sourcepath`          | (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one cannot place the entire repo in their working directory. |
-| `variants_of_interest`  | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
-| `reference_seq_table`        | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the  `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.  |
-| `check_version`        | (optional) The flag is set to true by default. It will check that you are using the most up to date version of MIRA-NF. However, it will require that you have an internet connection to check. If you do not have internet, then the flag should be set to false.  |
+| Flag                     | Description                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `p`                      | Provide a built-in primer schema if using experiment type SC2-Whole-Genome-Illumina. SARS-CoV-2 options: articv3, articv4, articv4.1, articv5.3.2, qiagen, swift, swift_211206. RSV options: RSV_CDC_8amplicon_230901 **Will be overwritten by custom_primers flag if both flags are provided**                                                                                                 |
+| `custom_primers`         | Provide a custom primer schema by entering the file path to your own custom primer fasta file. Must be fasta formatted. **primer_kmer_len and primer_restrict_window flags must also be used with this flag**                                                                                                                                                                                   |
+| `primer_kmer_len`        | When primer_kmer_len is set to K, all K-mers for the primers are stored and matching against K-mers in the queries (reads) is performed.                                                                                                                                                                                                                                                        |
+| `primer_restrict_window` | The N number of bases provided by this flag will restrict them primer searching to the leftmost and rightmost N bases.                                                                                                                                                                                                                                                                          |
+| `read_qc`                | (optional) Run FastQC and MultiQC. Default: false.                                                                                                                                                                                                                                                                                                                                              |
+| `parquet_files`          | (optional) Flag to create parquet files from the csv file formats (boolean). Default set to false.                                                                                                                                                                                                                                                                                              |
+| `subsample_reads`        | (optional) The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default is set to skip subsampling process using value 0.                                                                                                                                                                                                               |
+| `process_q`              | (required for sge or slurm profile) Provide the name of the processing queue that will submit to the queue.                                                                                                                                                                                                                                                                                     |
+| `email`                  | (optional) Provide an email if you would like to receive an email with the irma summary upon completion.                                                                                                                                                                                                                                                                                        |
+| `nextclade`              | (optional) When set to true, this flag will run nextclade for your passing samples. Default: false.                                                                                                                                                                                                                                                                                             |
+| `custom_runid`           | (optional) An option flag to allow the user to pass a custom runid used to name outputs files. Otherwise the run folder name will be striped from runpath and used to name outputs.                                                                                                                                                                                                             |
+| `irma_module`            | (optional) Call flu-sensitive, flu-secondary or flu-utr irma module instead of the built-in flu configs. Default is set to not use these modules and they can only be invoked for Flu-Illumina experiment type. Options: sensitive, secondary or utr                                                                                                                                            |
+| `custom_irma_config`     | (optional) Provide a custom IRMA config file to be used with IRMA assembly. File path to file needed.                                                                                                                                                                                                                                                                                           |
+| `custom_qc_settings`     | (optional) Provide custom qc pass/fail settings for constructing the summary files. Default settings can be found in ../bin/irma_config/qc_pass_fail_settings.yaml. File path to file needed.                                                                                                                                                                                                   |
+| `amd_platform`           | (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false                                                            |
+| `ecr_registry`           | (optional) Allows a user to pass their ecr registry for AWS to the workflow.                                                                                                                                                                                                                                                                                                                    |
+| `sourcepath`             | (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one cannot place the entire repo in their working directory.                                                                                                              |
+| `variants_of_interest`   | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
+| `reference_seq_table`    | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.      |
+| `check_version`          | (optional) The flag is set to true by default. It will check that you are using the most up to date version of MIRA-NF. However, it will require that you have an internet connection to check. If you do not have internet, then the flag should be set to false.                                                                                                                              |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
 
@@ -251,7 +252,6 @@ nextflow run ./main/nf -profile docker -params-file params.yaml
 
 with:
 
-
 ```yaml
 input: '/RUN_PATH/samplesheet.csv'
 outdir: '/FILE_PATH/results/'
@@ -295,7 +295,6 @@ First, go to the [cdcgov/mira-nf releases page](https://github.com/cdcgov/mira-n
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
-
 To further assist in reproducibility, you can use share and reuse [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 
 > [!TIP]
@@ -313,6 +312,7 @@ Use this parameter to choose a configuration profile. Profiles can give configur
 Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Shifter, Charliecloud, Apptainer, Conda) - see below.
 
 t run time. For more information and to see if your system is available in these configs please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
+
 > [!IMPORTANT]
 > We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
 
@@ -348,7 +348,6 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 - `standard`
   - A configuration profile that has been configured to run within AWS.
 
-
 ### `-resume`
 
 Specify this when restarting a pipeline. Nextflow will use cached results from any pipeline steps where the inputs are the same, continuing from where it got to previously. For input to be considered the same, not only the names must be identical but the files' contents as well. For more info about this parameter, see [this blog post](https://www.nextflow.io/blog/2019/demystifying-nextflow-resume.html).
@@ -363,14 +362,13 @@ Specify the path to a specific config file (this is a core Nextflow command). Se
 
 ### Resource requests
 
-
 Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the pipeline steps, if the job exits with any of the error codes specified [here](https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18) it will automatically be resubmitted with higher resources request (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
 
 To change the resource requests, please see the [max resources](https://nf-co.re/docs/usage/configuration#max-resources) and [tuning workflow resources](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources) section of the nf-core website.
 
 ### Custom Containers
-In some cases, you may wish to change the container or conda environment used by a pipeline steps for a particular tool. By default, nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However, in some cases the pipeline specified version maybe out of date.
 
+In some cases, you may wish to change the container or conda environment used by a pipeline steps for a particular tool. By default, nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However, in some cases the pipeline specified version maybe out of date.
 
 To use a different container from the default container specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/usage/configuration#updating-tool-versions) section of the nf-core website.
 

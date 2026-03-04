@@ -58,4 +58,3 @@ process PREPAREMIRAREPORTS {
     END_VERSIONS
     """
 }
-

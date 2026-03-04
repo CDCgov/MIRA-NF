@@ -1,9 +1,4 @@
 {
-    "cSpell.enableFiletypes": [
-        "nextflow",
-        "shellscript"
-    ],
-    "cSpell.words": [
-        "DAISRIBOSOME"
-    ]
+    "cSpell.enableFiletypes": ["nextflow", "shellscript"],
+    "cSpell.words": ["DAISRIBOSOME"]
 }

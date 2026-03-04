@@ -17,11 +17,11 @@ tools:
 input:
   summary:
     summary_csv:
-        type: file
-        description: CSV file containing MIRA summary results
-        pattern: "*.{csv}"
-        ontologies:
-          - edam: http://edamontology.org/format_3752 # CSV
+      type: file
+      description: CSV file containing MIRA summary results
+      pattern: "*.{csv}"
+      ontologies:
+        - edam: http://edamontology.org/format_3752 # CSV
   nextclade_tsv:
     - ${prefix}.tsv:
         type: file
