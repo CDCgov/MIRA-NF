@@ -29,9 +29,20 @@ ENV PROJECT_DIR=/mira-nf
 # Copy project files
 COPY . ${PROJECT_DIR}
 
+# Import CA into Java truststore
+RUN keytool -importcert -trustcacerts \
+    -file /etc/ssl/certs/curl-ca-bundle.crt \
+    -alias min-cdc-bundle \
+    -keystore /usr/lib/jvm/java-17-openjdk/lib/security/cacerts \
+    -storepass changeit -noprompt
+
 ############# Install nextflow packages ##################
 
 # Create nextflow directories
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+ENV PATH="$JAVA_HOME/bin:$PATH"
+ENV HOME=/root
+RUN mkdir -p /root/.nextflow
 RUN mkdir -p /root/.nextflow/framework/25.10.4
 
 # Pull Nextflow
