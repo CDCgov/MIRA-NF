@@ -5,10 +5,10 @@ FROM alpine:3.22 AS base
 
 # Required certs for apk update
 COPY .certs/min-cdc-bundle-ca.crt /etc/ssl/certs/ca.crt
-COPY .certs/min-cdc-bundle-ca.crt /root/ca.crt
 
 # Put certs in /etc/ssl/certs location
-RUN cat /etc/ssl/certs/ca.crt >> /etc/ssl/certs/ca-certificates.crt
+RUN cat /etc/ssl/certs/ca.crt >> /etc/ssl/certs/curl-ca-bundle.crt
+ENV SSL_CERT_FILE=/etc/ssl/certs/curl-ca-bundle.crt
 
 # Install system libraries
 RUN apk update && apk add --no-cache \
@@ -17,7 +17,11 @@ RUN apk update && apk add --no-cache \
     tar \
     curl \
     openjdk17-jre \
-    dos2unix
+    dos2unix \
+    ca-certificates
+
+# Update CA trust store
+RUN update-ca-certificates
 
 # Project directory
 ENV PROJECT_DIR=/mira-nf
@@ -28,7 +32,7 @@ COPY . ${PROJECT_DIR}
 ############# Install nextflow packages ##################
 
 # Create nextflow directories
-RUN mkdir -p /home/xpa3/.nextflow/framework/25.10.4
+RUN mkdir -p /root/.nextflow/framework/25.10.4
 
 # Pull Nextflow
 RUN curl -L https://get.nextflow.io -o /usr/local/bin/nextflow --cacert /etc/ssl/certs/ca.crt \
@@ -37,7 +41,7 @@ RUN curl -L https://get.nextflow.io -o /usr/local/bin/nextflow --cacert /etc/ssl
 # Get Java helper
 RUN curl -L https://www.nextflow.io/releases/v25.10.4/nextflow-25.10.4-one.jar \
     -o /root/.nextflow/framework/25.10.4/nextflow-25.10.4-one.jar \
-    --cacert /root/ca.crt
+    --cacert /etc/ssl/certs/ca.crt
 
 RUN nextflow -version
 
