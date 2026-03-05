@@ -18,7 +18,25 @@ RUN apk update && apk add --no-cache \
     curl \
     openjdk17-jre \
     dos2unix \
-    ca-certificates
+    ca-certificates \
+    build-base \
+    go \
+    autoconf \
+    automake \
+    cryptsetup \
+    fuse2fs \
+    git \
+    fuse \
+    fuse-dev \
+    libseccomp-dev \
+    libtool \
+    pkgconfig \
+    runc \
+    squashfs-tools \
+    squashfs-tools-ng \
+    shadow \
+    wget \
+    zlib-dev
 
 # Update CA trust store
 RUN update-ca-certificates
@@ -64,6 +82,22 @@ RUN dos2unix ${PROJECT_DIR}/MIRA_nextflow.sh
 
 # Allow execution
 RUN chmod +x ${PROJECT_DIR}/MIRA_nextflow.sh
+
+############# Install singularity ##################
+
+# Install Apptainer
+ENV SINGULARITY_VERSION=4.4.0
+
+RUN curl -L https://github.com/sylabs/singularity/releases/download/v${SINGULARITY_VERSION}/singularity-ce-${SINGULARITY_VERSION}.tar.gz -o singularity-ce-${SINGULARITY_VERSION}.tar.gz --cacert /etc/ssl/certs/ca.crt && \
+    tar -xzf singularity-ce-${SINGULARITY_VERSION}.tar.gz && \
+    cd singularity-ce-${SINGULARITY_VERSION}
+
+RUN ./mconfig && \
+    make -C builddir && \
+    sudo make -C builddir install
+
+# Verify installation
+RUN apptainer --version
 
 ############# Remove unused packages ##################
 
