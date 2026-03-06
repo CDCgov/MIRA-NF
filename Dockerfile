@@ -35,6 +35,7 @@ RUN apk update && apk add --no-cache \
     squashfs-tools \
     squashfs-tools-ng \
     shadow \
+    shadow-dev \
     wget \
     zlib-dev
 
@@ -83,6 +84,16 @@ RUN dos2unix ${PROJECT_DIR}/MIRA_nextflow.sh
 # Allow execution
 RUN chmod +x ${PROJECT_DIR}/MIRA_nextflow.sh
 
+############# Install GO ##################
+# This has to be the most up to date version or it will fail
+ENV GO_VERSION=1.26.0
+
+RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
+    rm go${GO_VERSION}.linux-amd64.tar.gz
+
+ENV PATH=/usr/local/go/bin:$PATH
+
 ############# Install singularity ##################
 
 # Install Apptainer
@@ -90,14 +101,10 @@ ENV SINGULARITY_VERSION=4.4.0
 
 RUN curl -L https://github.com/sylabs/singularity/releases/download/v${SINGULARITY_VERSION}/singularity-ce-${SINGULARITY_VERSION}.tar.gz -o singularity-ce-${SINGULARITY_VERSION}.tar.gz --cacert /etc/ssl/certs/ca.crt && \
     tar -xzf singularity-ce-${SINGULARITY_VERSION}.tar.gz && \
-    cd singularity-ce-${SINGULARITY_VERSION}
-
-RUN ./mconfig && \
+    cd singularity-ce-${SINGULARITY_VERSION} && \
+    ./mconfig && \
     make -C builddir && \
-    sudo make -C builddir install
-
-# Verify installation
-RUN apptainer --version
+    make -C builddir install
 
 ############# Remove unused packages ##################
 
