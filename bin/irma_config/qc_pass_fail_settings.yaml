@@ -1,7 +1,7 @@
 ont-flu:
   med_cov: 50 # mean coverage depth across reference
   minor_vars: 10 # maximum allowed minor variants >= 5%
-  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  stop_codon_restricted_proteins: HA,HA1,HA-signal,NA #List of proteins that do not allow premature stop codons. Separated by comma only.
   perc_ref_covered: 90 # Minimum % of reference to cover
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
   negative_control_perc_exception: 10 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
@@ -10,7 +10,7 @@ ont-flu:
 ont-sc2-spike:
   med_cov: 50 # mean coverage depth across reference
   minor_vars: 10 # maximum allowed minor variants >= 5%
-  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  stop_codon_restricted_proteins: False # True = allow premature stop codons; False = do not allow
   perc_ref_covered: 90 # Minimum % of reference to cover
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
   negative_control_perc_exception: 10 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
@@ -19,7 +19,7 @@ ont-sc2-spike:
 illumina-flu:
   med_cov: 100 # mean coverage depth across reference
   minor_vars: 10 # maximum allowed minor variants >= 5%
-  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  stop_codon_restricted_proteins: HA,HA1,HA-signal,NA #List of proteins that do not allow premature stop codons. Separated by comma only.
   perc_ref_covered: 90 # Minimum % of reference to cover
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
   negative_control_perc_exception: 1000 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
@@ -29,7 +29,7 @@ illumina-sc2:
   med_cov: 100 # mean coverage depth across reference
   med_spike_cov: 100 # median coverage depth across spike gene
   minor_vars: 20 # maximum allowed minor variants >= 5%
-  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  stop_codon_restricted_proteins: S #List of proteins that do not allow premature stop codons. Separated by comma only.
   perc_ref_covered: 90 # Minimum % of reference to cover
   perc_ref_spike_covered: 90 # Minimum % of spike gene reference to cover
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
@@ -40,7 +40,7 @@ ont-sc2:
   med_cov: 50 # median coverage depth across reference
   med_spike_cov: 100 #median coverage depth across spike gene
   minor_vars: 20 # maximum allowed minor variants >= 5%
-  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  stop_codon_restricted_proteins: S #List of proteins that do not allow premature stop codons. Separated by comma only.
   perc_ref_covered: 90 # Minimum % of reference to cover
   perc_ref_spike_covered: 90 # Minimum % of spike gene reference to cover
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
@@ -50,7 +50,7 @@ ont-sc2:
 illumina-rsv:
   med_cov: 100 # mean coverage depth across reference
   minor_vars: 50 # maximum allowed minor variants >= 5%
-  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  stop_codon_restricted_proteins: G,F #List of proteins that do not allow premature stop codons. Separated by comma only.
   perc_ref_covered: 90 # Minimum % of reference to cover
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
   negative_control_perc_exception: 1000 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
@@ -59,7 +59,7 @@ illumina-rsv:
 ont-rsv:
   med_cov: 50 # median coverage depth across reference
   minor_vars: 20 # maximum allowed minor variants >= 5%
-  allow_stop_codons: False # True = allow premature stop codons; False = do not allow
+  stop_codon_restricted_proteins: G,F #List of proteins that do not allow premature stop codons. Separated by comma only.
   perc_ref_covered: 90 # Minimum % of reference to cover
   negative_control_perc: 1 # fail negative controls if this percent of reads map to reference
   negative_control_perc_exception: 10 # ignore `negative_control_perc` is total negative reads mapping to reference is less than this value
