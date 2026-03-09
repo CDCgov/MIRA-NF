@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | irma-core     | 0.6.1   |
 | IRMA          | 1.3.1   |
 | DAIS-ribosome | 1.6.1   |
-| mira-oxide    | 1.4.3   |
+| mira-oxide    | 1.4.4   |
 | nextclade     | 3.19.1  |
 
 ### Nextclade Tags Used

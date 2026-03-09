@@ -272,7 +272,8 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique sample identifier. |
-    | reference_id | Reference genome used by DAIS-ribosome for annotation. |
+    | aa_reference_id | Reference genome used to obtain the refrence aa. |
+    | positional_reference_id | Reference genome used to obtain position at which aa variation occurs. |
     | protein | Protein name where variants were detected. |
     | aa_variant_count | Number of amino acid variants detected in the protein. |
     | aa_variants | List of amino acid variant annotations. |
