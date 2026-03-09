@@ -1,6 +1,6 @@
 process VARIANTSOFINT {
     label 'process_low'
-    container 'cdcgov/mira-oxide:v1.4.2'
+    container 'cdcgov/mira-oxide:v1.4.3'
 
     input:
     path dais_seq_output

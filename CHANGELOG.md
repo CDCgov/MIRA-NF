@@ -16,8 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | irma-core     | 0.6.1   |
 | IRMA          | 1.3.1   |
 | DAIS-ribosome | 1.6.1   |
-| mira-oxide    | 1.4.2   |
-| nextclade     | 3.18.1  |
+| mira-oxide    | 1.4.3   |
+| nextclade     | 3.19.1  |
 
 ### Nextclade Tags Used
 
@@ -62,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #96](https://github.com/CDCgov/MIRA-NF/pull/96) - new container `nextstrain/nextclade:3.18.1` for running nexclade.
 - [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - updating mira-oxide container to v1.4.0
 - [PR #98](https://github.com/CDCgov/MIRA-NF/pull/98) - removing the use of the `cdcgov/mira-nf:python3.10-alpine` container
+- [PR #118](https://github.com/CDCgov/MIRA-NF/pull/118) - bumping nextclade container version to `3.19.0`
 
 ### `Deprecated`
 
