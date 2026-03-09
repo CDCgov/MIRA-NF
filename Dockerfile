@@ -1,7 +1,7 @@
 ####################################################################################################
 # BASE IMAGE
 ####################################################################################################
-FROM alpine:3.22 AS base
+FROM debian:bookworm-slim AS builder
 
 # Required certs for apk update
 COPY .certs/min-cdc-bundle-ca.crt /etc/ssl/certs/ca.crt
@@ -11,49 +11,40 @@ RUN cat /etc/ssl/certs/ca.crt >> /etc/ssl/certs/curl-ca-bundle.crt
 ENV SSL_CERT_FILE=/etc/ssl/certs/curl-ca-bundle.crt
 
 # Install system libraries
-RUN apk update && apk add --no-cache \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     vim \
     tar \
     curl \
-    openjdk17-jre \
+    openjdk-17-jre \
     dos2unix \
-    ca-certificates \
-    build-base \
-    go \
+    build-essential \
+    golang \
     autoconf \
     automake \
     cryptsetup \
-    fuse2fs \
     git \
-    fuse \
-    fuse-dev \
+    fuse3 \
+    libfuse-dev \
     libseccomp-dev \
     libtool \
-    pkgconfig \
+    pkg-config \
     runc \
     squashfs-tools \
-    squashfs-tools-ng \
-    shadow \
-    shadow-dev \
+    uidmap \
     wget \
-    zlib-dev
+    zlib1g-dev \
+    libsubid-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Update CA trust store
-RUN update-ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates-java && update-ca-certificates -f
 
 # Project directory
 ENV PROJECT_DIR=/mira-nf
 
 # Copy project files
 COPY . ${PROJECT_DIR}
-
-# Import CA into Java truststore
-RUN keytool -importcert -trustcacerts \
-    -file /etc/ssl/certs/curl-ca-bundle.crt \
-    -alias min-cdc-bundle \
-    -keystore /usr/lib/jvm/java-17-openjdk/lib/security/cacerts \
-    -storepass changeit -noprompt
 
 ############# Install nextflow packages ##################
 
@@ -86,9 +77,9 @@ RUN chmod +x ${PROJECT_DIR}/MIRA_nextflow.sh
 
 ############# Install GO ##################
 # This has to be the most up to date version or it will fail
-ENV GO_VERSION=1.26.0
+ENV GO_VERSION=1.26.1
 
-RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
+RUN curl -L https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o go${GO_VERSION}.linux-amd64.tar.gz --cacert /etc/ssl/certs/ca.crt && \
     tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
     rm go${GO_VERSION}.linux-amd64.tar.gz
 
