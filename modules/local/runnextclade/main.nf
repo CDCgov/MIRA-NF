@@ -2,7 +2,7 @@ process RUNNEXTCLADE {
     tag "${dataset_name}"
 
     label 'process_medium'
-    container 'nextstrain/nextclade:3.18.1'
+    container 'nextstrain/nextclade:3.19.0'
 
     input:
     tuple val(dataset_name), val(tag), path(nextclade_fastq_files), path(nextclade_dataset)
