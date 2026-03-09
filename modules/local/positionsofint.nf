@@ -1,6 +1,6 @@
 process POSITIONSOFINT {
     label 'process_low'
-    container 'cdcgov/mira-oxide:v1.4.3'
+    container 'cdcgov/mira-oxide:v1.4.4'
 
     input:
     path dais_seq_output
