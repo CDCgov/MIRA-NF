@@ -7,7 +7,7 @@ process UPDATEMIRASUMMARY {
     input:
     path summary
     val nextclade_metadata
-    path nextclade_tsv_files 
+    path nextclade_tsv_files
     val virus
     val runid
     path nextclade_version_file
