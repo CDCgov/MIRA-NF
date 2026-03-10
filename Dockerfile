@@ -3,42 +3,27 @@
 ####################################################################################################
 FROM debian:bookworm-slim AS builder
 
-# Required certs for apk update
-COPY .certs/min-cdc-bundle-ca.crt /etc/ssl/certs/ca.crt
-
-# Put certs in /etc/ssl/certs location
-RUN cat /etc/ssl/certs/ca.crt >> /etc/ssl/certs/curl-ca-bundle.crt
-ENV SSL_CERT_FILE=/etc/ssl/certs/curl-ca-bundle.crt
-
-# Install system libraries
+# Install CA packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    ca-certificates-java \
+    openjdk-17-jre-headless \
+    curl \
+    wget \
     bash \
     vim \
     tar \
-    curl \
-    openjdk-17-jre \
     dos2unix \
-    build-essential \
-    golang \
-    autoconf \
-    automake \
-    cryptsetup \
-    git \
-    fuse3 \
-    libfuse-dev \
-    libseccomp-dev \
-    libtool \
-    pkg-config \
-    runc \
-    squashfs-tools \
-    uidmap \
-    wget \
-    zlib1g-dev \
-    libsubid-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Update CA trust store
-RUN apt-get update && apt-get install -y ca-certificates-java && update-ca-certificates -f
+# Add custom CA properly
+COPY .certs/min-cdc-bundle-ca.crt /usr/local/share/ca-certificates/min-cdc-bundle-ca.crt
+
+# For curl to work
+RUN cat /usr/local/share/ca-certificates/min-cdc-bundle-ca.crt >> /etc/ssl/certs/ca.crt
+
+# Update system + Java truststores
+RUN update-ca-certificates
 
 # Project directory
 ENV PROJECT_DIR=/mira-nf
@@ -75,27 +60,9 @@ RUN dos2unix ${PROJECT_DIR}/MIRA_nextflow.sh
 # Allow execution
 RUN chmod +x ${PROJECT_DIR}/MIRA_nextflow.sh
 
-############# Install GO ##################
-# This has to be the most up to date version or it will fail
-ENV GO_VERSION=1.26.1
+############# Install Docker ##################
 
-RUN curl -L https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o go${GO_VERSION}.linux-amd64.tar.gz --cacert /etc/ssl/certs/ca.crt && \
-    tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
-    rm go${GO_VERSION}.linux-amd64.tar.gz
-
-ENV PATH=/usr/local/go/bin:$PATH
-
-############# Install singularity ##################
-
-# Install Apptainer
-ENV SINGULARITY_VERSION=4.4.0
-
-RUN curl -L https://github.com/sylabs/singularity/releases/download/v${SINGULARITY_VERSION}/singularity-ce-${SINGULARITY_VERSION}.tar.gz -o singularity-ce-${SINGULARITY_VERSION}.tar.gz --cacert /etc/ssl/certs/ca.crt && \
-    tar -xzf singularity-ce-${SINGULARITY_VERSION}.tar.gz && \
-    cd singularity-ce-${SINGULARITY_VERSION} && \
-    ./mconfig && \
-    make -C builddir && \
-    make -C builddir install
+RUN apt-get update && apt-get install -y --no-install-recommends docker.io
 
 ############# Remove unused packages ##################
 
