@@ -2,13 +2,15 @@ process UPDATEMIRASUMMARY {
 
     label 'process_single'
 
-    container 'cdcgov/mira-oxide:v1.4.0'
+    container 'cdcgov/mira-oxide:v1.4.4'
 
     input:
     path summary
+    val nextclade_metadata
     path nextclade_tsv_files
     val virus
     val runid
+    path nextclade_version_file
 
     output:
     path ('*.csv'), emit: summary_csv
@@ -23,6 +25,9 @@ process UPDATEMIRASUMMARY {
     def parquet_args = params.parquet_files ? '-f' : ''
 
     """
+    # Read Nextclade version from file
+    nextclade_version=\$(cat ${nextclade_version_file})
+
     mkdir nextclade
     cp ${nextclade_tsv_files} ./nextclade
 
@@ -32,6 +37,8 @@ process UPDATEMIRASUMMARY {
         -v ${virus} \\
         -r ${runid} \\
         -o ./ \\
+        -n \$nextclade_version \\
+        -m ${nextclade_metadata} \\
         ${parquet_args} \\
         ${args}
 

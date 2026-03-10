@@ -14,7 +14,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Reads Prepped for IRMA](#reads-prepped-for-irma) - The subsampled and trimmed fastq inputs that IRMA will use for assembly
 - [IRMA](#irma-outputs) - A folder containing all of the outs made by IRMA
 - [DAIS-ribosome](dais-ribosome-outputs) - Aggregate insertion, deletion and sequence file for the input data
-- [PrepareMIRAReports](#preparemirareports) - Collected results from IRMA and DAIS-Ribosome to create MIRA reoprts (JSON, HTML, FASTA, CSV and optional PARQ files)
+- [PrepareMiraReports](#preparemirareports) - Collected results from IRMA and DAIS-Ribosome to create Mirna reoprts (JSON, HTML, FASTA, CSV and optional PARQ files)
 - [Nextclade](#nextclade) - Input fasta file for Nextclade and Nextclade outputs if Nextclade was run within the workflow.
 
 ## Output Structure
@@ -228,11 +228,11 @@ A sequence file output example:
 | 11209  | B_HA   | BRISBANE60 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false     | false        | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45                | 1..45              |
 | 11209  | B_HA   | PHUKET3073 | HA-signal | c7ee7ff234abf5c0591e0fe1af26ca87 | MKAIIILLMVVTSNA | MKAIIILLMVVTSNA | c49a73ab7280362c8c710abbf648708c41f97712 | false     | false        | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | ATGAAGGCAATAATTATACTACTCATGGTAGTAACATCCAATGCA | 1..45                | 1..45              |
 
-### PrepareMIRAReports
+### PrepareMiraReports
 
 <summary>Output files</summary>
 
-The collected results from IRMA and DAIS-Ribosome in JSON files - These are for vizualizing in MIRA-GUI
+The collected results from IRMA and DAIS-Ribosome in JSON files - These are for vizualizing in Mira-GUI
 
 - `aggregate_outputs/dash-json/`
   - barcode_distribution.json
@@ -272,7 +272,8 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | Column Name | Definition |
     |-------------|------------|
     | sample_id | Unique sample identifier. |
-    | reference_id | Reference genome used by DAIS-ribosome for annotation. |
+    | aa_reference_id | Reference genome used to obtain the refrence aa. |
+    | positional_reference_id | Reference genome used to obtain position at which aa variation occurs. |
     | protein | Protein name where variants were detected. |
     | aa_variant_count | Number of amino acid variants detected in the protein. |
     | aa_variants | List of amino acid variant annotations. |
@@ -372,7 +373,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | spike_median_coverage | (optional) Median depth across the spike gene. Present of SC2-Whole-Genome data. |
     | pass_fail_reason | Explanation for QC failure (if applicable). |
     | subtype | Assigned viral subtype or lineage to be used by nextclade. |
-    | mira_module | MIRA version and config settings used for analysis. |
+    | mira_version;module;irma_config | Mira version, Mira module used and config settings used for analysis. |
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
 
@@ -382,11 +383,11 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | clade | sc2-wgs | Nextclade clade designation. |
     | clade_who | sc2-wgs | WHO clade designation. |
     | nextclade_pango | sc2-wgs | Assigned Pango lineage from Nextclade. |
-    | clade | flu | Assigned influenza clade designation. |
-    | short_clade | flu | Abbreviated clade label. |
     | subclade | flu | Influenza subclade classification. |
+    | nextclade_alias | flu | clade alias assigned by nextclade. |
     | clade | rsv | Assigned viral clade designation. |
     | g_clade | rsv | GISAID clade designation. |
+    | nextclade_version;dataset;tag | the nextclade version, the dataset used and the tag used to run nextclade. |
 
   - **mira\_<runid>\_minor_variants.csv**
     | Column Name | Definition |
