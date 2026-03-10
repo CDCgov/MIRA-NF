@@ -93,7 +93,9 @@ services:
     depends_on:
       - dais
       - irma
-      - spyne
+      - irma-core
+      - nextclade
+      - mira-oxide
     restart: always
     networks:
       - frontend

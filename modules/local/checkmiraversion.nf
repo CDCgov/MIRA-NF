@@ -17,7 +17,7 @@ process CHECKMIRAVERSION {
 
     """
     wget -O DESCRIPTION https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/master/DESCRIPTION
-    mira-oxide check-mira-version -g ./DESCRIPTION -l ${description_file_path}
+    mira-oxide check-mira-version -g DESCRIPTION -l /${description_file_path}/
 
     """
 }
