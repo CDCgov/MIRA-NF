@@ -14,11 +14,11 @@ x-irma-core-version:
 
 x-nextclade-version:
   &nextclade-version 
-  nextstrain/nextclade:3.19.0
+  nextstrain/nextclade:3.18.0
 
 x-mira-oxide-version:
   &mira-oxide-version  
-  cdcgov/mira-oxide:v1.4.4
+  cdcgov/mira-oxide:v1.4.2
 
 x-mira-nf-version:
   &mira-nf-version  
@@ -40,7 +40,6 @@ services:
   dais: 
     container_name: dais
     image: *dais-version
-    restart: always
     networks:
       - backend
     volumes: 
@@ -50,7 +49,6 @@ services:
   irma: 
     container_name: irma
     image: *irma-version
-    restart: always
     networks:
       - backend
     volumes:
@@ -60,7 +58,6 @@ services:
   irma-core: 
       container_name: irma-core
       image: *irma-core-version
-      restart: always
       networks:
         - backend
       volumes:
@@ -70,7 +67,6 @@ services:
   nextclade: 
     container_name: nextclade
     image: *nextclade-version
-    restart: always
     networks:
       - backend
     volumes:
@@ -78,9 +74,8 @@ services:
     command: tail -f /dev/null
     
   mira-oxide: 
-    container_name: spyne
+    container_name: mira-oxide
     image: *mira-oxide-version
-    restart: always
     networks:
       - backend
     volumes:
@@ -88,7 +83,7 @@ services:
     command: tail -f /dev/null
 
   mira-nf: 
-    container_name: mira-nf
+    container_name: mira-nf-docker
     image: *mira-nf-version
     depends_on:
       - dais
@@ -96,12 +91,9 @@ services:
       - irma-core
       - nextclade
       - mira-oxide
-    restart: always
     networks:
       - frontend
       - backend
-    ports: 
-      - 8020:8050
     volumes:
       - *data-volume
       - *docker-socket
