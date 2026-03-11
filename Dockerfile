@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     vim \
     tar \
     curl \
+    procps \
     openjdk-17-jre \
     dos2unix \
     build-essential \
@@ -46,7 +47,7 @@ COPY . ${PROJECT_DIR}
 # Copy script
 COPY sandboxes.tar.gz ${PROJECT_DIR}/sandboxes.tar.gz
 
-RUN tar -xzf ${PROJECT_DIR}/sandboxes.tar.gz
+RUN tar -xzf ${PROJECT_DIR}/sandboxes.tar.gz -C ${PROJECT_DIR}
 
 # Allow execution
 RUN chmod -R 777 ${PROJECT_DIR}/sandboxes
@@ -103,7 +104,7 @@ RUN curl -L https://github.com/sylabs/singularity/releases/download/v${SINGULARI
     make -C builddir && \
     make -C builddir install
 
-RUN rm singularity-ce-${SINGULARITY_VERSION}
+RUN rm singularity-ce-${SINGULARITY_VERSION}.tar.gz
 
 ############# Remove unused packages ##################
 
