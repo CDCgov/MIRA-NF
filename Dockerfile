@@ -27,25 +27,22 @@ COPY .certs/min-cdc-bundle-ca.crt /usr/local/share/ca-certificates/min-cdc-bundl
 
 RUN cat /usr/local/share/ca-certificates/min-cdc-bundle-ca.crt >> /etc/ssl/certs/ca.crt && update-ca-certificates
 
-############# Install GO ##################
+############# Install Singularity with GO ##################
 # This has to be the most up to date version or it will fail
 ENV GO_VERSION=1.26.1
-
-RUN curl -L https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o go${GO_VERSION}.linux-amd64.tar.gz --cacert /etc/ssl/certs/ca.crt && \
-    tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
-    rm go${GO_VERSION}.linux-amd64.tar.gz
-
-ENV PATH=/usr/local/go/bin:$PATH
-
-############# Install singularity ##################
 ENV SINGULARITY_VERSION=4.4.0
 
-RUN curl -L https://github.com/sylabs/singularity/releases/download/v${SINGULARITY_VERSION}/singularity-ce-${SINGULARITY_VERSION}.tar.gz -o singularity-ce-${SINGULARITY_VERSION}.tar.gz --cacert /etc/ssl/certs/ca.crt && \
-    tar -xzf singularity-ce-${SINGULARITY_VERSION}.tar.gz && \
-    cd singularity-ce-${SINGULARITY_VERSION} && \
-    ./mconfig && \
-    make -C builddir && \
-    make -C builddir install
+RUN curl -L https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o go.tgz \
+ && tar -C /usr/local -xzf go.tgz \
+ && rm go.tgz \
+ && PATH=/usr/local/go/bin:$PATH \
+ && curl -L https://github.com/sylabs/singularity/releases/download/v${SINGULARITY_VERSION}/singularity-ce-${SINGULARITY_VERSION}.tar.gz -o s.tgz \
+ && tar -xzf s.tgz \
+ && cd singularity-ce-${SINGULARITY_VERSION} \
+ && ./mconfig \
+ && make -C builddir \
+ && make -C builddir install \
+ && rm -rf /usr/local/go s.tgz singularity-ce-${SINGULARITY_VERSION}
 
 ####################################################################################################
 # BUILD MIRA-NF IMAGE
@@ -71,6 +68,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     runc \
     squashfs-tools \
     uidmap \
+    python3.11 \
+    python3-pip \
+    python3-setuptools \
     && rm -rf /var/lib/apt/lists/*
 
 # Add custom CA properly
@@ -79,15 +79,12 @@ COPY .certs/min-cdc-bundle-ca.crt /usr/local/share/ca-certificates/
 RUN cat /usr/local/share/ca-certificates/min-cdc-bundle-ca.crt >> /etc/ssl/certs/ca.crt \
     && update-ca-certificates
 
-# Project directory
-ENV PROJECT_DIR=/MIRA-NF
+# Create environment variable to get base python version
+ARG python_version
+ENV python_version=${python_version:-python3.10}
 
-# Copy project files
-COPY . ${PROJECT_DIR}
-
-RUN tar -xzf ${PROJECT_DIR}/sandboxes.tar.gz -C ${PROJECT_DIR} \
- && chmod -R 777 ${PROJECT_DIR}/sandboxes \
- && rm ${PROJECT_DIR}/sandboxes.tar.gz
+# Update pip and setuptools and then install python packages
+RUN pip install --no-cache-dir --upgrade pip --break-system-packages
 
 ############# Install nextflow packages ##################
 
@@ -105,10 +102,24 @@ RUN mkdir -p /root/.nextflow/framework/25.10.4 \
       --cacert /etc/ssl/certs/ca.crt \
  && nextflow -version
 
-############# Remove unused packages ##################
+############# Set up MIRA-NF ##################
 
-RUN rm -rf ${PROJECT_DIR}/fastqc \
-    && rm -rf ${PROJECT_DIR}/multiqc
+# Project directory
+ENV PROJECT_DIR=/MIRA-NF
+
+# Copy project files
+COPY . ${PROJECT_DIR}
+
+RUN tar -xzf ${PROJECT_DIR}/sandboxes.tar.gz -C ${PROJECT_DIR} \
+ && chmod -R 777 ${PROJECT_DIR}/sandboxes \
+ && rm ${PROJECT_DIR}/sandboxes.tar.gz \
+ && rm -rf ${PROJECT_DIR}/fastqc \
+ && rm -rf ${PROJECT_DIR}/multiqc \
+ && rm -rf ${PROJECT_DIR}/.github \
+ && rm -rf ${PROJECT_DIR}/.vscode \
+ && rm -rf ${PROJECT_DIR}/samples \
+ && rm -rf ${PROJECT_DIR}/tests \
+ && rm -rf ${PROJECT_DIR}/docs
 
 ############# Set up working directory ##################
 

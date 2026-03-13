@@ -19,6 +19,7 @@
 *docker
 *images
 *inst
+*test*
 
 # ignore specific files
 change_log.txt
