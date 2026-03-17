@@ -24,11 +24,12 @@ jobs:
           sudo apt-get install -y mailutils
 
       - name: Install Nextclade
+        id: install_nextclade
         run: |
           curl -fsSL "https://github.com/nextstrain/nextclade/releases/latest/download/nextclade-x86_64-unknown-linux-gnu" -o nextclade
           chmod +x nextclade
           sudo mv nextclade /usr/local/bin/
-          echo "LATEST_NEXTCLADE_VERSION=$(nextclade --version)" >> "$GITHUB_ENV"
+          echo "latest_nextclade_version=$(nextclade --version)" >> "$GITHUB_OUTPUT"
 
       - name: Parse current versions from workflow
         id: current
@@ -137,7 +138,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CURRENT_VERSION: ${{ steps.current.outputs.nextclade_version }}
-          LATEST_VERSION: ${{ env.LATEST_NEXTCLADE_VERSION }}
+          LATEST_VERSION: ${{ steps.install_nextclade.outputs.latest_nextclade_version }}
           CURRENT_TAGS: ${{ steps.current.outputs.current_tags }}
           LATEST_TAGS: ${{ steps.latest.outputs.latest_tags }}
         run: |
@@ -145,11 +146,22 @@ jobs:
           import json
           import os
           import subprocess
+          from datetime import date, timedelta
 
           current_version = os.environ["CURRENT_VERSION"]
           latest_version = os.environ["LATEST_VERSION"]
           current_tags = json.loads(os.environ["CURRENT_TAGS"])
           latest_tags = json.loads(os.environ["LATEST_TAGS"])
+
+          runner_temp = os.environ["RUNNER_TEMP"]
+          gitlab_subject_path = os.path.join(runner_temp, "gitlab_issue_subject.txt")
+          gitlab_body_path = os.path.join(runner_temp, "gitlab_issue_body.md")
+
+          def set_output(key, value):
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"{key}={value}\n")
+
+          set_output("send_gitlab_email", "false")
 
           changes = []
 
@@ -206,16 +218,16 @@ jobs:
               "## Nextclade Update Available\n\n"
               "The automated check has detected that newer versions of Nextclade "
               "and/or dataset tags are available.\n\n"
-              + "\n\n".join(changes) +
-              "\n\n### Files to Update\n"
-              "- `modules/local/getnextcladedataset/main.nf` — container version\n"
-              "- `modules/local/runnextclade/main.nf` — container version\n"
-              "- `subworkflows/local/nextclade/main.nf` — dataset tags\n"
-              "\n### Steps\n"
-              "1. Update the container tag in the module files if the Nextclade version changed.\n"
-              "2. Update the `nextclade_tags` map in the nextclade subworkflow for any changed dataset tags.\n"
-              "3. Run tests to verify compatibility.\n"
-              "4. Update `CHANGELOG.md` with the new versions.\n"
+              + "\n\n".join(changes)
+              + "\n\n### Files to Update\n"
+              + "- `modules/local/getnextcladedataset/main.nf` — container version\n"
+              + "- `modules/local/runnextclade/main.nf` — container version\n"
+              + "- `subworkflows/local/nextclade/main.nf` — dataset tags\n"
+              + "\n### Steps\n"
+              + "1. Update the container tag in the module files if the Nextclade version changed.\n"
+              + "2. Update the `nextclade_tags` map in the nextclade subworkflow for any changed dataset tags.\n"
+              + "3. Run tests to verify compatibility.\n"
+              + "4. Update `CHANGELOG.md` with the new versions.\n"
           )
 
           title = "chore: bump Nextclade"
@@ -226,21 +238,39 @@ jobs:
               parts.append(f"{len(tag_rows)} dataset tag(s)")
           title += " — " + " & ".join(parts)
 
+          due_date = (date.today() + timedelta(days=7)).isoformat()
+          gitlab_body = (
+              body
+              + "\n\n"
+              + "/assign @xpa3\n"
+              + f"/due {due_date}\n"
+              + "/labels ~Mira\n"
+              + "/cc @nbx0\n"
+          )
+
+          with open(gitlab_subject_path, "w") as f:
+              f.write(title)
+          with open(gitlab_body_path, "w") as f:
+              f.write(gitlab_body)
+
+          set_output("gitlab_subject_path", gitlab_subject_path)
+          set_output("gitlab_body_path", gitlab_body_path)
+          set_output("send_gitlab_email", "true")
+
           # Check for ANY open Nextclade bump issue (not just exact title match)
           result = subprocess.run(
               ["gh", "issue", "list", "--state", "open", "--search", "chore: bump Nextclade in:title", "--json", "number,title"],
               capture_output=True, text=True, check=True
           )
           existing = json.loads(result.stdout)
-          # Filter to issues whose title actually starts with our prefix
           matching = [i for i in existing if i["title"].startswith("chore: bump Nextclade")]
 
           if matching:
               issue = matching[0]
               if issue["title"] == title:
                   print(f"Issue #{issue['number']} already exists with same title. No action needed.")
+                  print("Mirror-only mode: GitHub issue unchanged; GitLab email mirror will still be sent.")
               else:
-                  # Update the existing issue with the new title and body
                   subprocess.run(
                       [
                           "gh", "issue", "edit", str(issue["number"]),
@@ -255,7 +285,6 @@ jobs:
               write_output("email_body", body)
               exit(0)
 
-          # No existing issue found — create a new one
           subprocess.run(
               [
                   "gh", "issue", "create",
