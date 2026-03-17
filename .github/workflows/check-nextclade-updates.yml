@@ -194,8 +194,23 @@ jobs:
                   + "\n".join(tag_rows)
               )
 
+          def write_output(name, value):
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"{name}<<EOF\n{value}\nEOF\n")
+
+          def write_flag(name, value):
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"{name}={value}\n")
+
           if not changes:
+              body = (
+                  "## Nextclade Check Result\n\n"
+                  "No updates found. Nextclade and all dataset tags are up to date.\n"
+              )
               print("No updates found. Nextclade and all dataset tags are up to date.")
+              write_flag("updates_found", "false")
+              write_output("email_subject", "MIRA-NF check-nextclade: no updates found")
+              write_output("email_body", body)
               exit(0)
 
           # Build issue body
@@ -265,6 +280,9 @@ jobs:
                       check=True
                   )
                   print(f"Updated existing issue #{issue['number']} with latest versions.")
+              write_flag("updates_found", "true")
+              write_output("email_subject", f"MIRA-NF check-nextclade: {title}")
+              write_output("email_body", body)
               exit(0)
 
           subprocess.run(
@@ -277,21 +295,36 @@ jobs:
               check=True
           )
           print(f"Created issue: {title}")
+          write_flag("updates_found", "true")
+          write_output("email_subject", f"MIRA-NF check-nextclade: {title}")
+          write_output("email_body", body)
           PYEOF
 
-      - name: Send GitLab issue creation email
-        if: steps.compare.outputs.send_gitlab_email == 'true'
+      - name: Send notification email
+        if: steps.compare.outputs.updates_found == 'true' || github.ref == 'refs/heads/dev'
         env:
-          GITLAB_ISSUE_EMAIL: gitlab+vsdb-vsdb-bioifx-3856-2wpk8xk6u19egm4yt6mjlruee-issue@mail.biotech.cdc.gov
-          GITLAB_SUBJECT_PATH: ${{ steps.compare.outputs.gitlab_subject_path }}
-          GITLAB_BODY_PATH: ${{ steps.compare.outputs.gitlab_body_path }}
+          EMAIL_SUBJECT: ${{ steps.compare.outputs.email_subject }}
+          EMAIL_BODY: ${{ steps.compare.outputs.email_body }}
         run: |
-          if ! command -v mail >/dev/null 2>&1; then
-            echo "ERROR: 'mail' command is not available on this runner."
-            exit 1
+          recipients=(
+            "gitlab+vsdb-vsdb-bioifx-3856-2wpk8xk6u19egm4yt6mjlruee-issue@mail.biotech.cdc.gov"
+          )
+
+          if [ "${GITHUB_REF}" = "refs/heads/dev" ]; then
+            recipients+=("nbx0@cdc.gov")
           fi
 
-          SUBJECT="$(cat "${GITLAB_SUBJECT_PATH}")"
-          mail -a "Content-Type: text/markdown; charset=UTF-8" -s "${SUBJECT}" "${GITLAB_ISSUE_EMAIL}" < "${GITLAB_BODY_PATH}"
-          echo "Sent GitLab issue email with subject: ${SUBJECT}"
-          echo "Sent mirror GitLab issue email successfully."
+          {
+            echo "Repository: ${GITHUB_REPOSITORY}"
+            echo "Branch: ${GITHUB_REF_NAME}"
+            echo "Workflow run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo
+            printf '%s\n' "${EMAIL_BODY}"
+          } > nextclade-update-email.txt
+
+          echo "Sending Nextclade notification email to: ${recipients[*]}"
+          echo "Email subject: ${EMAIL_SUBJECT}"
+          echo "Email body:"
+          cat nextclade-update-email.txt
+
+          mail -s "${EMAIL_SUBJECT}" "${recipients[@]}" < nextclade-update-email.txt
