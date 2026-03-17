@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-updates:
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/master' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev')
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -277,9 +277,6 @@ jobs:
           EMAIL_SUBJECT: ${{ steps.compare.outputs.email_subject }}
           EMAIL_BODY: ${{ steps.compare.outputs.email_body }}
         run: |
-          sudo apt-get update
-          sudo apt-get install -y mailutils
-
           recipients=(
             "gitlab+vsdb-vsdb-bioifx-3856-2wpk8xk6u19egm4yt6mjlruee-issue@mail.biotech.cdc.gov"
           )
