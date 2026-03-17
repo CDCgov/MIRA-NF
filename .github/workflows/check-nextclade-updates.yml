@@ -181,14 +181,17 @@ jobs:
               with open(os.environ["GITHUB_OUTPUT"], "a") as f:
                   f.write(f"{name}<<EOF\n{value}\nEOF\n")
 
+          def write_flag(name, value):
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"{name}={value}\n")
+
           if not changes:
               body = (
                   "## Nextclade Check Result\n\n"
                   "No updates found. Nextclade and all dataset tags are up to date.\n"
               )
               print("No updates found. Nextclade and all dataset tags are up to date.")
-              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-                  f.write("updates_found=false\n")
+              write_flag("updates_found", "false")
               write_output("email_subject", "MIRA-NF check-nextclade: no updates found")
               write_output("email_body", body)
               exit(0)
@@ -242,8 +245,7 @@ jobs:
                       check=True
                   )
                   print(f"Updated existing issue #{issue['number']} with latest versions.")
-              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-                  f.write("updates_found=true\n")
+              write_flag("updates_found", "true")
               write_output("email_subject", f"MIRA-NF check-nextclade: {title}")
               write_output("email_body", body)
               exit(0)
@@ -259,8 +261,7 @@ jobs:
               check=True
           )
           print(f"Created issue: {title}")
-          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-              f.write("updates_found=true\n")
+          write_flag("updates_found", "true")
           write_output("email_subject", f"MIRA-NF check-nextclade: {title}")
           write_output("email_body", body)
           PYEOF
