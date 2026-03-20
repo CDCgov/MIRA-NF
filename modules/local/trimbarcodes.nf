@@ -2,7 +2,7 @@ process TRIMBARCODES {
     tag "${sample}"
     label 'process_medium'
 
-    container 'ghcr.io/cdcgov/irma-core:v0.6.1'
+    container 'ghcr.io/cdcgov/irma-core:v0.9.0'
 
     input:
     tuple val(sample), val(barcode), path(subsample_file_path), val(seq)
@@ -27,8 +27,10 @@ process TRIMBARCODES {
 	     --b-end b \\
 	     --b-hdist 3 \\
 	     --hard-trim 30 \\
+         --verbose \\
          1> ${sample}.${barcode}.bartrim.stdout.log \\
-         2> ${sample}.${barcode}.bartrim.stderr.log
+         2> ${sample}.${barcode}.bartrim.stderr.log \\
+         
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": bartrim_irma-core: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
