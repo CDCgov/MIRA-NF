@@ -378,30 +378,33 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
 
-    A DI stat compares coverage at the ends of a genome segment to the coverage in the middle:
+    A DI stat compares coverage at the ends of a genome segment to the coverage in the middle.
 
     Let:
+
     - $N$ = total number of positions
     - $L$ = window length
     - $x_i$ = coverage at position $i$
 
-    Define the midpoint:
+    ### Midpoint
 
     $$
     m = \left\lfloor \frac{N}{2} \right\rfloor
     $$
 
-    Define the middle window:
+    ### Middle window
 
     $$
-    m_{\text{start}} = \max\left(0,\; m - \frac{L}{2}\right)
-    \quad\quad
+    m_{\text{start}} = \max\left(0, m - \frac{L}{2}\right)
+    $$
+
+    $$
     m_{\text{end}} = m + \frac{L}{2}
     $$
 
     ### Mean coverage values
 
-    Middle (baseline):
+    **Middle (baseline):**
 
     $$
     \mu_{\text{mid}} =
@@ -409,7 +412,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     \sum_{i=m_{\text{start}}}^{m_{\text{end}}} x_i
     $$
 
-    5′ end:
+    **5′ end:**
 
     $$
     \mu_{5'} =
@@ -417,7 +420,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     \sum_{i=1}^{L} x_i
     $$
 
-    3′ end:
+    **3′ end:**
 
     $$
     \mu_{3'} =
@@ -428,17 +431,19 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     ### DI statistics
 
     $$
-    DI_{5'} = \mathrm{round}\left(\frac{\mu_{5'}}{\mu_{\text{mid}}},\; 3\right)
+    DI_{5'} = \mathrm{round}\left(\frac{\mu_{5'}}{\mu_{\text{mid}}}, 3\right)
     $$
 
     $$
-    DI_{3'} = \mathrm{round}\left(\frac{\mu_{3'}}{\mu_{\text{mid}}},\; 3\right)
+    DI_{3'} = \mathrm{round}\left(\frac{\mu_{3'}}{\mu_{\text{mid}}}, 3\right)
     $$
+
+    ### Edge case
 
     If the middle coverage is zero:
 
     $$
-    \mu_{\text{mid}} = 0 \;\Rightarrow\; DI_{5'} = DI_{3'} = 0
+    \mu_{\text{mid}} = 0 \Rightarrow DI_{5'} = DI_{3'} = 0
     $$
 
     **Additional Fields if Nextclade has been run**
@@ -453,21 +458,21 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | g_clade | rsv | GISAID clade designation. |
     | nextclade_version;dataset;tag | the nextclade version, the dataset used and the tag used to run nextclade. |
 
-  - **mira\_<runid>\_minor_variants.csv**
-    | Column Name | Definition |
-    |-------------|------------|
-    | sample | Unique sample identifier. |
-    | reference | Reference genome or segment name. |
-    | sample_position | Position of the called single nucleotide variant. |
-    | reference_position | (optional) HMM-based reference position of the variant. Present with SC2-Spike-ONT data. |
-    | depth | Total coverage depth at that position for all alleles not counting ambiguous nucleotides |
-    | consensus_allele | Plurality consensus allele at that position. |
-    | minority_allele | Minor allele detected at this position. |
-    | consensus_count | Plurality consensus observation count at that position |
-    | minority_count | Minor variant observation count at that position |
-    | minority_frequency | Minor variant frequency at that position. |
-    | run_id | Sequencing run identifier. |
-    | instrument | Sequencing instrument used. |
+- **mira\_<runid>\_minor_variants.csv**
+  | Column Name | Definition |
+  |-------------|------------|
+  | sample | Unique sample identifier. |
+  | reference | Reference genome or segment name. |
+  | sample_position | Position of the called single nucleotide variant. |
+  | reference_position | (optional) HMM-based reference position of the variant. Present with SC2-Spike-ONT data. |
+  | depth | Total coverage depth at that position for all alleles not counting ambiguous nucleotides |
+  | consensus_allele | Plurality consensus allele at that position. |
+  | minority_allele | Minor allele detected at this position. |
+  | consensus_count | Plurality consensus observation count at that position |
+  | minority_count | Minor variant observation count at that position |
+  | minority_frequency | Minor variant frequency at that position. |
+  | run_id | Sequencing run identifier. |
+  | instrument | Sequencing instrument used. |
 
 Optional collected results from IRMA and DAIS-Ribosome in PARQ files
 
