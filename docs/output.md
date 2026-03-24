@@ -378,55 +378,23 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
 
-    A DI stat compares coverage at the ends of a genome segment to the coverage in the middle:
-    Let \( \text{data} \) be an array of length \( N \), and let \( L \) be the slice length.  
+    Let `data` have length \(N\) and slice length \(L\). Define  
 
-    1. **Middle index**:  
-    \[
-    \text{mid} = \frac{N}{2}
-    \]
+    $$
+    mid = \frac{N}{2}, \quad
+    mid\_start = \max(0, mid - \frac{L}{2}), \quad
+    mid\_end = mid + \frac{L}{2}
+    $$
 
-    2. **Middle slice range**:  
-    \[
-    \text{mid\_start} = \max\Big(0, \text{mid} - \frac{L}{2}\Big), \quad
-    \text{mid\_end} = \text{mid} + \frac{L}{2}
-    \]
+    Then the 5' and 3' ratios relative to the middle slice mean are:
 
-    3. **Middle slice mean**:  
-    \[
-    \text{mid\_slice} = \text{data}[\text{mid\_start}:\text{mid\_end}]
-    \]  
-    \[
-    \text{mid\_mean} = \frac{\sum_{i=\text{mid\_start}}^{\text{mid\_end}-1} \text{data}[i]}{|\text{mid\_slice}|}
-    \]
+    $$
+    prime5\_ratio = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{mid\_end - mid\_start} \sum_{i=mid\_start}^{mid\_end-1} data[i]}
+    $$
 
-    4. **5' slice mean**:  
-    \[
-    \text{prime5\_slice} = \text{data}[0:L], \quad
-    \text{prime5\_mean} = \frac{\sum_{i=0}^{L-1} \text{data}[i]}{|\text{prime5\_slice}|}
-    \]
-
-    5. **3' slice mean**:  
-    \[
-    \text{prime3\_slice} = \text{data}[N-L:N], \quad
-    \text{prime3\_mean} = \frac{\sum_{i=N-L}^{N-1} \text{data}[i]}{|\text{prime3\_slice}|}
-    \]
-
-    6. **Ratios (normalized to mid mean)**:  
-    \[
-    \text{prime5\_ratio} = \frac{\text{prime5\_mean}}{\text{mid\_mean}}
-    \]  
-    \[
-    \text{prime3\_ratio} = \frac{\text{prime3\_mean}}{\text{mid\_mean}}
-    \]
-
-    7. **Scaled**:  
-    \[
-    \text{prime5\_ratio} = \text{round}\Big( \text{prime5\_ratio} \times 1000 \Big) / 1000
-    \]  
-    \[
-    \text{prime3\_ratio} = \text{round}\Big( \text{prime3\_ratio} \times 1000 \Big) / 1000
-    \]
+    $$
+    prime3\_ratio = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{mid\_end - mid\_start} \sum_{i=mid\_start}^{mid\_end-1} data[i]}
+    $$
 
     **Additional Fields if Nextclade has been run**
     | Column Name | Virus | Definition |
