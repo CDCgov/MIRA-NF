@@ -371,7 +371,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | count_minor_snv_at_or_over_5_pct | Number of minor SNVs with frequency ≥5%. |
     | spike_percent_coverage | (experiment type dependant)  Percent coverage across the spike gene. Present of SC2-Whole-Genome data. |
     | spike_median_coverage | (experiment type dependant) Median depth across the spike gene. Present of SC2-Whole-Genome data. |
-    | di_5prime;di_3prime | (experiment type dependant) The DI ratios for each sample's segment (ssee below for calculation).
+    | di_5prime;di_3prime | (experiment type dependant) The DI ratios for each sample's segment (See below for more info). |
     | pass_fail_reason | Explanation for QC failure (if applicable). |
     | subtype | Assigned viral subtype or lineage to be used by nextclade. |
     | mira_version;module;irma_config | Mira version, Mira module used and config settings used for analysis. |
