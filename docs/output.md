@@ -369,13 +369,28 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | percent_reference_coverage | Percentage of the reference genome/segment covered by reads. |
     | median_coverage | Median sequencing depth across the reference. |
     | count_minor_snv_at_or_over_5_pct | Number of minor SNVs with frequency ≥5%. |
-    | spike_percent_coverage | (optional) Percent coverage across the spike gene. Present of SC2-Whole-Genome data. |
-    | spike_median_coverage | (optional) Median depth across the spike gene. Present of SC2-Whole-Genome data. |
+    | spike_percent_coverage | (experiment type dependant)  Percent coverage across the spike gene. Present of SC2-Whole-Genome data. |
+    | spike_median_coverage | (experiment type dependant) Median depth across the spike gene. Present of SC2-Whole-Genome data. |
+    | di_5prime;di_3prime | (experiment type dependant) The DI ratios for each sample's segment (ssee below for calculation).
     | pass_fail_reason | Explanation for QC failure (if applicable). |
     | subtype | Assigned viral subtype or lineage to be used by nextclade. |
     | mira_version;module;irma_config | Mira version, Mira module used and config settings used for analysis. |
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
+
+    A DI stat compares coverage at the ends of a genome segment to the coverage in the middle:
+    - 5′ end (start) coverage  
+    - 3′ end (end) coverage  
+    - Middle coverage (baseline)  
+
+    Then computes ratios:
+    $$
+    DI_{5'} = \frac{\text{coverage at 5' end}}{\text{coverage in middle}}
+    $$
+
+    $$
+    DI_{3'} = \frac{\text{coverage at 3' end}}{\text{coverage in middle}}
+    $$
 
     **Additional Fields if Nextclade has been run**
     | Column Name | Virus | Definition |
