@@ -380,51 +380,65 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
 
     A DI stat compares coverage at the ends of a genome segment to the coverage in the middle:
 
-    Let $N$ be the total number of positions and $L$ be the window length. Define:
+    Let:
+    - $N$ = total number of positions
+    - $L$ = window length
+    - $x_i$ = coverage at position $i$
+
+    Define the midpoint:
 
     $$
     m = \left\lfloor \frac{N}{2} \right\rfloor
     $$
 
+    Define the middle window:
+
     $$
-    m_{\text{start}} = \max\left(0, \; m - \left\lfloor \frac{L}{2} \right\rfloor \right)
+    m_{\text{start}} = \max\left(0,\; m - \frac{L}{2}\right)
     \quad\quad
-    m_{\text{end}} = m + \left\lfloor \frac{L}{2} \right\rfloor
+    m_{\text{end}} = m + \frac{L}{2}
     $$
 
-    Middle-region mean:
+    ### Mean coverage values
+
+    Middle (baseline):
+
     $$
     \mu_{\text{mid}} =
-    \frac{1}{m_{\text{end}} - m_{\text{start}}}
-    \sum_{i=m_{\text{start}}}^{m_{\text{end}} - 1} x_i
+    \frac{1}{L}
+    \sum_{i=m_{\text{start}}}^{m_{\text{end}}} x_i
     $$
 
-    5′-end mean:
+    5′ end:
+
     $$
     \mu_{5'} =
     \frac{1}{L}
-    \sum_{i=0}^{L-1} x_i
+    \sum_{i=1}^{L} x_i
     $$
 
-    3′-end mean:
+    3′ end:
+
     $$
     \mu_{3'} =
     \frac{1}{L}
-    \sum_{i=N-L}^{N-1} x_i
+    \sum_{i=N-L+1}^{N} x_i
     $$
 
-    Ratios (rounded to 3 decimal places):
+    ### DI statistics
+
     $$
-    DI_{5'} =
-    \operatorname{round}\left( \frac{\mu_{5'}}{\mu_{\text{mid}}},\; 3 \right)
-    \quad\quad
-    DI_{3'} =
-    \operatorname{round}\left( \frac{\mu_{3'}}{\mu_{\text{mid}}},\; 3 \right)
+    DI_{5'} = \mathrm{round}\left(\frac{\mu_{5'}}{\mu_{\text{mid}}},\; 3\right)
     $$
 
-    If $\mu_{\text{mid}} = 0$, then:
     $$
-    DI_{5'} = DI_{3'} = 0
+    DI_{3'} = \mathrm{round}\left(\frac{\mu_{3'}}{\mu_{\text{mid}}},\; 3\right)
+    $$
+
+    If the middle coverage is zero:
+
+    $$
+    \mu_{\text{mid}} = 0 \;\Rightarrow\; DI_{5'} = DI_{3'} = 0
     $$
 
     **Additional Fields if Nextclade has been run**
