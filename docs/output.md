@@ -381,19 +381,17 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     Let `data` have length \(N\) and slice length \(L\). Define  
 
     $$
-    \text{mid} = \frac{N}{2}, \quad
-    \text{mid_start} = \max(0, \text{mid} - \frac{L}{2}), \quad
-    \text{mid_end} = \text{mid} + \frac{L}{2}
-    $$
-
-    Then the 5' and 3' ratios relative to the middle slice mean are:
-
-    $$
-    \text{prime5_ratio} = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{\text{mid_end} - \text{mid_start}} \sum_{i=\text{mid_start}}^{\text{mid_end}-1} data[i]}
+    mid = \frac{N}{2}, \quad
+    midstart = \max(0, mid - \frac{L}{2}), \quad
+    midend = mid + \frac{L}{2}
     $$
 
     $$
-    \text{prime3_ratio} = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{\text{mid_end} - \text{mid_start}} \sum_{i=\text{mid_start}}^{\text{mid_end}-1} data[i]}
+    prime5ratio = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
+    $$
+
+    $$
+    prime3ratio = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
     $$
 
     **Additional Fields if Nextclade has been run**
