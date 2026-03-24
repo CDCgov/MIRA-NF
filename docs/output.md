@@ -382,18 +382,18 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
 
     $$
     mid = \frac{N}{2}, \quad
-    mid\_start = \max(0, mid - \frac{L}{2}), \quad
-    mid\_end = mid + \frac{L}{2}
+    {mid\_start} = \max(0, mid - \frac{L}{2}), \quad
+    {mid\_end} = mid + \frac{L}{2}
     $$
 
     Then the 5' and 3' ratios relative to the middle slice mean are:
 
     $$
-    prime5\_ratio = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{mid\_end - mid\_start} \sum_{i=mid\_start}^{mid\_end-1} data[i]}
+    {prime5\_ratio} = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{{mid\_end} - {mid\_start}} \sum_{i={mid\_start}}^{{mid\_end}-1} data[i]}
     $$
 
     $$
-    prime3\_ratio = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{mid\_end - mid\_start} \sum_{i=mid\_start}^{mid\_end-1} data[i]}
+    {prime3\_ratio} = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{{mid\_end} - {mid\_start}} \sum_{i={mid\_start}}^{{mid\_end}-1} data[i]}
     $$
 
     **Additional Fields if Nextclade has been run**
