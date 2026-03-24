@@ -378,70 +378,55 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
 
-      A DI stat compares coverage at the ends of a genome segment to the coverage in the middle.
+    A DI stat compares coverage at the ends of a genome segment to the coverage in the middle:
+    Let \( \text{data} \) be an array of length \( N \), and let \( L \) be the slice length.  
 
-      Let:
-      - $N$ = total number of positions
-      - $L$ = window length
-      - $x_i$ = coverage at position $i$
+    1. **Middle index**:  
+    \[
+    \text{mid} = \frac{N}{2}
+    \]
 
-      ### Midpoint
+    2. **Middle slice range**:  
+    \[
+    \text{mid\_start} = \max\Big(0, \text{mid} - \frac{L}{2}\Big), \quad
+    \text{mid\_end} = \text{mid} + \frac{L}{2}
+    \]
 
-      $$
-      m = \left\lfloor \frac{N}{2} \right\rfloor
-      $$
+    3. **Middle slice mean**:  
+    \[
+    \text{mid\_slice} = \text{data}[\text{mid\_start}:\text{mid\_end}]
+    \]  
+    \[
+    \text{mid\_mean} = \frac{\sum_{i=\text{mid\_start}}^{\text{mid\_end}-1} \text{data}[i]}{|\text{mid\_slice}|}
+    \]
 
-      ### Middle window
+    4. **5' slice mean**:  
+    \[
+    \text{prime5\_slice} = \text{data}[0:L], \quad
+    \text{prime5\_mean} = \frac{\sum_{i=0}^{L-1} \text{data}[i]}{|\text{prime5\_slice}|}
+    \]
 
-      $$
-      m_{\text{start}} = \max\left(0, m - \frac{L}{2}\right)
-      $$
+    5. **3' slice mean**:  
+    \[
+    \text{prime3\_slice} = \text{data}[N-L:N], \quad
+    \text{prime3\_mean} = \frac{\sum_{i=N-L}^{N-1} \text{data}[i]}{|\text{prime3\_slice}|}
+    \]
 
-      $$
-      m_{\text{end}} = m + \frac{L}{2}
-      $$
+    6. **Ratios (normalized to mid mean)**:  
+    \[
+    \text{prime5\_ratio} = \frac{\text{prime5\_mean}}{\text{mid\_mean}}
+    \]  
+    \[
+    \text{prime3\_ratio} = \frac{\text{prime3\_mean}}{\text{mid\_mean}}
+    \]
 
-      ### Mean coverage values
-
-      **Middle (baseline):**
-
-      $$
-      \mu_{\text{mid}} =
-      \frac{1}{L}
-      \sum_{i=m_{\text{start}}}^{m_{\text{end}}} x_i
-      $$
-
-      **5′ end:**
-
-      $$
-      \mu_{5^{\prime}} =
-      \frac{1}{L}
-      \sum_{i=1}^{L} x_i
-      $$
-
-      **3′ end:**
-
-      $$
-      \mu_{3^{\prime}} =
-      \frac{1}{L}
-      \sum_{i=N-L+1}^{N} x_i
-      $$
-
-      ### DI statistics
-
-      $$
-      DI_{5^{\prime}} = \mathrm{round}\left(\frac{\mu_{5^{\prime}}}{\mu_{\text{mid}}}, 3\right)
-      $$
-
-      $$
-      DI_{3^{\prime}} = \mathrm{round}\left(\frac{\mu_{3^{\prime}}}{\mu_{\text{mid}}}, 3\right)
-      $$
-
-      ### Edge case
-
-      $$
-      \mu_{\text{mid}} = 0 \Rightarrow DI_{5^{\prime}} = DI_{3^{\prime}} = 0
-      $$
+    7. **Scaled**:  
+    \[
+    \text{prime5\_ratio} = \text{round}\Big( \text{prime5\_ratio} \times 1000 \Big) / 1000
+    \]  
+    \[
+    \text{prime3\_ratio} = \text{round}\Big( \text{prime3\_ratio} \times 1000 \Big) / 1000
+    \]
 
     **Additional Fields if Nextclade has been run**
     | Column Name | Virus | Definition |
@@ -455,21 +440,21 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | g_clade | rsv | GISAID clade designation. |
     | nextclade_version;dataset;tag | the nextclade version, the dataset used and the tag used to run nextclade. |
 
-- **mira\_<runid>\_minor_variants.csv**
-  | Column Name | Definition |
-  |-------------|------------|
-  | sample | Unique sample identifier. |
-  | reference | Reference genome or segment name. |
-  | sample_position | Position of the called single nucleotide variant. |
-  | reference_position | (optional) HMM-based reference position of the variant. Present with SC2-Spike-ONT data. |
-  | depth | Total coverage depth at that position for all alleles not counting ambiguous nucleotides |
-  | consensus_allele | Plurality consensus allele at that position. |
-  | minority_allele | Minor allele detected at this position. |
-  | consensus_count | Plurality consensus observation count at that position |
-  | minority_count | Minor variant observation count at that position |
-  | minority_frequency | Minor variant frequency at that position. |
-  | run_id | Sequencing run identifier. |
-  | instrument | Sequencing instrument used. |
+  - **mira\_<runid>\_minor_variants.csv**
+    | Column Name | Definition |
+    |-------------|------------|
+    | sample | Unique sample identifier. |
+    | reference | Reference genome or segment name. |
+    | sample_position | Position of the called single nucleotide variant. |
+    | reference_position | (optional) HMM-based reference position of the variant. Present with SC2-Spike-ONT data. |
+    | depth | Total coverage depth at that position for all alleles not counting ambiguous nucleotides |
+    | consensus_allele | Plurality consensus allele at that position. |
+    | minority_allele | Minor allele detected at this position. |
+    | consensus_count | Plurality consensus observation count at that position |
+    | minority_count | Minor variant observation count at that position |
+    | minority_frequency | Minor variant frequency at that position. |
+    | run_id | Sequencing run identifier. |
+    | instrument | Sequencing instrument used. |
 
 Optional collected results from IRMA and DAIS-Ribosome in PARQ files
 
