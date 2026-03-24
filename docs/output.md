@@ -379,18 +379,52 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | instrument | Sequencing instrument used. |
 
     A DI stat compares coverage at the ends of a genome segment to the coverage in the middle:
-    - 5′ end (start) coverage
-    - 3′ end (end) coverage
-    - Middle coverage (baseline)
 
-    Then computes ratios:
+    Let $N$ be the total number of positions and $L$ be the window length. Define:
 
     $$
-    DI_{5'} = \frac{\text{coverage at 5' end}}{\text{coverage in middle}}
+    m = \left\lfloor \frac{N}{2} \right\rfloor
     $$
 
     $$
-    DI_{3'} = \frac{\text{coverage at 3' end}}{\text{coverage in middle}}
+    m_{\text{start}} = \max\left(0, \; m - \left\lfloor \frac{L}{2} \right\rfloor \right)
+    \quad\quad
+    m_{\text{end}} = m + \left\lfloor \frac{L}{2} \right\rfloor
+    $$
+
+    Middle-region mean:
+    $$
+    \mu_{\text{mid}} =
+    \frac{1}{m_{\text{end}} - m_{\text{start}}}
+    \sum_{i=m_{\text{start}}}^{m_{\text{end}} - 1} x_i
+    $$
+
+    5′-end mean:
+    $$
+    \mu_{5'} =
+    \frac{1}{L}
+    \sum_{i=0}^{L-1} x_i
+    $$
+
+    3′-end mean:
+    $$
+    \mu_{3'} =
+    \frac{1}{L}
+    \sum_{i=N-L}^{N-1} x_i
+    $$
+
+    Ratios (rounded to 3 decimal places):
+    $$
+    DI_{5'} =
+    \operatorname{round}\left( \frac{\mu_{5'}}{\mu_{\text{mid}}},\; 3 \right)
+    \quad\quad
+    DI_{3'} =
+    \operatorname{round}\left( \frac{\mu_{3'}}{\mu_{\text{mid}}},\; 3 \right)
+    $$
+
+    If $\mu_{\text{mid}} = 0$, then:
+    $$
+    DI_{5'} = DI_{3'} = 0
     $$
 
     **Additional Fields if Nextclade has been run**
