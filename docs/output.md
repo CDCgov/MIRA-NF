@@ -381,17 +381,17 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
       A DI stat compares coverage at the ends of a genome segment to the coverage in the middle.
 
       Let:
-    - $N$ = total number of positions
-    - $L$ = window length
-    - $x_i$ = coverage at position $i$
+      - $N$ = total number of positions
+      - $L$ = window length
+      - $x_i$ = coverage at position $i$
 
-      **Midpoint**
+      ### Midpoint
 
       $$
       m = \left\lfloor \frac{N}{2} \right\rfloor
       $$
 
-      **Middle window**
+      ### Middle window
 
       $$
       m_{\text{start}} = \max\left(0, m - \frac{L}{2}\right)
@@ -414,7 +414,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
       **5′ end:**
 
       $$
-      \mu_{5'} =
+      \mu_{5^{\prime}} =
       \frac{1}{L}
       \sum_{i=1}^{L} x_i
       $$
@@ -422,7 +422,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
       **3′ end:**
 
       $$
-      \mu_{3'} =
+      \mu_{3^{\prime}} =
       \frac{1}{L}
       \sum_{i=N-L+1}^{N} x_i
       $$
@@ -430,19 +430,17 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
       ### DI statistics
 
       $$
-      DI_{5'} = \mathrm{round}\left(\frac{\mu_{5'}}{\mu_{\text{mid}}}, 3\right)
+      DI_{5^{\prime}} = \mathrm{round}\left(\frac{\mu_{5^{\prime}}}{\mu_{\text{mid}}}, 3\right)
       $$
 
       $$
-      DI_{3'} = \mathrm{round}\left(\frac{\mu_{3'}}{\mu_{\text{mid}}}, 3\right)
+      DI_{3^{\prime}} = \mathrm{round}\left(\frac{\mu_{3^{\prime}}}{\mu_{\text{mid}}}, 3\right)
       $$
 
       ### Edge case
 
-      If the middle coverage is zero:
-
       $$
-      \mu_{\text{mid}} = 0 \Rightarrow DI_{5'} = DI_{3'} = 0
+      \mu_{\text{mid}} = 0 \Rightarrow DI_{5^{\prime}} = DI_{3^{\prime}} = 0
       $$
 
     **Additional Fields if Nextclade has been run**
