@@ -3,6 +3,41 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.1.0 - 03.24.2026
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
+
+### Associated Tags
+
+| Program       | Version |
+| ------------- | ------- |
+| irma-core     | 0.6.1   |
+| IRMA          | 1.3.1   |
+| DAIS-ribosome | 1.6.1   |
+| mira-oxide    | 1.5.0   |
+| nextclade     | 3.19.0  |
+
+### Nextclade Tags Used
+
+| Dataset        | Tag                   |
+| -------------- | --------------------- |
+| flu_h3n2_ha    | 2026-01-14--19-24-43Z |
+| flu_h1n1pdm_ha | 2026-01-14--19-24-43Z |
+| flu_vic_ha     | 2025-10-22--18-11-36Z |
+| flu_h3n2_na    | 2026-01-14--08-53-00Z |
+| flu_h1n1pdm_na | 2026-01-14--08-53-00Z |
+| flu_vic_na     | 2025-09-09--12-13-13Z |
+| rsv_a          | 2025-09-09--12-13-13Z |
+| rsv_b          | 2025-09-09--12-13-13Z |
+| sars-cov-2     | 2026-01-06--14-59-32Z |
+
+### Enhancements
+
+### `Added`
+
+- [PR #128](https://github.com/CDCgov/MIRA-NF/pull/128) - adding DI stats to the mira summary for influenza genomes.
+
 ## v2.0.0 - 03.09.2026
 
 - [Amanda Sullivan](https://github.com/mandysulli)

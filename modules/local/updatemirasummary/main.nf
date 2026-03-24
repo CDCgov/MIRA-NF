@@ -2,7 +2,7 @@ process UPDATEMIRASUMMARY {
 
     label 'process_single'
 
-    container 'cdcgov/mira-oxide:test'
+    container 'cdcgov/mira-oxide:v1.5.0'
 
     input:
     path summary_csv
@@ -44,7 +44,7 @@ process UPDATEMIRASUMMARY {
         -m ${nextclade_metadata} \\
         ${parquet_args} \\
         ${args}
-    
+
     cat mira_summary.html > mira_${runid}_summary.html
 
     cat <<-END_VERSIONS > versions.yml
