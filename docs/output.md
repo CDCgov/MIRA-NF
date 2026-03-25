@@ -390,11 +390,10 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | g_clade | rsv | GISAID clade designation. |
     | nextclade_version;dataset;tag | the nextclade version, the dataset used and the tag used to run nextclade. |
 
-    Here `data` is the coverage at each position within the segment.
-    
-    Let `data` have length \(N\) and slice length \(L\).
+    Here `data` is the coverage at each position within the assembled segment. Let `data` have length \(N\) and slice length \(L\).
     
     **Define:**
+
     $$
     mid = \frac{N}{2}, \quad
     midstart = \max(0, mid - \frac{L}{2}), \quad
@@ -402,6 +401,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     $$
 
     **Compute:**
+
     $$
     prime5ratio = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
     $$
