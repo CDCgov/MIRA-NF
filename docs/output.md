@@ -378,22 +378,6 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | runid | Sequencing run identifier. |
     | instrument | Sequencing instrument used. |
 
-    Let `data` have length \(N\) and slice length \(L\). Define  
-
-    $$
-    mid = \frac{N}{2}, \quad
-    midstart = \max(0, mid - \frac{L}{2}), \quad
-    midend = mid + \frac{L}{2}
-    $$
-
-    $$
-    prime5ratio = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
-    $$
-
-    $$
-    prime3ratio = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
-    $$
-
     **Additional Fields if Nextclade has been run**
     | Column Name | Virus | Definition |
     |-------------|--------|------------|
@@ -405,6 +389,28 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | clade | rsv | Assigned viral clade designation. |
     | g_clade | rsv | GISAID clade designation. |
     | nextclade_version;dataset;tag | the nextclade version, the dataset used and the tag used to run nextclade. |
+
+    Here `data` is the coverage at each position within the segment.
+    
+    Let `data` have length \(N\) and slice length \(L\).
+    
+    **Define:**
+    $$
+    mid = \frac{N}{2}, \quad
+    midstart = \max(0, mid - \frac{L}{2}), \quad
+    midend = mid + \frac{L}{2}
+    $$
+
+    **Compute:**
+    $$
+    prime5ratio = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
+    $$
+
+    $$
+    prime3ratio = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
+    $$
+
+    *Note that values rounded to 3 decimal points.*
 
   - **mira\_<runid>\_minor_variants.csv**
     | Column Name | Definition |
