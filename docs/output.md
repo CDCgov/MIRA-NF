@@ -393,7 +393,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     **DI Stats Calculation**
 
     Here `data` is the coverage at each position within the assembled segment. Let `data` have length \(N\) and slice length \(L\).
-    
+
     **Define:**
 
     $$
@@ -412,7 +412,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     prime3ratio = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
     $$
 
-    *Note that values rounded to 3 decimal points.*
+    _Note that values rounded to 3 decimal points._
 
   - **mira\_<runid>\_minor_variants.csv**
     | Column Name | Definition |
