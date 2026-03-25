@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
-- [PR #128](https://github.com/CDCgov/MIRA-NF/pull/128) - adding DI stats to the mira summary reports for influenza genomes.
+- [PR #130](https://github.com/CDCgov/MIRA-NF/pull/130) - adding DI stats to the mira summary reports for influenza genomes.
 
 ## v2.0.0 - 03.09.2026
 
