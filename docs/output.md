@@ -390,6 +390,8 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | g_clade | rsv | GISAID clade designation. |
     | nextclade_version;dataset;tag | the nextclade version, the dataset used and the tag used to run nextclade. |
 
+    **DI Stats Calculation**
+
     Here `data` is the coverage at each position within the assembled segment. Let `data` have length \(N\) and slice length \(L\).
     
     **Define:**
