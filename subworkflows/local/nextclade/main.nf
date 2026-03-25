@@ -10,7 +10,8 @@ include { UPDATEMIRASUMMARY } from "../../../modules/local/updatemirasummary/mai
 workflow NEXTCLADE {
     take:
     nextclade_fasta_files_ch // channel: holds amended consensus fasta file
-    summary_ch // channel: holds summary information
+    summary_csv_ch // channel: holds summary information in csv
+    summary_html_ch // channel: holds summary information in html
     virus // value: virus type
     runid // value: run id
     ch_versions // channel: holds all previous version
@@ -64,8 +65,6 @@ workflow NEXTCLADE {
         .filter { it != null }
         .set { nextclade_dataset_ch }
 
-    //nextclade_dataset_ch.view()
-
     GETNEXTCLADEDATASET(nextclade_dataset_ch)
     ch_versions = ch_versions.mix(GETNEXTCLADEDATASET.out.versions)
 
@@ -79,7 +78,7 @@ workflow NEXTCLADE {
     nextclade_tsv_files = RUNNEXTCLADE.out.tsv.collect()
 
     // Pass to update summary
-    UPDATEMIRASUMMARY(summary_ch, nextclade_metadata, nextclade_tsv_files, virus, runid, RUNNEXTCLADE.out.nextclade_version)
+    UPDATEMIRASUMMARY(summary_csv_ch, summary_html_ch, nextclade_metadata, nextclade_tsv_files, virus, runid, RUNNEXTCLADE.out.nextclade_version)
     ch_versions = ch_versions.mix(UPDATEMIRASUMMARY.out.versions)
 
 
