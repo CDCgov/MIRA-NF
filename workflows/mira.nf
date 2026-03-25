@@ -192,8 +192,7 @@ workflow flu_i {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_csv_ch,
-            PREPAREREPORTS.out.summary_html_ch,
+            PREPAREREPORTS.out.summary_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -382,8 +381,7 @@ workflow flu_o {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_csv_ch,
-            PREPAREREPORTS.out.summary_html_ch,
+            PREPAREREPORTS.out.summary_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -726,8 +724,7 @@ workflow sc2_wgs_o {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_csv_ch,
-            PREPAREREPORTS.out.summary_html_ch,
+            PREPAREREPORTS.out.summary_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -930,8 +927,7 @@ workflow sc2_wgs_i {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_csv_ch,
-            PREPAREREPORTS.out.summary_html_ch,
+            PREPAREREPORTS.out.summary_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -1132,8 +1128,7 @@ workflow rsv_i {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_csv_ch,
-            PREPAREREPORTS.out.summary_html_ch,
+            PREPAREREPORTS.out.summary_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -1318,8 +1313,7 @@ workflow rsv_o {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_csv_ch,
-            PREPAREREPORTS.out.summary_html_ch,
+            PREPAREREPORTS.out.summary_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -1493,30 +1487,6 @@ workflow MIRA {
     } else {
         support_file_path = Channel.fromPath(params.sourcepath, checkIfExists: true)
     }
-
-
-    println '''
-    ############################################################################
-                            .      .         !!!         |
-                 )))       .  .:::.       `  _ _  '      |.===.
-                (o o)        :(o o):  .  -  (OXO)  -     {}o o{}
-            ooO--(_)--Ooo-ooO--(_)---|\u001B[104;30mMira\u001B[0m|--(_)--Ooo-ooO--(_)--Ooo-
-
-                        | Program       | Version |
-                        |---------------|---------|
-                        | irma-core     | 0.6.1   |
-                        | IRMA          | 1.3.1   |
-                        | DAIS-ribosome | 1.6.1   |
-                        | mira-oxide    | 1.5.0   |
-                        | nextclade     | 3.19.0  |
-    #############################################################################
-    Typical pipeline command:
-
-    nextflow run MIRA-NF/main.nf -profile <docker/singularity/.../local/sge/slurm> --input samplesheet.csv -- runpath <RUNDIR> --outdir <OUTDIR> --e <EXPERIMENT_TYPE>
-
-    See README for all options
-
-    '''
 
     // Check MIRA version
     if ( !params.check_version ) {
