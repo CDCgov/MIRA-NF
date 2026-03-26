@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | irma-core     | 0.6.1   |
 | IRMA          | 1.3.1   |
 | DAIS-ribosome | 1.6.1   |
-| mira-oxide    | 1.5.0   |
+| mira-oxide    | 1.5.1   |
 | nextclade     | 3.19.0  |
 
 ### Nextclade Tags Used
@@ -37,6 +37,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 - [PR #130](https://github.com/CDCgov/MIRA-NF/pull/130) - adding DI stats to the mira summary reports for influenza genomes.
+
+### `Dependencies`
+
+- [PR #131](https://github.com/CDCgov/MIRA-NF/pull/131) - version bump to v1.5.1 for mira-oxide to update value dropping
 
 ## v2.0.0 - 03.09.2026
 
