@@ -29,8 +29,7 @@ process TRIMBARCODES {
 	     --hard-trim 30 \\
          --verbose \\
          1> ${sample}.${barcode}.bartrim.stdout.log \\
-         2> ${sample}.${barcode}.bartrim.stderr.log \\
-         
+         2> ${sample}.${barcode}.bartrim.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": bartrim_irma-core: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')

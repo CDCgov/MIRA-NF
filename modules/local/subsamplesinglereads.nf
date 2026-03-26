@@ -26,8 +26,8 @@ process SUBSAMPLESINGLEREADS {
         --subsample-target ${target} \\
         --verbose \\
         1> ${sample}.${barcode}.subsampler.stdout.log \\
-        2> ${sample}.${barcode}.subsampler.stderr.log \\
-        
+        2> ${sample}.${barcode}.subsampler.stderr.log
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": subsamplesinglereads: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
     END_VERSIONS

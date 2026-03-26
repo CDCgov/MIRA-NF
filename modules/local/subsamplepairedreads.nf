@@ -28,8 +28,7 @@ process SUBSAMPLEPAIREDREADS {
         --subsample-target ${target} \\
         --verbose \\
         1> ${sample}.subsampler.stdout.log \\
-        2> ${sample}.subsampler.stderr.log \\
-        
+        2> ${sample}.subsampler.stderr.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": subsamplepairedreads: irma-core \$(irma-core --version |& sed '1!d ; s/irma-core //')
