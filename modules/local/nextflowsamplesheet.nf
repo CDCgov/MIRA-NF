@@ -1,7 +1,7 @@
 process NEXTFLOWSAMPLESHEET {
     label 'process_single'
 
-    container 'cdcgov/mira-oxide:v1.5.1'
+    container 'cdcgov/mira-oxide:v1.5.2'
 
     input:
     path samplesheet
