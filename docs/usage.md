@@ -6,7 +6,7 @@
 
 **cdcgov/mira-nf** is a bioinformatics pipeline that assembles Influenza genomes, SARS-CoV-2 genomes, the SARS-CoV-2 spike-gene and RSV genomes when given the raw fastq files and a samplesheet. cdcgov/mira-nf can analyze reads from both Illumina and OxFord Nanopore sequencing machines.
 
-MIRA performs these steps for genome assembly and curation:
+Mira performs these steps for genome assembly and curation:
 
 1. Read QC (optional) ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads (optional) ([`MultiQC`](http://multiqc.info/))
@@ -15,10 +15,10 @@ MIRA performs these steps for genome assembly and curation:
 5. Trimming and dapter removal ([`IRMA-core`](https://github.com/CDCgov/irma-core))
 6. Genome Assembly ([`IRMA`](https://wonder.cdc.gov/amd/flu/irma/))
 7. Annotation of assembly ([`DAIS-ribosome`](https://hub.docker.com/r/cdcgov/dais-ribosome))
-8. Collect results from IRMA and DAIS-Ribosome to create MIRA reoprts ([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
+8. Collect results from IRMA and DAIS-Ribosome to create Mira reoprts ([`mira-oxide`](https://github.com/CDCgov/mira-oxide))
 9. Nextclade (optional)([`Nextclade`](https://github.com/nextstrain/nextclade))
 
-MIRA is able to analyze 7 data types:
+Mira is able to analyze 7 data types:
 
 1. Flu-Illumina - Flu whole genome data created with an Illumina machine
 2. Flu-ONT - Flu whole genome data created with an OxFord Nanoppore machine
@@ -36,7 +36,7 @@ You will need to create a samplesheet with information about the samples you wou
 --input '[path to samplesheet file]'
 ```
 
-### MIRA samplesheet set up
+### Mira samplesheet set up
 
 The sample sheet will need to be set up as seen below. Using the samplesheet that corresponds to the type of data that you are analyzing.
 
@@ -119,7 +119,7 @@ s3,<FILE_PATH>/fastq_pass/cat_fastqs/s3.fastq.gz,,barcode41,Test
 | `barcode`     | The barcode used to create the ONT data for this sample. Must match the fold contain the fastq files associated with the sample. Single digit numbers must have 0 in front of them. Ex: barcode07 |
 | `sample_type` | The sample type for the given sample. Ex: test, - control, + control, etc.                                                                                                                        |
 
-### File set-up with MIRA samplesheet
+### File set-up with Mira samplesheet
 
 After creating the samplesheet, move it into a run folder with fastq files:
 
@@ -182,8 +182,8 @@ Oxford Nanopore set up should be set up as follows:
 | `amd_platform`           | (optional) This flag allows the user to skip the "Nextflow samplesheet creation" step. It will require the user to provide a different samplesheet that is described under "Nextflow samplesheet setup" in the usage.md document. Please read the usage.md fully before implementing this flag. Default false. Options true or false                                                            |
 | `ecr_registry`           | (optional) Allows a user to pass their ecr registry for AWS to the workflow.                                                                                                                                                                                                                                                                                                                    |
 | `sourcepath`             | (optional) If sourcepath flag is given, then it will use the sourcepath to point to the reference files, primer fastas and support files in all trimming modules, prepareIRMAjson and staticHTML. This flag is for if one cannot place the entire repo in their working directory.                                                                                                              |
-| `variants_of_interest`   | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
-| `reference_seq_table`    | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the MIRA workflow. Here the user should provide the `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.      |
+| `variants_of_interest`   | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the Mira workflow. Here the user should provide the `<FILE_PATH>/variants_of_interest.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case. |
+| `reference_seq_table`    | (optional) Providing this flag will run the [find_variants_of_interest](docs/find_variants_of_interest_docs/) module within the Mira workflow. Here the user should provide the `<FILE_PATH>/reference_table.txt` with the format described [here](docs/find_variants_of_interest_docs/). The full file path is required. Note that dais_module will not need to be provided in this case.      |
 | `check_version`          | (optional) The flag is set to true by default. It will check that you are using the most up to date version of MIRA-NF. However, it will require that you have an internet connection to check. If you do not have internet, then the flag should be set to false.                                                                                                                              |
 
 To run locally you will need to install Nextflow and singularity-ce or docker on your computer (see links above for details) or you can use an interactive session on an hpc. The command will be run as seen below:
@@ -273,7 +273,7 @@ custum_runid: 'runid' (oiptional)
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).
 
-### To See MIRA Utility Workflows
+### To See Mira Utility Workflows
 
 - [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
 

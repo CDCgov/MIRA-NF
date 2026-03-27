@@ -2,7 +2,7 @@ process SUBSAMPLESINGLEREADS {
     tag "${sample}"
     label 'process_medium'
 
-    container 'ghcr.io/cdcgov/irma-core:v0.6.1'
+    container 'ghcr.io/cdcgov/irma-core:v0.9.0'
 
     input:
     tuple val(sample), val(barcode), path(fastq_file), val(target)
@@ -24,6 +24,7 @@ process SUBSAMPLESINGLEREADS {
         ${fastq_file} \\
         -o ${sample}_subsampled.fastq \\
         --subsample-target ${target} \\
+        --verbose \\
         1> ${sample}.${barcode}.subsampler.stdout.log \\
         2> ${sample}.${barcode}.subsampler.stderr.log
 
