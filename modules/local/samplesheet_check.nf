@@ -1,7 +1,7 @@
 process SAMPLESHEET_CHECK {
     label 'process_single'
 
-    container 'cdcgov/mira-oxide:v1.5.1'
+    container 'cdcgov/mira-oxide:v1.5.3'
 
     input:
     path samplesheet

@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [PR #131](https://github.com/CDCgov/MIRA-NF/pull/131) - version bump to v1.5.1 for mira-oxide to update value dropping
 - [PR #133](https://github.com/CDCgov/MIRA-NF/pull/133) - version bump to v3.21.0 for nextclade
+- [PR #135](https://github.com/CDCgov/MIRA-NF/pull/135) - version bump to v1.5.3 for mira-oxide to update value dropping
 
 ## v2.0.0 - 03.09.2026
 
