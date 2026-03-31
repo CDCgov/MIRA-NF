@@ -16,6 +16,7 @@ process UPDATEMIRASUMMARY {
     output:
     path ('*.csv'), emit: summary_csv
     path ('*.html'), emit: summary_html
+    path ('*.json'), emit: summary_json
     path '*.parq', emit: summary_parq, optional: true
     path "versions.yml", emit: versions
 
