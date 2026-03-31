@@ -2,7 +2,7 @@ process NEXTFLOWSAMPLESHEET {
     label 'process_single'
 
     container 'cdcgov/mira-oxide:v1.5.3'
-
+    
     input:
     path samplesheet
     val fastq_files
