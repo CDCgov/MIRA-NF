@@ -232,6 +232,7 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 
 1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/)
 2. Pull the mira-nf:v2.1.0 image
+`docker pull cdcgov/mira-nf:v2.1.0`
 3. 
 
 ## Credits
