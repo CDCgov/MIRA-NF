@@ -240,21 +240,21 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 
    a. **Interactively:**
 
-   Start container:
+      Start container:
 
-   `docker run -it --name <container_name> -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 /bin/bash`
+      `docker run -it --name <container_name> -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 /bin/bash`
 
-   Run command
+      Run command
 
-   ```bash
-   nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
-   ```
+      ```bash
+      nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
+      ```
 
-  b. **Terminal only:**
+   b. **Terminal only:**
 
-   ```bash
-   docker run -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
-   ```
+      ```bash
+      docker run -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
+      ```
 
    *Note that when running in the terminal and mounted data path you will use `/data/` in place of the <work_path> you provided`
 ## Credits
