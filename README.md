@@ -241,6 +241,11 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 **Interactively:**
 `docker run -it --name <container_name> -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 /bin/bash`
 
+**Run test:**
+`nextflow run /MIRA-NF/main.nf -profile mira_nf_container --inputs /MIRA-NF/tests/test_data/flu_wgs_illumina/samplesheet.csv --runpath /MIRA-NF/tests/test_data/flu_wgs_illumina --outdir ./test_mira_nf --nextclade true`
+
+`docker run cdcgov/mira-nf:v2.1.0 nextflow run /MIRA-NF/main.nf`
+
 ## Credits
 
 cdcgov/mira-nf is developed and maintained by Amanda Sullivan (maintainer), Kristine Lacek, Reina Chau, Sam Wiley and Ben Rambo-Martin (lead).
