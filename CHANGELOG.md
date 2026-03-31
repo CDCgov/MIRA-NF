@@ -15,8 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | irma-core     | 0.9.0   |
 | IRMA          | 1.3.1   |
 | DAIS-ribosome | 1.6.1   |
-| mira-oxide    | 1.5.2   |
-| nextclade     | 3.19.0  |
+| mira-oxide    | 1.5.3   |
+| nextclade     | 3.21.0  |
+
+
 
 ### Nextclade Tags Used
 
@@ -44,6 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Dependencies`
 
 - [PR #131](https://github.com/CDCgov/MIRA-NF/pull/131) - version bump to v1.5.1 for mira-oxide to update value dropping
+- [PR #133](https://github.com/CDCgov/MIRA-NF/pull/133) - version bump to v3.21.0 for nextclade
+- [PR #135](https://github.com/CDCgov/MIRA-NF/pull/135) - version bump to v1.5.3 for mira-oxide to update value dropping
 
 ## v2.0.0 - 03.09.2026
 
