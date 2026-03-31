@@ -240,17 +240,19 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 
    a. **Interactively:**
 
+   Start container:
+
    `docker run -it --name <container_name> -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 /bin/bash`
 
-   **Run test:**
+   Run command
 
-   ```
+   ```bash
    nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
    ```
 
- **Terminal only:**
+  b. **Terminal only:**
 
-   ```
+   ```bash
    docker run -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
    ```
 
