@@ -10,7 +10,11 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir", "e"],
+            "required": [
+                "input",
+                "outdir",
+                "e"
+            ],
             "properties": {
                 "input": {
                     "type": "string",
@@ -114,13 +118,18 @@
                 "subsample_reads": {
                     "type": "integer",
                     "default": 0,
-                    "description": "The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000."
+                    "description": "The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default set to not subsample."
                 },
                 "irma_module": {
                     "type": "string",
                     "default": "none",
                     "description": "Call flu-sensitive or flu-secondary irma module",
-                    "enum": ["sensitive", "secondary", "utr", "none"]
+                    "enum": [
+                        "sensitive",
+                        "secondary",
+                        "utr",
+                        "none"
+                    ]
                 },
                 "custom_irma_config": {
                     "type": "string",
@@ -160,7 +169,11 @@
                 "dais_module": {
                     "type": "string",
                     "description": "The dais_module that will be used by DAIS-ribosome. Options: influenza, betacoronavirus, rsv",
-                    "enum": ["INFLUENZA", "BETACORONAVIRUS", "RSV"]
+                    "enum": [
+                        "INFLUENZA",
+                        "BETACORONAVIRUS",
+                        "RSV"
+                    ]
                 },
                 "check_version": {
                     "type": "boolean",
@@ -270,7 +283,14 @@
                     "description": "Method used to save pipeline results to output directory.",
                     "help_text": "The Nextflow `publishDir` option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See [Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details.",
                     "fa_icon": "fas fa-copy",
-                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
+                    "enum": [
+                        "symlink",
+                        "rellink",
+                        "link",
+                        "copy",
+                        "copyNoFollow",
+                        "move"
+                    ],
                     "hidden": true
                 },
                 "multiqc_config": {
@@ -308,9 +328,17 @@
         }
     },
     "allOf": [
-        { "$ref": "#/$defs/input_output_options" },
-        { "$ref": "#/$defs/additional_options" },
-        { "$ref": "#/$defs/institutional_config_options" },
-        { "$ref": "#/$defs/generic_options" }
+        {
+            "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/additional_options"
+        },
+        {
+            "$ref": "#/$defs/institutional_config_options"
+        },
+        {
+            "$ref": "#/$defs/generic_options"
+        }
     ]
 }
