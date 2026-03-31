@@ -231,9 +231,15 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 # Quick Start: Running the Mira-nf Container in Docker
 
 1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
 2. Pull the mira-nf:v2.1.0 image
+
 `docker pull cdcgov/mira-nf:v2.1.0`
-3. 
+
+3. Run the Mira-nf container:
+
+**Interactively:**
+`docker run -it --name <container_name> -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 /bin/bash`
 
 ## Credits
 
