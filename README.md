@@ -226,6 +226,37 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 # MIRA-NF Utility Workflows
 
 - [find_variants_of_interest](docs/find_variants_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding variants of interest part of the workflow.
+- [find_positions_of_interest](docs/find_positions_of_interest_docs/) - Will run (or rerun) the DAIS-ribosome and finding positions of interest part of the workflow.
+
+# Quick Start: Running the Mira-nf Container in Docker
+
+1. [Install Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+2. Pull the mira-nf:v2.1.0 image
+
+`docker pull cdcgov/mira-nf:v2.1.0`
+
+3. Run the Mira-nf container:
+
+   a. **Interactively:**
+
+      Start container:
+
+      `docker run -it --name <container_name> -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 /bin/bash`
+
+      Run command
+
+      ```bash
+      nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
+      ```
+
+   b. **Terminal only:**
+
+      ```bash
+      docker run -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
+      ```
+
+   *Note that running in the terminal (non-interactively) with a mounted data path you will use `/data/` in place of the <work_path> you provided`
 
 ## Credits
 

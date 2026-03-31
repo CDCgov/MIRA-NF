@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.0 - 03.24.2026
+## v2.1.0 - 04.01.2026
 
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Sam Wiley](https://github.com/samcwiley)
@@ -17,8 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | DAIS-ribosome | 1.6.1   |
 | mira-oxide    | 1.5.3   |
 | nextclade     | 3.21.0  |
-
-
 
 ### Nextclade Tags Used
 
@@ -40,8 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [PR #127](https://github.com/CDCgov/MIRA-NF/pull/130) - added `--verbose` flag
   to `irma-core` `sampler` and `trimmer` for diagnostic output to `stderr.log`
-- [PR #130](https://github.com/CDCgov/MIRA-NF/pull/130) - adding DI stats to the
-  mira summary reports for influenza genomes.
+- [PR #130](https://github.com/CDCgov/MIRA-NF/pull/130) - adding DI stats to the mira summary reports for influenza genomes.
+- [PR #137](https://github.com/CDCgov/MIRA-NF/pull/137) - Added code and profile to allow Mira-nf to run in a container by itself (`cdcgov/mira-nf:v2.1.0`).
 
 ### `Dependencies`
 
