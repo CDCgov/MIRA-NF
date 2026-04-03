@@ -1,5 +1,5 @@
-#!/bin/bash 
-# Wrapper to perform genome assembly 
+#!/bin/bash
+# Wrapper to perform genome assembly
 
 usage() {
     echo -e "Usage in git cloned CLI: \n bash $0 -i <path_to_samplesheet.csv> -o <outdir> -r <runpath> -e <experiment_type> -f <nextflow_profiles> <optional: -p amplicon_library> <optional: -g custom_primers> <optional: -t kmer_for_custom_primers> <optional: -u restrict_window_for_custom_primers> <optional: -a parquet_files> <optional: -c read_counts> <optional: -b irma_module> <optional: -k read_qc> <optional: -r runid> <optional: -n run_nextclade> " 1>&2

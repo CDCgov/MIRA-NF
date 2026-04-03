@@ -18,7 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | mira-oxide    | 1.5.3   |
 | nextclade     | 3.21.0  |
 
-
 ### Nextclade Tags Used
 
 | Dataset        | Tag                   |

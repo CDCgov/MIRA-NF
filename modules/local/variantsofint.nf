@@ -1,6 +1,6 @@
 process VARIANTSOFINT {
     label 'process_low'
-    
+
     container 'cdcgov/mira-oxide:v1.5.3'
 
     input:
