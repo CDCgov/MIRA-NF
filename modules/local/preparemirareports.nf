@@ -1,7 +1,7 @@
 process PREPAREMIRAREPORTS {
     label 'process_medium'
 
-    container 'cdcgov/mira-oxide:v1.4.4'
+    container 'cdcgov/mira-oxide:v1.5.3'
 
     input:
     path dais_outputs
@@ -17,7 +17,8 @@ process PREPAREMIRAREPORTS {
 
     output:
     path('*'), emit: all_files
-    path('*summary', emit: summary_csv, optional: true)
+    path('mira_summary_csv', emit: summary_csv, optional: true)
+    path('mira_summary_html', emit: summary_html, optional: true)
     path('*.parq', emit: parquet_files, optional: true)
     path('nextclade_*.fasta', emit: nextclade_fasta_files, optional: true)
     path 'versions.yml', emit: versions
@@ -28,7 +29,8 @@ process PREPAREMIRAREPORTS {
     script:
     def args = task.ext.args ?: ''
     def parquet_args = params.parquet_files ? '-f' : ''
-    def summary_passing = params.nextclade ? 'cat mira_*_summary.csv > mira_summary' : ''
+    def summary_csv_passing = params.nextclade ? 'cat mira_*_summary.csv > mira_summary_csv' : ''
+    def summary_html_passing = params.nextclade ? 'cat mira_*_summary.html > mira_summary_html' : ''
 
     """
     mira-oxide prepare-mira-reports \\

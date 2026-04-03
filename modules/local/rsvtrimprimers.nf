@@ -2,7 +2,7 @@ process RSVTRIMPRIMERS {
     tag "${sample}"
     label 'process_medium'
 
-    container 'ghcr.io/cdcgov/irma-core:v0.6.1'
+    container 'ghcr.io/cdcgov/irma-core:v0.9.0'
 
     input:
     tuple val(sample), path(subsampled_fastq_1), path(subsampled_fastq_2), path(primers), val(primer_kmer_len), val(primer_restrict_window)
@@ -31,6 +31,7 @@ process RSVTRIMPRIMERS {
 	     --p-fuzzy \\
 	     --p-kmer-length ${primer_kmer_len} \\
 	     --p-restrict ${primer_restrict_window} \\
+         --verbose \\
          1> ${sample}.primertrim.stdout.log \\
          2> ${sample}.primertrim.stderr.log
 
