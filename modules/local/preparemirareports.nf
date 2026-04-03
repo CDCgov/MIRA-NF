@@ -19,7 +19,7 @@ process PREPAREMIRAREPORTS {
     output:
     path('*'), emit: all_files
     path('mira_summary_csv', emit: summary_csv, optional: true)
-    path('mira_summary.html', emit: summary_html, optional: true)
+    path('mira_summary_html', emit: summary_html, optional: true)
     path('*.parq', emit: parquet_files, optional: true)
     path('nextclade_*.fasta', emit: nextclade_fasta_files, optional: true)
     path 'versions.yml', emit: versions
@@ -31,7 +31,7 @@ process PREPAREMIRAREPORTS {
     def args = task.ext.args ?: ''
     def parquet_args = params.parquet_files ? '-f' : ''
     def summary_csv_passing = params.nextclade ? 'cat mira_*_summary.csv > mira_summary_csv' : ''
-    def summary_html_passing = params.nextclade ? 'cat mira_*_summary.html > mira_summary.html' : ''
+    def summary_html_passing = params.nextclade ? 'cat mira_*_summary.html > mira_summary_html' : ''
 
     """
     if [ ${virus} = "flu" ]; then

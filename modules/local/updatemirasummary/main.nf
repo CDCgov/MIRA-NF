@@ -15,7 +15,7 @@ process UPDATEMIRASUMMARY {
 
     output:
     path ('*.csv'), emit: summary_csv
-    path ('*.html'), emit: summary_html
+    path ("mira_${runid}_summary.html"), emit: summary_html
     path ('*.json'), emit: summary_json
     path '*.parq', emit: summary_parq, optional: true
     path "versions.yml", emit: versions
@@ -46,7 +46,7 @@ process UPDATEMIRASUMMARY {
         ${parquet_args} \\
         ${args}
 
-    cat mira_summary.html > mira_${runid}_summary.html
+    cat mira_summary_html > mira_${runid}_summary.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": updatemirasummary: mira-oxide \$(mira-oxide --version |& sed '1!d; s/python3 //')
