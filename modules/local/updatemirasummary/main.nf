@@ -2,10 +2,11 @@ process UPDATEMIRASUMMARY {
 
     label 'process_single'
 
-    container 'cdcgov/mira-oxide:v1.4.4'
+    container 'cdcgov/mira-oxide:v1.5.3'
 
     input:
-    path summary
+    path summary_csv
+    path summary_html
     val nextclade_metadata
     path nextclade_tsv_files
     val virus
@@ -14,6 +15,9 @@ process UPDATEMIRASUMMARY {
 
     output:
     path ('*.csv'), emit: summary_csv
+
+    path ("mira_${runid}_summary.html"), emit: summary_html
+    path ('*.json'), emit: summary_json
     path '*.parq', emit: summary_parq, optional: true
     path "versions.yml", emit: versions
 
@@ -32,7 +36,8 @@ process UPDATEMIRASUMMARY {
     cp ${nextclade_tsv_files} ./nextclade
 
     mira-oxide summary-report-update \\
-        -s ${summary} \\
+        -s ${summary_csv} \\
+        -t ${summary_html} \\
         -i ./nextclade \\
         -v ${virus} \\
         -r ${runid} \\
@@ -41,6 +46,8 @@ process UPDATEMIRASUMMARY {
         -m ${nextclade_metadata} \\
         ${parquet_args} \\
         ${args}
+
+    cat mira_summary_html > mira_${runid}_summary.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": updatemirasummary: mira-oxide \$(mira-oxide --version |& sed '1!d; s/python3 //')

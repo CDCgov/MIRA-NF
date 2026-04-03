@@ -1,7 +1,7 @@
 process CHECKMIRAVERSION {
     label 'process_single'
 
-    container 'cdcgov/mira-oxide:v1.4.4'
+    container 'cdcgov/mira-oxide:v1.5.3'
 
     input:
     path description_file_path
@@ -17,7 +17,7 @@ process CHECKMIRAVERSION {
 
     """
     wget -O DESCRIPTION https://raw.githubusercontent.com/CDCgov/MIRA-NF/refs/heads/master/DESCRIPTION
-    mira-oxide check-mira-version -g ./DESCRIPTION -l ${description_file_path}
+    mira-oxide check-mira-version -g DESCRIPTION -l ${description_file_path}
 
     """
 }

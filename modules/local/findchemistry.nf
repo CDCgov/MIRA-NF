@@ -2,7 +2,7 @@ process FINDCHEMISTRY {
     tag "${sample}"
     label 'process_single'
 
-    container 'cdcgov/mira-oxide:v1.4.4'
+    container 'cdcgov/mira-oxide:v1.5.3'
 
     input:
     tuple val(sample), path(fastq)

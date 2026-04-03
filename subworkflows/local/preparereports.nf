@@ -95,12 +95,14 @@ workflow PREPAREREPORTS {
         // Create aggregate reports with or without parquet files
         PREPAREMIRAREPORTS(dais_outputs_ch, support_file_path, irma_dir_ch, samplesheet_ch, qc_path_ch, platform, virus, irma_config_type_ch, runid)
         ch_versions = ch_versions.mix(PREPAREMIRAREPORTS.out.versions)
-        summary_ch = PREPAREMIRAREPORTS.out.summary_csv
+        summary_csv_ch = PREPAREMIRAREPORTS.out.summary_csv
+        summary_html_ch = PREPAREMIRAREPORTS.out.summary_html
         nextclade_fasta_files_ch = PREPAREMIRAREPORTS.out.nextclade_fasta_files
 
     emit:
         ch_versions // channel: [ versions.yml ]
-        summary_ch // channel: holds aggregate summary report
+        summary_csv_ch // channel: holds aggregate csv summary report
+        summary_html_ch // channel: holds aggregate html summary report
         nextclade_fasta_files_ch // channel: holds nextclade fasta file
         virus // channel: holds virus type
         runid // value: holds run id

@@ -114,7 +114,7 @@
                 "subsample_reads": {
                     "type": "integer",
                     "default": 0,
-                    "description": "The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default 10,000,000."
+                    "description": "The number of reads that used for subsampling. Paired reads for Illumina data and single reads for ONT data. Default set to not subsample."
                 },
                 "irma_module": {
                     "type": "string",
@@ -308,9 +308,17 @@
         }
     },
     "allOf": [
-        { "$ref": "#/$defs/input_output_options" },
-        { "$ref": "#/$defs/additional_options" },
-        { "$ref": "#/$defs/institutional_config_options" },
-        { "$ref": "#/$defs/generic_options" }
+        {
+            "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/additional_options"
+        },
+        {
+            "$ref": "#/$defs/institutional_config_options"
+        },
+        {
+            "$ref": "#/$defs/generic_options"
+        }
     ]
 }
