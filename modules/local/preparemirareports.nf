@@ -14,7 +14,6 @@ process PREPAREMIRAREPORTS {
     val  irma_config_type
     val  runid
 
-
     output:
     path('*'), emit: all_files
     path('mira_summary_csv', emit: summary_csv, optional: true)
@@ -33,6 +32,12 @@ process PREPAREMIRAREPORTS {
     def summary_html_passing = params.nextclade ? 'cat mira_*_summary.html > mira_summary_html' : ''
 
     """
+    if [ ${virus} = "flu" ]; then
+    mira-oxide di-stats \\
+        -a ${irma_dir} \\
+        -r ${runid}
+    fi
+
     mira-oxide prepare-mira-reports \\
         -w ${support_file_path} \\
         -s ${samplesheet} \\
@@ -46,7 +51,8 @@ process PREPAREMIRAREPORTS {
         ${parquet_args} \\
         ${args}
 
-    ${summary_passing}
+    ${summary_csv_passing}
+    ${summary_html_passing}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}": preparemirareports: mira-oxide \$(mira-oxide --version |& sed '1!d; s/mira-oxide //')

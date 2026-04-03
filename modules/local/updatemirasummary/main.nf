@@ -5,7 +5,8 @@ process UPDATEMIRASUMMARY {
     container 'cdcgov/mira-oxide:v1.5.3'
 
     input:
-    path summary
+    path summary_csv
+    path summary_html
     val nextclade_metadata
     path nextclade_tsv_files
     val virus
@@ -35,7 +36,8 @@ process UPDATEMIRASUMMARY {
     cp ${nextclade_tsv_files} ./nextclade
 
     mira-oxide summary-report-update \\
-        -s ${summary} \\
+        -s ${summary_csv} \\
+        -t ${summary_html} \\
         -i ./nextclade \\
         -v ${virus} \\
         -r ${runid} \\

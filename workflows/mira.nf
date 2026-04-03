@@ -192,7 +192,8 @@ workflow flu_i {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.summary_csv_ch,
+            PREPAREREPORTS.out.summary_html_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -381,7 +382,8 @@ workflow flu_o {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.summary_csv_ch,
+            PREPAREREPORTS.out.summary_html_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -724,7 +726,8 @@ workflow sc2_wgs_o {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.summary_csv_ch,
+            PREPAREREPORTS.out.summary_html_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -927,7 +930,8 @@ workflow sc2_wgs_i {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.summary_csv_ch,
+            PREPAREREPORTS.out.summary_html_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -1128,7 +1132,8 @@ workflow rsv_i {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.summary_csv_ch,
+            PREPAREREPORTS.out.summary_html_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
@@ -1313,7 +1318,8 @@ workflow rsv_o {
     if (params.nextclade) {
         NEXTCLADE(
             PREPAREREPORTS.out.nextclade_fasta_files_ch,
-            PREPAREREPORTS.out.summary_ch,
+            PREPAREREPORTS.out.summary_csv_ch,
+            PREPAREREPORTS.out.summary_html_ch,
             PREPAREREPORTS.out.virus,
             PREPAREREPORTS.out.runid,
             ch_versions
