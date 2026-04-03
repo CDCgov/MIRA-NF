@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.0 - 04.01.2026
+## v2.1.0 - 04.03.2026
 
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Sam Wiley](https://github.com/samcwiley)
@@ -45,6 +45,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #131](https://github.com/CDCgov/MIRA-NF/pull/131) - version bump to v1.5.1 for mira-oxide to update value dropping
 - [PR #133](https://github.com/CDCgov/MIRA-NF/pull/133) - version bump to v3.21.0 for nextclade
 - [PR #135](https://github.com/CDCgov/MIRA-NF/pull/135) - version bump to v1.5.3 for mira-oxide to update value dropping
+
+### `Fixed`
+
+- [PR #140](https://github.com/CDCgov/MIRA-NF/pull/140) - removed duplicate html report that should not have been printing
 
 ## v2.0.0 - 03.09.2026
 

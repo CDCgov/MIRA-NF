@@ -250,13 +250,16 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
       nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
       ```
 
-   b. **Terminal only:**
+   b. **Non-interactively:**
 
       ```bash
       docker run -v <workdir_path>:/data cdcgov/mira-nf:v2.1.0 nextflow run /MIRA-NF/main.nf -profile mira_nf_container --input <RUNPATH>/samplesheet.csv --runpath <RUNPATH>  --outdir <OUTDIR> --e <EXPERIMENT_TYPE> --p <PRIMER_SCHEMA> (optional) --parquet_files true (optional) --nextclade true (optional) --subsample_reads <READ_COUNT> (optional) --check_version true (optional)
       ```
+### NOTES:
 
-   *Note that running in the terminal (non-interactively) with a mounted data path you will use `/data/` in place of the <work_path> you provided`
+   - If you are running in the terminal (non-interactively) with a mounted data path, you will use `/data/` in place of the <work_path> you provided`
+   - Some set ups may require you to use `sudo`,`--privileged` or both to run with proper permission
+   - Can potentially run with Podman if your machine has been set up to mimick docker
 
 ## Credits
 
