@@ -33,9 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | rsv_b          | 2025-09-09--12-13-13Z |
 | sars-cov-2     | 2026-01-06--14-59-32Z |
 
-### `Enhancements`
-
-- The v2.0.0 release of MIRA-NF saw a reduction in dependencies as well as multiple optimizations to the pipeline and steps within, leading to significant improvements in runtime and memory usage. See [benchmark details](https://github.com/CDCgov/MIRA-NF/issues/138).
+### Enhancements
 
 ### `Added`
 
