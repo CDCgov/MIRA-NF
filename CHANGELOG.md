@@ -34,6 +34,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Enhancements
 
+### `Dependencies`
+
+- [PR #131](https://github.com/CDCgov/MIRA-NF/pull/131) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
+
+### `Fixed`
+
+
+
+## v2.1.0 - 04.03.2026
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
+
+### Associated Tags
+
+| Program       | Version |
+| ------------- | ------- |
+| irma-core     | 0.9.0   |
+| IRMA          | 1.3.1   |
+| DAIS-ribosome | 1.6.1   |
+| mira-oxide    | 1.5.3   |
+| nextclade     | 3.21.0  |
+
+### Nextclade Tags Used
+
+| Dataset        | Tag                   |
+| -------------- | --------------------- |
+| flu_h3n2_ha    | 2026-01-14--19-24-43Z |
+| flu_h1n1pdm_ha | 2026-01-14--19-24-43Z |
+| flu_vic_ha     | 2025-10-22--18-11-36Z |
+| flu_h3n2_na    | 2026-01-14--08-53-00Z |
+| flu_h1n1pdm_na | 2026-01-14--08-53-00Z |
+| flu_vic_na     | 2025-09-09--12-13-13Z |
+| rsv_a          | 2025-09-09--12-13-13Z |
+| rsv_b          | 2025-09-09--12-13-13Z |
+| sars-cov-2     | 2026-01-06--14-59-32Z |
+
+### Enhancements
+
 ### `Added`
 
 - [PR #127](https://github.com/CDCgov/MIRA-NF/pull/130) - added `--verbose` flag to `irma-core` `sampler` and `trimmer` for diagnostic output to `stderr.log`
