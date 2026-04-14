@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-- [PR #131](https://github.com/CDCgov/MIRA-NF/pull/131) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
+- [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
 
 ### `Fixed`
 
