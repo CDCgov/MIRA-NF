@@ -1,7 +1,7 @@
 process PREPAREMIRAREPORTS {
     label 'process_medium'
 
-    container 'cdcgov/mira-oxide:v1.5.3'
+    container 'cdcgov/mira-oxide:v1.5.4'
 
     input:
     path dais_outputs
