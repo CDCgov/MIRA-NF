@@ -41,7 +41,7 @@ workflow NEXTCLADE {
         "flu_vic_na": "2026-04-14--11-55-23Z",
         "rsv_a": "2026-04-14--11-55-23Z",
         "rsv_b": "2026-04-14--11-55-23Z",
-        "sars-cov-2": "2026-04-14--11-55-23Z",
+        "sars-cov-2": "2026-01-06--14-59-32Z",
     ]
 
     // Assume channel carrying paths to generated FASTAs

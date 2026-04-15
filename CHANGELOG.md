@@ -22,14 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Dataset        | Tag                   |
 | -------------- | --------------------- |
-| flu_h3n2_ha    | 2026-01-14--19-24-43Z |
-| flu_h1n1pdm_ha | 2026-01-14--19-24-43Z |
-| flu_vic_ha     | 2025-10-22--18-11-36Z |
-| flu_h3n2_na    | 2026-01-14--08-53-00Z |
-| flu_h1n1pdm_na | 2026-01-14--08-53-00Z |
-| flu_vic_na     | 2025-09-09--12-13-13Z |
-| rsv_a          | 2025-09-09--12-13-13Z |
-| rsv_b          | 2025-09-09--12-13-13Z |
+| flu_h3n2_ha    | 2026-04-14--11-55-23Z |
+| flu_h1n1pdm_ha | 2026-04-14--11-55-23Z |
+| flu_vic_ha     | 2026-04-14--11-55-23Z |
+| flu_h3n2_na    | 2026-04-14--11-55-23Z |
+| flu_h1n1pdm_na | 2026-04-14--11-55-23Z |
+| flu_vic_na     | 2026-04-14--11-55-23Z |
+| rsv_a          | 2026-04-14--11-55-23Z |
+| rsv_b          | 2026-04-14--11-55-23Z |
 | sars-cov-2     | 2026-01-06--14-59-32Z |
 
 ### Enhancements
@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Dependencies`
 
 - [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
+- [PR #148](https://github.com/CDCgov/MIRA-NF/pull/148) - updated the dataset tags for nextclade
 
 ### `Fixed`
 
