@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
 - [PR #149](https://github.com/CDCgov/MIRA-NF/pull/149) - updated the dataset tags for nextclade
+- [PR #151](https://github.com/CDCgov/MIRA-NF/pull/151) - version bump to v3.21.1 for nextclade
 
 ### `Fixed`
 - [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
