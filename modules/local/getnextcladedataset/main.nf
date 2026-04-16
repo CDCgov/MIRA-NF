@@ -2,7 +2,7 @@ process GETNEXTCLADEDATASET {
     tag "${dataset}"
 
     label 'process_low'
-    container 'nextstrain/nextclade:3.21.0'
+    container 'nextstrain/nextclade:3.21.1'
 
     input:
     tuple path(nextclade_fastq_files), val(dataset), val(tag)
