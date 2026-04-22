@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Program       | Version |
 | ------------- | ------- |
-| irma-core     | 0.9.0   |
+| irma-core     | 0.9.1   |
 | IRMA          | 1.3.1   |
 | DAIS-ribosome | 1.6.1   |
 | mira-oxide    | 1.5.3   |
