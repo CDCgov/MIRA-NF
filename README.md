@@ -260,7 +260,7 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 
 - If you are running in the terminal (non-interactively) with a mounted data path, you will use `/data/` in place of the <work_path> you provided`
 - Some set ups may require you to use `sudo`,`--privileged` or both to run with proper permission
-- Can potentially run with Podman if your machine has been set up to mimick docker
+- Can potentially run with Podman if your machine has been set up to mimick docker, though we do not actively support that set-up.
 
 ## Credits
 

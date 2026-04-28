@@ -43,8 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #154](https://github.com/CDCgov/MIRA-NF/pull/154) - version bump to v1.7.0 for DAIS-ribosome and v1.3.2 for IRMA
 
 ### `Fixed`
-- [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
 
+- [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
 
 ## v2.1.0 - 04.03.2026
 
