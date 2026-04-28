@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.1 - 04.16.2026
+## v2.1.1 - 04.28.2026
 
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Sam Wiley](https://github.com/samcwiley)
@@ -13,9 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Program       | Version |
 | ------------- | ------- |
 | irma-core     | 0.9.1   |
-| IRMA          | 1.3.1   |
-| DAIS-ribosome | 1.6.1   |
-| mira-oxide    | 1.5.3   |
+| IRMA          | 1.3.2   |
+| DAIS-ribosome | 1.7.0   |
+| mira-oxide    | 1.5.4   |
 | nextclade     | 3.21.1  |
 
 ### Nextclade Tags Used
@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #149](https://github.com/CDCgov/MIRA-NF/pull/149) - updated the dataset tags for nextclade
 - [PR #151](https://github.com/CDCgov/MIRA-NF/pull/151) - version bump to v3.21.1 for nextclade
 - [PR #153](https://github.com/CDCgov/MIRA-NF/pull/153) - version bump to v0.9.1 for irma-core
+- [PR #154](https://github.com/CDCgov/MIRA-NF/pull/154) - version bump to v1.7.0 for DAIS-ribosome and v1.3.2 for IRMA
 
 ### `Fixed`
 - [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
