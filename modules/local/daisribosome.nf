@@ -1,7 +1,7 @@
 process DAISRIBOSOME {
     label 'process_medium'
 
-    container 'cdcgov/dais-ribosome:v1.6.1'
+    container 'cdcgov/dais-ribosome:v1.7.0'
     // The container binding for this step has been moved to the module.config and omics.config to allow for different binding based on environment
 
     input:
