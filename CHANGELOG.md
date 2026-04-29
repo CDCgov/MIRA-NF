@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | IRMA          | 1.3.2   |
 | DAIS-ribosome | 1.7.0   |
 | mira-oxide    | 1.5.4   |
-| nextclade     | 3.21.1  |
+| nextclade     | 3.21.2  |
 
 ### Nextclade Tags Used
 
@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | flu_vic_na     | 2026-04-14--11-55-23Z |
 | rsv_a          | 2026-04-14--11-55-23Z |
 | rsv_b          | 2026-04-14--11-55-23Z |
-| sars-cov-2     | 2026-01-06--14-59-32Z |
+| sars-cov-2     | 2026-04-21--09-39-50Z |
 
 ### Enhancements
 

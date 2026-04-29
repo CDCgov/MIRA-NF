@@ -1507,7 +1507,7 @@ workflow MIRA {
                         | IRMA          | 1.3.2   |
                         | DAIS-ribosome | 1.7.0   |
                         | mira-oxide    | 1.5.4   |
-                        | nextclade     | 3.21.1  |
+                        | nextclade     | 3.21.2  |
     #############################################################################
     Typical pipeline command:
 

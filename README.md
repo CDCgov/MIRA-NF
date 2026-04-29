@@ -132,7 +132,7 @@ Now, you can run the pipeline using two methods: locally or within a high comput
 
 | Flag      | Description                                                                                                                                                                                                   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `profile` | singularity, singularity_arm64, docker, docker_arm64, podman, podman_arm64, local, sge, slurm. You can use docker, podman or singularity. Use local for running on local computer and sge or slurm for HPC's. |
+| `profile` | singularity, singularity_arm64, docker, docker_arm64, podman, podman_arm64, local, sge, slurm. You can use docker, podman or singularity. Use local for running on local computer and sge or slurm for HPC's. Note: while we do have podman profile, we do not provide support for permissions error associated with using rootless containers. |
 | `input`   | `<RUN_PATH>/samplesheet.csv` with the format described above. The full file path is required.                                                                                                                 |
 | `outdir`  | The file path to where you would like the output directory to write the files. The full file path is required.                                                                                                |
 | `runpath` | The `<RUN_PATH>` where the samplesheet is located. Your fastq_folder and samplesheet.csv should be in here. The full file path is required.                                                                   |
@@ -260,7 +260,7 @@ Note that pipeline parameters can be provided via the NF or Nextflow `-params-fi
 
 - If you are running in the terminal (non-interactively) with a mounted data path, you will use `/data/` in place of the <work_path> you provided`
 - Some set ups may require you to use `sudo`,`--privileged` or both to run with proper permission
-- Can potentially run with Podman if your machine has been set up to mimick docker, though we do not actively support that set-up.
+- Can potentially run with Podman if your machine has been set up to mimick docker, though we do not actively support that set-up. 
 
 ## Credits
 
