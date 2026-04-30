@@ -34,6 +34,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Enhancements
 
+### `Added`
+- [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - added clean-up on success setting
+
 ### `Dependencies`
 
 - [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
@@ -41,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #151](https://github.com/CDCgov/MIRA-NF/pull/151) - version bump to v3.21.1 for nextclade
 - [PR #153](https://github.com/CDCgov/MIRA-NF/pull/153) - version bump to v0.9.1 for irma-core
 - [PR #154](https://github.com/CDCgov/MIRA-NF/pull/154) - version bump to v1.7.0 for DAIS-ribosome and v1.3.2 for IRMA
+- [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - version bump to v3.21.2 for nextclade
 
 ### `Fixed`
 
