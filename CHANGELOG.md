@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Enhancements
 
 ### `Added`
+
 - [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - added clean-up on success setting
 
 ### `Dependencies`
