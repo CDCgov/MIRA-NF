@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | IRMA          | 1.3.2   |
 | DAIS-ribosome | 1.7.0   |
 | mira-oxide    | 1.5.4   |
-| nextclade     | 3.21.1  |
+| nextclade     | 3.21.2  |
 
 ### Nextclade Tags Used
 
@@ -30,9 +30,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | flu_vic_na     | 2026-04-14--11-55-23Z |
 | rsv_a          | 2026-04-14--11-55-23Z |
 | rsv_b          | 2026-04-14--11-55-23Z |
-| sars-cov-2     | 2026-01-06--14-59-32Z |
+| sars-cov-2     | 2026-04-21--09-39-50Z |
 
 ### Enhancements
+
+### `Added`
+- [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - added clean-up on success setting
 
 ### `Dependencies`
 
@@ -41,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #151](https://github.com/CDCgov/MIRA-NF/pull/151) - version bump to v3.21.1 for nextclade
 - [PR #153](https://github.com/CDCgov/MIRA-NF/pull/153) - version bump to v0.9.1 for irma-core
 - [PR #154](https://github.com/CDCgov/MIRA-NF/pull/154) - version bump to v1.7.0 for DAIS-ribosome and v1.3.2 for IRMA
+- [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - version bump to v3.21.2 for nextclade
 
 ### `Fixed`
 
