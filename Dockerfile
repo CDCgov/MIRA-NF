@@ -95,7 +95,7 @@ ENV HOME=/root
 
 # Pull Nextflow
 RUN mkdir -p /root/.nextflow/framework/25.10.4 \
- && curl -L https://get.nextflow.io -o /usr/local/bin/nextflow --cacert /etc/ssl/certs/ca.crt \
+ && curl -L https://github.com/nextflow-io/nextflow/releases/download/v25.10.4/nextflow -o /usr/local/bin/nextflow --cacert /etc/ssl/certs/ca.crt \
  && chmod +x /usr/local/bin/nextflow \
  && curl -L https://www.nextflow.io/releases/v25.10.4/nextflow-25.10.4-one.jar \
       -o /root/.nextflow/framework/25.10.4/nextflow-25.10.4-one.jar \
