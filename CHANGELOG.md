@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.1 - 05.04.2026
+## v2.1.1 - 05.13.2026
 
 - [Amanda Sullivan](https://github.com/mandysulli)
 - [Sam Wiley](https://github.com/samcwiley)
@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 - [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - added clean-up on success setting
+- [PR #159](https://github.com/CDCgov/MIRA-NF/pull/159) - have debug profile override the clean-up default
 
 ### `Dependencies`
 
