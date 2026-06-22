@@ -110,10 +110,17 @@ ENV PROJECT_DIR=/MIRA-NF
 # Copy project files
 COPY . ${PROJECT_DIR}
 
-RUN tar -xzf ${PROJECT_DIR}/sandboxes.tar.gz -C ${PROJECT_DIR} \
+# Pull Singularity images from ghcr.io/cdcgov and convert to sandboxes
+RUN mkdir -p ${PROJECT_DIR}/sandboxes \
  && chmod -R 777 ${PROJECT_DIR}/sandboxes \
- && rm ${PROJECT_DIR}/sandboxes.tar.gz \
- && rm -rf ${PROJECT_DIR}/fastqc \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/cdcgov-dais-ribosome-v1.7.0     docker://cdcgov/dais-ribosome:v1.7.0 \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/cdcgov-irma-v1.3.2               docker://cdcgov/irma:v1.3.2 \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/ghcr.io-cdcgov-irma-core-v0.9.1  docker://ghcr.io/cdcgov/irma-core:v0.9.1 \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/cdcgov-mira-oxide-v1.5.4         docker://ghcr.io/cdcgov/mira-oxide:v1.5.4 \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/nextstrain-nextclade-3.21.2       docker://nextstrain/nextclade:3.21.2 \
+ && chmod -R 777 ${PROJECT_DIR}/sandboxes
+
+RUN rm -rf ${PROJECT_DIR}/fastqc \
  && rm -rf ${PROJECT_DIR}/multiqc \
  && rm -rf ${PROJECT_DIR}/.github \
  && rm -rf ${PROJECT_DIR}/.vscode \
