@@ -124,9 +124,7 @@ RUN rm -rf ${PROJECT_DIR}/fastqc \
  && rm -rf ${PROJECT_DIR}/multiqc \
  && rm -rf ${PROJECT_DIR}/.github \
  && rm -rf ${PROJECT_DIR}/.vscode \
- && rm -rf ${PROJECT_DIR}/samples \
- && rm -rf ${PROJECT_DIR}/tests \
- && rm -rf ${PROJECT_DIR}/docs
+ && rm -rf ${PROJECT_DIR}/samples
 
 ############# Set up working directory ##################
 

@@ -38,6 +38,8 @@ process PREPAREMIRAREPORTS {
         -r ${runid}
     fi
 
+    chmod 777 di_stats.txt
+
     mira-oxide prepare-mira-reports \\
         -w ${support_file_path} \\
         -s ${samplesheet} \\
