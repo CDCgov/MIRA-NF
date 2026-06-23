@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #163](https://github.com/CDCgov/MIRA-NF/pull/163) - version bump to v1.7.1 for DAIS-ribosome and v1.3.4 for IRMA
 - [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - version bump to v3.21.2 for nextclade
 - [PR #163](https://github.com/CDCgov/MIRA-NF/pull/163) - dataset bump in nextclade
+- [PR #163](https://github.com/CDCgov/MIRA-NF/pull/163) - version bump to v1.5.6 for mira-oxide with more efficient data processing and html link fix
 
 ### `Fixed`
 
