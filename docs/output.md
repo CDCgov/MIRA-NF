@@ -444,7 +444,6 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
 
     _Note that values rounded to 3 decimal points._
 
-
   - **mira\_<runid>\_minor_variants.csv**
     | Column Name | Definition |
     |-------------|------------|

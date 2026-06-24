@@ -173,8 +173,7 @@ jobs:
 
   publish-release:
     name: Publish Release
-    needs:
-      [build-release-image-and-linux-artifacts, create-image-manifest, build-mac-artifacts]
+    needs: [build-release-image-and-linux-artifacts, create-image-manifest, build-mac-artifacts]
     runs-on: ubuntu-latest
     permissions:
       contents: write
