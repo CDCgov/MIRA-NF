@@ -3,6 +3,58 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.1.1 - 06.24.2026
+
+- [Amanda Sullivan](https://github.com/mandysulli)
+- [Sam Wiley](https://github.com/samcwiley)
+
+### Associated Tags
+
+| Program       | Version |
+| ------------- | ------- |
+| irma-core     | 0.9.1   |
+| IRMA          | 1.3.4   |
+| DAIS-ribosome | 1.7.1   |
+| mira-oxide    | 1.5.6   |
+| nextclade     | 3.21.2  |
+
+### Nextclade Tags Used
+
+| Dataset        | Tag                   |
+| -------------- | --------------------- |
+| flu_h3n2_ha    | 2026-04-14--11-55-23Z |
+| flu_h1n1pdm_ha | 2026-04-14--11-55-23Z |
+| flu_vic_ha     | 2026-04-14--11-55-23Z |
+| flu_h3n2_na    | 2026-04-14--11-55-23Z |
+| flu_h1n1pdm_na | 2026-04-14--11-55-23Z |
+| flu_vic_na     | 2026-04-14--11-55-23Z |
+| rsv_a          | 2026-04-14--11-55-23Z |
+| rsv_b          | 2026-04-14--11-55-23Z |
+| sars-cov-2     | 2026-06-16--14-30-45Z |
+
+### Enhancements
+
+### `Added`
+
+- [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - added clean-up on success setting
+- [PR #159](https://github.com/CDCgov/MIRA-NF/pull/159) - have debug profile override the clean-up default
+- [PR #166](https://github.com/CDCgov/MIRA-NF/pull/166) - update dockerfile to create sandbox suring build and add github action to create container upon tagging
+
+### `Dependencies`
+
+- [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
+- [PR #149](https://github.com/CDCgov/MIRA-NF/pull/149) - updated the dataset tags for nextclade
+- [PR #151](https://github.com/CDCgov/MIRA-NF/pull/151) - version bump to v3.21.1 for nextclade
+- [PR #153](https://github.com/CDCgov/MIRA-NF/pull/153) - version bump to v0.9.1 for irma-core
+- [PR #163](https://github.com/CDCgov/MIRA-NF/pull/163) - version bump to v1.7.1 for DAIS-ribosome and v1.3.4 for IRMA
+- [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - version bump to v3.21.2 for nextclade
+- [PR #163](https://github.com/CDCgov/MIRA-NF/pull/163) - dataset bump in nextclade
+- [PR #163](https://github.com/CDCgov/MIRA-NF/pull/163) - version bump to v1.5.6 for mira-oxide with more efficient data processing and html link fix
+
+### `Fixed`
+
+- [PR #147](https://github.com/CDCgov/MIRA-NF/pull/147) - version bump to v1.5.4 for mira-oxide to fix sorting of merged data for RSV
+
 ## v2.1.0 - 04.03.2026
 
 - [Amanda Sullivan](https://github.com/mandysulli)

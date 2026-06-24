@@ -59,7 +59,7 @@ To run the workflow you will use the command below:
 ```bash
 nextflow run ./main.nf \
    -profile <profile> \
-   --input <RUN_PATH>/samplesheet.csv \
+   --input <RUN_PATH>/DAIS_ribosome_input.fasta \
    --outdir <OUTDIR> \
    --runpath <RUN_PATH> \
    --e Find-Positions-Of-Interest \

@@ -1,0 +1,189 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - test
+
+permissions: {}
+
+env:
+  CARGO_TERM_COLOR: always
+  RELEASE_BIN: mira-nf
+  REGISTRY: ghcr.io
+
+jobs:
+  create-release:
+    name: Create New Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Extract Changelog
+        id: extract_changelog
+        shell: bash
+        run: perl .github/scripts/last_release_notes.pl > $RUNNER_TEMP/release_notes.md
+
+      - name: Create Release
+        id: create_release
+        shell: bash
+        run: |
+          [[ "${{ github.ref_name }}" == "test" ]] && latest="--latest=false" || latest=
+
+          gh release create "${{ github.ref_name }}" \
+            --title "${RELEASE_BIN} ${{ github.ref_name }}" \
+            --notes-file "$RUNNER_TEMP/release_notes.md" \
+            --draft \
+            $latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-release-image-and-linux-artifacts:
+    name: Build Linux Artifacts and Images
+    needs: [create-release]
+    strategy:
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}
+          tags: |
+            type=raw,value=${{ github.ref_name }}-${{ matrix.arch }}
+            type=raw,value=latest-${{ matrix.arch }}
+
+      - name: Debug Git ref
+        run: |
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          echo "GITHUB_SHA: $GITHUB_SHA"
+          echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v7
+        with:
+          file: Dockerfile
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
+      - name: Prepare Linux Binary
+        shell: bash
+        run: |
+          IMAGE_TAG=$(echo "${{ steps.meta.outputs.tags }}" | grep -- '-${{ matrix.arch }}$' | head -n 1)
+          docker create --name temp-container $IMAGE_TAG \
+          && docker cp temp-container:/app/${RELEASE_BIN} ./${RELEASE_BIN} \
+          && docker rm temp-container \
+          && tar -czf ${RELEASE_BIN}-linux-${{ matrix.arch }}-${{ github.ref_name }}.tar.gz ${RELEASE_BIN}
+
+      - name: Upload Linux Release Asset
+        shell: bash
+        run: |
+          gh release upload "${{ github.ref_name }}" ${RELEASE_BIN}-linux-${{ matrix.arch }}-${{ github.ref_name }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  create-image-manifest:
+    name: Create Image Manifest
+    needs: build-release-image-and-linux-artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push manifests
+        shell: bash
+        run: |
+          REPO=$(echo "${{ env.REGISTRY }}/${{ github.repository }}" | tr '[A-Z]' '[a-z]')
+
+          # Versioned tag
+          VERSION=${REPO}:${{ github.ref_name }}
+          docker buildx imagetools create -t $VERSION \
+            ${REPO}:${{ github.ref_name }}-x86_64 \
+            ${REPO}:${{ github.ref_name }}-aarch64
+
+          # Latest tag
+          LATEST=${REPO}:latest
+          docker buildx imagetools create -t $LATEST \
+            ${REPO}:latest-x86_64 \
+            ${REPO}:latest-aarch64
+
+  build-mac-artifacts:
+    name: Build Mac Artifacts
+    needs: create-release
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install latest nightly Rust
+        run: |
+          rustup update nightly
+          rustup default nightly
+          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+
+      - name: Build
+        run: |
+          cargo build --release --target aarch64-apple-darwin --target x86_64-apple-darwin
+
+      - name: Package Binary
+        shell: bash
+        run: |
+          lipo -create -output ${{ env.RELEASE_BIN }} \
+            target/aarch64-apple-darwin/release/${{ env.RELEASE_BIN }} \
+            target/x86_64-apple-darwin/release/${{ env.RELEASE_BIN }}
+          tar -czf ${{ env.RELEASE_BIN }}-apple-universal-${{ github.ref_name }}.tar.gz ${{ env.RELEASE_BIN}}
+
+      - name: Upload Release Asset
+        shell: bash
+        run: |
+          gh release upload "${{ github.ref_name }}" ${{ env.RELEASE_BIN }}-apple-universal-${{ github.ref_name }}.*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-release:
+    name: Publish Release
+    needs: [build-release-image-and-linux-artifacts, create-image-manifest, build-mac-artifacts]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Publish Release
+        if: github.ref_name != 'test'
+        shell: bash
+        run: |
+          gh release edit "${{ github.ref_name }}" --draft=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

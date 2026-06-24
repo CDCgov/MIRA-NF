@@ -3,7 +3,7 @@
 ####################################################################################################
 FROM debian:bookworm-slim AS singularity-builder
 
-ENV GO_VERSION=1.26.1
+ENV GO_VERSION=1.26.4
 ENV SINGULARITY_VERSION=4.4.0
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -95,7 +95,7 @@ ENV HOME=/root
 
 # Pull Nextflow
 RUN mkdir -p /root/.nextflow/framework/25.10.4 \
- && curl -L https://get.nextflow.io -o /usr/local/bin/nextflow --cacert /etc/ssl/certs/ca.crt \
+ && curl -L https://github.com/nextflow-io/nextflow/releases/download/v25.10.4/nextflow -o /usr/local/bin/nextflow --cacert /etc/ssl/certs/ca.crt \
  && chmod +x /usr/local/bin/nextflow \
  && curl -L https://www.nextflow.io/releases/v25.10.4/nextflow-25.10.4-one.jar \
       -o /root/.nextflow/framework/25.10.4/nextflow-25.10.4-one.jar \
@@ -110,16 +110,21 @@ ENV PROJECT_DIR=/MIRA-NF
 # Copy project files
 COPY . ${PROJECT_DIR}
 
-RUN tar -xzf ${PROJECT_DIR}/sandboxes.tar.gz -C ${PROJECT_DIR} \
+# Pull Singularity images and convert to sandboxes
+RUN mkdir -p ${PROJECT_DIR}/sandboxes \
  && chmod -R 777 ${PROJECT_DIR}/sandboxes \
- && rm ${PROJECT_DIR}/sandboxes.tar.gz \
- && rm -rf ${PROJECT_DIR}/fastqc \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/cdcgov-dais-ribosome-v1.7.1     docker://cdcgov/dais-ribosome:v1.7.1 \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/cdcgov-irma-v1.3.4               docker://cdcgov/irma:v1.3.4 \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/ghcr.io-cdcgov-irma-core-v0.9.1  docker://ghcr.io/cdcgov/irma-core:v0.9.1 \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/cdcgov-mira-oxide-v1.5.6         docker://ghcr.io/cdcgov/mira-oxide:v1.5.6 \
+ && singularity build --sandbox ${PROJECT_DIR}/sandboxes/nextstrain-nextclade-3.21.2       docker://nextstrain/nextclade:3.21.2 \
+ && chmod -R 777 ${PROJECT_DIR}/sandboxes
+
+RUN rm -rf ${PROJECT_DIR}/fastqc \
  && rm -rf ${PROJECT_DIR}/multiqc \
  && rm -rf ${PROJECT_DIR}/.github \
  && rm -rf ${PROJECT_DIR}/.vscode \
- && rm -rf ${PROJECT_DIR}/samples \
- && rm -rf ${PROJECT_DIR}/tests \
- && rm -rf ${PROJECT_DIR}/docs
+ && rm -rf ${PROJECT_DIR}/samples
 
 ############# Set up working directory ##################
 

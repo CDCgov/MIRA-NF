@@ -401,6 +401,7 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | count_minor_snv_at_or_over_5_pct | Number of minor SNVs with frequency ≥5%. |
     | spike_percent_coverage | (optional) Percent coverage across the spike gene. Present of SC2-Whole-Genome data. |
     | spike_median_coverage | (optional) Median depth across the spike gene. Present of SC2-Whole-Genome data. |
+    | di_5prime;di_3prime | (experiment type dependant) The DI ratios for each sample's segment (See below for more info). |
     | pass_fail_reason | Explanation for QC failure (if applicable). |
     | subtype | Assigned viral subtype or lineage to be used by nextclade. |
     | mira_version;module;irma_config | Mira version, Mira module used and config settings used for analysis. |
@@ -418,6 +419,30 @@ The collected results from IRMA and DAIS-Ribosome in CSV files
     | clade | rsv | Assigned viral clade designation. |
     | g_clade | rsv | GISAID clade designation. |
     | nextclade_version;dataset;tag | the nextclade version, the dataset used and the tag used to run nextclade. |
+
+    **DI Stats Calculation**
+
+    Here `data` is the coverage at each position within the assembled segment. Let `data` have length \(N\) and slice length \(L\).
+
+    **Define:**
+
+    $$
+    mid = \frac{N}{2}, \quad
+    midstart = \max(0, mid - \frac{L}{2}), \quad
+    midend = mid + \frac{L}{2}
+    $$
+
+    **Compute:**
+
+    $$
+    prime5ratio = \frac{\frac{1}{L} \sum_{i=0}^{L-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
+    $$
+
+    $$
+    prime3ratio = \frac{\frac{1}{L} \sum_{i=N-L}^{N-1} data[i]}{\frac{1}{midend - midstart} \sum_{i=midstart}^{midend-1} data[i]}
+    $$
+
+    _Note that values rounded to 3 decimal points._
 
   - **mira\_<runid>\_minor_variants.csv**
     | Column Name | Definition |
