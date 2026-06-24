@@ -10,7 +10,7 @@ permissions: {}
 
 env:
   CARGO_TERM_COLOR: always
-  RELEASE_BIN: mira-nfxide
+  RELEASE_BIN: mira-nf
   REGISTRY: ghcr.io
 
 jobs:
@@ -19,10 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Extract Changelog
         id: extract_changelog
@@ -38,6 +36,7 @@ jobs:
           gh release create "${{ github.ref_name }}" \
             --title "${RELEASE_BIN} ${{ github.ref_name }}" \
             --notes-file "$RUNNER_TEMP/release_notes.md" \
+            --draft \
             $latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,10 +56,10 @@ jobs:
       contents: write
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -68,7 +67,7 @@ jobs:
 
       - name: Extract metadata for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}
           tags: |
@@ -83,7 +82,7 @@ jobs:
           echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           file: Dockerfile
           context: .
@@ -115,7 +114,7 @@ jobs:
       contents: read
     steps:
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -145,7 +144,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install latest nightly Rust
         run: |
@@ -169,5 +168,23 @@ jobs:
         shell: bash
         run: |
           gh release upload "${{ github.ref_name }}" ${{ env.RELEASE_BIN }}-apple-universal-${{ github.ref_name }}.*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-release:
+    name: Publish Release
+    needs:
+      [build-release-image-and-linux-artifacts, create-image-manifest, build-mac-artifacts]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Publish Release
+        if: github.ref_name != 'test'
+        shell: bash
+        run: |
+          gh release edit "${{ github.ref_name }}" --draft=false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
