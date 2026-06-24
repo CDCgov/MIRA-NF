@@ -110,7 +110,7 @@ ENV PROJECT_DIR=/MIRA-NF
 # Copy project files
 COPY . ${PROJECT_DIR}
 
-# Pull Singularity images from ghcr.io/cdcgov and convert to sandboxes
+# Pull Singularity images and convert to sandboxes
 RUN mkdir -p ${PROJECT_DIR}/sandboxes \
  && chmod -R 777 ${PROJECT_DIR}/sandboxes \
  && singularity build --sandbox ${PROJECT_DIR}/sandboxes/cdcgov-dais-ribosome-v1.7.1     docker://cdcgov/dais-ribosome:v1.7.1 \
