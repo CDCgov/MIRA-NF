@@ -5,14 +5,9 @@ results/
 testing/
 testing*
 *.pyc
-scripts/
-conf/aims-sandbox-omics.config
-conf/ruvos-ds-omics.config
-samples/aims/
-samples/ruvos/
+#scripts/
 *.zip
 *.crt
 *err
 *out
 ben/
-sandboxes*

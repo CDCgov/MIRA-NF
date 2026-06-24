@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [PR #156](https://github.com/CDCgov/MIRA-NF/pull/156) - added clean-up on success setting
 - [PR #159](https://github.com/CDCgov/MIRA-NF/pull/159) - have debug profile override the clean-up default
+- [PR #166](https://github.com/CDCgov/MIRA-NF/pull/166) - update dockerfile to create sandbox suring build and add github action to create container upon tagging
 
 ### `Dependencies`
 
